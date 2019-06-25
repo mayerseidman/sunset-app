@@ -14,6 +14,17 @@ export default class App extends Component {
         fetch('/api/getUsername')
         .then(res => res.json())
         .then(user => this.setState({ username: user.username }));
+
+        // fetch("/api/search-sunset")
+        var params = "username=mzseidman@gmail.com&password=Victory251&grant_type=password"
+        var options = fetch('https://sunburst.sunsetwx.com/v1/login', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: params
+        })
     }
 
     onDrop(picture) {
