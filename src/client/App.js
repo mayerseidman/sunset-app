@@ -9,7 +9,34 @@ export default class App extends Component {
              this.state = { pictures: [], username: null, imgName: null, results: null };
     }
 
+    sendIT(lat, long) {
+        // var params = "username=mzseidman@gmail.com&password=Victory251&grant_type=password"
+        // fetch('api/send', {
+        //     method: 'POST',
+        //     headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/x-www-form-urlencoded'
+        //     },
+        //     body: params
+        // })
+
+        fetch("/api/send", {
+          method: 'POST',
+          body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
+          headers: new Headers({ "Content-Type": "application/json" }) // add headers
+        });
+    }
+
     componentDidMount() {
+        if ("geolocation" in navigator) {
+          /* geolocation is available */
+            navigator.geolocation.getCurrentPosition(function(position) {
+                this.sendIT(position.coords.latitude, position.coords.longitude);
+            }.bind(this))
+          console.log("available")
+        } else {
+          /* geolocation IS NOT available */
+        }
         localStorage.setItem("item", "value");
         fetch('/api/getUsername')
         .then(res => res.json())

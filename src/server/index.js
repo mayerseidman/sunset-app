@@ -2,13 +2,16 @@
 'use strict';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-const express = require('express');
 const os = require('os');
-const app = express();
-var MongoClient = require('mongodb').MongoClient;
-const fetch = require("node-fetch")
-var SunsetWx = require('node-sunsetwx');
 
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.json())
+
+const fetch = require("node-fetch")
+var MongoClient = require('mongodb').MongoClient;
+var SunsetWx = require('node-sunsetwx');
 
 
 app.use(express.static('dist'));
@@ -42,6 +45,22 @@ app.get('/api/extractText', function(req, res) {
 
 })
 
+// app.post('api/send', function(req, res) {
+//     var lat = req.body.lat,
+// 	long = req.body.long;
+// 	console.log(lat, long)
+// });
+
+app.post('/api/send', (req, res) => {
+	var lat = req.body.lat,
+	long = req.body.long;
+	runIT(lat, long)
+});
+
+function myFunc(callback) {
+    callback(data); 
+}
+
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
 
 var sunsetwx = new SunsetWx({
@@ -49,9 +68,11 @@ var sunsetwx = new SunsetWx({
 		password: 'Victory251',
 	});
 
-function runIT() {
+function runIT(lat, long) {
+	var coordsString = '' + long + ',' + lat + '';
+	console.log(coordsString)
 	sunsetwx.quality({
-	        coords: '-123.116226,49.246292',
+	        coords: coordsString,
 	        type: 'sunset',
 	        radius: '1',
 	        limit: '1'}, function (err, httpResponse, body) {
@@ -70,7 +91,7 @@ function runIT() {
 	// })
 }
 
-runIT();
+// runIT();
 
 
 
