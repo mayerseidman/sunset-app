@@ -13,6 +13,8 @@ const fetch = require("node-fetch")
 var MongoClient = require('mongodb').MongoClient;
 var SunsetWx = require('node-sunsetwx');
 
+const { getSunrise, getSunset } = require('sunrise-sunset-js')
+var moment = require('moment');
 
 app.use(express.static('dist'));
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
@@ -54,7 +56,9 @@ app.get('/api/extractText', function(req, res) {
 app.post('/api/send', (req, res) => {
 	var lat = req.body.lat,
 	long = req.body.long;
-	runIT(lat, long)
+	runIT(lat, long, function(value){
+		console.log(value)
+	});
 });
 
 function myFunc(callback) {
@@ -64,36 +68,39 @@ function myFunc(callback) {
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
 
 var sunsetwx = new SunsetWx({
-		email: 'mzseidman@gmail.com',
-		password: 'Victory251',
-	});
+	email: 'mzseidman@gmail.com',
+	password: 'Victory251',
+});
 
-function runIT(lat, long) {
-	var coordsString = '' + long + ',' + lat + '';
-	console.log(coordsString)
-	sunsetwx.quality({
-	        coords: coordsString,
-	        type: 'sunset',
-	        radius: '1',
-	        limit: '1'}, function (err, httpResponse, body) {
-	            console.log(body.features[0].properties)
-	        });
-
-	// sunsetwx.quality({
-	//   coords: '-77.331536,43.271152',
-	//   type: 'sunset',
-	//   location: 'northamerica',
-	//   radius: '24.02',
-	//   limit: '42',
-	//   timestamp: '2016-07-07T16:26:08Z'
-	// }, function(err, httpResponse, body){
-	// 	console.log(body)
-	// })
+function convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date);
+    newDate.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return newDate;
 }
 
-// runIT();
+function runIT(lat, long, callback) {
+	var coordsString = '' + long + ',' + lat + '';
+	// console.log(coordsString)
+	var hoo = sunsetwx.quality({
+	    coords: coordsString,
+	    type: 'sunset',
+	    radius: '1',
+	    limit: '1'
+	}, function (err, httpResponse, body) {
+		var result = body.features[0].properties;
+		console.log(result)
+		return result
+	});
 
+	callback(hoo)
 
+	const sunsetTime = getSunset(lat, long);
+	var date = convertUTCDateToLocalDate(new Date(sunsetTime));
+	// var date = new Date(sunsetTime + 'UTC');
+	// console.log(date.toString())
+
+	console.log("SUNSET TIME:", moment.utc(date).format('h:mm a'));
+}
 
 
 // Connect to the db
