@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './app.css';
 import CityDevelopments from './CityDevelopments';
 import SunsetTracker from './SunsetTracker';
-import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 export default class App extends Component {
     constructor(props) {
