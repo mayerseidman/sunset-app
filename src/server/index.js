@@ -8,6 +8,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json())
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
 const fetch = require("node-fetch")
 var MongoClient = require('mongodb').MongoClient;

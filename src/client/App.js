@@ -13,24 +13,25 @@ export default class App extends Component {
     render() {
         const { username } = this.state;
         return (
-            <div>
+            <div className="container">
                 <Router>
                     <div>
-                        <h2>Welcome to React Router Tutorial</h2>
-                        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                            <Link to={'/'} className="nav-link">Projects</Link> <br/> <br/>
-                            <Link to={'/city'} className="nav-link">City</Link> <br/> <br/>
-                            <Link to={'/sunset'} className="nav-link">Sunset</Link>
-                        </nav>
+                        <div>
+                            <nav  className="nav">
+                                <ul>
+                                    <li  className="nav-primary"><Link to={'/'} className="navLink">Projects</Link></li>
+                                    <li  className="nav-primary"><Link to={'/city'} className="navLink">City</Link></li>
+                                    <li  className="nav-primary"><Link to={'/sunset'} className="navLink">Sunset</Link></li>
+                                </ul>
+                            </nav>
+                        </div> 
                         <Switch>
                             <Route path='/city' component={ CityDevelopments } />
                             <Route path='/sunset' component={ SunsetTracker } />
                         </Switch>
-                     </div>
-                </Router>
+                    </div>
+                </Router> 
             </div>
         );
     }
 }
-
-// <Route exact path='/' component={Home} />

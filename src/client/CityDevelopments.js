@@ -27,7 +27,7 @@ export default class CityDevelopments extends Component {
     render() {
         const { username } = this.state;
         return (
-            <div>
+            <div className="cityContainer">
                 <ImageUploader
                     withIcon={ true }
                     buttonText='Choose images'

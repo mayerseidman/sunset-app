@@ -14,14 +14,18 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "bootstrap": "^4.0.0-alpha.2",
     "express": "^4.16.3",
+    "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
     "node-sunsetwx": "0.0.1",
+    "popper.js": "^1.15.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-router-dom": "^5.0.1",
-    "sunrise-sunset-js": "^2.1.0"
+    "sunrise-sunset-js": "^2.1.0",
+    "tether": "^1.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
