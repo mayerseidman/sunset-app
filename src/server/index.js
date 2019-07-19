@@ -71,11 +71,15 @@ function convertUTCDateToLocalDate(date) {
 app.post('/api/send', (req, res) => {
 	var lat = req.body.lat,
 	long = req.body.long;
-	console.log(runIT(lat, long));
-	res.send({ quality: runIT(lat, long) })
+	res.send({ quality: runIT(lat, long, grabValue) })
 });
 
-function runIT(lat, long) {
+function grabValue(value) {
+	console.log(value.quality_percent)
+	return value.quality_percent;
+}
+
+function runIT(lat, long, callback) {
 	var coordsString = '' + long + ',' + lat + '';
 	sunsetwx.quality({
 	    coords: coordsString,
@@ -83,7 +87,9 @@ function runIT(lat, long) {
 	    radius: '1',
 	    limit: '1'
 	}, function (err, httpResponse, body) {
-		var result = body.features[0].properties;
+		if (callback) {
+			callback(body.features[0].properties);		
+		}
 	});
 
 	const sunsetTime = getSunset(lat, long);
@@ -91,7 +97,6 @@ function runIT(lat, long) {
 	// var date = new Date(sunsetTime + 'UTC');
 	// console.log(date.toString())
 
-	console.log("SUNSET TIME:", moment.utc(date).format('h:mm a'));
 }
 
 

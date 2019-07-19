@@ -23,7 +23,7 @@ export default class SunsetTracker extends Component {
             body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
             headers: new Headers({ "Content-Type": "application/json" }) // add headers
         }).then(res => res.json())
-          .then(sunset => console.log(sunset))
+          .then(sunset => console.log(sunset.quality))
     }
 
     componentDidMount() {
