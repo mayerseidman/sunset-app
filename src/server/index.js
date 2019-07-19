@@ -54,17 +54,6 @@ app.get('/api/extractText', function(req, res) {
 // 	console.log(lat, long)
 // });
 
-app.post('/api/send', (req, res) => {
-	var lat = req.body.lat,
-	long = req.body.long;
-	runIT(lat, long, function(value){
-		console.log(value)
-	});
-});
-
-function myFunc(callback) {
-    callback(data); 
-}
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
 
@@ -79,21 +68,23 @@ function convertUTCDateToLocalDate(date) {
     return newDate;
 }
 
-function runIT(lat, long, callback) {
+app.post('/api/send', (req, res) => {
+	var lat = req.body.lat,
+	long = req.body.long;
+	console.log(runIT(lat, long));
+	res.send({ quality: runIT(lat, long) })
+});
+
+function runIT(lat, long) {
 	var coordsString = '' + long + ',' + lat + '';
-	// console.log(coordsString)
-	var hoo = sunsetwx.quality({
+	sunsetwx.quality({
 	    coords: coordsString,
 	    type: 'sunset',
 	    radius: '1',
 	    limit: '1'
 	}, function (err, httpResponse, body) {
 		var result = body.features[0].properties;
-		console.log(result)
-		return result
 	});
-
-	callback(hoo)
 
 	const sunsetTime = getSunset(lat, long);
 	var date = convertUTCDateToLocalDate(new Date(sunsetTime));
@@ -119,14 +110,6 @@ function runIT(lat, long, callback) {
 // 	});
 //      //Write databse Insert/Update/Query code here..              
 // });
-
-app.get('/#', function(req, res) {   
-  res.sendFile(path.join(__dirname, 'path/to/your/index.html'), function(err) {
-    if (err) {
-      res.status(500).send(err)
-    }
-  })
-})
 
 
 
