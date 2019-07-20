@@ -4,7 +4,7 @@ import './app.css';
 export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
-        this.state = { pictures: [], username: null, imgName: null, results: null };
+        this.state = { pictures: [], username: null, imgName: null, results: null, sunsetInfo: null };
     }
 
     sendIT(lat, long) {
@@ -22,9 +22,10 @@ export default class SunsetTracker extends Component {
             method: 'POST',
             body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
             headers: new Headers({ "Content-Type": "application/json" }) // add headers
-        }).then(res => res.json())
-          .then(sunset => console.log(sunset.quality))
+        }).then(res => res.json().then(sunset => console.log(sunset.quality)))
     }
+
+    // this.setState({ sunsetInfo: sunset.quality })
 
     componentDidMount() {
         if ("geolocation" in navigator) {
@@ -43,7 +44,7 @@ export default class SunsetTracker extends Component {
     render() {
         return (
             <div>
-                <p>Content goes here...</p>
+                <p>{ this.state.sunsetInfo }</p>
             </div>
         );
     }

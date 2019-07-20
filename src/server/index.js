@@ -71,13 +71,17 @@ function convertUTCDateToLocalDate(date) {
 app.post('/api/send', (req, res) => {
 	var lat = req.body.lat,
 	long = req.body.long;
-	res.send({ quality: runIT(lat, long, grabValue) })
+
+	runIT(lat,long, (quality)=>{
+		res.send({ quality })
+	})
+	
 });
 
-function grabValue(value) {
-	console.log(value.quality_percent)
-	return value.quality_percent;
-}
+// function grabValue(value) {
+// 	console.log(value.quality_percent)
+// 	return value.quality_percent;
+// }
 
 function runIT(lat, long, callback) {
 	var coordsString = '' + long + ',' + lat + '';
