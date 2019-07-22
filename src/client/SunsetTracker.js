@@ -22,7 +22,7 @@ export default class SunsetTracker extends Component {
             method: 'POST',
             body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
             headers: new Headers({ "Content-Type": "application/json" }) // add headers
-        }).then(res => res.json().then(sunset => console.log(sunset.quality)))
+        }).then(res => res.json().then(sunset => this.setState({ sunsetInfo: JSON.stringify(sunset.quality) })))
     }
 
     // this.setState({ sunsetInfo: sunset.quality })

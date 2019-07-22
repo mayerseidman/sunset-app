@@ -57,6 +57,28 @@ app.get('/api/extractText', function(req, res) {
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
 
+
+
+// Your Account Sid and Auth Token from twilio.com/console
+// DANGER! This is insecure. See http://twil.io/secure
+// const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
+// const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
+// const client = require('twilio')(accountSid, authToken);
+
+// client.messages
+//   .create({
+//      body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
+//      from: '+14123125983',
+//      to: '+14124273243'
+//    })
+//   .then(message => console.log(message.sid));
+
+
+
+
+
+
+
 var sunsetwx = new SunsetWx({
 	email: 'mzseidman@gmail.com',
 	password: 'Victory251',

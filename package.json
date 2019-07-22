@@ -25,7 +25,8 @@
     "react-dom": "^16.5.2",
     "react-router-dom": "^5.0.1",
     "sunrise-sunset-js": "^2.1.0",
-    "tether": "^1.4.7"
+    "tether": "^1.4.7",
+    "twilio": "^3.33.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
