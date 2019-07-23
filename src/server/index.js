@@ -96,6 +96,18 @@ app.post('/api/send', (req, res) => {
 
 	runIT(lat,long, (quality)=>{
 		res.send({ quality })
+		// const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
+		// const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
+		// const client = require('twilio')(accountSid, authToken);
+		// var message = "QUALITY: " + quality.quality + "\n" + " Quality Percent: " + quality.quality_percent;
+
+		// client.messages
+		//   .create({
+		//      body:  message,
+		//      from: '+14123125983',
+		//      to: '+14124273243'
+		//    })
+		//   .then(message => console.log(message.sid));
 	})
 	
 });
