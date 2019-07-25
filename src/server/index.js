@@ -17,6 +17,8 @@ var SunsetWx = require('node-sunsetwx');
 const { getSunrise, getSunset } = require('sunrise-sunset-js')
 var moment = require('moment');
 
+var schedule = require('node-schedule');
+
 app.use(express.static('dist'));
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 app.get('/api/extractText', function(req, res) {
@@ -90,11 +92,13 @@ function convertUTCDateToLocalDate(date) {
     return newDate;
 }
 
+// San Diego = 32.7157, -117.1611
+
 app.post('/api/send', (req, res) => {
 	var lat = req.body.lat,
 	long = req.body.long;
 
-	runIT(lat,long, (quality)=>{
+	runIT(lat, long, (quality)=>{
 		res.send({ quality })
 		// const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
 		// const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
@@ -105,11 +109,25 @@ app.post('/api/send', (req, res) => {
 		//   .create({
 		//      body:  message,
 		//      from: '+14123125983',
+		//		mediaUrl: ['https://demo.twilio.com/owl.png'],
 		//      to: '+14124273243'
 		//    })
 		//   .then(message => console.log(message.sid));
 	})
-	
+
+	// NODE SCHEDULE BELOW
+
+	// var j = schedule.scheduleJob('15 * * * *', function(){
+	//   console.log('People Can Feel PERFECTION BITCH');
+	// });
+
+	// schedule.scheduleJob('25 * * * *', function(){
+	// 	console.log('People Can Feel PERFECTION BITCH');
+	// })
+
+	// schedule.scheduleJob({ hour: 12, minute: 00 }, function(){
+	//   console.log('Time for tea Binch!');
+	// });
 });
 
 // function grabValue(value) {
