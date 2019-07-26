@@ -56,8 +56,16 @@ app.get('/api/extractText', function(req, res) {
 // 	console.log(lat, long)
 // });
 
+function runCron() {
+	schedule.scheduleJob('30 * * * *', function(){
+		console.log('People Can Feel PERFECTION BITCH');
+	});
+}
 
-app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
+
+app.listen(process.env.PORT || 8080, () => runCron());
+
+// console.log(`Listening on port ${process.env.PORT || 8080}!`)
 
 
 
