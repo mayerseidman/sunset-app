@@ -6,8 +6,11 @@ const os = require('os');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const appDb = require('monk')('localhost/MyDb');
 const app = express();
+
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
 const fetch = require("node-fetch")
@@ -16,10 +19,29 @@ var SunsetWx = require('node-sunsetwx');
 
 const { getSunrise, getSunset } = require('sunrise-sunset-js')
 var moment = require('moment');
+var NodeGeocoder = require('node-geocoder');
 
 var schedule = require('node-schedule');
+var mongodb = require('mongodb');
 
 app.use(express.static('dist'));
+
+
+
+
+const users = appDb.get('users')
+users.find({}).then((result)=>{
+		// console.log("Result from MONK", result[0].phone_number)
+
+	// iterae over each result
+	var phoneNumber = result[0].phone_number;
+	var lat = result[0].lat;
+	var long = result[0].long;
+	console.log("Result from MONK", phoneNumber)
+})
+
+
+
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 app.get('/api/extractText', function(req, res) {
 	var imgName = req.query.imgName;
@@ -56,32 +78,41 @@ app.get('/api/extractText', function(req, res) {
 // 	console.log(lat, long)
 // });
 
-function runCron() {
-	schedule.scheduleJob('30 * * * *', function(){
-		console.log('People Can Feel PERFECTION BITCH');
-	});
-}
-
-
-app.listen(process.env.PORT || 8080, () => runCron());
-
-// console.log(`Listening on port ${process.env.PORT || 8080}!`)
+// function runCron() {
+// 	schedule.scheduleJob('30 * * * *', function(){
+// 		console.log('People Can Feel PERFECTION BITCH');
+// 	});
+// }
 
 
 
 // Your Account Sid and Auth Token from twilio.com/console
 // DANGER! This is insecure. See http://twil.io/secure
-// const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
-// const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
-// const client = require('twilio')(accountSid, authToken);
+const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
+const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
+const client = require('twilio')(accountSid, authToken);
 
-// client.messages
-//   .create({
-//      body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-//      from: '+14123125983',
-//      to: '+14124273243'
-//    })
-//   .then(message => console.log(message.sid));
+schedule.scheduleJob('19 * * * *', function(req){
+	const users = req.db.getCollection('users');
+	users.find({}).then((err, result)=>{
+		console.log("Result from MONK", result[0].phone_number)
+		var phoneNumber = result[0].phone_number;
+		client.messages
+		  .create({
+		     body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
+		     from: '+14123125983',
+		     to: phoneNumber
+		   })
+		  .then(message => console.log(message.sid));
+	})
+	console.log('People Can Feel PERFECTION BITCH');
+});
+
+
+app.listen(process.env.PORT || 8080, () => console.log(33));
+
+// console.log(`Listening on port ${process.env.PORT || 8080}!`)
+
 
 
 
@@ -106,7 +137,7 @@ app.post('/api/send', (req, res) => {
 	var lat = req.body.lat,
 	long = req.body.long;
 
-	runIT(lat, long, (quality)=>{
+	 runIT(lat, long, (quality)=>{
 		res.send({ quality })
 		// const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
 		// const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
@@ -138,6 +169,48 @@ app.post('/api/send', (req, res) => {
 	// });
 });
 
+// var dbConn = mongodb.MongoClient.connect('mongodb://localhost:27017', (err, client)=>{
+
+// });
+
+// users.insert({ id: 1, phone_number: phoneNumber, location: location }).then((result) => {
+// 	console.log("data inserted", result)
+// }).catch(err=> console.log('error inserting') );
+
+// geocoder.geocode('29 champs elysée paris', function(err, res) {
+//   console.log("something paris ", err);
+// });
+
+app.use((req, res, next) => {
+	req.db = appDb;
+	next();
+})
+
+app.post('/api/submit-form', function (req, res) {
+	var phoneNumber = "+1" + req.body.user.phone_number;
+	var location = req.body.user.location;
+	var lat = req.body.user.lat;
+	var long = req.body.user.long;
+	
+	const users = req.db.get('users');
+	users.find({}).then((result)=>{
+		// console.log("Result from MONK", result[0].phone_number)
+		console.log("Result from MONK", result)
+	})
+	
+	// mongodb.MongoClient.connect('mongodb://localhost:27017', (err, client)=>{
+	// 	        // delete req.body._id; // for safety reasons
+	// 	 let  db = client.db('MyDb') 
+	// 	 let collection = db.collection('users')
+		 
+	// 	 collection.insertOne({ id: 1, phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+	// 	 	if(err)console.log('error inserting')
+	// 	 		console.log("data inserted", result)
+	// 	 })   
+ //   });
+    res.send('Data received:\n' + JSON.stringify(req.body));
+});
+
 // function grabValue(value) {
 // 	console.log(value.quality_percent)
 // 	return value.quality_percent;
@@ -165,22 +238,56 @@ function runIT(lat, long, callback) {
 
 
 // Connect to the db
-// MongoClient.connect("mongodb://localhost:27017/MyDb", function (err, db) {  
+// MongoClient.connect("mongodb://localhost:27017/MyDb", function (err, db) {
+// 	var collection = db.collection("inventory")
+// 	collection.insertOne(
+// 	   { item: "canvas", qty: 100, tags: ["cotton"], size: { h: 28, w: 35.5, uom: "cm" } }
+// 	)
 // 	if(err) throw err;
-// 	db.collection('Persons', function (err, collection) {    
-// 	    collection.insert({ id: 1, firstName: 'Steve', lastName: 'Jobs' });
-// 	    collection.insert({ id: 2, firstName: 'Bill', lastName: 'Gates' });
+// 	// db.collection('Persons', function (err, collection) {    
+// 	//     collection.insert({ id: 1, phone: 4124214222});
 
-// 	    db.collection('Persons').count(function (err, count) {
-// 	        if (err) throw err;
+// 	//     db.collection('Persons').count(function (err, count) {
+// 	//         if (err) throw err;
 	        
-// 	        console.log('Total Rows: ' + count);
-// 	    });
-// 	});
+// 	//         console.log('Total Rows: ' + count);
+// 	//     });
+
+// 	//     console.log(db.collection('Persons').find())
+// 	// });
 //      //Write databse Insert/Update/Query code here..              
 // });
 
+// var url = "mongodb://localhost:27017/movies"
 
+// MongoClient.connect(url, function(err, db) {
+// 	if (err) {
+// 	    throw err;
+// 	}
+// 	if (db) {
+// 	    console.log("insert");
+// 	    var collectionName = 'users'; 
+// 	    var collection = db.collection(collectionName);
+// 	    if(!collection){
+// 	      errCallback('Collection is not defined in database')
+// 	    }
+// 	    collection.insert({ id: 1, phone: 4124214222, location: "pleasanton"})
+// 	    collection.update({
+// 	        title: "The Revenant"
+// 	    }, {
+// 	        '$push': {
+// 	            'rating': 5.0
+// 	        }
+// 	    }, {
+// 	        upsert: true
+// 	    }, function(err, res) {
+// 	        if (err) errCallback(err);
+// 	        console.log("it worked!")
+// 	        // db.close();
+// 	       collection.save();
+// 	    });
+// 	}
+// });
 
 
 
