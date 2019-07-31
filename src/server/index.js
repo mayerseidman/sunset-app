@@ -28,20 +28,6 @@ app.use(express.static('dist'));
 
 
 
-
-const users = appDb.get('users')
-users.find({}).then((result)=>{
-		// console.log("Result from MONK", result[0].phone_number)
-
-	// iterae over each result
-	var phoneNumber = result[0].phone_number;
-	var lat = result[0].lat;
-	var long = result[0].long;
-	console.log("Result from MONK", phoneNumber)
-})
-
-
-
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 app.get('/api/extractText', function(req, res) {
 	var imgName = req.query.imgName;
@@ -92,20 +78,23 @@ const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
 const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
 const client = require('twilio')(accountSid, authToken);
 
-schedule.scheduleJob('19 * * * *', function(req){
-	const users = req.db.getCollection('users');
-	users.find({}).then((err, result)=>{
+schedule.scheduleJob('32 * * * *', function(){
+	const users = appDb.get('users')
+	users.find().then((result)=>{
 		console.log("Result from MONK", result[0].phone_number)
-		var phoneNumber = result[0].phone_number;
-		client.messages
-		  .create({
+
+		result.forEach(user => {
+			let phoneNumber = user.phone_number;
+			client.messages
+		  	.create({
 		     body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
 		     from: '+14123125983',
 		     to: phoneNumber
 		   })
 		  .then(message => console.log(message.sid));
+		})
+		
 	})
-	console.log('People Can Feel PERFECTION BITCH');
 });
 
 
