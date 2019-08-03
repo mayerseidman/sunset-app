@@ -8,7 +8,8 @@
     "start": "npm run build && node src/server/index.js",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "scss": "node-sass --watch src/scss -o src/css" 
   },
   "author": "Sandeep Raveesh",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "monk": "*",
     "node-fetch": "^2.6.0",
     "node-geocoder": "^3.23.0",
+    "node-sass": "^4.12.0",
     "node-schedule": "^1.3.2",
     "node-sunsetwx": "0.0.1",
     "popper.js": "^1.15.0",

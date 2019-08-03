@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import './app.css';
+import './../css/app.css';
 import SunsetPhoneImage from './phone-view.png';
+// var sass = require('node-sass');
 
 export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
-        this.state = { pictures: [], username: null, imgName: null, results: null, sunsetInfo: null };
+        this.state = { pictures: [], username: null, imgName: null, results: null, 
+            showSunsetInfo: false, sunsetInfo: null };
+    }
+
+    showSunsetInfo() {
+        this.setState({ showSunsetInfo: true })
+    }
+
+    hideSunsetInfo() {
+        this.setState({ showSunsetInfo: false })
     }
 
     sendIT(lat, long) {
@@ -87,6 +97,12 @@ export default class SunsetTracker extends Component {
     }
 
     render() {
+        if (this.state.showSunsetInfo) {
+            var sunsetInfo = (<p>{ this.state.sunsetInfo }</p>)
+            var viewLink = (<a onClick={ this.hideSunsetInfo.bind(this) }>Hide Info</a>)
+        } else {
+            var viewLink = (<a onClick={ this.showSunsetInfo.bind(this) }>Show Info</a>)
+        }
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
@@ -96,21 +112,22 @@ export default class SunsetTracker extends Component {
                 <div className="middleContainer">
                     <div className="leftContainer">
                         <img src={ SunsetPhoneImage } alt="sunset-phone"/>
-                        <a href="">Link 1</a>
-                        <a href="">Link 2</a>
+                        <div>
+                            <a href="">Link 1</a>
+                            <a href="">Link 2</a>
+                        </div>
                     </div>        
                     <div className="rightContainer">
-                        <p>Sunsets are awesome. Dont miss another!</p>
-                        <input type="text"/>
-                        <input type="text"/>
-                        <button>Send Sunsets</button>
+                        <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
+                        <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
+                        <input type="text" ref="phone_number" placeholder="phone number..."/>
+                        <input type="text" ref="location" placeholder="timezone..." /> 
+                        <button onClick={ this.submitInfo.bind(this) }>Send Sunsets</button>
                     </div>
                 </div>
-                <p>{ this.state.sunsetInfo }</p>
-                <input type="text" ref="phone_number" /> Phone Number
-                <input type="text" ref="location" /> Location
+                { viewLink }
+                { sunsetInfo }
                 <button onClick={ this.findCoordinates.bind(this) }>Find Coordinates</button>
-                <button onClick={ this.submitInfo.bind(this) }>Submit</button>
             </div>
         );
     }

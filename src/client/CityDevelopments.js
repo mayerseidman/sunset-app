@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './app.css';
 import ReactImage from './react.png';
 import ImageUploader from 'react-images-upload';
 

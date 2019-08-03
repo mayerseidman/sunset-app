@@ -1,12 +1,13 @@
 
-h1 {
+
+/*h1 {
   color: green;
 }
 
 body {
   text-align: center;
   margin: auto;
-}
+}*/
 .fileContainer {
 	box-shadow: none !important;
 }
@@ -26,32 +27,30 @@ body {
 }
 
 .sunsetContainer {
-	background: red;
-}
-
-.sunsetContainer {
 	.topSection {
 		display: inline-block;
 		text-align: left;
 		.header {
-			font-weight: 300;
-			font-size: 40px
+			font-size: 32px
 		}
 		.subHeader {
-			width: 75%;
+			width: 55%;
 		}
 	}
 	.middleContainer {
 		.leftContainer {
-			width: 40%;
+			width: 43%;
 			display: inline-block;
+      margin-right: 30px;
 			img {
 
 			}
 		}
 		.rightContainer {
-			width: 40%;
+			width: 43%;
 			display: inline-block;
+      vertical-align: top;
+      margin-top: 95px;
 		}
 	}
 }
