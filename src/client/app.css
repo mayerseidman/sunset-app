@@ -25,6 +25,36 @@ body {
 	display: inline-block;
 }
 
+.sunsetContainer {
+	background: red;
+}
+
+.sunsetContainer {
+	.topSection {
+		display: inline-block;
+		text-align: left;
+		.header {
+			font-weight: 300;
+			font-size: 40px
+		}
+		.subHeader {
+			width: 75%;
+		}
+	}
+	.middleContainer {
+		.leftContainer {
+			width: 40%;
+			display: inline-block;
+			img {
+
+			}
+		}
+		.rightContainer {
+			width: 40%;
+			display: inline-block;
+		}
+	}
+}
 
 
 html,

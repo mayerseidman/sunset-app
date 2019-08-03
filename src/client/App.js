@@ -11,20 +11,22 @@ export default class App extends Component {
     }
 
     render() {
+        const nav = (
+            <div>
+                <nav  className="nav">
+                    <ul>
+                        <li  className="nav-primary"><Link to={'/'} className="navLink">Projects</Link></li>
+                        <li  className="nav-primary"><Link to={'/city'} className="navLink">City</Link></li>
+                        <li  className="nav-primary"><Link to={'/sunset'} className="navLink">Sunset</Link></li>
+                    </ul>
+                </nav>
+            </div> 
+        )
         const { username } = this.state;
         return (
             <div className="container">
                 <Router>
                     <div>
-                        <div>
-                            <nav  className="nav">
-                                <ul>
-                                    <li  className="nav-primary"><Link to={'/'} className="navLink">Projects</Link></li>
-                                    <li  className="nav-primary"><Link to={'/city'} className="navLink">City</Link></li>
-                                    <li  className="nav-primary"><Link to={'/sunset'} className="navLink">Sunset</Link></li>
-                                </ul>
-                            </nav>
-                        </div> 
                         <Switch>
                             <Route path='/city' component={ CityDevelopments } />
                             <Route path='/sunset' component={ SunsetTracker } />

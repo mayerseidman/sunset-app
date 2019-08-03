@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './app.css';
+import SunsetPhoneImage from './phone-view.png';
 
 export default class SunsetTracker extends Component {
     constructor(props) {
@@ -66,29 +67,45 @@ export default class SunsetTracker extends Component {
         console.log("SUBMITTED", this.refs.phone_number.value)
     }
 
-    // this.setState({ sunsetInfo: sunset.quality })
-
     findCoordinates() {
         // navigator.geolocation.getCurrentPosition(success, error, options)
     }
 
-    // componentDidMount() {
-    //     if ("geolocation" in navigator) {
-    //       /* geolocation is available */
-    //         navigator.geolocation.getCurrentPosition(function(position) {
-    //             this.sendIT(position.coords.latitude, position.coords.longitude);
-    //         }.bind(this))
-    //     } else {
-    //       /* geolocation IS NOT available */
-    //     }
-    //     fetch('/api/getUsername')
-    //     .then(res => res.json())
-    //     .then(user => this.setState({ username: user.username }));
-    // }
+    componentDidMount() {
+        if ("geolocation" in navigator) {
+          /* geolocation is available */
+            navigator.geolocation.getCurrentPosition(function(position) {
+                this.sendIT(position.coords.latitude, position.coords.longitude);
+            }.bind(this))
+        } else {
+          /* geolocation IS NOT available */
+        }
+
+        fetch('/api/getUsername')
+        .then(res => res.json())
+        .then(user => this.setState({ username: user.username }));
+    }
 
     render() {
         return (
-            <div>
+            <div className="sunsetContainer">
+                <div className="topSection">
+                    <p className="header">Sunsets are awesome. Dont miss another!</p>
+                    <p className="subHeader">Further explanation goes here…Further explanation goes here… Further explanation goes here…  how does this work?</p>
+                </div>
+                <div className="middleContainer">
+                    <div className="leftContainer">
+                        <img src={ SunsetPhoneImage } alt="sunset-phone"/>
+                        <a href="">Link 1</a>
+                        <a href="">Link 2</a>
+                    </div>        
+                    <div className="rightContainer">
+                        <p>Sunsets are awesome. Dont miss another!</p>
+                        <input type="text"/>
+                        <input type="text"/>
+                        <button>Send Sunsets</button>
+                    </div>
+                </div>
                 <p>{ this.state.sunsetInfo }</p>
                 <input type="text" ref="phone_number" /> Phone Number
                 <input type="text" ref="location" /> Location

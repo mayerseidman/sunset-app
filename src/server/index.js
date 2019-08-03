@@ -14,15 +14,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
 const fetch = require("node-fetch")
-var MongoClient = require('mongodb').MongoClient;
-var SunsetWx = require('node-sunsetwx');
+const MongoClient = require('mongodb').MongoClient;
+const SunsetWx = require('node-sunsetwx');
 
 const { getSunrise, getSunset } = require('sunrise-sunset-js')
-var moment = require('moment');
-var NodeGeocoder = require('node-geocoder');
+const moment = require('moment');
+const NodeGeocoder = require('node-geocoder');
 
-var schedule = require('node-schedule');
-var mongodb = require('mongodb');
+const schedule = require('node-schedule');
+const mongodb = require('mongodb');
 
 app.use(express.static('dist'));
 
@@ -78,44 +78,39 @@ const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
 const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
 const client = require('twilio')(accountSid, authToken);
 
-schedule.scheduleJob('32 * * * *', function(){
-	const users = appDb.get('users')
-	users.find().then((result)=>{
-		console.log("Result from MONK", result[0].phone_number)
-
-		result.forEach(user => {
-			let phoneNumber = user.phone_number;
-			client.messages
-		  	.create({
-		     body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-		     from: '+14123125983',
-		     to: phoneNumber
-		   })
-		  .then(message => console.log(message.sid));
-		})
+// schedule.scheduleJob('11 * * * *', function(){
+// 	const users = appDb.get('users')
+// 	users.find().then((result)=>{
+// 		result.forEach(user => {
+// 			runIT(user.lat, user.long, (quality)=>{
+// 				console.log(quality.quality_percent)
+// 				let phoneNumber = user.phone_number;
+// 				client.messages
+// 			  	.create({
+// 			    	body: "Sunset Quality: " + quality.quality_percent + "%",
+// 			    	from: '+14123125983',
+// 			    	to: phoneNumber
+// 				})
+// 				.then(message => console.log(message.sid));	
+// 			})
+// 		})
 		
-	})
-});
+// 	})
+// });
 
 
 app.listen(process.env.PORT || 8080, () => console.log(33));
 
-// console.log(`Listening on port ${process.env.PORT || 8080}!`)
 
 
 
-
-
-
-
-
-var sunsetwx = new SunsetWx({
+const sunsetwx = new SunsetWx({
 	email: 'mzseidman@gmail.com',
 	password: 'Victory251',
 });
 
 function convertUTCDateToLocalDate(date) {
-    var newDate = new Date(date);
+    const newDate = new Date(date);
     newDate.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return newDate;
 }
@@ -123,7 +118,7 @@ function convertUTCDateToLocalDate(date) {
 // San Diego = 32.7157, -117.1611
 
 app.post('/api/send', (req, res) => {
-	var lat = req.body.lat,
+	const lat = req.body.lat,
 	long = req.body.long;
 
 	 runIT(lat, long, (quality)=>{
@@ -131,7 +126,7 @@ app.post('/api/send', (req, res) => {
 		// const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
 		// const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
 		// const client = require('twilio')(accountSid, authToken);
-		// var message = "QUALITY: " + quality.quality + "\n" + " Quality Percent: " + quality.quality_percent;
+		// const message = "QUALITY: " + quality.quality + "\n" + " Quality Percent: " + quality.quality_percent;
 
 		// client.messages
 		//   .create({
@@ -145,7 +140,7 @@ app.post('/api/send', (req, res) => {
 
 	// NODE SCHEDULE BELOW
 
-	// var j = schedule.scheduleJob('15 * * * *', function(){
+	// const j = schedule.scheduleJob('15 * * * *', function(){
 	//   console.log('People Can Feel PERFECTION BITCH');
 	// });
 
@@ -158,7 +153,7 @@ app.post('/api/send', (req, res) => {
 	// });
 });
 
-// var dbConn = mongodb.MongoClient.connect('mongodb://localhost:27017', (err, client)=>{
+// const dbConn = mongodb.MongoClient.connect('mongodb://localhost:27017', (err, client)=>{
 
 // });
 
@@ -176,10 +171,10 @@ app.use((req, res, next) => {
 })
 
 app.post('/api/submit-form', function (req, res) {
-	var phoneNumber = "+1" + req.body.user.phone_number;
-	var location = req.body.user.location;
-	var lat = req.body.user.lat;
-	var long = req.body.user.long;
+	const phoneNumber = "+1" + req.body.user.phone_number;
+	const location = req.body.user.location;
+	const lat = req.body.user.lat;
+	const long = req.body.user.long;
 	
 	const users = req.db.get('users');
 	users.find({}).then((result)=>{
@@ -206,7 +201,7 @@ app.post('/api/submit-form', function (req, res) {
 // }
 
 function runIT(lat, long, callback) {
-	var coordsString = '' + long + ',' + lat + '';
+	const coordsString = '' + long + ',' + lat + '';
 	sunsetwx.quality({
 	    coords: coordsString,
 	    type: 'sunset',
@@ -219,8 +214,8 @@ function runIT(lat, long, callback) {
 	});
 
 	const sunsetTime = getSunset(lat, long);
-	var date = convertUTCDateToLocalDate(new Date(sunsetTime));
-	// var date = new Date(sunsetTime + 'UTC');
+	const date = convertUTCDateToLocalDate(new Date(sunsetTime));
+	// const date = new Date(sunsetTime + 'UTC');
 	// console.log(date.toString())
 
 }
@@ -228,7 +223,7 @@ function runIT(lat, long, callback) {
 
 // Connect to the db
 // MongoClient.connect("mongodb://localhost:27017/MyDb", function (err, db) {
-// 	var collection = db.collection("inventory")
+// 	const collection = db.collection("inventory")
 // 	collection.insertOne(
 // 	   { item: "canvas", qty: 100, tags: ["cotton"], size: { h: 28, w: 35.5, uom: "cm" } }
 // 	)
@@ -247,7 +242,7 @@ function runIT(lat, long, callback) {
 //      //Write databse Insert/Update/Query code here..              
 // });
 
-// var url = "mongodb://localhost:27017/movies"
+// const url = "mongodb://localhost:27017/movies"
 
 // MongoClient.connect(url, function(err, db) {
 // 	if (err) {
@@ -255,8 +250,8 @@ function runIT(lat, long, callback) {
 // 	}
 // 	if (db) {
 // 	    console.log("insert");
-// 	    var collectionName = 'users'; 
-// 	    var collection = db.collection(collectionName);
+// 	    const collectionName = 'users'; 
+// 	    const collection = db.collection(collectionName);
 // 	    if(!collection){
 // 	      errCallback('Collection is not defined in database')
 // 	    }
