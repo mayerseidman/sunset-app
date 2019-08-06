@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './../css/app.css';
 import SunsetPhoneImage from './phone-view.png';
-// var sass = require('node-sass');
 
 export default class SunsetTracker extends Component {
     constructor(props) {
@@ -112,9 +111,9 @@ export default class SunsetTracker extends Component {
                 <div className="middleContainer">
                     <div className="leftContainer">
                         <img src={ SunsetPhoneImage } alt="sunset-phone"/>
-                        <div>
-                            <a href="">Link 1</a>
-                            <a href="">Link 2</a>
+                        <div className="linksContainer">
+                            <a href="">Show My Sunset</a>
+                            <a href="">Random Sunset</a>
                         </div>
                     </div>        
                     <div className="rightContainer">

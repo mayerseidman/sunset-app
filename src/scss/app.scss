@@ -1,13 +1,12 @@
 
 
-/*h1 {
+h1 {
   color: green;
 }
 
 body {
-  text-align: center;
-  margin: auto;
-}*/
+ font-size: 18px;
+}
 .fileContainer {
 	box-shadow: none !important;
 }
@@ -28,6 +27,7 @@ body {
 
 .sunsetContainer {
 	.topSection {
+    margin-top: 50px;
 		display: inline-block;
 		text-align: left;
 		.header {
@@ -41,11 +41,16 @@ body {
 		.leftContainer {
 			width: 43%;
 			display: inline-block;
-      margin-right: 30px;
-			img {
+            margin-right: 30px;
+		  img {
 
 			}
-		}
+      .linksContainer {
+        margin-left: 50px;
+        margin-bottom: 50px;
+        a { display: block}
+      }
+    }
 		.rightContainer {
 			width: 43%;
 			display: inline-block;

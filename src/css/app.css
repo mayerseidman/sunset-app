@@ -1,11 +1,9 @@
-/*h1 {
-  color: green;
-}
+h1 {
+  color: green; }
 
 body {
-  text-align: center;
-  margin: auto;
-}*/
+  font-size: 18px; }
+
 .fileContainer {
   box-shadow: none !important; }
 
@@ -21,6 +19,7 @@ body {
   display: inline-block; }
 
 .sunsetContainer .topSection {
+  margin-top: 50px;
   display: inline-block;
   text-align: left; }
   .sunsetContainer .topSection .header {
@@ -32,6 +31,11 @@ body {
   width: 43%;
   display: inline-block;
   margin-right: 30px; }
+  .sunsetContainer .middleContainer .leftContainer .linksContainer {
+    margin-left: 50px;
+    margin-bottom: 50px; }
+    .sunsetContainer .middleContainer .leftContainer .linksContainer a {
+      display: block; }
 
 .sunsetContainer .middleContainer .rightContainer {
   width: 43%;
