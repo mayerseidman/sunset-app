@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './../css/app.css';
 import SunsetPhoneImage from './phone-view.png';
+let _ = require('underscore')
 
 export default class SunsetTracker extends Component {
     constructor(props) {
@@ -77,22 +78,34 @@ export default class SunsetTracker extends Component {
     }
 
     findCoordinates() {
-        // navigator.geolocation.getCurrentPosition(success, error, options)
+        navigator.geolocation.getCurrentPosition(function(position) {
+            console.log("Lat: " + position.coords.latitude, "Long: " + position.coords.longitude)
+        })
+    }
+
+    showRandomSunset() {
+        var randomLocation = _.sample(randomLocations)
+        var city = randomLocation.city;
+        var lat = randomLocation.lat;
+        var long = randomLocation.long;
+        // console.log(city, lat, long)
+        this.sendIT(lat, long);
+        this.setState({ pictures: city })
     }
 
     componentDidMount() {
-        if ("geolocation" in navigator) {
-          /* geolocation is available */
-            navigator.geolocation.getCurrentPosition(function(position) {
-                this.sendIT(position.coords.latitude, position.coords.longitude);
-            }.bind(this))
-        } else {
-          /* geolocation IS NOT available */
-        }
+        // if ("geolocation" in navigator) {
+        //   /* geolocation is available */
+        //     navigator.geolocation.getCurrentPosition(function(position) {
+        //         this.sendIT(position.coords.latitude, position.coords.longitude);
+        //     }.bind(this))
+        // } else {
+        //   /* geolocation IS NOT available */
+        // }
 
-        fetch('/api/getUsername')
-        .then(res => res.json())
-        .then(user => this.setState({ username: user.username }));
+        // fetch('/api/getUsername')
+        // .then(res => res.json())
+        // .then(user => this.setState({ username: user.username }));
     }
 
     render() {
@@ -113,7 +126,7 @@ export default class SunsetTracker extends Component {
                         <img src={ SunsetPhoneImage } alt="sunset-phone"/>
                         <div className="linksContainer">
                             <a href="">Show My Sunset</a>
-                            <a href="">Random Sunset</a>
+                            <a onClick={ this.showRandomSunset.bind(this) }>Random Sunset</a>
                         </div>
                     </div>        
                     <div className="rightContainer">
@@ -131,3 +144,11 @@ export default class SunsetTracker extends Component {
         );
     }
 }
+
+var randomLocations = [
+    { "city" : "San Diego", "lat" : 32.7157, "long" : -117.1611 }, { "city" : "New York City", "lat" : 40.7128, "long" : -74.0060 }, { "city" : "Los Angeles", "lat" : 34.0522, "long" : -118.2437 }, 
+    { "city" : "Chicago", "lat" : 41.8781, "long" : -87.6298 }, { "city" : "Miami", "lat" : 25.7617, "long" : -80.1918 }, { "city" : "Philadelphia", "lat" : 39.9526, "long" : -75.1652 }, 
+    { "city" : "Austin", "lat" : 30.2672, "long" : -97.7431 }, { "city" : "Boston", "lat" : 42.3601, "long" : -71.0589 }, { "city" : "Seattle", "lat" : 47.6062, "long" : -122.3321 }, 
+    { "city" : "Denver", "lat" : 39.7392, "long" : -104.9903 }, { "city" : "San Francisco", "lat" : 37.7749, "long" : -122.4194 }, { "city" : "Toronto", "lat" : 43.6532, "long" : -79.3832 },
+    { "city" : "Phoenix", "lat" : 33.4484, "long" : -112.0740 }, { "city" : "Houston", "lat" : 29.7604, "long" : -95.3698 }
+]

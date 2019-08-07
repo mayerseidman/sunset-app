@@ -9,7 +9,7 @@
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "scss": "node-sass --watch src/scss -o src/css" 
+    "scss": "node-sass --watch src/scss -o src/css"
   },
   "author": "Sandeep Raveesh",
   "license": "ISC",
@@ -31,7 +31,8 @@
     "react-router-dom": "^5.0.1",
     "sunrise-sunset-js": "^2.1.0",
     "tether": "^1.4.7",
-    "twilio": "^3.33.1"
+    "twilio": "^3.33.1",
+    "underscore": "^1.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

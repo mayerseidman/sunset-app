@@ -120,7 +120,6 @@ function convertUTCDateToLocalDate(date) {
 app.post('/api/send', (req, res) => {
 	const lat = req.body.lat,
 	long = req.body.long;
-
 	 runIT(lat, long, (quality)=>{
 		res.send({ quality })
 		// const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
@@ -209,6 +208,7 @@ function runIT(lat, long, callback) {
 	    limit: '1'
 	}, function (err, httpResponse, body) {
 		if (callback) {
+			console.log(err, body)
 			callback(body.features[0].properties);		
 		}
 	});
