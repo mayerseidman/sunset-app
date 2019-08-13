@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './../css/app.css';
 import SunsetPhoneImage from './phone-view.png';
-let _ = require('underscore')
+const _ = require('underscore')
 
 export default class SunsetTracker extends Component {
     constructor(props) {
@@ -28,7 +28,7 @@ export default class SunsetTracker extends Component {
         //     },
         //     body: params
         // })
-
+        console.log("send it function")
         fetch("/api/send", {
             method: 'POST',
             body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
@@ -94,18 +94,21 @@ export default class SunsetTracker extends Component {
     }
 
     componentDidMount() {
-        // if ("geolocation" in navigator) {
-        //   /* geolocation is available */
-        //     navigator.geolocation.getCurrentPosition(function(position) {
-        //         this.sendIT(position.coords.latitude, position.coords.longitude);
-        //     }.bind(this))
-        // } else {
-        //   /* geolocation IS NOT available */
-        // }
+        if ("geolocation" in navigator) {
+          /* geolocation is available */
+          console.log("GEOOOOOO")
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var long = position.coords.longitude;
+                this.sendIT(lat, long);
+            }.bind(this))
+        } else {
+          /* geolocation IS NOT available */
+        }
 
-        // fetch('/api/getUsername')
-        // .then(res => res.json())
-        // .then(user => this.setState({ username: user.username }));
+        fetch('/api/getUsername')
+        .then(res => res.json())
+        .then(user => this.setState({ username: user.username }));
     }
 
     render() {

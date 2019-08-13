@@ -3,12 +3,14 @@
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 const os = require('os');
+var fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const appDb = require('monk')('localhost/MyDb');
 const app = express();
 
+app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
@@ -70,29 +72,79 @@ app.get('/api/extractText', function(req, res) {
 // 	});
 // }
 
+// const PDF2Pic = require("pdf2pic");
 
+// const pdf2pic = new PDF2Pic({
+//   density: 100,           // output pixels per inch
+//   savename: "untitledDDD",   // output file name
+//   savedir: "/Projects",    // output file location
+//   format: "png",          // output file format
+//   size: "600x600"         // output size in pixels
+// });
 
-// Your Account Sid and Auth Token from twilio.com/console
+// pdf2pic.convert("outputTwo.pdf").then((resolve) => {
+//   console.log("image converter successfully!");
+ 
+//   return resolve;
+// });
+
+// var PDFImage = require("pdf-image").PDFImage;
+ 
+// var pdfImage = new PDFImage("/outputTwo.pdf");
+// console.log(pdfImage)
+// pdfImage.convertPage(0).then(function (imagePath) {
+// 	console.log("running")
+//   // 0-th page (first page) of the slide.pdf is available as slide-0.png
+//   fs.existsSync("untitledddd.png") // => true
+// });
+
+const pdf = require('pdf-poppler');
+const path = require('path');
+ 
+let file = '/Users/mayerseidman/Desktop/Projects/simple-react-full-stack/outputTwo.pdf'
+ 
+pdf.info(file)
+	.then(pdfinfo => {
+    	console.log(pdfinfo);
+	});
+
+let opts = {
+    format: 'png',
+    out_dir: path.dirname(file),
+    out_prefix: path.basename(file, path.extname(file)),
+    page: null
+}
+ 
+pdf.convert(file, opts)
+    .then(res => {
+        console.log('Successfully converted');
+    })
+    .catch(error => {
+        console.error(error);
+    })  
+
+    
+ 
+// Your Account Sid and Auth Token from twilio.com/console 
 // DANGER! This is insecure. See http://twil.io/secure
 const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
 const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
 const client = require('twilio')(accountSid, authToken);
 
-// schedule.scheduleJob('11 * * * *', function(){
+// schedule.scheduleJob('13 * * * *', function(){
 // 	const users = appDb.get('users')
 // 	users.find().then((result)=>{
 // 		result.forEach(user => {
-// 			runIT(user.lat, user.long, (quality)=>{
-// 				console.log(quality.quality_percent)
+// 			// runIT(user.lat, user.long, (quality)=>{
 // 				let phoneNumber = user.phone_number;
 // 				client.messages
 // 			  	.create({
-// 			    	body: "Sunset Quality: " + quality.quality_percent + "%",
 // 			    	from: '+14123125983',
-// 			    	to: phoneNumber
+// 			    	to: phoneNumber,
+// 			    	mediaUrl: "https://06b531d5.ngrok.io/outputTwo.pdf"
 // 				})
-// 				.then(message => console.log(message.sid));	
-// 			})
+// 				.then(message => console.log("IT WORKED: ", message));	
+// 			// })
 // 		})
 		
 // 	})
@@ -121,6 +173,7 @@ app.post('/api/send', (req, res) => {
 	const lat = req.body.lat,
 	long = req.body.long;
 	 runIT(lat, long, (quality)=>{
+	 	console.log(quality)
 		res.send({ quality })
 		// const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
 		// const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
@@ -208,7 +261,7 @@ function runIT(lat, long, callback) {
 	    limit: '1'
 	}, function (err, httpResponse, body) {
 		if (callback) {
-			console.log(err, body)
+			console.log(body)
 			callback(body.features[0].properties);		
 		}
 	});
@@ -274,9 +327,74 @@ function runIT(lat, long, callback) {
 // });
 
 
+// PDF KIT 
 
 
+const PDFDocument = require('pdfkit');
+// const blobStream  = require('blob-stream');
+ 
+// create a document the same way as above
+const doc = new PDFDocument();
+ 
+// pipe the document to a blob
+// const stream = doc.pipe(blobStream());  
 
+// Pipe its output somewhere, like to a file or HTTP response
+// See below for browser usage
+doc.pipe(fs.createWriteStream('outputTwo.pdf'));
+// doc.pipe(res); 
+
+
+// Embed a font, set the font size, and render some text
+doc.fontSize(25)
+   .text('Some text with an embedded font!', 100, 100);
+
+// Add an image, constrain it to a given size, and center it vertically and horizontally
+doc.image('/Users/mayerseidman/Desktop/imageFile.png', {
+   fit: [250, 300],
+   align: 'center',
+   valign: 'center'
+});
+
+// Add another page
+// doc.addPage()
+//    .fontSize(25)
+//    .text('Here is some vector graphics...', 100, 100);
+
+// Draw a triangle
+// doc.save()
+//    .moveTo(100, 150)
+//    .lineTo(100, 250)
+//    .lineTo(200, 250)
+//    .fill("#FF3300");
+
+// Apply some transforms and render an SVG path with the 'even-odd' fill rule
+// doc.scale(0.6)
+//    .translate(470, -380)
+//    .path('M 250,75 L 323,301 131,161 369,161 177,301 z')
+//    .fill('red', 'even-odd')
+//    .restore();
+
+// Add some text with annotations
+// doc.addPage()
+//    .fillColor("blue")
+//    .text('Here is a link!', 100, 100)
+//    .underline(100, 100, 160, 27, {color: "#0000FF"})
+//    .link(100, 100, 160, 27, 'http://google.com/')
+ 
+// add your content to the document here, as usual
+ 
+// get a blob when you're done
+doc.end()
+// stream.on('finish', function() {
+//   // get a blob you can do whatever you like with
+//   const blob = stream.toBlob('application/pdf');
+//   console.log("FINISHED")
+ 
+//   // or get a blob URL for display in the browser
+//   const url = stream.toBlobURL('application/pdf');
+//   iframe.src = url;
+// });
 
 
 

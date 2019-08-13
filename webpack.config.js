@@ -39,7 +39,12 @@ module.exports = {
     },
     historyApiFallback: true,
     contentBase: './',
-    hot: true
+    hot: true,
+    allowedHosts: [
+      '.amazonaws.com',
+      'twilio.com',
+      'ngrok.io'
+    ]
   },
   plugins: [
     new CleanWebpackPlugin([outputDirectory]),
