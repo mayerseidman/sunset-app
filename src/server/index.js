@@ -72,83 +72,196 @@ app.get('/api/extractText', function(req, res) {
 // 	});
 // }
 
-// const PDF2Pic = require("pdf2pic");
-
-// const pdf2pic = new PDF2Pic({
-//   density: 100,           // output pixels per inch
-//   savename: "untitledDDD",   // output file name
-//   savedir: "/Projects",    // output file location
-//   format: "png",          // output file format
-//   size: "600x600"         // output size in pixels
-// });
-
-// pdf2pic.convert("outputTwo.pdf").then((resolve) => {
-//   console.log("image converter successfully!");
- 
-//   return resolve;
-// });
-
-// var PDFImage = require("pdf-image").PDFImage;
- 
-// var pdfImage = new PDFImage("/outputTwo.pdf");
-// console.log(pdfImage)
-// pdfImage.convertPage(0).then(function (imagePath) {
-// 	console.log("running")
-//   // 0-th page (first page) of the slide.pdf is available as slide-0.png
-//   fs.existsSync("untitledddd.png") // => true
-// });
-
-const pdf = require('pdf-poppler');
 const path = require('path');
- 
-let file = '/Users/mayerseidman/Desktop/Projects/simple-react-full-stack/outputTwo.pdf'
- 
-pdf.info(file)
-	.then(pdfinfo => {
-    	console.log(pdfinfo);
+const PDF2Pic = require("pdf2pic");
+
+function createImage(pdfFile) {
+	const baseFile = '/Users/mayerseidman/Desktop/Projects/simple-react-full-stack/';
+	let file =  baseFile + pdfFile + ".pdf";
+	 
+	const pdf2pic = new PDF2Pic({
+	  density: 100,           // output pixels per inch
+	  savename: pdfFile,   // output file name
+	  savedir: path.dirname(file),    // output file location
+	  format: "png",          // output file format
+	  size: "600x600"         // output size in pixels
 	});
-
-let opts = {
-    format: 'png',
-    out_dir: path.dirname(file),
-    out_prefix: path.basename(file, path.extname(file)),
-    page: null
+	 
+	pdf2pic.convert(file).then((resolve) => {
+	  console.log("image converter successfully!", resolve.name);
+	});
+	return pdfFile + "_1.png"
 }
- 
-pdf.convert(file, opts)
-    .then(res => {
-        console.log('Successfully converted');
-    })
-    .catch(error => {
-        console.error(error);
-    })  
 
-    
+
+// const pdf = require('pdf-poppler');
+// // const path = require('path');
+
+// function createImage(pdfFile) {
+// 	const baseFile = '/Users/mayerseidman/Desktop/Projects/simple-react-full-stack/';
+// 	let file =  baseFile + pdfFile + ".pdf";
+// 	pdf.info(file)
+// 		.then(pdfinfo => {
+// 	    	console.log(pdfinfo);
+// 		});
+
+// 	let opts = {
+// 	    format: 'png',
+// 	    out_dir: path.dirname(file),
+// 	    out_prefix: path.basename(file, path.extname(file)),
+// 	    page: null
+// 	}
+	 
+// 	pdf.convert(file, opts)
+// 	    .then(res => {
+// 	        console.log('Successfully converted', opts);
+// 	    })
+// 	    .catch(error => {
+// 	        console.error(error);
+// 	    })
+// 	return baseFile + pdfFile
+// }
+
+
+
+// function produceImage(fileName) {
+//   return new Promise(resolve => {
+//     setTimeout(() => {
+//     	resolve(createImage(fileName))
+//     }, 2000);
+//   });
+// }
+
+
+// async function msg() {
+// 	const pdf = createPDF("dad-bodd")
+// 	// only want to call produceImage once the pdf is returned from createPDF function
+// 	const createdImage = await produceImage(pdf)
+// }
+
+
+var methodOne = function(fileName) {
+   var promise = new Promise(function(resolve, reject){
+      setTimeout(function() {
+        console.log('first method completed');
+        resolve(createPDF(fileName));
+      }, 2000);
+   });
+   return promise;
+};
+
+var methodTwo = function(returnedPDF) {
+	console.log(returnedPDF)
+   var promise = new Promise(function(resolve, reject){
+      setTimeout(function() {
+        console.log('second method completed', returnedPDF);
+        resolve(createImage(returnedPDF));
+      }, 2000);
+   });
+   return promise;
+};
+
+// var methodThree = function(returnedImage) {
+// 	return new Promise(function(resolve, reject) {
+// 		resolve(returnedImage)
+
+// 	})
+// }
+
+
+// methodOne("Output7")
+//    .then(methodTwo)
+//    .then(methodThree)
+
+
+
+
+
+// var firstMethod = function() {
+//    var promise = new Promise(function(resolve, reject){
+//       setTimeout(function() {
+//         console.log('first method completed');
+//         resolve({data: '123'});
+//       }, 2000);
+//    });
+//    return promise;
+// };
  
+ 
+// var secondMethod = function(someStuff) {
+//    var promise = new Promise(function(resolve, reject){
+//       setTimeout(function() {
+//         console.log('second method completed', someStuff);
+//         resolve({newData: someStuff.data + ' some more data'});
+//       }, 2000);
+//    });
+//    return promise;
+// };
+ 
+// var thirdMethod = function(someStuff) {
+//    var promise = new Promise(function(resolve, reject){
+//       setTimeout(function() {
+//         console.log('third method completed');
+//         resolve({result: someStuff.newData});
+//       }, 3000);
+//    });
+//    return promise;
+// };
+ 
+// firstMethod()
+//    .then(secondMethod)
+//    .then(thirdMethod);
+
+
+// const owner = await getOwner(issue.ownerId)
+
+
+// msg();
+
+// const fileName = createPDF("outputFive");
+// createImage("outputFive.pdf")
+
+// setTimeout(() => {
+// 	const createdImage = createImage("outputFive.pdf")
+// }, 2000);
+
+
+// console.log(createdPDF)
+// const createdImage = await createImage(createPDF);
+// pass image in as mediaURL to Twilio
+ 
+
+
+  
 // Your Account Sid and Auth Token from twilio.com/console 
 // DANGER! This is insecure. See http://twil.io/secure
 const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
 const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
 const client = require('twilio')(accountSid, authToken);
 
-// schedule.scheduleJob('13 * * * *', function(){
-// 	const users = appDb.get('users')
-// 	users.find().then((result)=>{
-// 		result.forEach(user => {
-// 			// runIT(user.lat, user.long, (quality)=>{
-// 				let phoneNumber = user.phone_number;
-// 				client.messages
-// 			  	.create({
-// 			    	from: '+14123125983',
-// 			    	to: phoneNumber,
-// 			    	mediaUrl: "https://06b531d5.ngrok.io/outputTwo.pdf"
-// 				})
-// 				.then(message => console.log("IT WORKED: ", message));	
-// 			// })
-// 		})
-		
-// 	})
-// });
+// schedule.scheduleJob('53 * * * *', function(){
+	const users = appDb.get('users')
+	users.find().then((result)=>{
+		result.forEach(user => {
+			// runIT(user.lat, user.long, (quality)=>{
+				let phoneNumber = user.phone_number;
+				methodOne(user._id)
+   				.then(methodTwo).then((result)=>{
+   					console.log("image", result)
+   					client.messages
+			  			.create({
+			    	from: '+14123125983',
+			    	to: phoneNumber,
+			    	mediaUrl: "https://922a20ed.ngrok.io/5d437f2da80f0f233b3ab2d9.pdf",
+			    	contentType: "pdf"
+					})
+					.then(message => console.log("IT WORKED: ", message));	
+   				})
+				
+			// })
+		})
+	})
+// });  
 
 
 app.listen(process.env.PORT || 8080, () => console.log(33));
@@ -219,7 +332,7 @@ app.post('/api/send', (req, res) => {
 
 app.use((req, res, next) => {
 	req.db = appDb;
-	next();
+	next(); // always have next() when using middleware 
 })
 
 app.post('/api/submit-form', function (req, res) {
@@ -327,34 +440,41 @@ function runIT(lat, long, callback) {
 // });
 
 
-// PDF KIT 
+function createPDF(fileName) {
+	// PDF KIT 
 
 
-const PDFDocument = require('pdfkit');
-// const blobStream  = require('blob-stream');
- 
-// create a document the same way as above
-const doc = new PDFDocument();
- 
-// pipe the document to a blob
-// const stream = doc.pipe(blobStream());  
+	const PDFDocument = require('pdfkit');
+	// const blobStream  = require('blob-stream');
+	 
+	// create a document the same way as above
+	const doc = new PDFDocument();
+	 
+	// pipe the document to a blob
+	// const stream = doc.pipe(blobStream());  
 
-// Pipe its output somewhere, like to a file or HTTP response
-// See below for browser usage
-doc.pipe(fs.createWriteStream('outputTwo.pdf'));
-// doc.pipe(res); 
+	// Pipe its output somewhere, like to a file or HTTP response
+	// See below for browser usage
+	doc.pipe(fs.createWriteStream(fileName + ".pdf"));
+	// doc.pipe(res); 
 
 
-// Embed a font, set the font size, and render some text
-doc.fontSize(25)
-   .text('Some text with an embedded font!', 100, 100);
+	// Embed a font, set the font size, and render some text
+	doc.fontSize(25)
+	   .text('Some text with an embedded font!', 100, 100);
 
-// Add an image, constrain it to a given size, and center it vertically and horizontally
-doc.image('/Users/mayerseidman/Desktop/imageFile.png', {
-   fit: [250, 300],
-   align: 'center',
-   valign: 'center'
-});
+	// Add an image, constrain it to a given size, and center it vertically and horizontally
+	doc.image('/Users/mayerseidman/Desktop/imageFile.png', {
+	   fit: [250, 300],
+	   align: 'center',
+	   valign: 'center'
+	});
+
+	doc.end();
+	return fileName;
+}
+
+
 
 // Add another page
 // doc.addPage()
@@ -385,7 +505,7 @@ doc.image('/Users/mayerseidman/Desktop/imageFile.png', {
 // add your content to the document here, as usual
  
 // get a blob when you're done
-doc.end()
+
 // stream.on('finish', function() {
 //   // get a blob you can do whatever you like with
 //   const blob = stream.toBlob('application/pdf');
