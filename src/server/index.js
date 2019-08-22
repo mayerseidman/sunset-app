@@ -229,7 +229,6 @@ var methodTwo = function(returnedPDF) {
 // console.log(createdPDF)
 // const createdImage = await createImage(createPDF);
 // pass image in as mediaURL to Twilio
- 
 
 
   
@@ -243,31 +242,40 @@ const client = require('twilio')(accountSid, authToken);
 	const users = appDb.get('users')
 	users.find().then((result)=>{
 		result.forEach(user => {
-			// runIT(user.lat, user.long, (quality)=>{
+			runIT(user.lat, user.long, (quality)=>{
 				let phoneNumber = user.phone_number;
+				var momentDate = moment(quality.valid_at).format("H:mm");
 				methodOne(user._id)
    				.then(methodTwo).then((result)=>{
    					console.log("image", result)
+   					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}`;
    					client.messages
 			  			.create({
+			  		body: message, 
 			    	from: '+14123125983',
-			    	to: phoneNumber,
-			    	mediaUrl: "https://922a20ed.ngrok.io/5d437f2da80f0f233b3ab2d9.pdf",
-			    	contentType: "pdf"
+			    	to: phoneNumber
 					})
-					.then(message => console.log("IT WORKED: ", message));	
-   				})
-				
-			// })
+					.then(message => console.log("IT WORKED: ", message.subresourceUris.media));	
+   				})	
+			})
 		})
-	})
-// });  
+	}) 
+// });
+
+
+// client.messages.create({ 
+//     to: "+14124273243", 
+//     from: '+14123125983', 
+//     body: "Hey Jenny! Good luck on the bar exam!", 
+//     mediaUrl: "http://farm2.static.flickr.com/1075/1404618563_3ed9a44a3a.jpg"
+//  }, function(err, message) { 
+//     console.log(message.sid); 
+//  });  
 
 
 app.listen(process.env.PORT || 8080, () => console.log(33));
 
-
-
+// SUNSETWX work goes here...
 
 const sunsetwx = new SunsetWx({
 	email: 'mzseidman@gmail.com',
@@ -279,6 +287,12 @@ function convertUTCDateToLocalDate(date) {
     newDate.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return newDate;
 }
+
+//  runIT(32.7157, -117.1611, (quality)=>{
+//  	var momentDate = moment(quality.valid_at);
+//  	console.log(momentDate.format("H:mm"))
+// 	// console.log(convertUTCDateToLocalDate(new Date(quality.valid_at)));
+// })
 
 // San Diego = 32.7157, -117.1611
 

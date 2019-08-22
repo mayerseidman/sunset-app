@@ -93,6 +93,9 @@ export default class SunsetTracker extends Component {
         this.setState({ pictures: city })
     }
 
+
+    // FOMS - fear of missing a sunset
+
     componentDidMount() {
         if ("geolocation" in navigator) {
           /* geolocation is available */
