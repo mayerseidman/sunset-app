@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import './../css/app.css';
 import SunsetPhoneImage from './phone-view.png';
+import toaster from 'toasted-notes';
+import 'toasted-notes/src/styles.css';
 const _ = require('underscore')
 
 export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
         this.state = { pictures: [], username: null, imgName: null, results: null, 
-            showSunsetInfo: false, sunsetInfo: null };
+            showSunsetInfo: false, sunsetInfo: null, errorPhoneNumber: false, submissionSuccess: false };
     }
 
     showSunsetInfo() {
@@ -37,50 +39,53 @@ export default class SunsetTracker extends Component {
     }
 
     submitInfo() {
-        // var errors = ....
-        // if (true) {
-        //     errors.push()
-        // } else if (true) {
-        //     errors.push()
-        // }
-
-        // if (errors.length > 0) {
-
-        // } else {
-        //     SUBMIT HERE
-        // }
         if ("geolocation" in navigator) {
           /* geolocation is available */
-            navigator.geolocation.getCurrentPosition(function(position) {
-                console.log(position.coords.latitude, position.coords.longitude)
-                var lat = position.coords.latitude;
-                var long = position.coords.longitude;
-
-                fetch('/api/submit-form', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        user: {
-                            phone_number: this.refs.phone_number.value,
-                            lat: lat,
-                            long: long
-                        }
-                    })
-                });
-            }.bind(this))
+            // navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = this.state.lat;
+                var long = this.state.long;
+                var phoneNumber = this.refs.phone_number.value.trim()
+                var phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
+                console.log(lat, long)
+                
+                if (!phoneNumber.match(phoneRegEx)) {
+                    this.setState({ errorPhoneNumber: true })
+                }
+                if (this.state.errorPhoneNumber) {
+                    console.log("Problems")
+                } else {
+                    console.log("ALL GROOVY")
+                    this.setState({ submissionSuccess: true })
+                   // fetch('/api/submit-form', {
+                   //     method: 'POST',
+                   //     headers: {
+                   //         'Content-Type': 'application/json'
+                   //     },
+                   //     body: JSON.stringify({
+                   //         user: {
+                   //             phone_number: phoneNumber,
+                   //             lat: this.state.lat,
+                   //             long: this.state.long
+                   //         }
+                   //     })
+                   // })
+                }
+            // }.bind(this))
         } else {
           /* geolocation IS NOT available */
         }
-        
-        console.log("SUBMITTED", this.refs.phone_number.value)
     }
 
-    findCoordinates() {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            console.log("Lat: " + position.coords.latitude, "Long: " + position.coords.longitude)
-        })
+    findMyCoordinates() {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const long = position.coords.longitude;
+                this.setState({ lat: lat, long: long  })
+            }.bind(this))
+        } else {
+
+        }
     }
 
     showRandomSunset() {
@@ -97,21 +102,21 @@ export default class SunsetTracker extends Component {
     // FOMS - fear of missing a sunset
 
     componentDidMount() {
-        if ("geolocation" in navigator) {
-          /* geolocation is available */
-          console.log("GEOOOOOO")
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var lat = position.coords.latitude;
-                var long = position.coords.longitude;
-                this.sendIT(lat, long);
-            }.bind(this))
-        } else {
-          /* geolocation IS NOT available */
-        }
+    //     if ("geolocation" in navigator) {
+    //       /* geolocation is available */
+    //       console.log("GEOOOOOO")
+    //         navigator.geolocation.getCurrentPosition(function(position) {
+    //             var lat = position.coords.latitude;
+    //             var long = position.coords.longitude;
+    //             this.sendIT(lat, long);
+    //         }.bind(this))
+    //     } else {
+    //       /* geolocation IS NOT available */
+    //     }
 
-        fetch('/api/getUsername')
-        .then(res => res.json())
-        .then(user => this.setState({ username: user.username }));
+    //     fetch('/api/getUsername')
+    //     .then(res => res.json())
+    //     .then(user => this.setState({ username: user.username }));
     }
 
     render() {
@@ -121,6 +126,21 @@ export default class SunsetTracker extends Component {
         } else {
             var viewLink = (<a onClick={ this.showSunsetInfo.bind(this) }>Show Info</a>)
         }
+
+        if (this.state.errorPhoneNumber) {
+            var errorText = (<p>Error HERE with phone number!</p>)
+        }
+        var readyForSubmit = this.state.lat && this.state.long && !this.state.errorPhoneNumber
+        if (readyForSubmit) {
+            var submitButton = (
+                <button onClick={ this.submitInfo.bind(this) }>Send Sunsets</button>
+            )
+        }
+
+        const className = this.state.submissionSuccess ? 'success' : 'hidden'
+        var notificationText = (
+            <p className={ "notificationText " + className }>You -DID ITTTTTTT</p>    
+        )
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
@@ -136,16 +156,17 @@ export default class SunsetTracker extends Component {
                         </div>
                     </div>        
                     <div className="rightContainer">
+                        { notificationText }                        
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
+                        { errorText }
                         <input type="text" ref="phone_number" placeholder="phone number..."/>
-                        <input type="text" ref="location" placeholder="timezone..." /> 
-                        <button onClick={ this.submitInfo.bind(this) }>Send Sunsets</button>
+                        <button onClick={ this.findMyCoordinates.bind(this) }>Find Coordinates</button>
+                        { submitButton }
                     </div>
                 </div>
                 { viewLink }
                 { sunsetInfo }
-                <button onClick={ this.findCoordinates.bind(this) }>Find Coordinates</button>
             </div>
         );
     }

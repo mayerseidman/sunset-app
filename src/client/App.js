@@ -3,11 +3,18 @@ import './../css/app.css';
 import CityDevelopments from './CityDevelopments';
 import SunsetTracker from './SunsetTracker';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import toaster from 'toasted-notes';
 
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = { username: null };
+    }
+
+    componentDidMount() {
+        toaster.notify((<div className="notifyMe">Hi there</div>), {
+            duration: 8000
+        })
     }
 
     render() {

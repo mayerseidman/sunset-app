@@ -37,6 +37,7 @@
     "react-router-dom": "^5.0.1",
     "sunrise-sunset-js": "^2.1.0",
     "tether": "^1.4.7",
+    "toasted-notes": "^2.1.6",
     "twilio": "^3.33.1",
     "underscore": "^1.9.1"
   },

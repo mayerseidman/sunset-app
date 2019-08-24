@@ -1,6 +1,36 @@
 h1 {
   color: green; }
 
+.Toaster__manager-top {
+  position: absolute;
+  bottom: 500px !important; }
+
+.notifyMe {
+  position: relative;
+  top: 150px; }
+
+.fade-in {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 5s; }
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.success {
+  color: green;
+  transition: opacity 0.85s;
+  opacity: 1; }
+
+.hidden {
+  opacity: 0;
+  pointer-events: none; }
+
 body {
   font-size: 18px; }
 
