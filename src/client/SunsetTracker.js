@@ -47,28 +47,35 @@ export default class SunsetTracker extends Component {
                 var phoneNumber = this.refs.phone_number.value.trim()
                 var phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
                 console.log(lat, long)
-                
-                if (!phoneNumber.match(phoneRegEx)) {
+                const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
+                if (invalidPhoneNumber) {
                     this.setState({ errorPhoneNumber: true })
-                }
-                if (this.state.errorPhoneNumber) {
-                    console.log("Problems")
                 } else {
                     console.log("ALL GROOVY")
                     this.setState({ submissionSuccess: true })
-                   // fetch('/api/submit-form', {
-                   //     method: 'POST',
-                   //     headers: {
-                   //         'Content-Type': 'application/json'
-                   //     },
-                   //     body: JSON.stringify({
-                   //         user: {
-                   //             phone_number: phoneNumber,
-                   //             lat: this.state.lat,
-                   //             long: this.state.long
-                   //         }
-                   //     })
-                   // })
+                    // fetch("/api/sendIntroductoryText", {
+                    //     method: 'POST',
+                    //     body: JSON.stringify({ phoneNumber: phoneNumber }), // stringify JSON
+                    //     headers: new Headers({ "Content-Type": "application/json" }) // add headers
+                    // }).then(res => res.json().then(console.log("BATMAN!!")))
+                    // setTimeout(() => {
+                    //     this.setState({ 
+                    //         submissionSuccess: false     
+                    //     });
+                    // }, 3000)
+                   fetch('/api/submit-form', {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json'
+                       },
+                       body: JSON.stringify({
+                           user: {
+                               phone_number: phoneNumber,
+                               lat: this.state.lat,
+                               long: this.state.long
+                           }
+                       })
+                   })
                 }
             // }.bind(this))
         } else {
@@ -102,21 +109,21 @@ export default class SunsetTracker extends Component {
     // FOMS - fear of missing a sunset
 
     componentDidMount() {
-    //     if ("geolocation" in navigator) {
-    //       /* geolocation is available */
-    //       console.log("GEOOOOOO")
-    //         navigator.geolocation.getCurrentPosition(function(position) {
-    //             var lat = position.coords.latitude;
-    //             var long = position.coords.longitude;
-    //             this.sendIT(lat, long);
-    //         }.bind(this))
-    //     } else {
-    //       /* geolocation IS NOT available */
-    //     }
+        // if ("geolocation" in navigator) {
+        //   /* geolocation is available */
+        //   console.log("GEOOOOOO")
+        //     navigator.geolocation.getCurrentPosition(function(position) {
+        //         var lat = position.coords.latitude;
+        //         var long = position.coords.longitude;
+        //         this.sendIT(lat, long);
+        //     }.bind(this))
+        // } else {
+        //   /* geolocation IS NOT available */
+        // }
 
-    //     fetch('/api/getUsername')
-    //     .then(res => res.json())
-    //     .then(user => this.setState({ username: user.username }));
+        fetch('/api/getUsername')
+        .then(res => res.json())
+        .then(user => this.setState({ username: user.username }));
     }
 
     render() {
@@ -130,7 +137,7 @@ export default class SunsetTracker extends Component {
         if (this.state.errorPhoneNumber) {
             var errorText = (<p>Error HERE with phone number!</p>)
         }
-        var readyForSubmit = this.state.lat && this.state.long && !this.state.errorPhoneNumber
+        var readyForSubmit = this.state.lat && this.state.long;
         if (readyForSubmit) {
             var submitButton = (
                 <button onClick={ this.submitInfo.bind(this) }>Send Sunsets</button>

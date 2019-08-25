@@ -24,12 +24,25 @@ h1 {
 
 .success {
   color: green;
-  transition: opacity 0.85s;
-  opacity: 1; }
+  -webkit-animation: fadeinout 5s linear forwards;
+  animation: fadeinout 5s linear forwards; }
+
+@-webkit-keyframes fadeinout {
+  0%, 100% {
+    opacity: 0; }
+  50% {
+    opacity: 1; } }
+
+@keyframes fadeinout {
+  0%, 100% {
+    opacity: 0; }
+  50% {
+    opacity: 1; } }
 
 .hidden {
   opacity: 0;
-  pointer-events: none; }
+  /*transition: all 250ms linear;
+  pointer-events:none;*/ }
 
 body {
   font-size: 18px; }

@@ -251,10 +251,12 @@ const client = require('twilio')(accountSid, authToken);
    					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}`;
    					client.messages
 			  			.create({
-			  		body: message, 
-			    	from: '+14123125983',
-			    	to: phoneNumber
-					})
+			  				body: message, 
+			    			from: '+14123125983',
+			    			to: phoneNumber,
+			    			mediaUrl: "https://2e08c817.ngrok.io/imageFile.png",
+			    			contentType: "image/png"
+						})
 					.then(message => console.log("IT WORKED: ", message.subresourceUris.media));	
    				})	
 			})
@@ -295,6 +297,11 @@ function convertUTCDateToLocalDate(date) {
 // })
 
 // San Diego = 32.7157, -117.1611
+
+app.post('/api/sendIntroductoryText', (req, res) => {
+	const phoneNumber = req.body.phoneNumber;
+	console.log(phoneNumber)
+})
 
 app.post('/api/send', (req, res) => {
 	const lat = req.body.lat,
@@ -355,11 +362,11 @@ app.post('/api/submit-form', function (req, res) {
 	const lat = req.body.user.lat;
 	const long = req.body.user.long;
 	
-	const users = req.db.get('users');
-	users.find({}).then((result)=>{
-		// console.log("Result from MONK", result[0].phone_number)
-		console.log("Result from MONK", result)
-	})
+	// const users = req.db.get('users');
+	// users.find({}).then((result)=>{
+	// 	// console.log("Result from MONK", result[0].phone_number)
+	// 	console.log("Result from MONK", result)
+	// })
 	
 	// mongodb.MongoClient.connect('mongodb://localhost:27017', (err, client)=>{
 	// 	        // delete req.body._id; // for safety reasons
@@ -371,6 +378,14 @@ app.post('/api/submit-form', function (req, res) {
 	// 	 		console.log("data inserted", result)
 	// 	 })   
  //   });
+ 	const message = "This is your intro TEXT...Text 'Stop' at any time to stop receving SUNS°ET forecasts."
+ 	client.messages
+		.create({
+ 			body: message, 
+ 			from: '+14123125983',
+ 			to: phoneNumber
+ 		})
+ 	.then(message => console.log("IT WORKED: ", message.subresourceUris.media));
     res.send('Data received:\n' + JSON.stringify(req.body));
 });
 
