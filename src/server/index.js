@@ -239,29 +239,37 @@ const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
 const client = require('twilio')(accountSid, authToken);
 
 // schedule.scheduleJob('53 * * * *', function(){
+	console.log("RRRRRR") 
 	const users = appDb.get('users')
-	users.find().then((result)=>{
-		result.forEach(user => {
-			runIT(user.lat, user.long, (quality)=>{
-				let phoneNumber = user.phone_number;
-				var momentDate = moment(quality.valid_at).format("H:mm");
-				methodOne(user._id)
-   				.then(methodTwo).then((result)=>{
-   					console.log("image", result)
-   					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}`;
-   					client.messages
-			  			.create({
-			  				body: message, 
-			    			from: '+14123125983',
-			    			to: phoneNumber,
-			    			mediaUrl: "https://2e08c817.ngrok.io/imageFile.png",
-			    			contentType: "image/png"
-						})
-					.then(message => console.log("IT WORKED: ", message.subresourceUris.media));	
-   				})	
-			})
-		})
-	}) 
+	users.aggregate(
+		{"$group" : { "_id": "$phone_number", "count": { "$sum": 1 } } },
+		{"$match": {"_id" :{ "$ne" : null } , "count" : {"$gt": 1} } },
+		{"$project": {"phone_number" : "$_id", "_id" : 0} }
+	).then((result) => {
+		console.log(result)
+	});
+	// users.find().then((result)=>{
+	// 	result.forEach(user => {
+	// 		runIT(user.lat, user.long, (quality)=>{
+	// 			let phoneNumber = user.phone_number;
+	// 			var momentDate = moment(quality.valid_at).format("H:mm");
+	// 			methodOne(user._id)
+ //   				.then(methodTwo).then((result)=>{
+ //   					console.log("image", result)
+ //   					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}`;
+ //   					client.messages
+	// 		  			.create({
+	// 		  				body: message, 
+	// 		    			from: '+14123125983',
+	// 		    			to: phoneNumber,
+	// 		    			mediaUrl: `http://48fe5bb5.ngrok.io/${result}`,
+	// 		    			contentType: "image/png"
+	// 					})
+	// 				.then(message => console.log("IT WORKED: ", message.subresourceUris.media));	
+ //   				})	
+	// 		})
+	// 	})
+	// }) 
 // });
 
 

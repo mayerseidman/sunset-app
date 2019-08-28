@@ -109,17 +109,17 @@ export default class SunsetTracker extends Component {
     // FOMS - fear of missing a sunset
 
     componentDidMount() {
-        // if ("geolocation" in navigator) {
-        //   /* geolocation is available */
-        //   console.log("GEOOOOOO")
-        //     navigator.geolocation.getCurrentPosition(function(position) {
-        //         var lat = position.coords.latitude;
-        //         var long = position.coords.longitude;
-        //         this.sendIT(lat, long);
-        //     }.bind(this))
-        // } else {
-        //   /* geolocation IS NOT available */
-        // }
+        if ("geolocation" in navigator) {
+          /* geolocation is available */
+          console.log("GEOOOOOO")
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var long = position.coords.longitude;
+                this.sendIT(lat, long);
+            }.bind(this)) 
+        } else {
+          /* geolocation IS NOT available */
+        }
 
         fetch('/api/getUsername')
         .then(res => res.json())
