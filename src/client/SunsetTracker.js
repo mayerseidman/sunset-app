@@ -9,7 +9,8 @@ export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
         this.state = { pictures: [], username: null, imgName: null, results: null, 
-            showSunsetInfo: false, sunsetInfo: null, errorPhoneNumber: false, submissionSuccess: false };
+            showSunsetInfo: false, sunsetInfo: null, errorPhoneNumber: false, errorDuplicatePhoneNumber: false,
+            submissionSuccess: false };
     }
 
     showSunsetInfo() {
@@ -75,7 +76,7 @@ export default class SunsetTracker extends Component {
                                long: this.state.long
                            }
                        })
-                   })
+                   }).then(res => res.json().then(value => this.setState({ errorDuplicatePhoneNumber: value.error })))
                 }
             // }.bind(this))
         } else {
@@ -108,23 +109,23 @@ export default class SunsetTracker extends Component {
 
     // FOMS - fear of missing a sunset
 
-    componentDidMount() {
-        if ("geolocation" in navigator) {
-          /* geolocation is available */
-          console.log("GEOOOOOO")
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var lat = position.coords.latitude;
-                var long = position.coords.longitude;
-                this.sendIT(lat, long);
-            }.bind(this)) 
-        } else {
-          /* geolocation IS NOT available */
-        }
+    // componentDidMount() {
+    //     if ("geolocation" in navigator) {
+    //       /* geolocation is available */
+    //       console.log("GEOOOOOO")
+    //         navigator.geolocation.getCurrentPosition(function(position) {
+    //             var lat = position.coords.latitude;
+    //             var long = position.coords.longitude;
+    //             this.sendIT(lat, long);
+    //         }.bind(this)) 
+    //     } else {
+    //       /* geolocation IS NOT available */
+    //     }
 
-        fetch('/api/getUsername')
-        .then(res => res.json())
-        .then(user => this.setState({ username: user.username }));
-    }
+    //     fetch('/api/getUsername')
+    //     .then(res => res.json())
+    //     .then(user => this.setState({ username: user.username }));
+    // }
 
     render() {
         if (this.state.showSunsetInfo) {

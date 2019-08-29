@@ -25,6 +25,7 @@ const NodeGeocoder = require('node-geocoder');
 
 const schedule = require('node-schedule');
 const mongodb = require('mongodb');
+const _ = require('underscore')
 
 app.use(express.static('dist'));
 
@@ -240,14 +241,6 @@ const client = require('twilio')(accountSid, authToken);
 
 // schedule.scheduleJob('53 * * * *', function(){
 	console.log("RRRRRR") 
-	const users = appDb.get('users')
-	users.aggregate(
-		{"$group" : { "_id": "$phone_number", "count": { "$sum": 1 } } },
-		{"$match": {"_id" :{ "$ne" : null } , "count" : {"$gt": 1} } },
-		{"$project": {"phone_number" : "$_id", "_id" : 0} }
-	).then((result) => {
-		console.log(result)
-	});
 	// users.find().then((result)=>{
 	// 	result.forEach(user => {
 	// 		runIT(user.lat, user.long, (quality)=>{
@@ -280,7 +273,27 @@ const client = require('twilio')(accountSid, authToken);
 //     mediaUrl: "http://farm2.static.flickr.com/1075/1404618563_3ed9a44a3a.jpg"
 //  }, function(err, message) { 
 //     console.log(message.sid); 
-//  });  
+//  });
+
+function checkForExistingUsers(phoneNumber) {
+	const users = appDb.get('users')
+	const hasNoDuplicate = users.find({ phone_number: phoneNumber 
+	}).then((result) => {
+		return _.isEmpty(result)
+	})
+
+	return hasNoDuplicate
+
+	// users.aggregate(
+	// 	{"$group" : { "_id": "$phone_number", "count": { "$sum": 1 } } },
+	// 	{"$match": {"_id" :{ "$ne" : null } , "count" : {"$gt": 1} } },
+	// 	{"$project": {"phone_number" : "$_id", "_id" : 0} }
+	// ).then((result) => {
+	// 	console.log(result)
+	// 	var existsInSystem = _.filter(result, function(user){ return user.count >= 1; });
+	// 	console.log(_.isEmpty(existsInSystem))
+	// });
+}
 
 
 app.listen(process.env.PORT || 8080, () => console.log(33));
@@ -369,6 +382,15 @@ app.post('/api/submit-form', function (req, res) {
 	const location = req.body.user.location;
 	const lat = req.body.user.lat;
 	const long = req.body.user.long;
+
+	checkForExistingUsers(phoneNumber).then(function(result) {
+		if (!result) {
+			console.log("WE GOT A DUPLICATE!!")
+			res.send({ error: true });
+		} else {
+			console.log("Phone number is all 'CLEAR")
+		}
+	});
 	
 	// const users = req.db.get('users');
 	// users.find({}).then((result)=>{
@@ -386,15 +408,17 @@ app.post('/api/submit-form', function (req, res) {
 	// 	 		console.log("data inserted", result)
 	// 	 })   
  //   });
- 	const message = "This is your intro TEXT...Text 'Stop' at any time to stop receving SUNS°ET forecasts."
- 	client.messages
-		.create({
- 			body: message, 
- 			from: '+14123125983',
- 			to: phoneNumber
- 		})
- 	.then(message => console.log("IT WORKED: ", message.subresourceUris.media));
-    res.send('Data received:\n' + JSON.stringify(req.body));
+
+
+ 	// const message = "This is your intro TEXT...Text 'Stop' at any time to stop receving SUNS°ET forecasts."
+ 	// client.messages
+		// .create({
+ 	// 		body: message, 
+ 	// 		from: '+14123125983',
+ 	// 		to: phoneNumber
+ 	// 	})
+ 	// .then(message => console.log("IT WORKED: ", message.subresourceUris.media));
+    // res.send('Data received:\n' + JSON.stringify(req.body));
 });
 
 // function grabValue(value) {
