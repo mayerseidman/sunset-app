@@ -9,6 +9,11 @@ h1 {
   position: relative;
   top: 150px; }
 
+.phoneNumberField {
+  width: 40% !important;
+  display: inline-block !important;
+  margin-right: 15px; }
+
 .fade-in {
   opacity: 1;
   animation-name: fadeInOpacity;
@@ -26,6 +31,15 @@ h1 {
   color: green;
   -webkit-animation: fadeinout 5s linear forwards;
   animation: fadeinout 5s linear forwards; }
+
+.errorDisplay {
+  position: relative;
+  bottom: 5px; }
+  .errorDisplay .errorContent {
+    color: #c9302c;
+    margin-right: 5px; }
+  .errorDisplay .closeLink {
+    cursor: pointer; }
 
 @-webkit-keyframes fadeinout {
   0%, 100% {

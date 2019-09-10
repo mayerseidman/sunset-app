@@ -85,13 +85,13 @@ function createImage(pdfFile) {
 	  savename: pdfFile,   // output file name
 	  savedir: path.dirname(file),    // output file location
 	  format: "png",          // output file format
-	  size: "600x600"         // output size in pixels
+	  size: "1000x1000"         // output size in pixels
 	});
 	 
 	pdf2pic.convert(file).then((resolve) => {
 	  console.log("image converter successfully!", resolve.name);
 	});
-	return pdfFile + "_1.png"
+	return pdfFile + "_1.png" 
 }
 
 
@@ -134,18 +134,11 @@ function createImage(pdfFile) {
 // }
 
 
-// async function msg() {
-// 	const pdf = createPDF("dad-bodd")
-// 	// only want to call produceImage once the pdf is returned from createPDF function
-// 	const createdImage = await produceImage(pdf)
-// }
-
-
-var methodOne = function(fileName) {
+var methodOne = function(fileName, quality, time) {
    var promise = new Promise(function(resolve, reject){
       setTimeout(function() {
         console.log('first method completed');
-        resolve(createPDF(fileName));
+        resolve(createPDF(fileName, quality, time));
       }, 2000);
    });
    return promise;
@@ -214,19 +207,6 @@ var methodTwo = function(returnedPDF) {
 //    .then(thirdMethod);
 
 
-// const owner = await getOwner(issue.ownerId)
-
-
-// msg();
-
-// const fileName = createPDF("outputFive");
-// createImage("outputFive.pdf")
-
-// setTimeout(() => {
-// 	const createdImage = createImage("outputFive.pdf")
-// }, 2000);
-
-
 // console.log(createdPDF)
 // const createdImage = await createImage(createPDF);
 // pass image in as mediaURL to Twilio
@@ -238,31 +218,32 @@ var methodTwo = function(returnedPDF) {
 const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
 const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
 const client = require('twilio')(accountSid, authToken);
+const users = appDb.get('users');
 
 // schedule.scheduleJob('53 * * * *', function(){
-	console.log("RRRRRR") 
-	// users.find().then((result)=>{
-	// 	result.forEach(user => {
-	// 		runIT(user.lat, user.long, (quality)=>{
-	// 			let phoneNumber = user.phone_number;
-	// 			var momentDate = moment(quality.valid_at).format("H:mm");
-	// 			methodOne(user._id)
- //   				.then(methodTwo).then((result)=>{
- //   					console.log("image", result)
- //   					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}`;
- //   					client.messages
-	// 		  			.create({
-	// 		  				body: message, 
-	// 		    			from: '+14123125983',
-	// 		    			to: phoneNumber,
-	// 		    			mediaUrl: `http://48fe5bb5.ngrok.io/${result}`,
-	// 		    			contentType: "image/png"
-	// 					})
-	// 				.then(message => console.log("IT WORKED: ", message.subresourceUris.media));	
- //   				})	
-	// 		})
-	// 	})
-	// }) 
+	console.log("RUNNINGG") 
+	users.find().then((result)=>{
+		result.forEach(user => {
+			runIT(user.lat, user.long, (quality)=>{
+				let phoneNumber = user.phone_number;
+				var momentDate = moment(quality.valid_at).format("H:mm");
+				methodOne(user._id, quality, momentDate)
+   				.then(methodTwo).then((result)=>{
+   					console.log("image", result)
+   					// const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}`;
+   					client.messages
+			  			.create({
+			  				// body: message, 
+			    			from: '+14123125983',
+			    			to: phoneNumber,
+			    			mediaUrl: `https://dfdf5139.ngrok.io/${result}`,
+			    			contentType: "image/png"
+						})
+					.then(message => console.log("IT WORKED: ", message.subresourceUris.media));	
+   				})	
+			})
+		})
+	}) 
 // });
 
 
@@ -277,12 +258,12 @@ const client = require('twilio')(accountSid, authToken);
 
 function checkForExistingUsers(phoneNumber) {
 	const users = appDb.get('users')
-	const hasNoDuplicate = users.find({ phone_number: phoneNumber 
+	const hasDuplicate = users.find({ phone_number: phoneNumber 
 	}).then((result) => {
 		return _.isEmpty(result)
 	})
 
-	return hasNoDuplicate
+	return hasDuplicate
 
 	// users.aggregate(
 	// 	{"$group" : { "_id": "$phone_number", "count": { "$sum": 1 } } },
@@ -310,12 +291,6 @@ function convertUTCDateToLocalDate(date) {
     newDate.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return newDate;
 }
-
-//  runIT(32.7157, -117.1611, (quality)=>{
-//  	var momentDate = moment(quality.valid_at);
-//  	console.log(momentDate.format("H:mm"))
-// 	// console.log(convertUTCDateToLocalDate(new Date(quality.valid_at)));
-// })
 
 // San Diego = 32.7157, -117.1611
 
@@ -421,11 +396,6 @@ app.post('/api/submit-form', function (req, res) {
     // res.send('Data received:\n' + JSON.stringify(req.body));
 });
 
-// function grabValue(value) {
-// 	console.log(value.quality_percent)
-// 	return value.quality_percent;
-// }
-
 function runIT(lat, long, callback) {
 	const coordsString = '' + long + ',' + lat + '';
 	sunsetwx.quality({
@@ -501,14 +471,13 @@ function runIT(lat, long, callback) {
 // });
 
 
-function createPDF(fileName) {
+function createPDF(fileName, quality, time) {
 	// PDF KIT 
-
-
-	const PDFDocument = require('pdfkit');
+	console.log(quality, time)
+	const PDFDocument = require('pdfkit'); 
 	// const blobStream  = require('blob-stream');
 	 
-	// create a document the same way as above
+	// create a document 
 	const doc = new PDFDocument();
 	 
 	// pipe the document to a blob
@@ -516,20 +485,34 @@ function createPDF(fileName) {
 
 	// Pipe its output somewhere, like to a file or HTTP response
 	// See below for browser usage
-	doc.pipe(fs.createWriteStream(fileName + ".pdf"));
+	doc.pipe(fs.createWriteStream(fileName + ".pdf")); 
 	// doc.pipe(res); 
 
 
 	// Embed a font, set the font size, and render some text
-	doc.fontSize(25)
-	   .text('Some text with an embedded font!', 100, 100);
+	
 
 	// Add an image, constrain it to a given size, and center it vertically and horizontally
-	doc.image('/Users/mayerseidman/Desktop/imageFile.png', {
-	   fit: [250, 300],
-	   align: 'center',
-	   valign: 'center'
-	});
+	doc.image('./testImageNoBorder.png', 0, 17, {width: 612, height: 775}); 
+	doc.moveDown(6);
+	doc.fontSize(48)
+	   .text('SAN DIEGO', {align: "center"});
+	doc.fontSize(18)
+	doc.moveDown(0.5).text('Sunset: ' + time + ' pm    |    ' + quality.temperature + '° c', {align: "center"})
+	doc.moveDown(2.25).fontSize(36).text("Sunset Quality", {align: "center"})
+	doc.moveDown(0.4).fontSize(46).font('Times-Bold').text("" + quality.quality + "  ", 220, 340)
+	doc.fontSize(18).font("Times-Roman").text('(' + quality.quality_percent + '%)', 330, 360)
+
+	// Fit the image within the dimensions
+	// doc.image('/Users/mayerseidman/Desktop/imageFile.png', 320, 15, {fit: [100, 100]})
+	//    .rect(320, 15, 100, 100)
+	//    .stroke()
+	//    .text('Fit', 320, 0);
+
+	// Scale the image
+	// doc.image('./testImage.png', 100, 100)
+		// .text('Scale', 320, 265)
+	 //   .text('Lots', 100, 400);
 
 	doc.end();
 	return fileName;

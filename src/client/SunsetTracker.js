@@ -3,14 +3,14 @@ import './../css/app.css';
 import SunsetPhoneImage from './phone-view.png';
 import toaster from 'toasted-notes';
 import 'toasted-notes/src/styles.css';
+import ErrorDisplay from './ErrorDisplay';
 const _ = require('underscore')
 
 export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
         this.state = { pictures: [], username: null, imgName: null, results: null, 
-            showSunsetInfo: false, sunsetInfo: null, errorPhoneNumber: false, errorDuplicatePhoneNumber: false,
-            submissionSuccess: false };
+            showSunsetInfo: false, sunsetInfo: null, ssubmissionSuccess: false };
     }
 
     showSunsetInfo() {
@@ -43,17 +43,21 @@ export default class SunsetTracker extends Component {
         if ("geolocation" in navigator) {
           /* geolocation is available */
             // navigator.geolocation.getCurrentPosition(function(position) {
+                this.refs.errors.reset();
+                var errors = [];
+
                 var lat = this.state.lat;
                 var long = this.state.long;
-                var phoneNumber = this.refs.phone_number.value.trim()
+                var phoneNumber = this.refs.phone_number.value.replace(/[^\d]/g, '')
                 var phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
                 console.log(lat, long)
                 const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
                 if (invalidPhoneNumber) {
-                    this.setState({ errorPhoneNumber: true })
+                    errors.push("Phone numbers must have 10 digits. Here's a simple format that works: 778-814-5573.")
+                    // this.setState({ errorPhoneNumber: true })
+                    this.refs.errors.setErrors(errors);
                 } else {
-                    console.log("ALL GROOVY")
-                    this.setState({ submissionSuccess: true })
+                    console.log("Phone Number looks groovy")
                     // fetch("/api/sendIntroductoryText", {
                     //     method: 'POST',
                     //     body: JSON.stringify({ phoneNumber: phoneNumber }), // stringify JSON
@@ -76,7 +80,15 @@ export default class SunsetTracker extends Component {
                                long: this.state.long
                            }
                        })
-                   }).then(res => res.json().then(value => this.setState({ errorDuplicatePhoneNumber: value.error })))
+                   }).then(res => res.json().then(function(value) {
+                        console.log(value)
+                        if (value) {
+                            errors.push("Please enter another number. This number is already in our system.")
+                            this.refs.errors.setErrors(errors);
+                        } else {
+                            this.setState({ submissionSuccess: true })
+                        }
+                   }.bind(this)))
                 }
             // }.bind(this))
         } else {
@@ -109,23 +121,23 @@ export default class SunsetTracker extends Component {
 
     // FOMS - fear of missing a sunset
 
-    // componentDidMount() {
-    //     if ("geolocation" in navigator) {
-    //       /* geolocation is available */
-    //       console.log("GEOOOOOO")
-    //         navigator.geolocation.getCurrentPosition(function(position) {
-    //             var lat = position.coords.latitude;
-    //             var long = position.coords.longitude;
-    //             this.sendIT(lat, long);
-    //         }.bind(this)) 
-    //     } else {
-    //       /* geolocation IS NOT available */
-    //     }
+    componentDidMount() {
+        if ("geolocation" in navigator) {
+          /* geolocation is available */
+          console.log("GEOOOOOO")
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var long = position.coords.longitude;
+                this.sendIT(lat, long);
+            }.bind(this)) 
+        } else {
+          /* geolocation IS NOT available */
+        }
 
-    //     fetch('/api/getUsername')
-    //     .then(res => res.json())
-    //     .then(user => this.setState({ username: user.username }));
-    // }
+        fetch('/api/getUsername')
+        .then(res => res.json())
+        .then(user => this.setState({ username: user.username }));
+    }
 
     render() {
         if (this.state.showSunsetInfo) {
@@ -149,6 +161,11 @@ export default class SunsetTracker extends Component {
         var notificationText = (
             <p className={ "notificationText " + className }>You -DID ITTTTTTT</p>    
         )
+        if (!this.state.lat || !this.state.long) {
+            var findCoordinatesButton = (
+                <button onClick={ this.findMyCoordinates.bind(this) }>Find My Location</button>
+            )
+        }
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
@@ -167,9 +184,9 @@ export default class SunsetTracker extends Component {
                         { notificationText }                        
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
-                        { errorText }
-                        <input type="text" ref="phone_number" placeholder="phone number..."/>
-                        <button onClick={ this.findMyCoordinates.bind(this) }>Find Coordinates</button>
+                        <ErrorDisplay ref="errors"/>
+                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
+                        { findCoordinatesButton }
                         { submitButton }
                     </div>
                 </div>
