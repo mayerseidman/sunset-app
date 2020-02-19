@@ -11,11 +11,11 @@ export default class App extends Component {
         this.state = { username: null };
     }
 
-    componentDidMount() {
-        toaster.notify((<div className="notifyMe">Hi there</div>), {
-            duration: 8000
-        })
-    }
+    // componentDidMount() {
+    //     toaster.notify((<div className="notifyMe">Hi there</div>), {
+    //         duration: 8000
+    //     })
+    // }
 
     render() {
         const nav = (

@@ -22,7 +22,24 @@ export default class SunsetTracker extends Component {
         this.setState({ showSunsetInfo: false })
     }
 
-    sendIT(lat, long) {
+    findCoordinates() {
+        if ("geolocation" in navigator) {
+          /* geolocation is available */
+          console.log("GEOOOOOO")
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var long = position.coords.longitude;
+                this.setState({ lat: lat, long: long  })
+                console.log(lat, long)
+                this.sendIT(lat, long)
+            }.bind(this))
+        } else {
+          /* geolocation IS NOT available */
+        }
+    }
+
+    sendIT() {
+        this.setState({ spin: true })
         // var params = "username=mzseidman@gmail.com&password=Victory251&grant_type=password"
         // fetch('api/send', {
         //     method: 'POST',
@@ -35,9 +52,13 @@ export default class SunsetTracker extends Component {
         console.log("send it function")
         fetch("/api/send", {
             method: 'POST',
-            body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
+            body: JSON.stringify({ lat: this.state.lat, long: this.state.long }), // stringify JSON
             headers: new Headers({ "Content-Type": "application/json" }) // add headers
-        }).then(res => res.json().then(sunset => this.setState({ sunsetInfo: JSON.stringify(sunset.quality) })))
+        }).then(res => res.json().then(sunset =>
+            setTimeout(function(){
+                this.setState({ spin :false, sunsetInfo: JSON.stringify(sunset.quality) });
+            }.bind(this),5000))
+        )
     }
 
     submitInfo() {
@@ -123,18 +144,6 @@ export default class SunsetTracker extends Component {
     // FOMS - fear of missing a sunset
 
     componentDidMount() {
-        if ("geolocation" in navigator) {
-          /* geolocation is available */
-          console.log("GEOOOOOO")
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var lat = position.coords.latitude;
-                var long = position.coords.longitude;
-                this.sendIT(lat, long);
-            }.bind(this)) 
-        } else {
-          /* geolocation IS NOT available */
-        }
-
         fetch('/api/getUsername')
         .then(res => res.json())
         .then(user => this.setState({ username: user.username }));
@@ -146,11 +155,18 @@ export default class SunsetTracker extends Component {
     }
 
     render() {
-        if (this.state.showSunsetInfo) {
+        if (this.state.sunsetInfo) {
             var sunsetInfo = (<p>{ this.state.sunsetInfo }</p>)
-            var viewLink = (<a onClick={ this.hideSunsetInfo.bind(this) }>Hide Info</a>)
         } else {
-            var viewLink = (<a onClick={ this.showSunsetInfo.bind(this) }>Show Info</a>)
+            if (this.state.spin) {
+                var imgClassName = "spin";
+            }
+            var images = (
+                <span>
+                    <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
+                    <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
+                </span>
+            )
         }
 
         if (this.state.errorPhoneNumber) {
@@ -172,9 +188,6 @@ export default class SunsetTracker extends Component {
                 <button onClick={ this.findMyCoordinates.bind(this) }>Find My Location</button>
             )
         }
-        if (this.state.spin) {
-            var imgClassName = "spin";
-        }
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
@@ -184,8 +197,8 @@ export default class SunsetTracker extends Component {
                     <p className="subHeader">Further explanation goes here…Further explanation goes here… Further explanation goes here…  how does this work?</p>
                     <div className="leftContainer">
                         <div className="imagesContainer">
-                            <img src={ sunInnerImage } alt="sun-inner" className={ "sunInnerImg " + imgClassName } onClick={ this.spin.bind(this) } />
-                            <img src={ sunOuterImage } alt="sun-outer" className="sunOuterImg" />
+                            { images }
+                            { sunsetInfo }
                         </div>
                         <div className="linksContainer">
                             <a href="">Show My Sunset</a>
@@ -196,14 +209,13 @@ export default class SunsetTracker extends Component {
                         { notificationText }                        
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
+                        <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
                         <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
                         { findCoordinatesButton }
                         { submitButton }
                     </div>
                 </div>
-                { viewLink }
-                { sunsetInfo }
             </div>
         );
     }

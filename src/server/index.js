@@ -300,6 +300,7 @@ app.post('/api/sendIntroductoryText', (req, res) => {
 })
 
 app.post('/api/send', (req, res) => {
+	console.log("show me soomething")
 	const lat = req.body.lat,
 	long = req.body.long;
 	 runIT(lat, long, (quality)=>{

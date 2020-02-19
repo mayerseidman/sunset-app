@@ -10,16 +10,21 @@
         font-size: 40px;
     }
     .middleContainer {
+        font-size: 20px;
+        color: #555;
         .subHeader {
-            width: 55%;
+            width: 70%;
             margin: auto;
             clear: both;
             margin-bottom: 15px;
             margin-top: 15px;
-            font-size: 20px;
-            color: #555;
+        }
+        .leftContainer, .rightContainer {
+            display: inline-block;
+            width: 40%;
         }
         .leftContainer {
+            margin-right: 10%;
             .imagesContainer {
                 position: relative;
                 top: 0;
@@ -46,6 +51,9 @@
                 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
                 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
             }
+        }
+        .rightContainer {
+            vertical-align: top;
         }
     }
 }
