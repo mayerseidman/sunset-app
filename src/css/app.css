@@ -1,3 +1,57 @@
+
+
+.sunsetContainer {
+    .topSection {
+        text-align: center;
+        background: #4A90E2;
+        color: white;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        font-size: 40px;
+    }
+    .middleContainer {
+        .subHeader {
+            width: 55%;
+            margin: auto;
+            clear: both;
+            margin-bottom: 15px;
+            margin-top: 15px;
+            font-size: 20px;
+            color: #555;
+        }
+        .leftContainer {
+            .imagesContainer {
+                position: relative;
+                top: 0;
+                left: 0;
+                .sunInnerImg {
+                    position: absolute;
+                    top: 60px;
+                    left: 60px;
+                    z-index: 1000000;
+                    width: 275px;
+                }
+                .sunOuterImg {
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                    width: 400px;
+                }
+                .spin {
+                    -webkit-animation:spin 4s linear infinite;
+                    -moz-animation:spin 4s linear infinite;
+                    animation:spin 4s linear infinite;
+                }
+                @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+                @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+                @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+            }
+        }
+    }
+}
+
+
+
 h1 {
   color: green; }
 
@@ -34,12 +88,15 @@ h1 {
 
 .errorDisplay {
   position: relative;
-  bottom: 5px; }
+  bottom: 5px; 
+}
   .errorDisplay .errorContent {
     color: #c9302c;
-    margin-right: 5px; }
+    margin-right: 5px; 
+}
   .errorDisplay .closeLink {
-    cursor: pointer; }
+    cursor: pointer; 
+}
 
 @-webkit-keyframes fadeinout {
   0%, 100% {
@@ -70,41 +127,9 @@ body {
   right: 350px; }
   .row .navLink {
     margin-bottom: 15px;
-    display: inline-block; }
+    display: inline-block; 
+  }
 
-.cityContainer {
-  display: inline-block; }
-
-.sunsetContainer .topSection {
-  margin-top: 50px;
-  display: inline-block;
-  text-align: left; }
-  .sunsetContainer .topSection .header {
-    font-size: 32px; }
-  .sunsetContainer .topSection .subHeader {
-    width: 55%; }
-
-.sunsetContainer .middleContainer .leftContainer {
-  width: 43%;
-  display: inline-block;
-  margin-right: 30px; }
-  .sunsetContainer .middleContainer .leftContainer .linksContainer {
-    margin-left: 50px;
-    margin-bottom: 50px; }
-    .sunsetContainer .middleContainer .leftContainer .linksContainer a {
-      display: block; }
-
-.sunsetContainer .middleContainer .rightContainer {
-  width: 43%;
-  display: inline-block;
-  vertical-align: top;
-  margin-top: 95px; }
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', sans-serif; }
 
 .l-site {
   margin: 0 auto;
@@ -462,79 +487,8 @@ input, button, select, textarea {
 
 @media (min-width: 992px) {
   .container {
-    width: 970px; }
+    width: 970px !important; }
   .column {
     width: 50%;
     float: left; } }
 
-@media (min-width: 1200px) {
-  .container {
-    width: 1170px; } }
-
-footer {
-  z-index: 100;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  width: 100%;
-  bottom: 0;
-  left: 0; }
-
-footer p {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 16px;
-  opacity: 0;
-  font-family: 'Open Sans';
-  width: 100%;
-  line-height: 25px;
-  -webkit-transform: translateX(-200px);
-  transform: translateX(-200px);
-  margin: 0; }
-
-footer .authorWindow a {
-  text-decoration: none; }
-
-footer p strong {
-  color: #ff6f5c;
-  margin-left: 5px;
-  cursor: pointer; }
-
-.about-me-img {
-  width: 120px;
-  height: 120px;
-  left: 10px;
-  /* bottom: 30px; */
-  position: relative;
-  border-radius: 100px;
-  border: 1px solid #4A5F67; }
-
-.about-me-img img {
-  margin-top: 10px;
-  margin-left: 5px; }
-
-.authorWindow {
-  width: 560px;
-  background: #292D46;
-  padding: 22px 20px 22px 20px;
-  border-radius: 5px;
-  overflow: hidden; }
-
-.authorWindowWrapper {
-  display: none;
-  left: 110px;
-  bottom: 0;
-  padding-left: 30px;
-  position: absolute; }
-
-.trans {
-  opacity: 1;
-  -webkit-transform: translateX(0px);
-  transform: translateX(0px);
-  transition: all 500ms ease; }
-
-@media screen and (max-width: 680px) {
-  .authorWindow {
-    width: 180px; }
-  .authorWindowWrapper {
-    bottom: -50px; }
-  footer p {
-    font-size: 14px; } }

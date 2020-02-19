@@ -31,7 +31,7 @@ export default class App extends Component {
         )
         const { username } = this.state;
         return (
-            <div className="container">
+            <div>
                 <Router>
                     <div>
                         <Switch>

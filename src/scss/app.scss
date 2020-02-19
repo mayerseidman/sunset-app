@@ -1,14 +1,5 @@
 
 
-h1 {
-  color: green;
-}
-
-.Toaster__manager-top {
-  position: absolute;
-  bottom: 500px !important;
-}
-
 .notifyMe {
   position: relative;
   top: 150px;
@@ -85,45 +76,6 @@ body {
     	margin-bottom: 15px;
     	display: inline-block;
     }
-}
-
-.cityContainer {
-	display: inline-block;
-}
-
-.sunsetContainer {
-	.topSection {
-    margin-top: 50px;
-		display: inline-block;
-		text-align: left;
-		.header {
-			font-size: 32px
-		}
-		.subHeader {
-			width: 55%;
-		}
-	}
-	.middleContainer {
-		.leftContainer {
-			width: 43%;
-			display: inline-block;
-            margin-right: 30px;
-		  img {
-
-			}
-      .linksContainer {
-        margin-left: 50px;
-        margin-bottom: 50px;
-        a { display: block}
-      }
-    }
-		.rightContainer {
-			width: 43%;
-			display: inline-block;
-      vertical-align: top;
-      margin-top: 95px;
-		}
-	}
 }
 
 
@@ -388,18 +340,6 @@ body {
   color: #fff;
 }
 
-h1 {
-  font-family: 'Amatic SC', cursive;
-}
-
-html, body, div, span, applet, object, iframe, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, nav ul, nav li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -536,11 +476,11 @@ input, button, select, textarea {
 }
 
 
-@media (min-width: 1200px){
+/*@media (min-width: 1200px){
 	.container {
 	  width: 1170px;
 	}
-}
+}*/
 
 footer{
   z-index: 100;

@@ -230,16 +230,16 @@ const users = appDb.get('users');
 				methodOne(user._id, quality, momentDate)
    				.then(methodTwo).then((result)=>{
    					console.log("image", result)
-   					// const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}`;
+   					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
    					client.messages
 			  			.create({
 			  				// body: message, 
 			    			from: '+14123125983',
 			    			to: phoneNumber,
-			    			mediaUrl: `https://dfdf5139.ngrok.io/${result}`,
+			    			mediaUrl: `https://3c3abf0b.ngrok.io/${result}`,
 			    			contentType: "image/png"
 						})
-					.then(message => console.log("IT WORKED: ", message.subresourceUris.media));	
+					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
    				})	
 			})
 		})
@@ -499,8 +499,8 @@ function createPDF(fileName, quality, time) {
 	   .text('SAN DIEGO', {align: "center"});
 	doc.fontSize(18)
 	doc.moveDown(0.5).text('Sunset: ' + time + ' pm    |    ' + quality.temperature + '° c', {align: "center"})
-	doc.moveDown(2.25).fontSize(36).text("Sunset Quality", {align: "center"})
-	doc.moveDown(0.4).fontSize(46).font('Times-Bold').text("" + quality.quality + "  ", 220, 340)
+	doc.moveDown(2.0).fontSize(36).text("Sunset Quality", {align: "center"})
+	doc.moveDown(0.5).fontSize(46).font('Times-Bold').text("" + quality.quality + "  ", 220, 340)
 	doc.fontSize(18).font("Times-Roman").text('(' + quality.quality_percent + '%)', 330, 360)
 
 	// Fit the image within the dimensions

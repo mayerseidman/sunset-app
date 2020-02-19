@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './../css/app.css';
-import SunsetPhoneImage from './phone-view.png';
+import sunInnerImage from './sun-inner.png';
+import sunOuterImage from './sun-outer-shell.png';
 import toaster from 'toasted-notes';
 import 'toasted-notes/src/styles.css';
 import ErrorDisplay from './ErrorDisplay';
@@ -10,7 +11,7 @@ export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
         this.state = { pictures: [], username: null, imgName: null, results: null, 
-            showSunsetInfo: false, sunsetInfo: null, ssubmissionSuccess: false };
+            showSunsetInfo: false, sunsetInfo: null, ssubmissionSuccess: false, spin: false };
     }
 
     showSunsetInfo() {
@@ -139,6 +140,11 @@ export default class SunsetTracker extends Component {
         .then(user => this.setState({ username: user.username }));
     }
 
+    spin() {
+        console.log("spin spin")
+        this.setState({ spin: true })
+    }
+
     render() {
         if (this.state.showSunsetInfo) {
             var sunsetInfo = (<p>{ this.state.sunsetInfo }</p>)
@@ -166,15 +172,21 @@ export default class SunsetTracker extends Component {
                 <button onClick={ this.findMyCoordinates.bind(this) }>Find My Location</button>
             )
         }
+        if (this.state.spin) {
+            var imgClassName = "spin";
+        }
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
                     <p className="header">Sunsets are awesome. Dont miss another!</p>
-                    <p className="subHeader">Further explanation goes here…Further explanation goes here… Further explanation goes here…  how does this work?</p>
                 </div>
-                <div className="middleContainer">
+                <div className="container middleContainer">
+                    <p className="subHeader">Further explanation goes here…Further explanation goes here… Further explanation goes here…  how does this work?</p>
                     <div className="leftContainer">
-                        <img src={ SunsetPhoneImage } alt="sunset-phone"/>
+                        <div className="imagesContainer">
+                            <img src={ sunInnerImage } alt="sun-inner" className={ "sunInnerImg " + imgClassName } onClick={ this.spin.bind(this) } />
+                            <img src={ sunOuterImage } alt="sun-outer" className="sunOuterImg" />
+                        </div>
                         <div className="linksContainer">
                             <a href="">Show My Sunset</a>
                             <a onClick={ this.showRandomSunset.bind(this) }>Random Sunset</a>
