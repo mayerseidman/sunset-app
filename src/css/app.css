@@ -35,6 +35,10 @@
                     left: 60px;
                     z-index: 1000000;
                     width: 275px;
+                    &:hover {
+                        cursor: pointer;
+                        opacity: 0.85;
+                    }
                 }
                 .sunOuterImg {
                     position: relative;
@@ -51,9 +55,41 @@
                 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
                 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
             }
+            .linksContainer {
+                text-align: center;
+                position: relative;
+                left: 8px;
+                top: 10px;
+                a {
+                    color: #ED675C;
+                    &:hover {
+                        cursor: pointer;
+                        text-decoration: underline;
+                    }
+                }
+                .showMySunsetLink  {
+                    border-right: 1px solid #bbb;
+                    padding-right: 10px;
+                }
+                .showRandomSunsetLink {
+                    padding-left: 10px;
+                }
+            }
         }
         .rightContainer {
             vertical-align: top;
+            .submitButton {
+                color: #fff;
+                background-color: #2b9401;
+                border: 1px solid #237600;
+                padding: 6px 12px;
+                font-size: 1em;
+                border-radius: 5px;
+                &:hover {
+                    background-color: #237600;
+                    border-color: #195500;
+                }
+            }
         }
     }
 }
@@ -72,9 +108,11 @@ h1 {
   top: 150px; }
 
 .phoneNumberField {
-  width: 40% !important;
+  width: 46% !important;
   display: inline-block !important;
-  margin-right: 15px; }
+  margin-right: 15px; 
+    height: 44px !important;
+}
 
 .fade-in {
   opacity: 1;

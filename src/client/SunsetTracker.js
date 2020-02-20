@@ -175,7 +175,7 @@ export default class SunsetTracker extends Component {
         var readyForSubmit = this.state.lat && this.state.long;
         if (readyForSubmit) {
             var submitButton = (
-                <button onClick={ this.submitInfo.bind(this) }>Send Sunsets</button>
+                <button onClick={ this.submitInfo.bind(this) } className="submitButton">Send That Shade</button>
             )
         }
 
@@ -201,8 +201,8 @@ export default class SunsetTracker extends Component {
                             { sunsetInfo }
                         </div>
                         <div className="linksContainer">
-                            <a href="">Show My Sunset</a>
-                            <a onClick={ this.showRandomSunset.bind(this) }>Random Sunset</a>
+                            <a onClick={ this.findCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
+                            <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
                         </div>
                     </div>        
                     <div className="rightContainer">
