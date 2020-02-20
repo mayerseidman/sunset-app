@@ -1,6 +1,5 @@
 
 'use strict';
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 const os = require('os');
 var fs = require('fs');
@@ -215,11 +214,14 @@ var methodTwo = function(returnedPDF) {
   
 // Your Account Sid and Auth Token from twilio.com/console 
 // DANGER! This is insecure. See http://twil.io/secure
-const accountSid = 'ACa7a50c421d7be9a3e7ab894026d00460';
-const authToken = '44bae3f2f320dd1e74efb1dd5f0bf78f';
-const client = require('twilio')(accountSid, authToken);
-const users = appDb.get('users');
 
+require('dotenv').config(); 
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken); 
+const users = appDb.get('users');  
+
+console.log(accountSid, authToken)
 // schedule.scheduleJob('53 * * * *', function(){
 	console.log("RUNNINGG") 
 	users.find().then((result)=>{
