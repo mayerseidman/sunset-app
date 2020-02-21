@@ -60,7 +60,7 @@ export default class SunsetTracker extends Component {
         }).then(res => res.json().then(sunset =>
             setTimeout(function(){
                 this.setState({ spin :false, sunsetInfo: sunset.quality });
-            }.bind(this), 4000))
+            }.bind(this), 2000))
         )
     }
 
@@ -78,7 +78,7 @@ export default class SunsetTracker extends Component {
                 console.log(lat, long)
                 const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
                 if (invalidPhoneNumber) {
-                    errors.push("Phone numbers must have 10 digits. Here's a simple format that works: 778-814-5573.")
+                    errors.push("Phone numbers must have 10 digits. Here's a simple format that works: 123-123-1234.")
                     // this.setState({ errorPhoneNumber: true })
                     this.refs.errors.setErrors(errors);
                 } else {
