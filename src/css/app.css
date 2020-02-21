@@ -54,6 +54,42 @@
                 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
                 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
                 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+                
+                .infoContainer {
+                    .sunFullImage {
+                        position: relative;
+                        top: 65px;
+                        left: 10px;
+                    }
+
+                    .infoBubble {
+                        border-radius: 65px;
+                        display: inline-block;
+                        margin: 3.4rem 0 10rem;
+                        padding: 2rem 3rem;
+                        position: relative;
+                        background-color: #F2F3F5;
+                        p {
+                            margin-bottom: 5px;
+                            &:nth-of-type(1) {
+                                margin-bottom: 10px;
+                            }
+                        }
+                    }
+
+                    .infoBubble:before {
+                        border-style: solid;
+                        border-width: 25px 25px 0 25px;
+                        border-color: #F2F3F5 transparent transparent transparent;
+                        content: "";
+                        width: 15px;
+                        height: 0;
+                        position: absolute;
+                        bottom: 0px;
+                        left: 8px;
+                        -webkit-transform: rotate(180deg)
+                    }
+                }
             }
             .linksContainer {
                 text-align: center;

@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import './../css/app.css';
 import sunInnerImage from './sun-inner.png';
 import sunOuterImage from './sun-outer-shell.png';
+import sunFullImage from './sun-full.png';
+
 import toaster from 'toasted-notes';
 import 'toasted-notes/src/styles.css';
 import ErrorDisplay from './ErrorDisplay';
 const _ = require('underscore')
+const moment = require('moment');
 
 export default class SunsetTracker extends Component {
     constructor(props) {
@@ -25,6 +28,7 @@ export default class SunsetTracker extends Component {
     findCoordinates() {
         if ("geolocation" in navigator) {
           /* geolocation is available */
+          this.setState({ spin: true })
           console.log("GEOOOOOO")
             navigator.geolocation.getCurrentPosition(function(position) {
                 var lat = position.coords.latitude;
@@ -39,7 +43,6 @@ export default class SunsetTracker extends Component {
     }
 
     sendIT() {
-        this.setState({ spin: true })
         // var params = "username=mzseidman@gmail.com&password=Victory251&grant_type=password"
         // fetch('api/send', {
         //     method: 'POST',
@@ -56,8 +59,8 @@ export default class SunsetTracker extends Component {
             headers: new Headers({ "Content-Type": "application/json" }) // add headers
         }).then(res => res.json().then(sunset =>
             setTimeout(function(){
-                this.setState({ spin :false, sunsetInfo: JSON.stringify(sunset.quality) });
-            }.bind(this),5000))
+                this.setState({ spin :false, sunsetInfo: sunset.quality });
+            }.bind(this), 4000))
         )
     }
 
@@ -155,8 +158,20 @@ export default class SunsetTracker extends Component {
     }
 
     render() {
-        if (this.state.sunsetInfo) {
-            var sunsetInfo = (<p>{ this.state.sunsetInfo }</p>)
+        var sunset = this.state.sunsetInfo;
+        if (sunset) {
+            var momentTime = moment(sunset.quality.valid_at).format("H:mm");
+            var sunsetInfo = (
+                <div className="infoContainer">
+                    <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+                    <div className="infoBubble">
+                        <p>Your Suns°et Forecast: </p>
+                        <p>Time: { momentTime }</p>
+                        <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
+                        <p>Temperature: { Math.floor(sunset.temperature) }</p>
+                    </div>
+                </div>
+            )
         } else {
             if (this.state.spin) {
                 var imgClassName = "spin";
