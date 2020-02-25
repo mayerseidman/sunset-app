@@ -168,10 +168,14 @@ export default class SunsetTracker extends Component {
                         <p>Your Suns°et Forecast: </p>
                         <p>Time: { momentTime }</p>
                         <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
-                        <p>Temperature: { Math.floor(sunset.temperature) }</p>
+                        <p>Temperature: { Math.floor(sunset.temperature) }°</p>
                     </div>
                 </div>
             )
+            var links =  (
+                <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
+            )
+            var linksClassName = "altLinksContainer";
         } else {
             if (this.state.spin) {
                 var imgClassName = "spin";
@@ -181,6 +185,12 @@ export default class SunsetTracker extends Component {
                     <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
                     <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
                 </span>
+            )
+            var links =  (
+                <div>
+                    <a onClick={ this.findCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
+                    <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
+                </div>
             )
         }
 
@@ -215,9 +225,8 @@ export default class SunsetTracker extends Component {
                             { images }
                             { sunsetInfo }
                         </div>
-                        <div className="linksContainer">
-                            <a onClick={ this.findCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
-                            <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
+                        <div className={ "linksContainer " + linksClassName }>
+                            { links }
                         </div>
                     </div>        
                     <div className="rightContainer">

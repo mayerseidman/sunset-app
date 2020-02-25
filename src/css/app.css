@@ -16,25 +16,28 @@
             width: 70%;
             margin: auto;
             clear: both;
-            margin-bottom: 15px;
-            margin-top: 15px;
+            margin-top: 20px;
+            margin-bottom: 5px;
         }
         .leftContainer, .rightContainer {
             display: inline-block;
             width: 40%;
         }
         .leftContainer {
-            margin-right: 10%;
+            /*margin-right: 10%;*/
+            margin-right: 8%;
+            margin-left: 2%;
             .imagesContainer {
                 position: relative;
-                top: 0;
+                top: 20px;
                 left: 0;
+                margin-bottom: 30px;
                 .sunInnerImg {
                     position: absolute;
                     top: 60px;
-                    left: 60px;
+                    left: 63px;
                     z-index: 1000000;
-                    width: 275px;
+                    width: 205px;
                     &:hover {
                         cursor: pointer;
                         opacity: 0.85;
@@ -44,7 +47,7 @@
                     position: relative;
                     top: 0;
                     left: 0;
-                    width: 400px;
+                    width: 330px;
                 }
                 .spin {
                     -webkit-animation:spin 4s linear infinite;
@@ -66,6 +69,7 @@
                         border-radius: 65px;
                         display: inline-block;
                         margin: 3.4rem 0 10rem;
+                        margin-bottom: 50px;
                         padding: 2rem 3rem;
                         position: relative;
                         background-color: #F2F3F5;
@@ -92,10 +96,12 @@
                 }
             }
             .linksContainer {
-                text-align: center;
                 position: relative;
                 left: 8px;
-                top: 10px;
+                &.altLinksContainer {
+                    text-align: center;
+                    left: 20px;
+                }
                 a {
                     color: #ED675C;
                     &:hover {
