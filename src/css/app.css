@@ -2,40 +2,56 @@
 
 .sunsetContainer {
     .topSection {
+        font-size: 32px;
+        @media only screen and (min-device-width: 480px){
+            font-size: 40px;
+        }
         text-align: center;
         background: #4A90E2;
         color: white;
         padding-top: 15px;
         padding-bottom: 15px;
-        font-size: 40px;
     }
     .middleContainer {
         font-size: 20px;
         color: #555;
         .subHeader {
-            width: 70%;
+            width: auto;
+            @media only screen and (min-device-width: 480px){
+                width: 70%;
+            }
             margin: auto;
             clear: both;
             margin-top: 20px;
-            margin-bottom: 5px;
+            margin-bottom: 0px;
         }
-        .leftContainer, .rightContainer {
-            display: inline-block;
-            width: 40%;
+        .rightContainer {
+            display: none;
+            @media only screen and (min-device-width: 480px){
+                display: inline-block;
+                width: 40%;
+            }
         }
-        .leftContainer {
-            /*margin-right: 10%;*/
-            margin-right: 8%;
-            margin-left: 2%;
+/*        @media only screen and (min-device-width: 768px){}
+*/        .leftContainer {
+            padding-left: 20px;
+            @media only screen and (min-device-width: 480px){
+                display: inline-block;
+                width: 40%;
+                margin-right: 5%;
+                margin-left: 4%;
+            }
             .imagesContainer {
                 position: relative;
-                top: 20px;
                 left: 0;
-                margin-bottom: 30px;
+                @media only screen and (min-device-width: 480px){
+                    top: 20px;
+                    margin-bottom: 30px;
+                }
                 .sunInnerImg {
                     position: absolute;
-                    top: 60px;
-                    left: 63px;
+                    top: 50px;
+                    left: 50px;
                     z-index: 1000000;
                     width: 205px;
                     &:hover {
@@ -47,7 +63,7 @@
                     position: relative;
                     top: 0;
                     left: 0;
-                    width: 330px;
+                    width: 305px;
                 }
                 .spin {
                     -webkit-animation:spin 4s linear infinite;
@@ -60,19 +76,29 @@
                 
                 .infoContainer {
                     .sunFullImage {
+                        bottom: 20px;
+                        right: 15px;
                         position: relative;
-                        top: 65px;
-                        left: 10px;
+                        @media only screen and (min-device-width: 480px){
+                            top: 65px;
+                            right: 355px;
+                        }
                     }
 
                     .infoBubble {
+                        padding: 1rem 2rem;
+                        margin-top: 15px;
+                        margin-left: 16%;
                         border-radius: 65px;
                         display: inline-block;
-                        margin: 3.4rem 0 10rem;
-                        margin-bottom: 50px;
-                        padding: 2rem 3rem;
                         position: relative;
                         background-color: #F2F3F5;
+                        @media only screen and (min-device-width: 480px){
+                            padding: 2rem 3rem;
+                            margin: 3.4rem 0 10rem;
+                            margin-top: 35px;
+                            margin-bottom: 50px;
+                        }
                         p {
                             margin-bottom: 5px;
                             &:nth-of-type(1) {
@@ -97,10 +123,20 @@
             }
             .linksContainer {
                 position: relative;
-                left: 8px;
+                right: 4px;
+                top: 15px;
+                @media only screen and (min-device-width: 480px){
+                    position: relative;
+                    top: 5px;
+                }
                 &.altLinksContainer {
                     text-align: center;
-                    left: 20px;
+                    left: 0;
+                    top: -20px;
+                    @media only screen and (min-device-width: 480px){
+                        left: 50px;
+                        text-align: left;
+                    }
                 }
                 a {
                     color: #ED675C;
@@ -120,6 +156,8 @@
         }
         .rightContainer {
             vertical-align: top;
+        }
+        .formContainer {
             .submitButton {
                 color: #fff;
                 background-color: #2b9401;
@@ -127,9 +165,28 @@
                 padding: 6px 12px;
                 font-size: 1em;
                 border-radius: 5px;
+                width: 100%;
+                margin-top: 15px;
+                @media only screen and (min-device-width: 480px){
+                    margin-top: 0;
+                    width: auto;
+                }
                 &:hover {
                     background-color: #237600;
                     border-color: #195500;
+                }
+            }
+            .phoneNumberField {
+                height: 44px !important;
+                @media only screen and (min-device-width: 480px){
+                    width: 46% !important;
+                    display: inline-block !important;
+                    margin-right: 15px; 
+                }
+            }
+            &.webHide {
+                @media only screen and (min-device-width: 480px){
+                    display: none;
                 }
             }
         }
@@ -147,14 +204,9 @@ h1 {
 
 .notifyMe {
   position: relative;
-  top: 150px; }
-
-.phoneNumberField {
-  width: 46% !important;
-  display: inline-block !important;
-  margin-right: 15px; 
-    height: 44px !important;
+  top: 150px; 
 }
+
 
 .fade-in {
   opacity: 1;

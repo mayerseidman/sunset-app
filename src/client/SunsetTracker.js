@@ -163,13 +163,13 @@ export default class SunsetTracker extends Component {
             var momentTime = moment(sunset.quality.valid_at).format("H:mm");
             var sunsetInfo = (
                 <div className="infoContainer">
-                    <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
                     <div className="infoBubble">
                         <p>Your Suns°et Forecast: </p>
                         <p>Time: { momentTime }</p>
                         <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
                         <p>Temperature: { Math.floor(sunset.temperature) }°</p>
                     </div>
+                    <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
                 </div>
             )
             var links =  (
@@ -229,11 +229,18 @@ export default class SunsetTracker extends Component {
                             { links }
                         </div>
                     </div>        
-                    <div className="rightContainer">
+                    <div className="rightContainer formContainer">
                         { notificationText }                        
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
+                        <ErrorDisplay ref="errors"/>
+                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
+                        { findCoordinatesButton }
+                        { submitButton }
+                    </div>
+                    <div className="formContainer webHide">
+                        { notificationText }                        
                         <ErrorDisplay ref="errors"/>
                         <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
                         { findCoordinatesButton }
