@@ -31,15 +31,18 @@
                 display: inline-block;
                 width: 40%;
             }
+            .descriptionText {
+                color: #4990e2;
+            }
         }
 /*        @media only screen and (min-device-width: 768px){}
 */        .leftContainer {
-            padding-left: 20px;
+            margin-left: 20px;
             @media only screen and (min-device-width: 480px){
                 display: inline-block;
                 width: 40%;
-                margin-right: 5%;
-                margin-left: 4%;
+                margin-right: 4%;
+                margin-left: 5%;
             }
             .imagesContainer {
                 position: relative;
@@ -53,17 +56,23 @@
                     top: 50px;
                     left: 50px;
                     z-index: 1000000;
-                    width: 205px;
+                    width: 175px;
                     &:hover {
                         cursor: pointer;
                         opacity: 0.85;
+                    }
+                    @media only screen and (min-device-width: 480px) {
+                        width: 205px;
                     }
                 }
                 .sunOuterImg {
                     position: relative;
                     top: 0;
                     left: 0;
-                    width: 305px;
+                    width: 275px;
+                    @media only screen and (min-device-width: 480px) {
+                        width: 305px;
+                    }
                 }
                 .spin {
                     -webkit-animation:spin 4s linear infinite;
@@ -80,8 +89,8 @@
                         right: 15px;
                         position: relative;
                         @media only screen and (min-device-width: 480px){
+                            right: 360px;
                             top: 65px;
-                            right: 355px;
                         }
                     }
 
@@ -123,12 +132,11 @@
             }
             .linksContainer {
                 position: relative;
-                right: 4px;
+                right: 12px;
                 top: 15px;
-                @media only screen and (min-device-width: 480px){
+                /*@media only screen and (min-device-width: 480px){
                     position: relative;
-                    top: 5px;
-                }
+                }*/
                 &.altLinksContainer {
                     text-align: center;
                     left: 0;
@@ -136,13 +144,6 @@
                     @media only screen and (min-device-width: 480px){
                         left: 50px;
                         text-align: left;
-                    }
-                }
-                a {
-                    color: #ED675C;
-                    &:hover {
-                        cursor: pointer;
-                        text-decoration: underline;
                     }
                 }
                 .showMySunsetLink  {
@@ -155,7 +156,7 @@
             }
         }
         .rightContainer {
-            vertical-align: top;
+            /*vertical-align: top;*/
         }
         .formContainer {
             .submitButton {
@@ -184,10 +185,17 @@
                     margin-right: 15px; 
                 }
             }
-            &.webHide {
-                @media only screen and (min-device-width: 480px){
-                    display: none;
-                }
+        }
+        .webHide {
+            @media only screen and (min-device-width: 480px){
+                display: none;
+            }
+        }
+        a {
+            color: #ED675C;
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
             }
         }
     }
