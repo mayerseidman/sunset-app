@@ -219,7 +219,7 @@ export default class SunsetTracker extends Component {
                     <p className="header">Sunsets are awesome. Dont miss another!</p>
                 </div>
                 <div className="container middleContainer">
-                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get all your sunset forecast information here (powered by <a href="https://sunsetwx.com/">SunseWx</a>)!</p>
+                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/">SunsetWx</a>)</span>!</p>
                     <div className="leftContainer">
                         <div>
                             <div className="imagesContainer">
@@ -234,7 +234,7 @@ export default class SunsetTracker extends Component {
                     <div className="rightContainer formContainer">
                         { notificationText } 
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
-                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get all your sunset forecast information here (powered by <a href="https://sunsetwx.com/">SunseWx</a>)!</p>
+                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/">SunsetWx</a>)!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
                         <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>

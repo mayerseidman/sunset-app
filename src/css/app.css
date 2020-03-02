@@ -15,15 +15,23 @@
     .middleContainer {
         font-size: 20px;
         color: #555;
+        @media only screen and (min-device-width: 480px){
+            padding-left: 15px;
+        }
         .subHeader {
             width: auto;
-            @media only screen and (min-device-width: 480px){
-                width: 70%;
-            }
+            padding-left: 5px;
             margin: auto;
             clear: both;
             margin-top: 20px;
-            margin-bottom: 0px;
+            margin-bottom: 10px;
+            @media only screen and (min-device-width: 480px){
+                width: 70%;
+                margin-bottom: 0px;
+            }
+        }
+        .sunsetwxLink {
+            font-size: 0.8em;
         }
         .rightContainer {
             display: none;
@@ -37,7 +45,7 @@
         }
 /*        @media only screen and (min-device-width: 768px){}
 */        .leftContainer {
-            margin-left: 20px;
+           text-align: center;
             @media only screen and (min-device-width: 480px){
                 display: inline-block;
                 width: 40%;
@@ -47,22 +55,30 @@
             .imagesContainer {
                 position: relative;
                 left: 0;
+                margin-top: 10px;
+                margin-bottom: 10px;
                 @media only screen and (min-device-width: 480px){
                     top: 20px;
+                    margin: 0;
                     margin-bottom: 30px;
                 }
                 .sunInnerImg {
                     position: absolute;
                     top: 50px;
-                    left: 50px;
+                    left: 78px;
                     z-index: 1000000;
                     width: 175px;
                     &:hover {
                         cursor: pointer;
                         opacity: 0.85;
                     }
+                    // iPhone
+                    @media only screen and (min-device-width: 375px){
+                       left: 85px;
+                    }
                     @media only screen and (min-device-width: 480px) {
                         width: 205px;
+                        left: 50px;
                     }
                 }
                 .sunOuterImg {
@@ -132,11 +148,11 @@
             }
             .linksContainer {
                 position: relative;
-                right: 12px;
-                top: 15px;
-                /*@media only screen and (min-device-width: 480px){
-                    position: relative;
-                }*/
+                right: 3px;
+                @media only screen and (min-device-width: 480px){
+                    right: 12px;
+                    top: 15px;
+                }
                 &.altLinksContainer {
                     text-align: center;
                     left: 0;
