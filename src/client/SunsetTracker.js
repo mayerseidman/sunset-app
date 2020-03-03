@@ -236,12 +236,14 @@ export default class SunsetTracker extends Component {
                     <div className="rightContainer formContainer">
                         { notificationText } 
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
-                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/">SunsetWx</a>) or sign up for a daily SMS!</p>
+                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/">SunsetWx</a>) or sign up for a daily SMS...!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
-                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
-                        { findCoordinatesButton }
-                        { submitButton }
+                        <div className="actionsContainer">
+                            <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
+                            { findCoordinatesButton }
+                            { submitButton }
+                        </div>
                     </div>
                     <div className="formContainer webHide">
                         { notificationText }                        
