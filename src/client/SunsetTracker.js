@@ -205,21 +205,23 @@ export default class SunsetTracker extends Component {
         }
 
         const className = this.state.submissionSuccess ? 'success' : 'hidden'
-        var notificationText = (
-            <p className={ "notificationText " + className }>You -DID ITTTTTTT</p>    
-        )
+        if (this.state.submissionSuccess) {
+            var notificationText = (
+                <p className={ "notificationText " + className }>You -DID ITTTTTTT</p>    
+            )
+        }
         if (!this.state.lat || !this.state.long) {
             var findCoordinatesButton = (
-                <button onClick={ this.findMyCoordinates.bind(this) }>Find My Location</button>
+                <button onClick={ this.findMyCoordinates.bind(this) } className="findLocationButton">Find My Location</button>
             )
         }
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
-                    <p className="header">Sunsets are awesome. Dont miss another!</p>
+                    <p className="header">Sunsets are awesome. Don't miss another!</p>
                 </div>
                 <div className="container middleContainer">
-                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/">SunsetWx</a>)</span>!</p>
+                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/">SunsetWx</a>)</span> or sign up for a daily SMS...!</p>
                     <div className="leftContainer">
                         <div>
                             <div className="imagesContainer">
@@ -234,7 +236,7 @@ export default class SunsetTracker extends Component {
                     <div className="rightContainer formContainer">
                         { notificationText } 
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
-                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/">SunsetWx</a>)!</p>
+                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/">SunsetWx</a>) or sign up for a daily SMS!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
                         <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
