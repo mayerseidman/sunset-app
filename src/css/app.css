@@ -17,11 +17,12 @@
         }
     }
     .middleContainer {
-        font-size: 20px;
+        font-size: 16px;
         color: #555;
         @media only screen and (min-device-width: 480px){
             padding-right: 0px;
             padding-left: 15px;
+            font-size: 20px;
         }
         .subHeader {
             width: auto;
@@ -129,6 +130,16 @@
                         }
                     }
 
+                    .errorImg {
+                        position: relative;
+                        right: 140px;
+                        bottom: 25px;
+                        @media only screen and (min-device-width: 480px){
+                            right: 215px;
+                            bottom: 70px;
+                        }
+                    }
+
                     .infoBubble {
                         padding: 1.5rem 1.5rem;
                         margin-top: 15px;
@@ -163,6 +174,14 @@
                         bottom: 0px;
                         left: 8px;
                         -webkit-transform: rotate(180deg)
+                    }
+
+                    .errorBubble {
+                        background-color: #555;
+                        color: #fff; 
+                    }
+                    .errorBubble:before {
+                        border-color: #555 transparent transparent transparent;
                     }
                 }
             }

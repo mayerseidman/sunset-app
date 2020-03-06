@@ -26,6 +26,16 @@ const schedule = require('node-schedule');
 const mongodb = require('mongodb');
 const _ = require('underscore')
 
+const user = require('firebase-admin');
+
+
+user.initializeApp({
+	credential: user.credential.applicationDefault()
+});
+
+let db = user.firestore();
+
+
 app.use(express.static('dist'));
 
 
@@ -58,6 +68,17 @@ app.get('/api/extractText', function(req, res) {
 	    console.log('ERROR:', err);
 	  });
 
+})
+
+
+app.post('/api/addUser', function(req, res) {
+	db.collection('user').doc().set(req.body)
+	.then((result) => {
+		res.send({"result": "success"})
+	},
+	(error) => {
+		res.send({"result": "error"})
+	})
 })
 
 // app.post('api/send', function(req, res) {

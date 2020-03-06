@@ -14,7 +14,9 @@ export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
         this.state = { pictures: [], username: null, imgName: null, results: null, 
-            showSunsetInfo: false, sunsetInfo: null, ssubmissionSuccess: false, spin: false };
+            showSunsetInfo: false, sunsetInfo: null, submissionSuccess: false, spin: false, 
+            fetchingError: false
+         };
     }
 
     showSunsetInfo() {
@@ -57,12 +59,24 @@ export default class SunsetTracker extends Component {
             method: 'POST',
             body: JSON.stringify({ lat: this.state.lat, long: this.state.long }), // stringify JSON
             headers: new Headers({ "Content-Type": "application/json" }) // add headers
-        }).then(res => res.json().then(sunset =>
+        }).then((response) => {
+            if (!response.ok) {
+                setTimeout(function(){
+                    console.log(response.status, "ERROR")
+                    this.setState({ spin :false, fetchingError: true })
+                 }.bind(this), 2000)
+            } else {
+                console.log("SUCCESS")
+                return response.json();
+            }
+        }).then((sunset) => {
             setTimeout(function(){
-                this.setState({ spin :false, sunsetInfo: sunset.quality });
-            }.bind(this), 2000))
-        )
+                this.setState({ spin :false, sunsetInfo: sunset.quality })
+            }.bind(this), 2000)
+        })
     }
+
+
 
     submitInfo() {
         if ("geolocation" in navigator) {
@@ -157,19 +171,21 @@ export default class SunsetTracker extends Component {
         this.setState({ spin: true })
     }
 
+    reloadPage () {
+        window.location.reload()
+    }
+
     render() {
         var sunset = this.state.sunsetInfo;
-        if (sunset) {
-            var momentTime = moment(sunset.quality.valid_at).format("H:mm");
+        if (!this.state.fetchingError) {
             var sunsetInfo = (
                 <div className="infoContainer">
-                    <div className="infoBubble">
-                        <p>Your Suns°et Forecast: </p>
-                        <p>Time: { momentTime }</p>
-                        <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
-                        <p>Temperature: { Math.floor(sunset.temperature) }°</p>
+                    <div className="infoBubble errorBubble">
+                       <p>We couldn't get your sunset forecast.</p>
+                       <p>Try <a onClick={ this.reloadPage.bind(this) }>refreshing</a> the page.</p>
+                       <p>If that does not work, try again in 30 minutes.</p>
                     </div>
-                    <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+                    <img src={ sunFullImage } alt="sun-full" className="errorImg" />
                 </div>
             )
             var links =  (
@@ -177,21 +193,41 @@ export default class SunsetTracker extends Component {
             )
             var linksClassName = "altLinksContainer";
         } else {
-            if (this.state.spin) {
-                var imgClassName = "spin";
+            if (sunset) {
+                var momentTime = moment(sunset.valid_at).format("H:mm");
+                console.log(momentTime, sunset.quality)
+                var sunsetInfo = (
+                    <div className="infoContainer">
+                        <div className="infoBubble">
+                            <p>Your Suns°et Forecast: </p>
+                            <p>Time: { momentTime }</p>
+                            <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
+                            <p>Temperature: { Math.floor(sunset.temperature) }°</p>
+                        </div>
+                        <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+                    </div>
+                )
+                var links =  (
+                    <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
+                )
+                var linksClassName = "altLinksContainer";
+            } else {
+                if (this.state.spin) {
+                    var imgClassName = "spin";
+                }
+                var images = (
+                    <span>
+                        <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
+                        <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
+                    </span>
+                )
+                var links =  (
+                    <div>
+                        <a onClick={ this.findCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
+                        <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
+                    </div>
+                )
             }
-            var images = (
-                <span>
-                    <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
-                    <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
-                </span>
-            )
-            var links =  (
-                <div>
-                    <a onClick={ this.findCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
-                    <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
-                </div>
-            )
         }
 
         if (this.state.errorPhoneNumber) {
@@ -221,7 +257,7 @@ export default class SunsetTracker extends Component {
                     <p className="header">Sunsets are awesome. Don't miss another!</p>
                 </div>
                 <div className="container middleContainer">
-                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/">SunsetWx</a>)</span> or sign up for a daily SMS...!</p>
+                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS...!</p>
                     <div className="leftContainer">
                         <div>
                             <div className="imagesContainer">
@@ -236,7 +272,7 @@ export default class SunsetTracker extends Component {
                     <div className="rightContainer formContainer">
                         { notificationText } 
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
-                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/">SunsetWx</a>) or sign up for a daily SMS...!</p>
+                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>) or sign up for a daily SMS...!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
                         <div className="actionsContainer">
