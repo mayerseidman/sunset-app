@@ -421,9 +421,10 @@ app.post('/api/submit-form', function (req, res) {
 });
 
 function runIT(lat, long, callback) {
-	const coordsString = '' + long + ',' + lat + '';
+	const coordsString = '' + lat + ',' + long + '';
+	console.log(coordsString)
 	sunsetwx.quality({
-	    coords: coordsString,
+	    geo: coordsString,
 	    type: 'sunset',
 	    radius: '1',
 	    limit: '1'

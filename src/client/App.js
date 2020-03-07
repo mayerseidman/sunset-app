@@ -36,7 +36,7 @@ export default class App extends Component {
                     <div>
                         <Switch>
                             <Route path='/city' component={ CityDevelopments } />
-                            <Route path='/sunset' component={ SunsetTracker } />
+                            <Route path='/' component={ SunsetTracker } />
                         </Switch>
                     </div>
                 </Router> 

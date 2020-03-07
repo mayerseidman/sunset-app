@@ -44,7 +44,7 @@ export default class SunsetTracker extends Component {
         }
     }
 
-    sendIT() {
+    sendIT(lat, long) {
         // var params = "username=mzseidman@gmail.com&password=Victory251&grant_type=password"
         // fetch('api/send', {
         //     method: 'POST',
@@ -53,11 +53,11 @@ export default class SunsetTracker extends Component {
         //     'Content-Type': 'application/x-www-form-urlencoded'
         //     },
         //     body: params
-        // })
-        console.log("send it function")
+        // })       
+        console.log("send it function", lat, long)
         fetch("/api/send", {
             method: 'POST',
-            body: JSON.stringify({ lat: this.state.lat, long: this.state.long }), // stringify JSON
+            body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
             headers: new Headers({ "Content-Type": "application/json" }) // add headers
         }).then((response) => {
             if (!response.ok) {
@@ -148,13 +148,16 @@ export default class SunsetTracker extends Component {
     }
 
     showRandomSunset() {
+        this.setState({ spin: true })
         var randomLocation = _.sample(randomLocations)
         var city = randomLocation.city;
         var lat = randomLocation.lat;
         var long = randomLocation.long;
-        // console.log(city, lat, long)
+        var offset = randomLocation.offset;
+        console.log(city, lat, long)
+        this.setState({ lat: lat, long: long, showRandomSunset: true, city: city, offset: offset })
         this.sendIT(lat, long);
-        this.setState({ pictures: city })
+        // this.setState({ pictures: city })
     }
 
 
@@ -164,6 +167,8 @@ export default class SunsetTracker extends Component {
         fetch('/api/getUsername')
         .then(res => res.json())
         .then(user => this.setState({ username: user.username }));
+        var testDateUtc = moment.utc("2015-01-30 12:00:00");
+        var localDate = moment(testDateUtc).local();
     }
 
     spin() {
@@ -177,7 +182,7 @@ export default class SunsetTracker extends Component {
 
     render() {
         var sunset = this.state.sunsetInfo;
-        if (!this.state.fetchingError) {
+        if (this.state.fetchingError) {
             var sunsetInfo = (
                 <div className="infoContainer">
                     <div className="infoBubble errorBubble">
@@ -194,15 +199,28 @@ export default class SunsetTracker extends Component {
             var linksClassName = "altLinksContainer";
         } else {
             if (sunset) {
-                var momentTime = moment(sunset.valid_at).format("H:mm");
-                console.log(momentTime, sunset.quality)
+                if (this.state.showRandomSunset) {
+                    var locationText = (
+                        <p>{ this.state.city } Suns°et Forecast: </p>
+                    )
+                    var randomLocation = "randomLocation";
+                } else {
+                    var locationText = (
+                        <p>Your Suns°et Forecast: </p>
+                    )
+                }
+                var offset = this.state.offset;
+                var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
+                console.log("TIME:", momentTime)
                 var sunsetInfo = (
                     <div className="infoContainer">
-                        <div className="infoBubble">
-                            <p>Your Suns°et Forecast: </p>
-                            <p>Time: { momentTime }</p>
-                            <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
-                            <p>Temperature: { Math.floor(sunset.temperature) }°</p>
+                        <div className="">
+                            <div className="infoBubble">
+                                { locationText }
+                                <p>Time: { momentTime }</p>
+                                <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
+                                <p>Temperature: { Math.floor(sunset.temperature) }°</p>
+                            </div>
                         </div>
                         <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
                     </div>
@@ -260,7 +278,7 @@ export default class SunsetTracker extends Component {
                     <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS...!</p>
                     <div className="leftContainer">
                         <div>
-                            <div className="imagesContainer">
+                            <div className={ "imagesContainer " + randomLocation}>
                                 { images }
                                 { sunsetInfo }
                             </div>
@@ -295,9 +313,8 @@ export default class SunsetTracker extends Component {
 }
 
 var randomLocations = [
-    { "city" : "San Diego", "lat" : 32.7157, "long" : -117.1611 }, { "city" : "New York City", "lat" : 40.7128, "long" : -74.0060 }, { "city" : "Los Angeles", "lat" : 34.0522, "long" : -118.2437 }, 
-    { "city" : "Chicago", "lat" : 41.8781, "long" : -87.6298 }, { "city" : "Miami", "lat" : 25.7617, "long" : -80.1918 }, { "city" : "Philadelphia", "lat" : 39.9526, "long" : -75.1652 }, 
-    { "city" : "Austin", "lat" : 30.2672, "long" : -97.7431 }, { "city" : "Boston", "lat" : 42.3601, "long" : -71.0589 }, { "city" : "Seattle", "lat" : 47.6062, "long" : -122.3321 }, 
-    { "city" : "Denver", "lat" : 39.7392, "long" : -104.9903 }, { "city" : "San Francisco", "lat" : 37.7749, "long" : -122.4194 }, { "city" : "Toronto", "lat" : 43.6532, "long" : -79.3832 },
-    { "city" : "Phoenix", "lat" : 33.4484, "long" : -112.0740 }, { "city" : "Houston", "lat" : 29.7604, "long" : -95.3698 }
+    { "city" : "SD", "lat" : 32.7157, "long" : -117.1611, offset: -8 }, { "city" : "NYC", "lat" : 40.7128, "long" : -74.0060, offset: -5 }, { "city" : "LA", "lat" : 34.0522, "long" : -118.2437, offset: -8 }, 
+    { "city" : "CHI", "lat" : 41.8781, "long" : -87.6298, offset: -6 }, { "city" : "Miami", "lat" : 25.7617, "long" : -80.1918, offset: -5 }, { "city" : "Denver", "lat" : 39.7392, "long" : -104.9903, offset: -7 },
+    { "city" : "Austin", "lat" : 30.2672, "long" : -97.7431, offset: -6 }, { "city" : "SEA", "lat" : 47.6062, "long" : -122.3321, offset: -8 }, { "city" : "SF", "lat" : 37.7749, "long" : -122.4194, offset: -8 },
+    { "city" : "PHX", "lat" : 33.4484, "long" : -112.0740, offset: -7 } 
 ]
