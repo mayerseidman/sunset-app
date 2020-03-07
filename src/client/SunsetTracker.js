@@ -44,16 +44,7 @@ export default class SunsetTracker extends Component {
         }
     }
 
-    sendIT(lat, long) {
-        // var params = "username=mzseidman@gmail.com&password=Victory251&grant_type=password"
-        // fetch('api/send', {
-        //     method: 'POST',
-        //     headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/x-www-form-urlencoded'
-        //     },
-        //     body: params
-        // })       
+    sendIT(lat, long) { 
         console.log("send it function", lat, long)
         fetch("/api/send", {
             method: 'POST',
@@ -211,7 +202,6 @@ export default class SunsetTracker extends Component {
                 }
                 var offset = this.state.offset;
                 var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
-                console.log("TIME:", momentTime)
                 var sunsetInfo = (
                     <div className="infoContainer">
                         <div className="">
