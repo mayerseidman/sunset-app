@@ -47,11 +47,9 @@ module.exports = {
       'ngrok.io'
     ]
   },
-  plugins: [
-    new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
-      favicon: './public/favicon.ico'
-    })
+        template: resolve(__dirname, './public', '.public/index.html'),
+        filename: './index.html'
+      }),
   ]
 };
