@@ -13,7 +13,8 @@
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "scss": "node-sass --watch src/scss -o src/css"
+    "scss": "node-sass --watch src/scss -o src/css",
+    "heroku-prebuild": "npm install --dev"
   },
   "author": "Sandeep Raveesh",
   "license": "ISC",
