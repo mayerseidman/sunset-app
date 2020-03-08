@@ -232,43 +232,39 @@ var methodTwo = function(returnedPDF) {
 // pass image in as mediaURL to Twilio
 
 
-  
-// Your Account Sid and Auth Token from twilio.com/console 
-// DANGER! This is insecure. See http://twil.io/secure
+// require('dotenv').config();
+// const accountSid = process.env.TWILIO_ACCOUNT_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
+// const client = require('twilio')(accountSid, authToken); 
+// const users = appDb.get('users');  
 
-require('dotenv').config();
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken); 
-const users = appDb.get('users');  
-
-console.log(accountSid, authToken)
-console.log(process.env)
-// schedule.scheduleJob('53 * * * *', function(){
-	console.log("RUNNINGG") 
-	users.find().then((result)=>{
-		result.forEach(user => {
-			runIT(user.lat, user.long, (quality)=>{
-				let phoneNumber = user.phone_number;
-				var momentDate = moment(quality.valid_at).format("H:mm");
-				methodOne(user._id, quality, momentDate)
-   				.then(methodTwo).then((result)=>{
-   					console.log("image", result)
-   					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
-   					client.messages
-			  			.create({
-			  				// body: message, 
-			    			from: '+14123125983',
-			    			to: phoneNumber,
-			    			mediaUrl: `https://3c3abf0b.ngrok.io/${result}`,
-			    			contentType: "image/png"
-						})
-					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
-   				})	
-			})
-		})
-	}) 
-// });
+// console.log(accountSid, authToken)
+// console.log(process.env)
+// // schedule.scheduleJob('53 * * * *', function(){
+// 	console.log("RUNNINGG") 
+// 	users.find().then((result)=>{
+// 		result.forEach(user => {
+// 			runIT(user.lat, user.long, (quality)=>{
+// 				let phoneNumber = user.phone_number;
+// 				var momentDate = moment(quality.valid_at).format("H:mm");
+// 				methodOne(user._id, quality, momentDate)
+//    				.then(methodTwo).then((result)=>{
+//    					console.log("image", result)
+//    					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
+//    					client.messages
+// 			  			.create({
+// 			  				// body: message, 
+// 			    			from: '+14123125983',
+// 			    			to: phoneNumber,
+// 			    			mediaUrl: `https://3c3abf0b.ngrok.io/${result}`,
+// 			    			contentType: "image/png"
+// 						})
+// 					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
+//    				})	
+// 			})
+// 		})
+// 	}) 
+// // });
 
 
 // client.messages.create({ 
