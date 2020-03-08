@@ -243,6 +243,7 @@ const client = require('twilio')(accountSid, authToken);
 const users = appDb.get('users');  
 
 console.log(accountSid, authToken)
+console.log(process.env)
 // schedule.scheduleJob('53 * * * *', function(){
 	console.log("RUNNINGG") 
 	users.find().then((result)=>{
