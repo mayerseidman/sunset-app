@@ -195,13 +195,15 @@ export default class SunsetTracker extends Component {
                         <p>{ this.state.city } Suns°et Forecast: </p>
                     )
                     var randomLocation = "randomLocation";
+                    var offset = this.state.offset;
+                    var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
                 } else {
                     var locationText = (
                         <p>Your Suns°et Forecast: </p>
                     )
+                    var momentTime = moment(sunset.valid_at).format("H:mm");
                 }
-                var offset = this.state.offset;
-                var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
+                
                 var sunsetInfo = (
                     <div className="infoContainer">
                         <div className="">
