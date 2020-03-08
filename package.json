@@ -8,12 +8,13 @@
     "npm": "6.9.0"
   },
   "scripts": {
+    "build": "webpack --mode production",
     "start": "npm run build && node src/server/index.js",
+    "heroku-postbuild": "webpack --mode production",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "scss": "node-sass --watch src/scss -o src/css",
-    "heroku-prebuild": "npm install --dev"
+    "scss": "node-sass --watch src/scss -o src/css"
   },
   "author": "Sandeep Raveesh",
   "license": "ISC",
