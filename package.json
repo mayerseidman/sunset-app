@@ -4,7 +4,8 @@
   "description": "Boilerplate to build a full stack web application using React, Node.js, Express and Webpack.",
   "main": "src/server/index.js",
   "engines": {
-    "node": "10.16.0"
+    "node": "10.16.0",
+    "npm": "6.9.0"
   },
   "scripts": {
     "build": "webpack --mode production",
