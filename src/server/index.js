@@ -9,10 +9,12 @@ const bodyParser = require('body-parser');
 const appDb = require('monk')('localhost/MyDb');
 const app = express();
 
-app.use(express.static('public'))
+// app.use(express.static('public'))
+app.use('/static', express.static('public'))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+// app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
 const fetch = require("node-fetch")
 const MongoClient = require('mongodb').MongoClient;
@@ -26,17 +28,17 @@ const schedule = require('node-schedule');
 const mongodb = require('mongodb');
 const _ = require('underscore')
 
-const user = require('firebase-admin');
+// const user = require('firebase-admin');
 
 
-user.initializeApp({
-	credential: user.credential.applicationDefault()
-});
+// user.initializeApp({
+// 	credential: user.credential.applicationDefault()
+// });
 
-let db = user.firestore();
+// let db = user.firestore();
 
 
-app.use(express.static('dist'));
+// app.use(express.static('dist'));
 
 
 
@@ -238,8 +240,6 @@ var methodTwo = function(returnedPDF) {
 // const client = require('twilio')(accountSid, authToken); 
 // const users = appDb.get('users');  
 
-// console.log(accountSid, authToken)
-// console.log(process.env)
 // // schedule.scheduleJob('53 * * * *', function(){
 // 	console.log("RUNNINGG") 
 // 	users.find().then((result)=>{
