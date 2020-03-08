@@ -9,9 +9,7 @@ const bodyParser = require('body-parser');
 const appDb = require('monk')('localhost/MyDb');
 const app = express();
 
-// app.use(express.static('public'))
-app.use('/static', express.static('public'))
-
+app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
