@@ -305,8 +305,8 @@ export default class SunsetTracker extends Component {
 }
 
 var randomLocations = [
-    { "city" : "SD", "lat" : 32.7157, "long" : -117.1611, offset: -8 }, { "city" : "NYC", "lat" : 40.7128, "long" : -74.0060, offset: -5 }, { "city" : "LA", "lat" : 34.0522, "long" : -118.2437, offset: -8 }, 
-    { "city" : "CHI", "lat" : 41.8781, "long" : -87.6298, offset: -6 }, { "city" : "Miami", "lat" : 25.7617, "long" : -80.1918, offset: -5 }, { "city" : "Denver", "lat" : 39.7392, "long" : -104.9903, offset: -7 },
-    { "city" : "Austin", "lat" : 30.2672, "long" : -97.7431, offset: -6 }, { "city" : "SEA", "lat" : 47.6062, "long" : -122.3321, offset: -8 }, { "city" : "SF", "lat" : 37.7749, "long" : -122.4194, offset: -8 },
-    { "city" : "PHX", "lat" : 33.4484, "long" : -112.0740, offset: -7 } 
+    { "city" : "SD", "lat" : 32.7157, "long" : -117.1611, offset: -7 }, { "city" : "NYC", "lat" : 40.7128, "long" : -74.0060, offset: -4 }, { "city" : "LA", "lat" : 34.0522, "long" : -118.2437, offset: -7 }, 
+    { "city" : "CHI", "lat" : 41.8781, "long" : -87.6298, offset: -5 }, { "city" : "Miami", "lat" : 25.7617, "long" : -80.1918, offset: -4 }, { "city" : "Denver", "lat" : 39.7392, "long" : -104.9903, offset: -6 },
+    { "city" : "Austin", "lat" : 30.2672, "long" : -97.7431, offset: -5 }, { "city" : "SEA", "lat" : 47.6062, "long" : -122.3321, offset: -7 }, { "city" : "SF", "lat" : 37.7749, "long" : -122.4194, offset: -7 },
+    { "city" : "PHX", "lat" : 33.4484, "long" : -112.0740, offset: -6 } 
 ]
