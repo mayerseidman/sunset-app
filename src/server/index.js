@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const appDb = require('monk')('localhost/MyDb');
 const app = express();
 
-app.use(express.static('public'))
+// app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
@@ -293,6 +293,14 @@ function checkForExistingUsers(phoneNumber) {
 	// 	console.log(_.isEmpty(existsInSystem))
 	// });
 }
+const distPath = path.join(__dirname, '../..', 'dist')
+console.log("distPath",distPath)
+app.use(express.static(distPath))
+
+app.get("/", (req, res) => {
+	console.log("index_route!")
+	res.sendFile(path.join(distPath, 'index.html'))
+})
 
 
 app.listen(process.env.PORT || 8080, () => console.log(33));
