@@ -131,8 +131,6 @@ $dark-gray: #898989;
                         right: 130px;
                         position: relative;
                         @media only screen and (min-device-width: 480px){
-                           /* right: 165px;
-                            bottom: 72px;*/
                             right: 345px;
                             top: 63px;
                         }
@@ -143,7 +141,7 @@ $dark-gray: #898989;
                         right: 140px;
                         bottom: 25px;
                         @media only screen and (min-device-width: 480px){
-                            right: 215px;
+                            right: 210px;
                             bottom: 70px;
                         }
                     }
@@ -151,6 +149,10 @@ $dark-gray: #898989;
                     &.loadingContainer {
                         .sunFullImage {
                             bottom: 28px;
+                            @media only screen and (min-device-width: 480px){
+                                right: 345px;
+                                top: -33px;
+                            }
                         }
                     }
 
@@ -200,6 +202,9 @@ $dark-gray: #898989;
 
                     .loadingBubble {
                         height: 164px;
+                        @media only screen and (min-device-width: 480px) {
+                            height: 204px;
+                        }
                     }
 
                     .infoBubble {
