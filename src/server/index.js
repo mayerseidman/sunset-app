@@ -293,12 +293,11 @@ function checkForExistingUsers(phoneNumber) {
 	// 	console.log(_.isEmpty(existsInSystem))
 	// });
 }
+
 const distPath = path.join(__dirname, '../..', 'dist')
-console.log("distPath",distPath)
 app.use(express.static(distPath))
 
 app.get("/", (req, res) => {
-	console.log("index_route!")
 	res.sendFile(path.join(distPath, 'index.html'))
 })
 
@@ -429,7 +428,6 @@ function runIT(lat, long, callback) {
 	sunsetwx.quality({
 	    geo: coordsString,
 	    type: 'sunset',
-	    radius: '1',
 	    limit: '1'
 	}, function (err, httpResponse, body) {
 		if (callback) {

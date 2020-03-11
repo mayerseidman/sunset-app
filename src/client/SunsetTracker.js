@@ -181,7 +181,7 @@ export default class SunsetTracker extends Component {
                        <p>Try <a onClick={ this.reloadPage.bind(this) }>refreshing</a> the page.</p>
                        <p>If that does not work, try again in 30 minutes.</p>
                     </div>
-                    <img src={ sunFullImage } alt="sun-full" className="errorImg" />
+                    <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
                 </div>
             )
             var links =  (
@@ -206,13 +206,11 @@ export default class SunsetTracker extends Component {
                 
                 var sunsetInfo = (
                     <div className="infoContainer">
-                        <div className="">
-                            <div className="infoBubble">
-                                { locationText }
-                                <p>Time: { momentTime }</p>
-                                <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
-                                <p>Temperature: { Math.floor(sunset.temperature) }°</p>
-                            </div>
+                        <div className="infoBubble">
+                            { locationText }
+                            <p>Time: { momentTime }</p>
+                            <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
+                            <p>Temperature: { Math.floor(sunset.temperature) }°</p>
                         </div>
                         <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
                     </div>

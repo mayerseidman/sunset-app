@@ -76,7 +76,7 @@
                 height: 268px;
                 bottom: 5px;
                 @media only screen and (min-device-width: 480px){
-                    top: 20px;
+                    top: 10px;
                     margin: 0;
                     margin-top: 10px;
                     margin-bottom: 30px;
@@ -120,17 +120,17 @@
                 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
                 
                 .infoContainer {
+                    position: relative;
+                    left: 40px;
                     .sunFullImage {
                         bottom: 22px;
                         right: 130px;
                         position: relative;
                         @media only screen and (min-device-width: 480px){
-                            /*right: 360px;
-                            top: 65px;*/
-                            right: 165px;
-                            position: relative;
-                            /* left: 100px; */
-                            bottom: 72px;
+                           /* right: 165px;
+                            bottom: 72px;*/
+                            right: 345px;
+                            top: 63px;
                         }
                     }
 
