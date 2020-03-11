@@ -139,7 +139,11 @@ export default class SunsetTracker extends Component {
     }
 
     showRandomSunset() {
-        this.setState({ spin: true })
+        if (this.state.sunsetInfo) {
+            this.setState({ sunsetInfo: null, loadingMessage: true })
+        } else {
+            this.setState({ spin: true })
+        }
         var randomLocation = _.sample(randomLocations)
         var city = randomLocation.city;
         var lat = randomLocation.lat;
@@ -220,21 +224,36 @@ export default class SunsetTracker extends Component {
                 )
                 var linksClassName = "altLinksContainer";
             } else {
-                if (this.state.spin) {
-                    var imgClassName = "spin";
+                if (this.state.loadingMessage) {
+                    var displayImage = (
+                        <div className="infoContainer loadingContainer">
+                            <div className="infoBubble loadingBubble">
+                                <div className="dots"></div>
+                            </div>
+                            <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+                        </div>
+                    )
+                    var links =  (
+                        <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
+                    )
+                    var linksClassName = "altLinksContainer";
+                } else {
+                    if (this.state.spin) {
+                        var imgClassName = "spin";
+                    }
+                    var displayImage = (
+                        <span>
+                            <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
+                            <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
+                        </span>
+                    )
+                    var links =  (
+                        <div>
+                            <a onClick={ this.findCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
+                            <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
+                        </div>
+                    )
                 }
-                var images = (
-                    <span>
-                        <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
-                        <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
-                    </span>
-                )
-                var links =  (
-                    <div>
-                        <a onClick={ this.findCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
-                        <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
-                    </div>
-                )
             }
         }
 
@@ -269,7 +288,7 @@ export default class SunsetTracker extends Component {
                     <div className="leftContainer">
                         <div>
                             <div className={ "imagesContainer " + randomLocation}>
-                                { images }
+                                { displayImage }
                                 { sunsetInfo }
                             </div>
                             <div className={ "linksContainer " + linksClassName }>

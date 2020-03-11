@@ -1,4 +1,6 @@
-
+$gray: #B6B5B9;
+$light-gray: #E6E7ED;
+$dark-gray: #898989;
 
 .sunsetContainer {
     .topSection {
@@ -33,7 +35,7 @@
             margin-bottom: 0px;
             font-size: 16px;
             @media only screen and (min-device-width: 375px){
-              margin-bottom: 10px;
+              margin-bottom: 5px;
               padding-left: 12px
             }
             @media only screen and (min-device-width: 480px){
@@ -120,8 +122,10 @@
                 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
                 
                 .infoContainer {
-                    position: relative;
-                    left: 40px;
+                    @media only screen and (min-device-width: 480px){
+                        position: relative;
+                        left: 40px;
+                    }
                     .sunFullImage {
                         bottom: 22px;
                         right: 130px;
@@ -142,6 +146,60 @@
                             right: 215px;
                             bottom: 70px;
                         }
+                    }
+
+                    &.loadingContainer {
+                        .sunFullImage {
+                            bottom: 28px;
+                        }
+                    }
+
+                    @keyframes pulse {
+                      0%, 100% {
+                        background: $gray;
+                        transform: scale(1);
+                      }
+
+                      50% {
+                        background: $dark-gray;
+                        transform: scale(1.025);
+                      }
+                    }
+
+
+                    .dots {
+                        top: 50%;
+                        position: relative;
+                        margin: 0 auto;
+
+                        &, &:before, &:after {
+                            content: "";
+                            width: 10px;
+                            height: 10px;
+                            background: $gray;
+                            border-radius: 50%;
+                            animation: pulse 1.5s linear infinite;
+                        }
+
+                        & {
+                            animation-delay: 0.66s;
+                        }
+
+                        &:before {
+                            position: absolute;
+                            left: -15px;
+                            animation-delay: 0.33s;
+                        }
+
+                        &:after {
+                            position: absolute;
+                            right: -15px;
+                            animation-delay: 0.99s;
+                        }
+                    }
+
+                    .loadingBubble {
+                        height: 164px;
                     }
 
                     .infoBubble {
