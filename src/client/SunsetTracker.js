@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import './../css/app.css';
-import sunInnerImage from './sun-inner.png';
-import sunOuterImage from './sun-outer-shell.png';
-import sunFullImage from './sun-full.png';
-import questionImage from './question.png';
-import sunsetInfoImage from './sunset-info.png';
+import Modal from "react-responsive-modal";
 
 import toaster from 'toasted-notes';
 import 'toasted-notes/src/styles.css';
 import ErrorDisplay from './ErrorDisplay';
 const _ = require('underscore')
 const moment = require('moment');
+
+import './../css/app.css';
+import sunInnerImage from './sun-inner.png';
+import sunOuterImage from './sun-outer-shell.png';
+import sunFullImage from './sun-full.png';
+import questionImage from './question.png';
+import sunsetInfoImage from './sunset-info.png';
 
 export default class SunsetTracker extends Component {
     constructor(props) {
@@ -45,6 +47,8 @@ export default class SunsetTracker extends Component {
           /* geolocation IS NOT available */
         }
     }
+
+    // Wreck Beach - 49.2622, -123.2615
 
     sendIT(lat, long) { 
         console.log("send it function", lat, long)
@@ -184,7 +188,16 @@ export default class SunsetTracker extends Component {
         this.setState({hover: false});
     }
 
+    onOpenModal() {
+        this.setState({ open: true });
+    };
+
+    onCloseModal() {
+        this.setState({ open: false });
+    };
+
     render() {
+        const { open } = this.state;
         var sunset = this.state.sunsetInfo;
         if (this.state.fetchingError) {
             var sunsetInfo = (
@@ -223,12 +236,17 @@ export default class SunsetTracker extends Component {
                             <p>Time: { momentTime }</p>
                             <p>
                                 Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)
-                                <img src={ questionImage } alt="question" className="questionImage" 
+                                <img src={ questionImage } alt="question" className="questionImage mobileHide" 
                                     onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)} />
+                                <img src={ questionImage } alt="question" className="questionImage webHide" 
+                                    onClick={ this.onOpenModal.bind(this) } />    
                             </p>
                             <p>Temperature: { Math.floor(sunset.temperature) }°</p>
                         </div>
                         <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+                        <Modal open={ open } onClose={ this.onCloseModal.bind(this) } className="modal">
+                            <img src={ sunsetInfoImage } alt="question" className="questionImage" />
+                        </Modal>
                     </div>
                 )
                 var links =  (
