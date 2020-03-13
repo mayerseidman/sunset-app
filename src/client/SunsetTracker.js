@@ -3,6 +3,8 @@ import './../css/app.css';
 import sunInnerImage from './sun-inner.png';
 import sunOuterImage from './sun-outer-shell.png';
 import sunFullImage from './sun-full.png';
+import questionImage from './question.png';
+import sunsetInfoImage from './sunset-info.png';
 
 import toaster from 'toasted-notes';
 import 'toasted-notes/src/styles.css';
@@ -174,6 +176,13 @@ export default class SunsetTracker extends Component {
     reloadPage () {
         window.location.reload()
     }
+    
+    mouseOver() {
+        this.setState({hover: true});
+    }
+    mouseOut() {
+        this.setState({hover: false});
+    }
 
     render() {
         var sunset = this.state.sunsetInfo;
@@ -206,14 +215,17 @@ export default class SunsetTracker extends Component {
                         <p>Your Suns°et Forecast: </p>
                     )
                     var momentTime = moment(sunset.valid_at).format("H:mm");
-                }
-                
+                }                
                 var sunsetInfo = (
                     <div className="infoContainer">
                         <div className="infoBubble">
                             { locationText }
                             <p>Time: { momentTime }</p>
-                            <p>Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</p>
+                            <p>
+                                Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)
+                                <img src={ questionImage } alt="question" className="questionImage" 
+                                    onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)} />
+                            </p>
                             <p>Temperature: { Math.floor(sunset.temperature) }°</p>
                         </div>
                         <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
@@ -298,6 +310,7 @@ export default class SunsetTracker extends Component {
                     </div>        
                     <div className="rightContainer formContainer">
                         { notificationText } 
+                        <img src={ sunsetInfoImage } alt="sunset-info" className="infoImage" style={{ display: this.state.hover ? "inline-block" : "none" }}/>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
                         <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>) or sign up for a daily SMS...!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
@@ -323,7 +336,7 @@ export default class SunsetTracker extends Component {
 
 var randomLocations = [
     { "city" : "SD", "lat" : 32.7157, "long" : -117.1611, offset: -7 }, { "city" : "NYC", "lat" : 40.7128, "long" : -74.0060, offset: -4 }, { "city" : "LA", "lat" : 34.0522, "long" : -118.2437, offset: -7 }, 
-    { "city" : "CHI", "lat" : 41.8781, "long" : -87.6298, offset: -5 }, { "city" : "Miami", "lat" : 25.7617, "long" : -80.1918, offset: -4 }, { "city" : "Denver", "lat" : 39.7392, "long" : -104.9903, offset: -6 },
-    { "city" : "Austin", "lat" : 30.2672, "long" : -97.7431, offset: -5 }, { "city" : "SEA", "lat" : 47.6062, "long" : -122.3321, offset: -7 }, { "city" : "SF", "lat" : 37.7749, "long" : -122.4194, offset: -7 },
+    { "city" : "CHI", "lat" : 41.8781, "long" : -87.6298, offset: -5 }, { "city" : "MIA", "lat" : 25.7617, "long" : -80.1918, offset: -4 }, { "city" : "DEN", "lat" : 39.7392, "long" : -104.9903, offset: -6 },
+    { "city" : "ATX", "lat" : 30.2672, "long" : -97.7431, offset: -5 }, { "city" : "SEA", "lat" : 47.6062, "long" : -122.3321, offset: -7 }, { "city" : "SF", "lat" : 37.7749, "long" : -122.4194, offset: -7 },
     { "city" : "PHX", "lat" : 33.4484, "long" : -112.0740, offset: -6 } 
 ]

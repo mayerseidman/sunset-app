@@ -231,6 +231,11 @@ $dark-gray: #898989;
                                 font-weight: 500;
                             }
                         }
+                        .questionImage  {
+                            display: inline-block;
+                            width: 18px;
+                            margin-left: 5px;
+                        }
                     }
 
                     .infoBubble:before {
@@ -289,6 +294,10 @@ $dark-gray: #898989;
         }
         .rightContainer {
             /*vertical-align: top;*/
+             .infoImage {
+                width: 450px;
+                position: absolute;
+            }
         }
         .formContainer {
             position: relative;
