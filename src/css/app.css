@@ -86,21 +86,22 @@ $dark-gray: #898989;
                 }
                 .sunInnerImg {
                     position: absolute;
-                    top: 48px;
+                    top: 42px;
                     z-index: 1000000;
-                    width: 150px;
-                    left: 91px;
+                    width: 165px;
+                    left: 83px;
                     &:hover {
                         cursor: pointer;
                         opacity: 0.85;
                     }
                     // iPhone
                     @media only screen and (min-device-width: 375px){
-                       left: 98px;
+                       left: 90px;
                     }
                     @media only screen and (min-device-width: 480px) {
                         width: 205px;
-                        left: 88px;
+                        left: 89px;
+                        top: 47px;
                     }
                 }
                 .sunOuterImg {
