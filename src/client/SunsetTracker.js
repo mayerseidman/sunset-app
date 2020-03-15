@@ -308,6 +308,26 @@ export default class SunsetTracker extends Component {
                 <button onClick={ this.findMyCoordinates.bind(this) } className="findLocationButton">Find My Location</button>
             )
         }
+
+        // actionsContainer (goes after ErrorDisplay)
+        var actionsContainer = (
+            <div className="actionsContainer">
+                <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
+                { findCoordinatesButton }
+                { submitButton }
+            </div>
+        )
+
+        // form container goes after formContainer div 
+        var formContainer = (
+            <div className="formContainer webHide">
+                { notificationText }                        
+                <ErrorDisplay ref="errors"/>
+                <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
+                { findCoordinatesButton }
+                { submitButton }
+            </div>
+        )
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
@@ -333,18 +353,6 @@ export default class SunsetTracker extends Component {
                         <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>) or sign up for a daily SMS...!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
-                        <div className="actionsContainer">
-                            <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
-                            { findCoordinatesButton }
-                            { submitButton }
-                        </div>
-                    </div>
-                    <div className="formContainer webHide">
-                        { notificationText }                        
-                        <ErrorDisplay ref="errors"/>
-                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
-                        { findCoordinatesButton }
-                        { submitButton }
                     </div>
                 </div>
             </div>
