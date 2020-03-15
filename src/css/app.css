@@ -377,6 +377,8 @@ $dark-gray: #898989;
     }
     .styles_closeButton__20ID4  {
         width: 25px;
+        display: none !important;
+        &:focus { outline: none }
     }
 }
 
