@@ -265,14 +265,14 @@ const users = appDb.get('users');
 // // });
 
 
-client.messages.create({ 
-    to: "+14124273243", 
-    from: '+14123125983', 
-    body: "Hey Jenny! Good luck on the bar exam!", 
-    mediaUrl: "http://farm2.static.flickr.com/1075/1404618563_3ed9a44a3a.jpg"
- }, function(err, message) { 
-    console.log(message.sid); 
- });
+// client.messages.create({ 
+//     to: "+14124273243", 
+//     from: '+14123125983', 
+//     body: "Hey Jenny! Good luck on the bar exam!", 
+//     mediaUrl: "http://farm2.static.flickr.com/1075/1404618563_3ed9a44a3a.jpg"
+//  }, function(err, message) { 
+//     console.log(message.sid); 
+//  });
 
 function checkForExistingUsers(phoneNumber) {
 	const users = appDb.get('users')
