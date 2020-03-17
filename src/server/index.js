@@ -238,11 +238,18 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken); 
 const users = appDb.get('users');  
 
-// // schedule.scheduleJob('53 * * * *', function(){
+// SUNSETWX work goes here...
+
+const sunsetwx = new SunsetWx({
+	email: process.env.EMAIL,
+	password: process.env.PASSWORD,
+});
+
+// schedule.scheduleJob('53 * * * *', function(){
 // 	console.log("RUNNINGG") 
 // 	users.find().then((result)=>{
 // 		result.forEach(user => {
-// 			runIT(user.lat, user.long, (quality)=>{
+// 			runIT(user.lat, user.long, (quality) => {
 // 				let phoneNumber = user.phone_number;
 // 				var momentDate = moment(quality.valid_at).format("H:mm");
 // 				methodOne(user._id, quality, momentDate)
@@ -251,7 +258,7 @@ const users = appDb.get('users');
 //    					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
 //    					client.messages
 // 			  			.create({
-// 			  				// body: message, 
+// 			  				body: message, 
 // 			    			from: '+14123125983',
 // 			    			to: phoneNumber,
 // 			    			mediaUrl: `https://3c3abf0b.ngrok.io/${result}`,
@@ -262,7 +269,7 @@ const users = appDb.get('users');
 // 			})
 // 		})
 // 	}) 
-// // });
+// });
 
 
 // client.messages.create({ 
@@ -303,13 +310,6 @@ app.get("/", (req, res) => {
 
 
 app.listen(process.env.PORT || 8080, () => console.log(33));
-
-// SUNSETWX work goes here...
-
-const sunsetwx = new SunsetWx({
-	email: 'mzseidman@gmail.com',
-	password: 'Victory251',
-});
 
 function convertUTCDateToLocalDate(date) {
     const newDate = new Date(date);
