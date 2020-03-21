@@ -309,6 +309,8 @@ $dark-gray: #898989;
              .infoImage {
                 width: 450px;
                 position: absolute;
+                bottom: 0px;
+                left: -10px;
             }
         }
         .formContainer {
