@@ -269,6 +269,7 @@ $dark-gray: #898989;
                     }
                     .errorBubble:before {
                         border-color: #555 transparent transparent transparent;
+                        background: #555;
                     }
                 }
                 /*&.randomLocation {
