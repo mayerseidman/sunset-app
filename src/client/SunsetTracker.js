@@ -353,6 +353,7 @@ export default class SunsetTracker extends Component {
                         <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>) or sign up for a daily SMS (coming soon)!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
+                        { actionsContainer }
                     </div>
                 </div>
             </div>
