@@ -238,7 +238,7 @@ const sunsetwx = new SunsetWx({
 // 	}) 
 // });
 
-schedule.scheduleJob({ hour: 14, minute: 33 }, function(){
+schedule.scheduleJob({ hour: 14, minute: 38 }, function(){
 	console.log("HOWDY!!!") 
 	// users.find().then((result)=>{
 	// 	console.log(result)
