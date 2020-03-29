@@ -10,6 +10,7 @@ const appDb = require('monk')('localhost/MyDb');
 const mongodb = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
 
+const geoTz = require('geo-tz')
 const app = express();
 
 // app.use(express.static('public'))
@@ -211,7 +212,7 @@ const sunsetwx = new SunsetWx({
 	password: process.env.PASSWORD,
 });
 
-// schedule.scheduleJob('53 * * * *', function(){
+// schedule.scheduleJob('26 * * * *', function(){
 // 	console.log("RUNNINGG") 
 // 	users.find().then((result)=>{
 // 		result.forEach(user => {
@@ -237,15 +238,31 @@ const sunsetwx = new SunsetWx({
 // 	}) 
 // });
 
-
-// client.messages.create({ 
-//     to: "+14124273243", 
-//     from: '+14123125983', 
-//     body: "Hey Jenny! Good luck on the bar exam!", 
-//     mediaUrl: "http://farm2.static.flickr.com/1075/1404618563_3ed9a44a3a.jpg"
-//  }, function(err, message) { 
-//     console.log(message.sid); 
-//  });
+schedule.scheduleJob({ hour: 14, minute: 33 }, function(){
+	console.log("RUNNINGG") 
+	// users.find().then((result)=>{
+	// 	console.log(result)
+	// 	result.forEach(user => {
+	// 		var lat = user.lat;
+	// 		var long = user.long;
+	// 		runIT(lat, long, (quality) => {
+	// 			console.log(quality)
+	// 			let phoneNumber = user.phone_number;
+	// 			var locale = geoTz(lat, long)[0];
+	// 			console.log(locale)
+	// 			var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
+	// 			const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
+	// 			client.messages
+	//   			.create({
+	//   				body: message, 
+	//     			from: '+14123125983',
+	//     			to: phoneNumber
+	// 			})
+	// 			.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
+	// 		})
+	// 	})
+	// }) 
+});
 
 function checkForExistingUsers(phoneNumber) {
 	const users = appDb.get('users')
@@ -316,7 +333,7 @@ app.use((req, res, next) => {
 	next(); // always have next() when using middleware 
 })
 
-function sendIntroText(phoneNumber) {
+function sendIntroText(phoneNumber, res) {
 	const message = "Thank you for signing up for daily SUNS°ET forecasts. \n\nText 'Stop' at any time to stop receving these. \n\nHave a fab day!"
  	client.messages
 		.create({
@@ -374,11 +391,6 @@ function runIT(lat, long, callback) {
 			callback(body.features[0].properties);		
 		}
 	});
-
-	// const date = convertUTCDateToLocalDate(new Date(sunsetTime));
-	// const date = new Date(sunsetTime + 'UTC');
-	// console.log(date.toString())
-
 }
 
 
