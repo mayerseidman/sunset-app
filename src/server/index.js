@@ -203,7 +203,7 @@ var methodTwo = function(returnedPDF) {
 require('dotenv').config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken); 
+const twilioClient = require('twilio')(accountSid, authToken); 
 const users = appDb.get('users');  
 
 // SUNSETWX work goes here...
@@ -239,23 +239,23 @@ const sunsetwx = new SunsetWx({
 // 	}) 
 // });
 
-var job = new CronJob('10 15 * * *', function() {
+// var MongoClient = require('mongodb').MongoClient;
+// var url = "";
+
+var job = new CronJob('55 15 * * *', function() { 
 	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
 		let  db = client.db('heroku_9v9cjldm') 
 		let users = db.collection('users')
-		users.find().then((result)=>{
-			console.log(result)
+		users.find().toArray().then((result)=>{
 			result.forEach(user => {
 				var lat = user.lat;
 				var long = user.long;
 				runIT(lat, long, (quality) => {
-					console.log(quality)
 					let phoneNumber = user.phone_number;
 					var locale = geoTz(lat, long)[0];
-					console.log(locale)
 					var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
 					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
-					client.messages
+					twilioClient.messages
 		  			.create({
 		  				body: message, 
 		    			from: '+14123125983',
