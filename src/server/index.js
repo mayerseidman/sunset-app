@@ -239,36 +239,35 @@ const sunsetwx = new SunsetWx({
 // 	}) 
 // });
 
-var job = new CronJob('52 14 * * *', function() {
-	console.log("HOWDY!!!") 
+var job = new CronJob('10 15 * * *', function() {
+	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
+		let  db = client.db('heroku_9v9cjldm') 
+		let users = db.collection('users')
+		users.find().then((result)=>{
+			console.log(result)
+			result.forEach(user => {
+				var lat = user.lat;
+				var long = user.long;
+				runIT(lat, long, (quality) => {
+					console.log(quality)
+					let phoneNumber = user.phone_number;
+					var locale = geoTz(lat, long)[0];
+					console.log(locale)
+					var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
+					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
+					client.messages
+		  			.create({
+		  				body: message, 
+		    			from: '+14123125983',
+		    			to: phoneNumber
+					})
+					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
+				})
+			})
+		})
+	});		
 }, null, true, 'America/Los_Angeles')
 job.start()
-
-schedule.scheduleJob({ hour: 14, minute: 38 }, function(){
-	console.log("HOWDY!!!") 
-	// users.find().then((result)=>{
-	// 	console.log(result)
-	// 	result.forEach(user => {
-	// 		var lat = user.lat;
-	// 		var long = user.long;
-	// 		runIT(lat, long, (quality) => {
-	// 			console.log(quality)
-	// 			let phoneNumber = user.phone_number;
-	// 			var locale = geoTz(lat, long)[0];
-	// 			console.log(locale)
-	// 			var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
-	// 			const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
-	// 			client.messages
-	//   			.create({
-	//   				body: message, 
-	//     			from: '+14123125983',
-	//     			to: phoneNumber
-	// 			})
-	// 			.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
-	// 		})
-	// 	})
-	// }) 
-});
 
 function checkForExistingUsers(phoneNumber) {
 	const users = appDb.get('users')
@@ -308,11 +307,6 @@ function convertUTCDateToLocalDate(date) {
     return newDate;
 }
 
-// app.post('/api/sendIntroductoryText', (req, res) => {
-// 	const phoneNumber = req.body.phoneNumber;
-// 	console.log(phoneNumber)
-// })
-
 app.post('/api/send', (req, res) => {
 	console.log("show me soomething")
 	const lat = req.body.lat,
@@ -339,7 +333,7 @@ app.use((req, res, next) => {
 	next(); // always have next() when using middleware 
 })
 
-function sendIntroText(phoneNumber, res) {
+function sendIntroText(phoneNumber) {
 	const message = "Thank you for signing up for daily SUNS°ET forecasts. \n\nText 'Stop' at any time to stop receving these. \n\nHave a fab day!"
  	client.messages
 		.create({
@@ -348,7 +342,6 @@ function sendIntroText(phoneNumber, res) {
  			to: phoneNumber
  		})
  	.then(message => console.log("IT WORKED: ", message.subresourceUris.media));
-    res.send('Data received:\n' + JSON.stringify(req.body));
 }
 
 app.post('/api/submit-form', function (req, res) {
@@ -366,22 +359,17 @@ app.post('/api/submit-form', function (req, res) {
 	// 	}
 	// });	
 	
-	// mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
-	// 	let  db = client.db('heroku_9v9cjldm') 
-	// 	let users = db.collection('users')
-
-	// 	users.find().each(function(err, user) {
- //        	if(err) return console.err(err);
- //        	console.log(user);
- //        })
-
+	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
+		let  db = client.db('heroku_9v9cjldm') 
+		let users = db.collection('users')
 		 
-	// 	// users.insertOne({ id: 1, phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
-	// 	// 	if(err)console.log('error inserting')
-	// 	//  		console.log("data inserted", result)
-	// 	// })   
- //   });
+		users.insertOne({ id: 1, phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+			if(err)console.log('error inserting')
+		 		console.log("data inserted", result)
+		})   
+   	});
 	sendIntroText(phoneNumber)
+	res.send('Data received:\n' + JSON.stringify(req.body));
 });
 
 function runIT(lat, long, callback) {
