@@ -25,6 +25,7 @@ const moment = require('moment');
 const NodeGeocoder = require('node-geocoder');
 
 const schedule = require('node-schedule');
+var CronJob = require('cron').CronJob;
 const _ = require('underscore')
 
 
@@ -237,6 +238,11 @@ const sunsetwx = new SunsetWx({
 // 		})
 // 	}) 
 // });
+
+var job = new CronJob('52 14 * * *', function() {
+	console.log("HOWDY!!!") 
+}, null, true, 'America/Los_Angeles')
+job.start()
 
 schedule.scheduleJob({ hour: 14, minute: 38 }, function(){
 	console.log("HOWDY!!!") 
