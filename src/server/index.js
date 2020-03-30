@@ -242,8 +242,8 @@ const sunsetwx = new SunsetWx({
 // var MongoClient = require('mongodb').MongoClient;
 // var url = "";
 
-var job = new CronJob('00 10 * * *', function() { 
-	mongodb.MongoClient.connect(process.env.MONGODB_URI, (err, client)=>{
+var job = new CronJob('26 10 * * *', function() { 
+	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
 		let  db = client.db('heroku_9v9cjldm') 
 		let users = db.collection('users')
 		users.find().toArray().then((result)=>{
@@ -254,9 +254,7 @@ var job = new CronJob('00 10 * * *', function() {
 				runIT(lat, long, (quality) => {
 					let phoneNumber = user.phone_number;
 					var locale = geoTz(lat, long)[0];
-					console.log(locale)
 					var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
-					console.log(momentDate)
 					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
 					twilioClient.messages
 		  			.create({
@@ -350,8 +348,8 @@ function sendIntroText(phoneNumber) {
 app.post('/api/submit-form', function (req, res) {
 	const phoneNumber = "+1" + req.body.user.phone_number;
 	const location = req.body.user.location;
-	const lat = 40.7128;
-	const long = -74.006;
+	const lat = req.body.user.lat;
+	const long = req.body.user.long;
 
 	// checkForExistingUsers(phoneNumber).then(function(result) {
 	// 	if (!result) {
