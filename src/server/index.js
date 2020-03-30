@@ -350,8 +350,8 @@ function sendIntroText(phoneNumber) {
 app.post('/api/submit-form', function (req, res) {
 	const phoneNumber = "+1" + req.body.user.phone_number;
 	const location = req.body.user.location;
-	const lat = req.body.user.lat;
-	const long = req.body.user.long;
+	const lat = 40.7128;
+	const long = -74.006;
 
 	// checkForExistingUsers(phoneNumber).then(function(result) {
 	// 	if (!result) {
