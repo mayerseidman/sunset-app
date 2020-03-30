@@ -242,7 +242,7 @@ const sunsetwx = new SunsetWx({
 // var MongoClient = require('mongodb').MongoClient;
 // var url = "";
 
-var job = new CronJob('30 18 * * *', function() { 
+var job = new CronJob('35 18 * * *', function() { 
 	mongodb.MongoClient.connect(process.env.MONGODB_URI, (err, client)=>{
 		let  db = client.db('heroku_9v9cjldm') 
 		let users = db.collection('users')
@@ -254,7 +254,9 @@ var job = new CronJob('30 18 * * *', function() {
 				runIT(lat, long, (quality) => {
 					let phoneNumber = user.phone_number;
 					var locale = geoTz(lat, long)[0];
+					console.log(locale)
 					var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
+					console.log(momentDate)
 					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
 					twilioClient.messages
 		  			.create({
