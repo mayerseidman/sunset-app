@@ -244,7 +244,7 @@ const sunsetwx = new SunsetWx({
 
 console.log("runPPPPP")
 
-var job = new CronJob('32 10 * * *', function() { 
+var job = new CronJob('35 10 * * *', function() { 
 	console.log("HOWDAY")
 	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
 		let  db = client.db('heroku_9v9cjldm') 
