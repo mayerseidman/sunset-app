@@ -242,33 +242,33 @@ const sunsetwx = new SunsetWx({
 // var MongoClient = require('mongodb').MongoClient;
 // var url = "";
 
-var job = new CronJob('0 20 * * *', function() { 
-	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
-		let  db = client.db('heroku_9v9cjldm') 
-		let users = db.collection('users')
-		users.find().toArray().then((result)=>{
-			result.forEach(user => {
-				var lat = user.lat;
-				var long = user.long;
-				console.log(lat, long)
-				runIT(lat, long, (quality) => {
-					let phoneNumber = user.phone_number;
-					var locale = geoTz(lat, long)[0];
-					var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
-					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
-					twilioClient.messages
-		  			.create({
-		  				body: message, 
-		    			from: '+14123125983',
-		    			to: phoneNumber
-					})
-					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
-				})
-			})
-		})
-	});		
-}, null, true, 'America/Los_Angeles')
-job.start()
+// var job = new CronJob('0 10 * * *', function() { 
+// 	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
+// 		let  db = client.db('heroku_9v9cjldm') 
+// 		let users = db.collection('users')
+// 		users.find().toArray().then((result)=>{
+// 			result.forEach(user => {
+// 				var lat = user.lat;
+// 				var long = user.long;
+// 				console.log(lat, long)
+// 				runIT(lat, long, (quality) => {
+// 					let phoneNumber = user.phone_number;
+// 					var locale = geoTz(lat, long)[0];
+// 					var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
+// 					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
+// 					twilioClient.messages
+// 		  			.create({
+// 		  				body: message, 
+// 		    			from: '+14123125983',
+// 		    			to: phoneNumber
+// 					})
+// 					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
+// 				})
+// 			})
+// 		})
+// 	});		
+// }, null, true, 'America/Los_Angeles')
+// job.start()
 
 function checkForExistingUsers(phoneNumber) {
 	const users = appDb.get('users')
