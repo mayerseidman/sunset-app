@@ -63,8 +63,8 @@ $dark-gray: #898989;
             }
         }
 /*        @media only screen and (min-device-width: 768px){}
-*/        .leftContainer {
-           text-align: center;
+*/      .leftContainer {
+            text-align: center;
             @media only screen and (min-device-width: 480px){
                 display: inline-block;
                 width: 40%;
@@ -152,8 +152,8 @@ $dark-gray: #898989;
                         .sunFullImage {
                             bottom: 28px;
                             @media only screen and (min-device-width: 480px){
-                                right: 345px;
-                                top: -33px;
+                                right: 350px;
+                                top: -21px;
                             }
                         }
                     }
@@ -310,7 +310,6 @@ $dark-gray: #898989;
              .infoImage {
                 width: 450px;
                 position: absolute;
-                bottom: 0px;
                 left: -10px;
             }
         }

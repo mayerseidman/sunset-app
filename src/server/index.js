@@ -271,23 +271,47 @@ const sunsetwx = new SunsetWx({
 // job.start()
 
 function checkForExistingUsers(phoneNumber) {
-	const users = appDb.get('users')
-	const hasDuplicate = users.find({ phone_number: phoneNumber 
-	}).then((result) => {
-		return _.isEmpty(result)
+	return new Promise((resolve, reject) => {
+		 mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
+		let  db = client.db('heroku_9v9cjldm') 
+		let users = db.collection('users')
+
+		let promise = users.findOne({ phone_number: phoneNumber })
+
+		promise.then((doc) => {
+			console.log(doc);
+			console.log(_.isEmpty(doc))
+			resolve(_.isEmpty(doc))
+		}).catch(err=>reject(err))
+
+		// const hasDuplicate = users.find({ 
+		// 	phone_number: phoneNumber 
+		// }).toArray().then((result) => {
+		// 	console.log(result)
+		// 	console.log(_.isEmpty(result))
+		// }).then((value) => { 
+		// 	console.log("VALUE", value)
+		// 	// callback(value) 
+		// });
+
+		// console.log("HAS Duplicate", hasDuplicate)
+		// return hasDuplicate
+
+
+
+
+		// users.aggregate(
+		// 	{"$group" : { "_id": "$phone_number", "count": { "$sum": 1 } } },
+		// 	{"$match": {"_id" :{ "$ne" : null } , "count" : {"$gt": 1} } },
+		// 	{"$project": {"phone_number" : "$_id", "_id" : 0} }
+		// ).then((result) => {
+		// 	console.log(result)
+		// 	var existsInSystem = _.filter(result, function(user){ return user.count >= 1; });
+		// 	console.log(_.isEmpty(existsInSystem))
+		// });
+		})
 	})
-
-	return hasDuplicate
-
-	// users.aggregate(
-	// 	{"$group" : { "_id": "$phone_number", "count": { "$sum": 1 } } },
-	// 	{"$match": {"_id" :{ "$ne" : null } , "count" : {"$gt": 1} } },
-	// 	{"$project": {"phone_number" : "$_id", "_id" : 0} }
-	// ).then((result) => {
-	// 	console.log(result)
-	// 	var existsInSystem = _.filter(result, function(user){ return user.count >= 1; });
-	// 	console.log(_.isEmpty(existsInSystem))
-	// });
+	
 }
 
 const distPath = path.join(__dirname, '../..', 'dist')
@@ -336,7 +360,7 @@ app.use((req, res, next) => {
 
 function sendIntroText(phoneNumber) {
 	const message = "Thank you for signing up for daily SUNS°ET forecasts. \n\nText 'Stop' at any time to stop receving these. \n\nHave a fab day!"
- 	client.messages
+ 	twilioClient.messages
 		.create({
  			body: message, 
  			from: process.env.PHONE_NUMBER,
@@ -351,26 +375,28 @@ app.post('/api/submit-form', function (req, res) {
 	const lat = req.body.user.lat;
 	const long = req.body.user.long;
 
-	// checkForExistingUsers(phoneNumber).then(function(result) {
-	// 	if (!result) {
-	// 		console.log("WE GOT A DUPLICATE!!")
-	// 		res.send({ error: true });
-	// 	} else {
-	// 		console.log("Phone number is all 'CLEAR")
-	// 	}
-	// });	
+	checkForExistingUsers(phoneNumber).then(function(result) {
+		console.log("result:", result)
+		if (!result) {
+			console.log("DUPLICATE!!")
+			res.send({ error: true });
+		} else {
+			console.log("Phone number is all 'CLEAR")
+			res.send(req.body)
+		}
+	});
 	
-	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
-		let  db = client.db('heroku_9v9cjldm') 
-		let users = db.collection('users')
+	// mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
+	// 	let  db = client.db('heroku_9v9cjldm') 
+	// 	let users = db.collection('users')
 		 
-		users.insertOne({ id: 1, phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
-			if(err)console.log('error inserting')
-		 		console.log("data inserted", result)
-		})   
-   	});
-	sendIntroText(phoneNumber)
-	res.send('Data received:\n' + JSON.stringify(req.body));
+	// 	users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+	// 		if(err)console.log('error inserting')
+	// 	 		console.log("data inserted", result)
+	// 	})   
+ //   	});
+	// sendIntroText(phoneNumber)
+	// res.send(req.body);
 });
 
 function runIT(lat, long, callback) {

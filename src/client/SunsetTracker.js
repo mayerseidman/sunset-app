@@ -78,55 +78,47 @@ export default class SunsetTracker extends Component {
     submitInfo() {
         if ("geolocation" in navigator) {
           /* geolocation is available */
-            // navigator.geolocation.getCurrentPosition(function(position) {
-                this.refs.errors.reset();
-                var errors = [];
+            this.refs.errors.reset();
+            var errors = [];
 
-                var lat = this.state.lat;
-                var long = this.state.long;
-                var phoneNumber = this.refs.phone_number.value.replace(/[^\d]/g, '')
-                var phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
-                console.log(lat, long)
-                const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
-                if (invalidPhoneNumber) {
-                    errors.push("Phone numbers must have 10 digits. Here's a simple format that works: 123-123-1234.")
-                    // this.setState({ errorPhoneNumber: true })
-                    this.refs.errors.setErrors(errors);
-                } else {
-                    console.log("Phone Number looks groovy")
-                    // fetch("/api/sendIntroductoryText", {
-                    //     method: 'POST',
-                    //     body: JSON.stringify({ phoneNumber: phoneNumber }), // stringify JSON
-                    //     headers: new Headers({ "Content-Type": "application/json" }) // add headers
-                    // }).then(res => res.json().then(console.log("BATMAN!!")))
-                    // setTimeout(() => {
-                    //     this.setState({ 
-                    //         submissionSuccess: false     
-                    //     });
-                    // }, 3000)
-                   fetch('/api/submit-form', {
-                       method: 'POST',
-                       headers: {
-                           'Content-Type': 'application/json'
-                       },
-                       body: JSON.stringify({
-                           user: {
-                               phone_number: phoneNumber,
-                               lat: this.state.lat,
-                               long: this.state.long
-                           }
-                       })
-                   }).then(res => res.json().then(function(value) {
-                        console.log(value)
-                        if (value) {
-                            errors.push("Please enter another number. This number is already in our system.")
-                            this.refs.errors.setErrors(errors);
-                        } else {
-                            this.setState({ submissionSuccess: true })
-                        }
-                   }.bind(this)))
-                }
-            // }.bind(this))
+            var lat = this.state.lat;
+            var long = this.state.long;
+            var phoneNumber = this.refs.phone_number.value.replace(/[^\d]/g, '')
+            var phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
+            console.log(lat, long)
+            const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
+            if (invalidPhoneNumber) {
+                errors.push("Phone numbers must have 10 digits. Here's a simple format that works: 123-123-1234.")
+                // this.setState({ errorPhoneNumber: true })
+                this.refs.errors.setErrors(errors);
+            } else {
+                console.log("Phone Number looks groovy")
+                fetch('/api/submit-form', {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json',
+                       'Accept': 'application/json'
+                   },
+                   body: JSON.stringify({
+                       user: {
+                           phone_number: phoneNumber,
+                           lat: this.state.lat,
+                           long: this.state.long
+                       }
+                   })
+                }).then(response => {
+                    console.log(response)
+                    return response.json()
+                }).then(value => {
+                   console.log(value)
+                   if (value.error) {
+                       errors.push("Please enter another number. This number is already in our system.")
+                       this.refs.errors.setErrors(errors);
+                   } else {
+                       this.setState({ submissionSuccess: true })
+                   }
+                })
+            }
         } else {
           /* geolocation IS NOT available */
         }
@@ -158,7 +150,6 @@ export default class SunsetTracker extends Component {
         console.log(city, lat, long)
         this.setState({ lat: lat, long: long, showRandomSunset: true, city: city, offset: offset })
         this.sendIT(lat, long);
-        // this.setState({ pictures: city })
     }
 
 
@@ -308,33 +299,33 @@ export default class SunsetTracker extends Component {
                 <button onClick={ this.findMyCoordinates.bind(this) } className="findLocationButton">Find My Location</button>
             )
         }
-
-        // actionsContainer (goes after ErrorDisplay)
-        var actionsContainer = (
-            <div className="actionsContainer">
-                <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
-                { findCoordinatesButton }
-                { submitButton }
-            </div>
-        )
-
-        // form container goes after formContainer div 
-        var formContainer = (
-            <div className="formContainer webHide">
-                { notificationText }                        
-                <ErrorDisplay ref="errors"/>
-                <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
-                { findCoordinatesButton }
-                { submitButton }
-            </div>
-        )
+        if (!this.state.submissionSuccess) {
+            var actionsContainer = (
+                <div className="actionsContainer">
+                    <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
+                    { findCoordinatesButton }
+                    { submitButton }
+                </div>
+            )
+            if(window.innerWidth <= 480 && window.innerHeight <= 820) {
+                var formContainer = (
+                    <div className="formContainer webHide">
+                        { notificationText }                        
+                        <ErrorDisplay ref="errors"/>
+                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
+                        { findCoordinatesButton }
+                        { submitButton }
+                    </div>
+                )
+            }
+        }
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
                     <p className="header">Sunsets are awesome. Don't miss another!</p>
                 </div>
                 <div className="container middleContainer">
-                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS (coming soon)!</p>
+                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS!</p>
                     <div className="leftContainer">
                         <div>
                             <div className={ "imagesContainer " + randomLocation}>
@@ -350,11 +341,12 @@ export default class SunsetTracker extends Component {
                         { notificationText } 
                         <img src={ sunsetInfoImage } alt="sunset-info" className="infoImage" style={{ display: this.state.hover ? "inline-block" : "none" }}/>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
-                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>) or sign up for a daily SMS (coming soon)!</p>
+                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>) or sign up for a daily SMS!</p>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
                         { actionsContainer }
                     </div>
+                    { formContainer }
                 </div>
             </div>
         );
