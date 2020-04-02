@@ -8,7 +8,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const appDb = require('monk')('localhost/MyDb');
 const mongodb = require('mongodb');
-const MongoClient = require('mongodb').MongoClient;
+const MongoClient = mongodb.MongoClient;
 
 const geoTz = require('geo-tz')
 const app = express();
@@ -242,73 +242,45 @@ const sunsetwx = new SunsetWx({
 // var MongoClient = require('mongodb').MongoClient;
 // var url = "";
 
-// var job = new CronJob('0 10 * * *', function() { 
-// 	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
-// 		let  db = client.db('heroku_9v9cjldm') 
-// 		let users = db.collection('users')
-// 		users.find().toArray().then((result)=>{
-// 			result.forEach(user => {
-// 				var lat = user.lat;
-// 				var long = user.long;
-// 				console.log(lat, long)
-// 				runIT(lat, long, (quality) => {
-// 					let phoneNumber = user.phone_number;
-// 					var locale = geoTz(lat, long)[0];
-// 					var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
-// 					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
-// 					twilioClient.messages
-// 		  			.create({
-// 		  				body: message, 
-// 		    			from: '+14123125983',
-// 		    			to: phoneNumber
-// 					})
-// 					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
-// 				})
-// 			})
-// 		})
-// 	});		
-// }, null, true, 'America/Los_Angeles')
-// job.start()
+var job = new CronJob('38 21 * * *', function() { 
+	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
+		let  db = client.db('heroku_9v9cjldm') 
+		let users = db.collection('users')
+		users.find().toArray().then((result)=>{
+			result.forEach(user => {
+				var lat = user.lat;
+				var long = user.long;
+				console.log(lat, long)
+				runIT(lat, long, (quality) => {
+					let phoneNumber = user.phone_number;
+					var locale = geoTz(lat, long)[0];
+					var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
+					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
+					twilioClient.messages
+		  			.create({
+		  				body: message, 
+		    			from: '+14123125983',
+		    			to: phoneNumber
+					})
+					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
+				})
+			})
+		})
+	});		
+}, null, true, 'America/Los_Angeles')
+job.start()
 
 function checkForExistingUsers(phoneNumber) {
 	return new Promise((resolve, reject) => {
-		 mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
-		let  db = client.db('heroku_9v9cjldm') 
-		let users = db.collection('users')
+		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
+			let  db = client.db('heroku_9v9cjldm') 
+			let users = db.collection('users')
 
-		let promise = users.findOne({ phone_number: phoneNumber })
+			let findPhoneNumber = users.findOne({ phone_number: phoneNumber })
 
-		promise.then((doc) => {
-			console.log(doc);
-			console.log(_.isEmpty(doc))
-			resolve(_.isEmpty(doc))
-		}).catch(err=>reject(err))
-
-		// const hasDuplicate = users.find({ 
-		// 	phone_number: phoneNumber 
-		// }).toArray().then((result) => {
-		// 	console.log(result)
-		// 	console.log(_.isEmpty(result))
-		// }).then((value) => { 
-		// 	console.log("VALUE", value)
-		// 	// callback(value) 
-		// });
-
-		// console.log("HAS Duplicate", hasDuplicate)
-		// return hasDuplicate
-
-
-
-
-		// users.aggregate(
-		// 	{"$group" : { "_id": "$phone_number", "count": { "$sum": 1 } } },
-		// 	{"$match": {"_id" :{ "$ne" : null } , "count" : {"$gt": 1} } },
-		// 	{"$project": {"phone_number" : "$_id", "_id" : 0} }
-		// ).then((result) => {
-		// 	console.log(result)
-		// 	var existsInSystem = _.filter(result, function(user){ return user.count >= 1; });
-		// 	console.log(_.isEmpty(existsInSystem))
-		// });
+			findPhoneNumber.then((doc) => {
+				resolve(_.isEmpty(doc))
+			}).catch(err=>reject(err))
 		})
 	})
 	
@@ -378,25 +350,24 @@ app.post('/api/submit-form', function (req, res) {
 	checkForExistingUsers(phoneNumber).then(function(result) {
 		console.log("result:", result)
 		if (!result) {
-			console.log("DUPLICATE!!")
 			res.send({ error: true });
 		} else {
-			console.log("Phone number is all 'CLEAR")
+			MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
+				let  db = client.db('heroku_9v9cjldm') 
+				let users = db.collection('users')
+				 
+				users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+					if(err)  {
+						console.log('error inserting')
+				 		console.log("data inserted", result)
+				 	} else {
+				 		sendIntroText(phoneNumber)
+				 	}
+				})   
+		   	});
 			res.send(req.body)
 		}
 	});
-	
-	// mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
-	// 	let  db = client.db('heroku_9v9cjldm') 
-	// 	let users = db.collection('users')
-		 
-	// 	users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
-	// 		if(err)console.log('error inserting')
-	// 	 		console.log("data inserted", result)
-	// 	})   
- //   	});
-	// sendIntroText(phoneNumber)
-	// res.send(req.body);
 });
 
 function runIT(lat, long, callback) {
