@@ -58,6 +58,13 @@ $dark-gray: #898989;
                     top: 30px
                 }
             }
+            .actionsContainer {
+                .phoneNumberLabel {
+                    font-size: 12px;
+                    display: block;
+                    margin-bottom: 2px;
+                }
+            }
             .descriptionText {
                 color: #4990e2;
             }
@@ -77,6 +84,10 @@ $dark-gray: #898989;
                 margin-top: 0px;
                 height: 268px;
                 bottom: 5px;
+                &:hover {
+                    transform: scale(1.13);
+                    -webkit-transition: .3s ease-out; 
+                }
                 @media only screen and (min-device-width: 480px){
                     top: 10px;
                     margin: 0;
@@ -92,7 +103,7 @@ $dark-gray: #898989;
                     left: 83px;
                     &:hover {
                         cursor: pointer;
-                        opacity: 0.85;
+                        opacity: 0.9;
                     }
                     // iPhone
                     @media only screen and (min-device-width: 375px){
@@ -109,6 +120,10 @@ $dark-gray: #898989;
                     top: 0;
                     left: 0;
                     width: 255px;
+                    &:hover {
+                        cursor: pointer;
+                        opacity: 0.9;
+                    }
                     @media only screen and (min-device-width: 480px) {
                         width: 305px;
                     }
@@ -280,7 +295,7 @@ $dark-gray: #898989;
             }
             .linksContainer {
                 position: relative;
-                right: 3px;
+                right: 2.5px;
                 bottom: 15px;
                 font-size: 0.8em;
                 margin-bottom: 10px;
@@ -317,7 +332,7 @@ $dark-gray: #898989;
             position: relative;
             bottom: 15px;
             @media only screen and (min-device-width: 480px){
-                bottom: 0px;
+                top: 20px;
             }
             .submitButton {
                 color: #fff;
@@ -327,6 +342,7 @@ $dark-gray: #898989;
                 font-size: 1em;
                 border-radius: 5px;
                 width: 100%;
+                cursor: pointer;
                 @media only screen and (min-device-width: 480px){
                     margin-top: 0;
                     width: auto;
@@ -335,6 +351,7 @@ $dark-gray: #898989;
                     background-color: #237600;
                     border-color: #195500;
                 }
+                &:focus {outline: 0}
             }
             .phoneNumberField {
                 height: 44px !important;
@@ -344,20 +361,27 @@ $dark-gray: #898989;
                     display: inline-block !important;
                     margin-right: 15px; 
                 }
+                cursor: auto;
             }
             .findLocationButton {
                 width: 100%;
-                background: lightgray;
+                background: #fff;
                 height: 44px;
-                border: none;
+                border: 1px solid #CCC;
                 margin-bottom: 25px;
                 padding: 6px 12px;
                 border-radius: 5px;
                 color: #555;
                 font-size: 0.8em;
+                cursor: pointer;
                 @media only screen and (min-device-width: 480px) {
                     width: 175px;
                 }
+                &:hover {
+                    background-color: #eee;
+                    border-color: #aaa;
+                }
+                &:focus {outline: 0}
             }
         }
         .mobileHide {

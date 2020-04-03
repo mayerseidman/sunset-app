@@ -14,6 +14,18 @@ import sunFullImage from './sun-full.png';
 import questionImage from './question.png';
 import sunsetInfoImage from './sunset-info.png';
 
+const normalizeInput = (value, previousValue) => {
+    if (!value) return value;
+    const currentValue = value.replace(/[^\d]/g, '');
+    const cvLength = currentValue.length;
+  
+    if (!previousValue || value.length > previousValue.length) {
+        if (cvLength < 4) return currentValue;
+        if (cvLength < 7) return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`;
+        return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`;
+    }
+};
+
 export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
@@ -187,6 +199,10 @@ export default class SunsetTracker extends Component {
         this.setState({ open: false });
     };
 
+    handleChange({ target: { value } }) {   
+        this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
+    };
+
     render() {
         const { open } = this.state;
         var sunset = this.state.sunsetInfo;
@@ -263,7 +279,7 @@ export default class SunsetTracker extends Component {
                         var imgClassName = "spin";
                     }
                     var displayImage = (
-                        <span>
+                        <span className="sunImageContainer">
                             <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
                             <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
                         </span>
@@ -302,17 +318,21 @@ export default class SunsetTracker extends Component {
         if (!this.state.submissionSuccess) {
             var actionsContainer = (
                 <div className="actionsContainer">
-                    <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
+                    <label className="phoneNumberLabel">Phone Number</label>
+                    <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(xxx) xxx-xxxx"
+                        onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
                     { findCoordinatesButton }
                     { submitButton }
                 </div>
             )
+            // Mobile 
             if(window.innerWidth <= 480 && window.innerHeight <= 820) {
                 var formContainer = (
                     <div className="formContainer webHide">
                         { notificationText }                        
                         <ErrorDisplay ref="errors"/>
-                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="phone number..."/>
+                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(xxx) xxx-xxxx"
+                            onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
                         { findCoordinatesButton }
                         { submitButton }
                     </div>

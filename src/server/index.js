@@ -227,7 +227,7 @@ const sunsetwx = new SunsetWx({
 //    					client.messages
 // 			  			.create({
 // 			  				body: message, 
-// 			    			from: '+14123125983',
+// 			    			from: process.env.PHONE_NUMBER,
 // 			    			to: phoneNumber,
 // 			    			mediaUrl: `https://3c3abf0b.ngrok.io/${result}`,
 // 			    			contentType: "image/png"
@@ -259,7 +259,7 @@ var job = new CronJob('0 12 * * *', function() {
 					twilioClient.messages
 		  			.create({
 		  				body: message, 
-		    			from: '+14123125983',
+		    			from: process.env.PHONE_NUMBER,
 		    			to: phoneNumber
 					})
 					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
@@ -313,15 +313,6 @@ app.post('/api/send', (req, res) => {
 		res.send({ quality })
 		// const client = require('twilio')(accountSid, authToken);
 		// const message = "QUALITY: " + quality.quality + "\n" + " Quality Percent: " + quality.quality_percent;
-
-		// client.messages
-		//   .create({
-		//      body:  message,
-		//      from: '+14123125983',
-		//		mediaUrl: ['https://demo.twilio.com/owl.png'],
-		//      to: '+14124273243'
-		//    })
-		//   .then(message => console.log(message.sid));
 	})
 });
 
@@ -346,28 +337,28 @@ app.post('/api/submit-form', function (req, res) {
 	const location = req.body.user.location;
 	const lat = req.body.user.lat;
 	const long = req.body.user.long;
-
-	checkForExistingUsers(phoneNumber).then(function(result) {
-		console.log("result:", result)
-		if (!result) {
-			res.send({ error: true });
-		} else {
-			MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
-				let  db = client.db('heroku_9v9cjldm') 
-				let users = db.collection('users')
+	console.log(phoneNumber)
+	// checkForExistingUsers(phoneNumber).then(function(result) {
+	// 	console.log("result:", result)
+	// 	if (!result) {
+	// 		res.send({ error: true });
+	// 	} else {
+	// 		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
+	// 			let  db = client.db('heroku_9v9cjldm') 
+	// 			let users = db.collection('users')
 				 
-				users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
-					if(err)  {
-						console.log('error inserting')
-				 		console.log("data inserted", result)
-				 	} else {
-				 		sendIntroText(phoneNumber)
-				 	}
-				})   
-		   	});
-			res.send(req.body)
-		}
-	});
+	// 			users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+	// 				if(err)  {
+	// 					console.log('error inserting')
+	// 			 		console.log("data inserted", result)
+	// 			 	} else {
+	// 			 		sendIntroText(phoneNumber)
+	// 			 	}
+	// 			})   
+	// 	   	});
+	// 		res.send(req.body)
+	// 	}
+	// });
 });
 
 function runIT(lat, long, callback) {
