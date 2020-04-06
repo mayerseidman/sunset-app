@@ -1,3 +1,4 @@
+// LIBRARIES //
 import React, { Component } from 'react';
 import Modal from "react-responsive-modal";
 
@@ -7,12 +8,15 @@ import ErrorDisplay from './ErrorDisplay';
 const _ = require('underscore')
 const moment = require('moment');
 
+// IMAGES //
+import sunInnerImage from './../images/sun-inner.png';
+import sunOuterImage from './../images/sun-outer-shell.png';
+import sunFullImage from './../images/sun-full.png';
+import questionImage from './../images/question.png';
+import sunsetInfoImage from './../images/sunset-info.png';
+
+// CSS //
 import './../css/app.css';
-import sunInnerImage from './sun-inner.png';
-import sunOuterImage from './sun-outer-shell.png';
-import sunFullImage from './sun-full.png';
-import questionImage from './question.png';
-import sunsetInfoImage from './sunset-info.png';
 
 const normalizeInput = (value, previousValue) => {
     if (!value) return value;
@@ -77,7 +81,7 @@ export default class SunsetTracker extends Component {
             }
         }).then((sunset) => {
             setTimeout(function(){
-                this.setState({ spin :false, sunsetInfo: sunset.quality })
+                this.setState({ spin :false, sunsetInfo: sunset.quality, temperature: Math.floor(sunset.quality.temperature) })
             }.bind(this), 2000)
         })
     }
@@ -90,10 +94,10 @@ export default class SunsetTracker extends Component {
             this.refs.errors.reset();
             var errors = [];
 
-            var lat = this.state.lat;
-            var long = this.state.long;
-            var phoneNumber = this.refs.phone_number.value.replace(/[^\d]/g, '')
-            var phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
+            const lat = this.state.lat;
+            const long = this.state.long;
+            const phoneNumber = this.refs.phone_number.value.replace(/[^\d]/g, '')
+            const phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
             console.log(lat, long)
             const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
             if (invalidPhoneNumber) {
@@ -198,6 +202,16 @@ export default class SunsetTracker extends Component {
         this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
     };
 
+    changeTemperature(type) {
+        const celsius = Math.floor(this.state.sunsetInfo.temperature);
+        if (type == "F") {
+            this.setState({ showFahrenheitLink: false, temperature: celsius })
+        } else {
+            const fahrenheit = Math.floor(( (9 * celsius) + 160 ) / 5)
+            this.setState({ showFahrenheitLink: true, temperature: fahrenheit })
+        }
+    }
+
     render() {
         const { open } = this.state;
         var sunset = this.state.sunsetInfo;
@@ -215,7 +229,7 @@ export default class SunsetTracker extends Component {
             var links =  (
                 <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
             )
-            var linksClassName = "altLinksContainer";
+            const linksClassName = "altLinksContainer";
         } else {
             if (sunset) {
                 if (this.state.showRandomSunset) {
@@ -230,7 +244,16 @@ export default class SunsetTracker extends Component {
                         <p>Your Suns°et Forecast: </p>
                     )
                     var momentTime = moment(sunset.valid_at).format("H:mm");
-                }                
+                }
+                if (this.state.showFahrenheitLink) {
+                    var temperatureWidget = (
+                        <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "F") }>F</a>
+                    ) 
+                } else {
+                    var temperatureWidget = (
+                        <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "C") }>C</a>
+                    ) 
+                }   
                 var sunsetInfo = (
                     <div className="infoContainer">
                         <div className="infoBubble">
@@ -243,7 +266,7 @@ export default class SunsetTracker extends Component {
                                 <img src={ questionImage } alt="question" className="questionImage webHide" 
                                     onClick={ this.onOpenModal.bind(this) } />    
                             </p>
-                            <p>Temperature: { Math.floor(sunset.temperature) }°</p>
+                            <p>Temperature: { this.state.temperature }° { temperatureWidget }</p>
                         </div>
                         <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
                         <Modal open={ open } onClose={ this.onCloseModal.bind(this) } className="modal">
@@ -254,7 +277,7 @@ export default class SunsetTracker extends Component {
                 var links =  (
                     <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
                 )
-                var linksClassName = "altLinksContainer";
+                const linksClassName = "altLinksContainer";
             } else {
                 if (this.state.loadingMessage) {
                     var displayImage = (
@@ -272,9 +295,10 @@ export default class SunsetTracker extends Component {
                 } else {
                     if (this.state.spin) {
                         var imgClassName = "spin";
+                        var containerClass = "shrink";
                     }
                     var displayImage = (
-                        <div className="sunImageContainer">
+                        <div className={ "sunImageContainer "  + containerClass }>
                             <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
                             <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
                         </div>

@@ -30,35 +30,6 @@ const _ = require('underscore')
 
 
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
-// app.get('/api/extractText', function(req, res) {
-// 	var imgName = req.query.imgName;
-// 	console.log("EXTRACTTTTTTTTTTTTTTTT", imgName)
-
-// 	const ocrSpaceApi = require('ocr-space-api');
-
-// 	var options =  { 
-// 	    apikey: '8f5d685ff588957',
-// 	    language: 'por', // Português
-// 	    imageFormat: 'image/png', // Image Type (Only png ou gif is acceptable at the moment i wrote this)
-// 	    isOverlayRequired: true
-// 	};
-
-// 	// Image file to upload
-// 	// Running off of my desktop for now....have to make this eventually read off database...
-// 	const imageFilePath = "/Users/mayerseidman/Desktop/" + imgName + ""
-
-// 	// Run and wait the result
-// 	ocrSpaceApi.parseImageFromLocalFile(imageFilePath, options)
-// 	  .then(function (parsedResult) {
-// 	    console.log('parsedText: \n', parsedResult.parsedText);
-// 	    res.send({ text: parsedResult.parsedText })
-// 	    console.log('ocrParsedResult: \n', parsedResult.ocrParsedResult);
-// 	  }).catch(function (err) {
-// 	    console.log('ERROR:', err);
-// 	  });
-
-// })
-
 
 app.post('/api/addUser', function(req, res) {
 	db.collection('user').doc().set(req.body)
@@ -244,17 +215,17 @@ const sunsetwx = new SunsetWx({
 
 var job = new CronJob('0 12 * * *', function() { 
 	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
-		let  db = client.db('heroku_9v9cjldm') 
-		let users = db.collection('users')
+		const  db = client.db('heroku_9v9cjldm') 
+		const users = db.collection('users')
 		users.find().toArray().then((result)=>{
 			result.forEach(user => {
 				var lat = user.lat;
 				var long = user.long;
 				console.log(lat, long)
 				runIT(lat, long, (quality) => {
-					let phoneNumber = user.phone_number;
-					var locale = geoTz(lat, long)[0];
-					var momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
+					const phoneNumber = user.phone_number;
+					const locale = geoTz(lat, long)[0];
+					const momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
 					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
 					twilioClient.messages
 		  			.create({
@@ -311,8 +282,6 @@ app.post('/api/send', (req, res) => {
 	 runIT(lat, long, (quality)=>{
 	 	console.log(quality)
 		res.send({ quality })
-		// const client = require('twilio')(accountSid, authToken);
-		// const message = "QUALITY: " + quality.quality + "\n" + " Quality Percent: " + quality.quality_percent;
 	})
 });
 
