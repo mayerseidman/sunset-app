@@ -47,12 +47,10 @@ export default class SunsetTracker extends Component {
         if ("geolocation" in navigator) {
           /* geolocation is available */
           this.setState({ spin: true })
-          console.log("GEOOOOOO")
             navigator.geolocation.getCurrentPosition(function(position) {
-                var lat = position.coords.latitude;
-                var long = position.coords.longitude;
+                const lat = position.coords.latitude;
+                const long = position.coords.longitude;
                 this.setState({ lat: lat, long: long  })
-                console.log(lat, long)
                 this.sendIT(lat, long)
             }.bind(this))
         } else {
@@ -63,7 +61,6 @@ export default class SunsetTracker extends Component {
     // Wreck Beach - 49.2622, -123.2615
 
     sendIT(lat, long) { 
-        console.log("send it function", lat, long)
         fetch("/api/send", {
             method: 'POST',
             body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
@@ -154,11 +151,11 @@ export default class SunsetTracker extends Component {
         } else {
             this.setState({ spin: true })
         }
-        var randomLocation = _.sample(randomLocations)
-        var city = randomLocation.city;
-        var lat = randomLocation.lat;
-        var long = randomLocation.long;
-        var offset = randomLocation.offset;
+        const randomLocation = _.sample(randomLocations)
+        const city = randomLocation.city;
+        const lat = randomLocation.lat;
+        const long = randomLocation.long;
+        const offset = randomLocation.offset;
         console.log(city, lat, long)
         this.setState({ lat: lat, long: long, showRandomSunset: true, city: city, offset: offset })
         this.sendIT(lat, long);
@@ -171,8 +168,6 @@ export default class SunsetTracker extends Component {
         fetch('/api/getUsername')
         .then(res => res.json())
         .then(user => this.setState({ username: user.username }));
-        var testDateUtc = moment.utc("2015-01-30 12:00:00");
-        var localDate = moment(testDateUtc).local();
     }
 
     spin() {
@@ -228,7 +223,7 @@ export default class SunsetTracker extends Component {
                         <p>{ this.state.city } Suns°et Forecast: </p>
                     )
                     var randomLocation = "randomLocation";
-                    var offset = this.state.offset;
+                    const offset = this.state.offset;
                     var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
                 } else {
                     var locationText = (
@@ -279,10 +274,10 @@ export default class SunsetTracker extends Component {
                         var imgClassName = "spin";
                     }
                     var displayImage = (
-                        <span className="sunImageContainer">
+                        <div className="sunImageContainer">
                             <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
                             <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
-                        </span>
+                        </div>
                     )
                     var links =  (
                         <div>
@@ -348,7 +343,7 @@ export default class SunsetTracker extends Component {
                     <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS!</p>
                     <div className="leftContainer">
                         <div>
-                            <div className={ "imagesContainer " + randomLocation}>
+                            <div className={ "imagesContainer " + randomLocation }>
                                 { displayImage }
                                 { sunsetInfo }
                             </div>
@@ -373,7 +368,7 @@ export default class SunsetTracker extends Component {
     }
 }
 
-var randomLocations = [
+const randomLocations = [
     { "city" : "SD", "lat" : 32.7157, "long" : -117.1611, offset: -7 }, { "city" : "NYC", "lat" : 40.7128, "long" : -74.0060, offset: -4 }, { "city" : "LA", "lat" : 34.0522, "long" : -118.2437, offset: -7 }, 
     { "city" : "CHI", "lat" : 41.8781, "long" : -87.6298, offset: -5 }, { "city" : "MIA", "lat" : 25.7617, "long" : -80.1918, offset: -4 }, { "city" : "DEN", "lat" : 39.7392, "long" : -104.9903, offset: -6 },
     { "city" : "ATX", "lat" : 30.2672, "long" : -97.7431, offset: -5 }, { "city" : "SEA", "lat" : 47.6062, "long" : -122.3321, offset: -7 }, { "city" : "SF", "lat" : 37.7749, "long" : -122.4194, offset: -7 },

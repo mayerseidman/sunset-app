@@ -84,9 +84,11 @@ $dark-gray: #898989;
                 margin-top: 0px;
                 height: 268px;
                 bottom: 5px;
-                &:hover {
-                    transform: scale(1.13);
-                    -webkit-transition: .3s ease-out; 
+                .sunImageContainer {
+                    &:hover {
+                        transform: scale(1.13);
+                        -webkit-transition: .3s ease-out; 
+                    }
                 }
                 @media only screen and (min-device-width: 480px){
                     top: 10px;
@@ -326,6 +328,7 @@ $dark-gray: #898989;
                 width: 450px;
                 position: absolute;
                 left: -10px;
+                bottom: 75px;
             }
         }
         .formContainer {

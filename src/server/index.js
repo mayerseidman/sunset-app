@@ -2,7 +2,7 @@
 'use strict';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 const os = require('os');
-var fs = require('fs');
+const fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -25,7 +25,7 @@ const moment = require('moment');
 const NodeGeocoder = require('node-geocoder');
 
 const schedule = require('node-schedule');
-var CronJob = require('cron').CronJob;
+const CronJob = require('cron').CronJob;
 const _ = require('underscore')
 
 
@@ -138,7 +138,7 @@ function createImage(pdfFile) {
 
 
 var methodOne = function(fileName, quality, time) {
-   var promise = new Promise(function(resolve, reject){
+   const promise = new Promise(function(resolve, reject){
       setTimeout(function() {
         console.log('first method completed');
         resolve(createPDF(fileName, quality, time));
@@ -149,7 +149,7 @@ var methodOne = function(fileName, quality, time) {
 
 var methodTwo = function(returnedPDF) {
 	console.log(returnedPDF)
-   var promise = new Promise(function(resolve, reject){
+   const promise = new Promise(function(resolve, reject){
       setTimeout(function() {
         console.log('second method completed', returnedPDF);
         resolve(createImage(returnedPDF));
@@ -306,8 +306,8 @@ function convertUTCDateToLocalDate(date) {
 
 app.post('/api/send', (req, res) => {
 	console.log("show me soomething")
-	const lat = req.body.lat,
-	long = req.body.long;
+	var lat = req.body.lat;
+	var long = req.body.long;
 	 runIT(lat, long, (quality)=>{
 	 	console.log(quality)
 		res.send({ quality })
