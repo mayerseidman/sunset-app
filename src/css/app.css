@@ -90,10 +90,16 @@ $dark-gray: #898989;
                         -webkit-transition: .3s ease-out; 
                     }
                     &.shrink {
-                      &:hover {
-                          transform: scale(1);
-                          -webkit-transition: .3s ease-out; 
-                      }  
+                        &:hover {
+                            transform: scale(1);
+                            -webkit-transition: .3s ease-out; 
+                        }
+                        .sunInnerImg {
+                           &:hover {
+                               cursor: normal;
+                               opacity: 1;
+                           } 
+                        }
                     }
                 }
                 @media only screen and (min-device-width: 480px){

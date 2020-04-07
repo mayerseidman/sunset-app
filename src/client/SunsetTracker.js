@@ -361,7 +361,7 @@ export default class SunsetTracker extends Component {
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
-                    <p className="header">Sunsets are awesome. Don't miss another!</p>
+                    <p className="header">Suns°ets are awesome. Don't miss another!</p>
                 </div>
                 <div className="container middleContainer">
                     <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS!</p>
@@ -379,9 +379,9 @@ export default class SunsetTracker extends Component {
                     <div className="rightContainer formContainer">
                         { notificationText } 
                         <img src={ sunsetInfoImage } alt="sunset-info" className="infoImage" style={{ display: this.state.hover ? "inline-block" : "none" }}/>
-                        <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
+                        <p>Suns°ets are awesome. Dont miss another! Suns°ets are awesome. Dont miss another!</p>                       
                         <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>) or sign up for a daily SMS!</p>
-                        <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
+                        <p>Suns°ets are awesome. Dont miss another! Suns°ets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
                         { actionsContainer }
                     </div>
