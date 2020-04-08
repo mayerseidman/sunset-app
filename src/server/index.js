@@ -267,7 +267,7 @@ app.get("/", (req, res) => {
 
 
 
-app.listen(process.env.PORT || 8080, () => console.log(33));
+app.listen(process.env.PORT || 8080, () => console.log("Shemesh APP Running"));
 
 function convertUTCDateToLocalDate(date) {
     const newDate = new Date(date);

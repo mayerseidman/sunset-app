@@ -10,13 +10,13 @@ export default class ErrorDisplay extends Component {
 		};
 	}
 
-	setError(error) {
-		this.setState({ errorText: error, errors: null });
+	setError(error, type) {
+		this.setState({ errorText: error, errors: null, type: type });
 	}
 
-	setErrors(errors) {
+	setErrors(errors, type) {
 		if (errors.length == 1) {
-			this.setError(errors[0]);
+			this.setError(errors[0], type);
 		} else {
 			this.setState({ errors: errors, errorText: null });
 		}
@@ -31,15 +31,15 @@ export default class ErrorDisplay extends Component {
 		var errorContent, errors, closeButton;
 
 		if (this.state.errorText) {
-			errorContent = (
-				<span className="errorContent">{ this.state.errorText }</span>
-			);
-			
+			errorContent = this.state.errorText
+			if (this.state.type == "duplicate") {
+				var errorClassName = "duplicateError";
+			} else if (this.state.type == "invalid") {
+				var errorClassName = "invalidError";
+			}
 		} else if (this.state.errors && this.state.errors.length == 1) {
-			errorContent = (
-				<span className="errorContent">{ this.state.errors[0] }</span>
-			);
-
+			errorContent = this.state.errors[0]
+			var errorClassName = "errorTwo";
 		} else if (this.state.errors) {
 			errors = this.state.errors.map(function(error, i) {
 				return <li key={ "error" + i }>{ error }</li>;
@@ -52,16 +52,21 @@ export default class ErrorDisplay extends Component {
 		}
 		
 		closeButton = (
-			<a className="closeLink btn-link" aria-label="Close" onClick={ this.reset.bind(this) }>
-				<span aria-hidden="true">Got it</span>
-			</a>
+			<span>
+				<span className="x">x</span>
+				<a className="closeLink btn-link" aria-label="Close" onClick={ this.reset.bind(this) }>
+					<span aria-hidden="true">Got it </span>
+				</a>
+			</span>
 		)
 
 		if (errorContent) {
 			return (
-				<div className="errorDisplay" role="alert">
-					{ errorContent }
-					{ closeButton }
+				<div className="errorDisplay notificationText" role="alert">
+					<p className={ "errorContent " + errorClassName}>
+						{ errorContent }
+						{ closeButton }
+					</p>
 				</div>
 			)			
 		} else {

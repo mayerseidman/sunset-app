@@ -68,10 +68,30 @@ $dark-gray: #898989;
             .descriptionText {
                 color: #4990e2;
             }
+            .notificationText {
+                opacity: 1;
+                animation-name: fadeInOpacity;
+                animation-iteration-count: 1;
+                animation-timing-function: ease-in;
+                animation-duration: 0.2s;
+            }
+            .successNotification {
+                color: #2b9401;
+                font-size: 0.8em;
+            }
+            @keyframes fadeInOpacity {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
         }
 /*        @media only screen and (min-device-width: 768px){}
 */      .leftContainer {
             text-align: center;
+            vertical-align: top;
             @media only screen and (min-device-width: 480px){
                 display: inline-block;
                 width: 40%;
@@ -473,13 +493,33 @@ h1 {
 .errorDisplay {
   position: relative;
   bottom: 5px; 
+    .x {
+        position: relative;
+        bottom: 9px;
+        left: 1px;
+        float: right;
+        color: #555;
+    }
 }
   .errorDisplay .errorContent {
     color: #c9302c;
-    margin-right: 5px; 
+    font-size: 0.8em;
+}
+.invalidError {
+    width: 88%;
+}
+.duplicateError {
+   width: 97.2%;
 }
   .errorDisplay .closeLink {
-    cursor: pointer; 
+    cursor: pointer;
+}
+.closeLink {
+    color: #555 !important;
+    float: right;
+}
+button:disabled {
+    background-color:#CCC;
 }
 
 @-webkit-keyframes fadeinout {
