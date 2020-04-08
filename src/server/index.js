@@ -210,11 +210,9 @@ const sunsetwx = new SunsetWx({
 // 	}) 
 // });
 
-// var MongoClient = require('mongodb').MongoClient;
-// var url = "";
-
+var url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 var job = new CronJob('0 12 * * *', function() { 
-	mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
+	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		const users = db.collection('users')
 		users.find().toArray().then((result)=>{
@@ -318,9 +316,9 @@ app.post('/api/submit-form', function (req, res) {
 				 
 				users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
 					if(err)  {
-						console.log('error inserting')
-				 		console.log("data inserted", result)
+						console.log('error inserting', result)
 				 	} else {
+				 		console.log("data inserted", result)
 				 		sendIntroText(phoneNumber)
 				 	}
 				})   

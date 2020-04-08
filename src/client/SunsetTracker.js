@@ -49,32 +49,39 @@ export default class SunsetTracker extends Component {
         this.setState({ showSunsetInfo: false })
     }
 
-    findCoordinates() {
+    submitCoordinates() {
         if ("geolocation" in navigator) {
           /* geolocation is available */
-          this.setState({ spin: true })
-            navigator.geolocation.getCurrentPosition(function(position) {
+            this.setState({ spin: true })
+            this.getPosition().then((position) => {
                 const lat = position.coords.latitude;
                 const long = position.coords.longitude;
-                this.setState({ lat: lat, long: long  })
+                this.setState({ lat: lat, long: long })
                 this.sendIT(lat, long)
-            }.bind(this))
+            })
         } else {
           /* geolocation IS NOT available */
         }
+    }
+
+    getPosition() {
+        // Simple wrapper
+        return new Promise((res, rej) => {
+            navigator.geolocation.getCurrentPosition(res, rej);
+        });
     }
 
     findMyCoordinates() {
         if ("geolocation" in navigator) {
             /* geolocation is available */
             this.setState({ loading: true })
-            navigator.geolocation.getCurrentPosition(function(position) {
+            this.getPosition().then((position) => {
                 const lat = position.coords.latitude;
                 const long = position.coords.longitude;
                 this.setState({ lat: lat, long: long, loading: false  })
-            }.bind(this))
+            })
         } else {
-
+            /* geolocation IS NOT available */
         }
     }
 
@@ -88,7 +95,6 @@ export default class SunsetTracker extends Component {
         }).then((response) => {
             if (!response.ok) {
                 setTimeout(function(){
-                    console.log(response.status, "ERROR")
                     this.setState({ spin :false, fetchingError: true })
                  }.bind(this), 2000)
             } else {
@@ -113,7 +119,6 @@ export default class SunsetTracker extends Component {
             const long = this.state.long;
             const phoneNumber = this.refs.phone_number.value.replace(/[^\d]/g, '')
             const phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
-            console.log(lat, long)
             const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
             if (invalidPhoneNumber) {
                 errors.push("This phone number does not look right. Phone numbers should have 10 digits.")
@@ -299,13 +304,13 @@ export default class SunsetTracker extends Component {
                     }
                     var displayImage = (
                         <div className={ "sunImageContainer "  + containerClass }>
-                            <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.findCoordinates.bind(this) } />
+                            <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.submitCoordinates.bind(this) } />
                             <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
                         </div>
                     )
                     var links =  (
                         <div>
-                            <a onClick={ this.findCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
+                            <a onClick={ this.submitCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
                             <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
                         </div>
                     )
@@ -365,7 +370,16 @@ export default class SunsetTracker extends Component {
                 </div>
             )
             // Mobile //
-            if(window.innerWidth <= 480 && window.innerHeight <= 820) {
+            if (window.innerWidth <= 480 && window.innerHeight <= 820) {
+                const override = css`
+                    height: 5px;
+                    display: inline-block;
+                    width: 100%;
+                    margin-bottom: 4px;
+                `
+                var loadingBar = (
+                    <BarLoader css={ override } color={ "#bbb" } loading={ this.state.loading } />
+                )
                 var formContainer = (
                     <div className="formContainer webHide">                       
                         <ErrorDisplay ref="errors"/>
@@ -373,11 +387,21 @@ export default class SunsetTracker extends Component {
                             onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
                         { findCoordinatesButton }
                         { submitButton }
-                        { notificationText } 
+                        { loadingBar }
                     </div>
                 )
             }
         }
+
+        if (window.innerWidth <= 480 && window.innerHeight <= 820) {
+            var bottomMobile =  (
+                <div>
+                    { formContainer }
+                    { notificationText } 
+                </div>
+            )
+        }
+
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
@@ -405,7 +429,7 @@ export default class SunsetTracker extends Component {
                         { actionsContainer }
                         { notificationText }
                     </div>
-                    { formContainer }
+                    { bottomMobile }
                 </div>
             </div>
         );

@@ -68,25 +68,6 @@ $dark-gray: #898989;
             .descriptionText {
                 color: #4990e2;
             }
-            .notificationText {
-                opacity: 1;
-                animation-name: fadeInOpacity;
-                animation-iteration-count: 1;
-                animation-timing-function: ease-in;
-                animation-duration: 0.2s;
-            }
-            .successNotification {
-                color: #2b9401;
-                font-size: 0.8em;
-            }
-            @keyframes fadeInOpacity {
-                0% {
-                    opacity: 0;
-                }
-                100% {
-                    opacity: 1;
-                }
-            }
         }
 /*        @media only screen and (min-device-width: 768px){}
 */      .leftContainer {
@@ -338,7 +319,7 @@ $dark-gray: #898989;
                 bottom: 15px;
                 font-size: 0.8em;
                 margin-bottom: 10px;
-                @media only screen and (min-device-width: 480px){
+                @media only screen and (min-device-width: 480px) {
                     right: none;
                     top: 30px;
                     margin-bottom: 0;
@@ -359,6 +340,28 @@ $dark-gray: #898989;
                 }
             }
         }
+        .notificationText {
+            opacity: 1;
+            animation-name: fadeInOpacity;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-in;
+            animation-duration: 0.2s;
+            @media only screen and (min-device-width: 480px) {
+                padding-left: 0px;
+            }
+        }
+        .successNotification {
+            color: #2b9401;
+            font-size: 0.8em;
+        }
+        @keyframes fadeInOpacity {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
         .rightContainer {
             /*vertical-align: top;*/
              .infoImage {
@@ -371,7 +374,7 @@ $dark-gray: #898989;
         .formContainer {
             position: relative;
             bottom: 15px;
-            @media only screen and (min-device-width: 480px){
+            @media only screen and (min-device-width: 480px) {
                 top: 20px;
             }
             .submitButton {
@@ -383,7 +386,7 @@ $dark-gray: #898989;
                 border-radius: 5px;
                 width: 100%;
                 cursor: pointer;
-                @media only screen and (min-device-width: 480px){
+                @media only screen and (min-device-width: 480px) {
                     margin-top: 0;
                     width: auto;
                 }
@@ -492,7 +495,9 @@ h1 {
 
 .errorDisplay {
   position: relative;
-  bottom: 5px; 
+  @media only screen and (min-device-width: 480px){
+      bottom: 5px;
+  }
     .x {
         position: relative;
         bottom: 9px;
@@ -504,14 +509,24 @@ h1 {
   .errorDisplay .errorContent {
     color: #c9302c;
     font-size: 0.8em;
+    margin-bottom: 10px;
+    @media only screen and (min-device-width: 480px) {
+        margin-bottom: 1rem;
+    }
 }
 .invalidError {
-    width: 88%;
+    width: 97%;
+    @media only screen and (min-device-width: 480px) {
+        width: 88%;
+    }
 }
 .duplicateError {
-   width: 97.2%;
+    width: 99%;
+    @media only screen and (min-device-width: 480px) {
+        width: 97.2%;
+    }
 }
-  .errorDisplay .closeLink {
+.errorDisplay .closeLink {
     cursor: pointer;
 }
 .closeLink {
