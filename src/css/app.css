@@ -36,7 +36,7 @@ $dark-gray: #898989;
             font-size: 16px;
             @media only screen and (min-device-width: 375px){
               margin-bottom: 5px;
-              padding-left: 12px
+              font-size: 1.1em;
             }
             @media only screen and (min-device-width: 480px){
                 width: 70%;
@@ -86,20 +86,22 @@ $dark-gray: #898989;
                 height: 268px;
                 bottom: 5px;
                 .sunImageContainer {
-                    &:hover {
-                        transform: scale(1.13);
-                        -webkit-transition: .3s ease-out; 
-                    }
-                    &.shrink {
+                    @media only screen and (min-device-width: 480px) {
                         &:hover {
-                            transform: scale(1);
+                            transform: scale(1.13);
                             -webkit-transition: .3s ease-out; 
                         }
-                        .sunInnerImg {
-                           &:hover {
-                               cursor: normal;
-                               opacity: 1;
-                           } 
+                        &.shrink {
+                            &:hover {
+                                transform: scale(1);
+                                -webkit-transition: .3s ease-out; 
+                            }
+                            .sunInnerImg {
+                               &:hover {
+                                   cursor: normal;
+                                   opacity: 1;
+                               } 
+                            }
                         }
                     }
                 }
@@ -116,10 +118,6 @@ $dark-gray: #898989;
                     z-index: 1000000;
                     width: 165px;
                     left: 83px;
-                    &:hover {
-                        cursor: pointer;
-                        opacity: 0.9;
-                    }
                     // iPhone
                     @media only screen and (min-device-width: 375px){
                        left: 90px;
@@ -128,6 +126,10 @@ $dark-gray: #898989;
                         width: 205px;
                         left: 89px;
                         top: 47px;
+                        &:hover {
+                            cursor: pointer;
+                            opacity: 0.9;
+                        }
                     }
                 }
                 .sunOuterImg {

@@ -57,7 +57,7 @@ export default class SunsetTracker extends Component {
                 const lat = position.coords.latitude;
                 const long = position.coords.longitude;
                 this.setState({ lat: lat, long: long })
-                this.sendIT(lat, long)
+                this.fetchSunset(lat, long)
             })
         } else {
           /* geolocation IS NOT available */
@@ -87,7 +87,7 @@ export default class SunsetTracker extends Component {
 
     // Wreck Beach - 49.2622, -123.2615
 
-    sendIT(lat, long) { 
+    fetchSunset(lat, long) { 
         fetch("/api/send", {
             method: 'POST',
             body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
@@ -101,15 +101,16 @@ export default class SunsetTracker extends Component {
                 return response.json();
             }
         }).then((sunset) => {
+            var sunset = sunset.sunset;
             setTimeout(function(){
-                this.setState({ spin :false, sunsetInfo: sunset.quality, temperature: Math.floor(sunset.quality.temperature) })
+                this.setState({ spin :false, sunsetInfo: sunset, 
+                    temperature: Math.floor(sunset.temperature) 
+                })
             }.bind(this), 2000)
         })
     }
 
-
-
-    submitInfo() {
+    submitUser() {
          /* geolocation is available */
         if ("geolocation" in navigator) {
             this.refs.errors.reset();
@@ -167,18 +168,13 @@ export default class SunsetTracker extends Component {
         const lat = randomLocation.lat;
         const long = randomLocation.long;
         const offset = randomLocation.offset;
-        this.setState({ lat: lat, long: long, showRandomSunset: true, city: city, offset: offset })
+        this.setState({ lat: lat, long: long, showRandomSunset: true, 
+            city: city, offset: offset 
+        })
         this.sendIT(lat, long);
     }
 
-
     // FOMS - fear of missing a sunset
-
-    componentDidMount() {
-        fetch('/api/getUsername')
-        .then(res => res.json())
-        .then(user => this.setState({ username: user.username }));
-    }
 
     spin() {
         this.setState({ spin: true })
@@ -317,10 +313,6 @@ export default class SunsetTracker extends Component {
                 }
             }
         }
-
-        if (this.state.errorPhoneNumber) {
-            var errorText = (<p>Error HERE with phone number!</p>)
-        }
         const override = css`
             height: 5px;
             display: inline-block;
@@ -335,8 +327,8 @@ export default class SunsetTracker extends Component {
                 )
             } else {
                 var submitButton = (
-                    <button onClick={ this.submitInfo.bind(this) } className="submitButton"
-                        ref="submitBtn">Send Me Suns°ets</button>
+                    <button onClick={ this.submitUser.bind(this) } className="submitButton"
+                        ref="submitBtn">Send Suns°ets</button>
                 )
             }
         }
@@ -362,7 +354,7 @@ export default class SunsetTracker extends Component {
             var actionsContainer = (
                 <div className="actionsContainer">
                     <label className="phoneNumberLabel">Phone Number</label>
-                    <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(xxx) xxx-xxxx"
+                    <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
                         onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
                     { loadingBar }
                     { findCoordinatesButton }
@@ -383,7 +375,7 @@ export default class SunsetTracker extends Component {
                 var formContainer = (
                     <div className="formContainer webHide">                       
                         <ErrorDisplay ref="errors"/>
-                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(xxx) xxx-xxxx"
+                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
                             onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
                         { findCoordinatesButton }
                         { submitButton }
@@ -402,13 +394,17 @@ export default class SunsetTracker extends Component {
             )
         }
 
+        var sunsetWxLink = (<a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)
+
         return (
             <div className="sunsetContainer">
                 <div className="topSection">
                     <p className="header">Suns°ets are awesome. Don't miss another!</p>
                 </div>
                 <div className="container middleContainer">
-                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS!</p>
+                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here 
+                        <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS!
+                    </p>
                     <div className="leftContainer">
                         <div>
                             <div className={ "imagesContainer " + randomLocation }>
@@ -422,9 +418,11 @@ export default class SunsetTracker extends Component {
                     </div>        
                     <div className="rightContainer formContainer">
                         <img src={ sunsetInfoImage } alt="sunset-info" className="infoImage" style={{ display: this.state.hover ? "inline-block" : "none" }}/>
-                        <p>Suns°ets are awesome. Dont miss another! Suns°ets are awesome. Dont miss another!</p>                       
-                        <p className="descriptionText">Wondering whether today's sunset will be a banger? Get your sunset forecast here (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>) or sign up for a daily SMS!</p>
-                        <p>Suns°ets are awesome. Dont miss another! Suns°ets are awesome. Dont miss another!</p>
+                        <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
+                        <p className="descriptionText">Wondering whether today's sunset will be a banger? 
+                            Get your sunset forecast here (powered by { sunsetWxLink }) or sign up for a daily SMS!
+                        </p>
+                        <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
                         <ErrorDisplay ref="errors"/>
                         { actionsContainer }
                         { notificationText }

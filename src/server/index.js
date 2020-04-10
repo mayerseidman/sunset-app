@@ -1,51 +1,26 @@
 
 'use strict';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-const os = require('os');
 const fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const appDb = require('monk')('localhost/MyDb');
+const app = express();
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+const fetch = require("node-fetch")
+
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-const geoTz = require('geo-tz')
-const app = express();
-
-// app.use(express.static('public'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }));
-// app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
-
-const fetch = require("node-fetch")
 const SunsetWx = require('node-sunsetwx');
-
+const geoTz = require('geo-tz')
 const moment = require('moment');
-const NodeGeocoder = require('node-geocoder');
 
 const schedule = require('node-schedule');
 const CronJob = require('cron').CronJob;
 const _ = require('underscore')
-
-
-app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
-
-app.post('/api/addUser', function(req, res) {
-	db.collection('user').doc().set(req.body)
-	.then((result) => {
-		res.send({"result": "success"})
-	},
-	(error) => {
-		res.send({"result": "error"})
-	})
-})
-
-// app.post('api/send', function(req, res) {
-//     var lat = req.body.lat,
-// 	long = req.body.long;
-// 	console.log(lat, long)
-// });
+require('dotenv').config();
 
 const path = require('path');
 const PDF2Pic = require("pdf2pic");
@@ -68,46 +43,6 @@ function createImage(pdfFile) {
 	return pdfFile + "_1.png" 
 }
 
-
-// const pdf = require('pdf-poppler');
-// // const path = require('path');
-
-// function createImage(pdfFile) {
-// 	const baseFile = '/Users/mayerseidman/Desktop/Projects/simple-react-full-stack/';
-// 	let file =  baseFile + pdfFile + ".pdf";
-// 	pdf.info(file)
-// 		.then(pdfinfo => {
-// 	    	console.log(pdfinfo);
-// 		});
-
-// 	let opts = {
-// 	    format: 'png',
-// 	    out_dir: path.dirname(file),
-// 	    out_prefix: path.basename(file, path.extname(file)),
-// 	    page: null
-// 	}
-	 
-// 	pdf.convert(file, opts)
-// 	    .then(res => {
-// 	        console.log('Successfully converted', opts);
-// 	    })
-// 	    .catch(error => {
-// 	        console.error(error);
-// 	    })
-// 	return baseFile + pdfFile
-// }
-
-
-
-// function produceImage(fileName) {
-//   return new Promise(resolve => {
-//     setTimeout(() => {
-//     	resolve(createImage(fileName))
-//     }, 2000);
-//   });
-// }
-
-
 var methodOne = function(fileName, quality, time) {
    const promise = new Promise(function(resolve, reject){
       setTimeout(function() {
@@ -129,56 +64,21 @@ var methodTwo = function(returnedPDF) {
    return promise;
 };
 
+// Run the app and set its root // 
+const distPath = path.join(__dirname, '../..', 'dist')
+app.use(express.static(distPath))
 
-// var firstMethod = function() {
-//    var promise = new Promise(function(resolve, reject){
-//       setTimeout(function() {
-//         console.log('first method completed');
-//         resolve({data: '123'});
-//       }, 2000);
-//    });
-//    return promise;
-// };
- 
- 
-// var secondMethod = function(someStuff) {
-//    var promise = new Promise(function(resolve, reject){
-//       setTimeout(function() {
-//         console.log('second method completed', someStuff);
-//         resolve({newData: someStuff.data + ' some more data'});
-//       }, 2000);
-//    });
-//    return promise;
-// };
- 
-// var thirdMethod = function(someStuff) {
-//    var promise = new Promise(function(resolve, reject){
-//       setTimeout(function() {
-//         console.log('third method completed');
-//         resolve({result: someStuff.newData});
-//       }, 3000);
-//    });
-//    return promise;
-// };
- 
-// firstMethod()
-//    .then(secondMethod)
-//    .then(thirdMethod);
+app.get("/", (req, res) => {
+	res.sendFile(path.join(distPath, 'index.html'))
+})
 
+app.listen(process.env.PORT || 8080, () => console.log("Shemesh APP Running"));
 
-// console.log(createdPDF)
-// const createdImage = await createImage(createPDF);
-// pass image in as mediaURL to Twilio
-
-
-require('dotenv').config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioClient = require('twilio')(accountSid, authToken); 
-const users = appDb.get('users');  
 
-// SUNSETWX work goes here...
-
+// SUNSETWX credentials...
 const sunsetwx = new SunsetWx({
 	email: process.env.EMAIL,
 	password: process.env.PASSWORD,
@@ -220,11 +120,11 @@ var job = new CronJob('0 12 * * *', function() {
 				var lat = user.lat;
 				var long = user.long;
 				console.log(lat, long)
-				runIT(lat, long, (quality) => {
+				runIT(lat, long).then((sunset) => {
 					const phoneNumber = user.phone_number;
 					const locale = geoTz(lat, long)[0];
-					const momentDate = moment(quality.valid_at).tz(locale).format("H:mm")
-					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
+					const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
+					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
 					twilioClient.messages
 		  			.create({
 		  				body: message, 
@@ -252,41 +152,30 @@ function checkForExistingUsers(phoneNumber) {
 			}).catch(err=>reject(err))
 		})
 	})
-	
 }
 
-const distPath = path.join(__dirname, '../..', 'dist')
-app.use(express.static(distPath))
-
-app.get("/", (req, res) => {
-	res.sendFile(path.join(distPath, 'index.html'))
-})
-
-
-
-
-app.listen(process.env.PORT || 8080, () => console.log("Shemesh APP Running"));
-
-function convertUTCDateToLocalDate(date) {
-    const newDate = new Date(date);
-    newDate.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return newDate;
+function runIT(lat, long) {
+	return new Promise((resolve, reject) => {
+		const coordsString = '' + lat + ',' + long + '';
+	    sunsetwx.quality({
+	        geo: coordsString,
+	        type: 'sunset',
+	        limit: '1'
+	    }, function (err, httpResponse, body) {
+			console.log(body)
+			resolve(body.features[0].properties);		
+	    });
+	});
 }
 
 app.post('/api/send', (req, res) => {
-	console.log("show me soomething")
+	console.log("show me something")
 	var lat = req.body.lat;
 	var long = req.body.long;
-	 runIT(lat, long, (quality)=>{
-	 	console.log(quality)
-		res.send({ quality })
+	runIT(lat, long).then((sunset) => {
+		res.send({ sunset })
 	})
 });
-
-app.use((req, res, next) => {
-	req.db = appDb;
-	next(); // always have next() when using middleware 
-})
 
 function sendIntroText(phoneNumber) {
 	const message = "Thank you for signing up for daily SUNS°ET forecasts. \n\nText 'Stop' at any time to stop receving these. \n\nHave a fab day!"
@@ -326,23 +215,7 @@ app.post('/api/submit-form', function (req, res) {
 			res.send(req.body)
 		}
 	});
-});
-
-function runIT(lat, long, callback) {
-	const coordsString = '' + lat + ',' + long + '';
-	console.log(coordsString)
-	sunsetwx.quality({
-	    geo: coordsString,
-	    type: 'sunset',
-	    limit: '1'
-	}, function (err, httpResponse, body) {
-		if (callback) {
-			console.log(body)
-			callback(body.features[0].properties);		
-		}
-	});
-}
-
+})
 
 function createPDF(fileName, quality, time) {
 	// PDF KIT 
