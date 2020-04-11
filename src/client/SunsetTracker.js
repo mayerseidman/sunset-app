@@ -171,7 +171,7 @@ export default class SunsetTracker extends Component {
         this.setState({ lat: lat, long: long, showRandomSunset: true, 
             city: city, offset: offset 
         })
-        this.sendIT(lat, long);
+        this.fetchSunset(lat, long);
     }
 
     // FOMS - fear of missing a sunset
