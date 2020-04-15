@@ -2,15 +2,22 @@ $gray: #B6B5B9;
 $light-gray: #E6E7ED;
 $dark-gray: #898989;
 
+$bp-small: 480px;
+$phone: "(max-width: #{$bp-small})";
+$bp-medium: 480px;
+$desktop: "(min-width: #{$bp-medium})";
+
 .sunsetContainer {
     .topSection {
-        font-size: 32px;
         text-align: center;
         background: #4A90E2;
         color: white;
         padding-top: 5px;
         padding-bottom: 5px;
-        @media only screen and (min-device-width: 480px){
+        @media #{$phone} {
+            font-size: 32px;    
+        }
+        @media #{$desktop} {
             font-size: 40px;
             margin-bottom: 20px;
         }
@@ -19,9 +26,11 @@ $dark-gray: #898989;
         }
     }
     .middleContainer {
-        font-size: 16px;
         color: #555;
-        @media only screen and (min-device-width: 480px){
+        @media #{$phone} {
+            font-size: 16px;
+        }
+        @media #{$desktop} {
             padding-right: 0px;
             padding-left: 15px;
             font-size: 20px;
@@ -30,16 +39,17 @@ $dark-gray: #898989;
             width: auto;
             padding-left: 10px;
             margin: auto;
-            clear: both;
             margin-top: 10px;
-            margin-bottom: 0px;
-            font-size: 16px;
-            @media only screen and (min-device-width: 375px){
-              margin-bottom: 5px;
-              font-size: 1.1em;
+            clear: both;
+            @media #{$phone} {
+                margin-bottom: 0px;
+                font-size: 16px;
             }
-            @media only screen and (min-device-width: 480px){
-                width: 70%;
+            @media only screen and (min-device-width: 375px){
+                margin-bottom: 5px;
+                font-size: 1.1em;
+            }
+            @media #{$desktop} {
                 margin-bottom: 10px;
                 font-size: 20px;
                 margin-top: 20px;
@@ -49,14 +59,12 @@ $dark-gray: #898989;
             font-size: 0.8em;
         }
         .rightContainer {
-            display: none;
-            @media only screen and (min-device-width: 480px){
+            @media #{$phone} {
+                display: none;
+            }
+            @media #{$desktop} {
                 display: inline-block;
                 width: 40%;
-                /*.actionsContainer {
-                    position: relative;
-                    top: 30px
-                }*/
             }
             .actionsContainer {
                 .phoneNumberLabel {
@@ -69,11 +77,10 @@ $dark-gray: #898989;
                 color: #4990e2;
             }
         }
-/*        @media only screen and (min-device-width: 768px){}
-*/      .leftContainer {
+        .leftContainer {
             text-align: center;
             vertical-align: top;
-            @media only screen and (min-device-width: 480px){
+            @media #{$desktop} {
                 display: inline-block;
                 width: 40%;
                 margin-right: 3%;
@@ -82,11 +89,20 @@ $dark-gray: #898989;
             .imagesContainer {
                 position: relative;
                 left: 0;
-                margin-top: 0px;
                 height: 268px;
-                bottom: 5px;
+                @media #{$phone} {
+                    margin-top: 0px;
+                    bottom: 5px;
+                }
+                @media #{$desktop} {
+                    top: 10px;
+                    margin: 0;
+                    margin-top: 10px;
+                    margin-bottom: 30px;
+                    bottom: 0px;
+                }
                 .sunImageContainer {
-                    @media only screen and (min-device-width: 480px) {
+                    @media #{$desktop} {
                         &:hover {
                             transform: scale(1.13);
                             -webkit-transition: .3s ease-out; 
@@ -105,24 +121,19 @@ $dark-gray: #898989;
                         }
                     }
                 }
-                @media only screen and (min-device-width: 480px){
-                    top: 10px;
-                    margin: 0;
-                    margin-top: 10px;
-                    margin-bottom: 30px;
-                    bottom: 0px;
-                }
                 .sunInnerImg {
                     position: absolute;
-                    top: 42px;
                     z-index: 1000000;
-                    width: 165px;
-                    left: 83px;
+                    @media #{$phone} {
+                        width: 165px;
+                        left: 83px;
+                        top: 42px;
+                    }
                     // iPhone
                     @media only screen and (min-device-width: 375px){
                        left: 90px;
                     }
-                    @media only screen and (min-device-width: 480px) {
+                    @media #{$desktop} {
                         width: 205px;
                         left: 89px;
                         top: 47px;
@@ -136,12 +147,14 @@ $dark-gray: #898989;
                     position: relative;
                     top: 0;
                     left: 0;
-                    width: 255px;
                     &:hover {
                         cursor: pointer;
                         opacity: 0.9;
                     }
-                    @media only screen and (min-device-width: 480px) {
+                    @media #{$phone} {
+                        width: 255px;
+                    }
+                    @media #{$desktop} {
                         width: 305px;
                     }
                 }
@@ -155,26 +168,29 @@ $dark-gray: #898989;
                 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
                 
                 .infoContainer {
-                    @media only screen and (min-device-width: 480px){
+                    @media #{$desktop}{
                         position: relative;
                         left: 40px;
                     }
                     .sunFullImage {
-                        bottom: 22px;
-                        right: 130px;
                         position: relative;
-                        @media only screen and (min-device-width: 480px){
+                        bottom: 22px;
+                        @media #{$phone} {
+                            right: 130px;
+                        }
+                        @media #{$desktop} {
                             right: 350px;
                             top: 74px;
-
                         }
                     }
 
                     .errorImg {
                         position: relative;
-                        right: 140px;
-                        bottom: 25px;
-                        @media only screen and (min-device-width: 480px){
+                        @media #{$phone} {
+                            right: 140px;
+                            bottom: 25px;
+                        }
+                        @media #{$desktop}{
                             right: 210px;
                             bottom: 70px;
                         }
@@ -183,7 +199,7 @@ $dark-gray: #898989;
                     &.loadingContainer {
                         .sunFullImage {
                             bottom: 28px;
-                            @media only screen and (min-device-width: 480px){
+                            @media #{$desktop}{
                                 right: 350px;
                                 top: -21px;
                             }
@@ -235,23 +251,27 @@ $dark-gray: #898989;
                     }
 
                     .loadingBubble {
-                        height: 164px;
-                        @media only screen and (min-device-width: 480px) {
+                        @media #{$phone} {
+                            height: 164px;
+                        }
+                        @media #{$desktop} {
                             height: 204px;
                         }
                     }
 
                     .infoBubble {
-                        padding: 1.5rem 1.5rem;
-                        margin-top: 15px;
-                        margin-left: 16%;
-                        border-radius: 65px;
                         display: inline-block;
                         position: relative;
                         background-color: #F2F3F5;
                         text-align: left;
                         width: 75%;
-                        @media only screen and (min-device-width: 480px){
+                        @media #{$phone} {
+                            padding: 1.5rem 1.5rem;
+                            margin-top: 15px;
+                            margin-left: 16%;
+                            border-radius: 65px;
+                        }
+                        @media #{$desktop}{
                             padding: 2rem 2.5rem;
                             margin: 3.4rem 0 10rem;
                             margin-top: 35px;
@@ -267,9 +287,11 @@ $dark-gray: #898989;
                         }
                         .questionImage  {
                             display: inline-block;
-                            width: 15px;
                             margin-left: 5px;
-                             @media only screen and (min-device-width: 480px) {
+                            @media #{$phone} {
+                                width: 15px;
+                            }
+                             @media #{$desktop} {
                                 width: 18px;
                              }
                         }
@@ -292,7 +314,7 @@ $dark-gray: #898989;
                         background: #F2F3F5;
                         bottom: -5px;
                         left: 3px;
-                        @media only screen and (min-device-width: 480px) {
+                        @media #{$desktop} {
                             bottom: -10px;
                             left: 10px;
                             width: 20px;
@@ -310,7 +332,7 @@ $dark-gray: #898989;
                     }
                 }
                 /*&.randomLocation {
-                    @media only screen and (min-device-width: 480px){
+                    @media #{$desktop}{
                         margin-left: 15px;
                     }
                 }*/
@@ -321,14 +343,14 @@ $dark-gray: #898989;
                 bottom: 15px;
                 font-size: 0.8em;
                 margin-bottom: 10px;
-                @media only screen and (min-device-width: 480px) {
+                @media #{$desktop} {
                     right: none;
                     top: 30px;
                     margin-bottom: 0;
                 }
                 &.altLinksContainer {
                     left: 0;
-                    /*@media only screen and (min-device-width: 480px){
+                    /*@media #{$desktop}{
                         left: 50px;
                         text-align: ce;
                     }*/
@@ -348,7 +370,7 @@ $dark-gray: #898989;
             animation-iteration-count: 1;
             animation-timing-function: ease-in;
             animation-duration: 0.2s;
-            @media only screen and (min-device-width: 480px) {
+            @media #{$desktop} {
                 padding-left: 0px;
             }
         }
@@ -376,7 +398,7 @@ $dark-gray: #898989;
         .formContainer {
             position: relative;
             bottom: 15px;
-            @media only screen and (min-device-width: 480px) {
+            @media #{$desktop} {
                 top: 20px;
             }
             .submitButton {
@@ -388,7 +410,7 @@ $dark-gray: #898989;
                 border-radius: 5px;
                 width: 100%;
                 cursor: pointer;
-                @media only screen and (min-device-width: 480px) {
+                @media #{$desktop} {
                     margin-top: 0;
                     width: auto;
                 }
@@ -401,7 +423,7 @@ $dark-gray: #898989;
             .phoneNumberField {
                 height: 44px !important;
                 margin-bottom: 10px;
-                @media only screen and (min-device-width: 480px){
+                @media #{$desktop}{
                     width: 46% !important;
                     display: inline-block !important;
                     margin-right: 15px; 
@@ -419,7 +441,7 @@ $dark-gray: #898989;
                 color: #555;
                 font-size: 0.8em;
                 cursor: pointer;
-                @media only screen and (min-device-width: 480px) {
+                @media #{$desktop} {
                     width: 175px;
                 }
                 &:hover {
@@ -435,7 +457,7 @@ $dark-gray: #898989;
             }   
         }
         .webHide {
-            @media only screen and (min-device-width: 480px){
+            @media #{$desktop}{
                 display: none !important;
             }
         }
@@ -497,7 +519,7 @@ h1 {
 
 .errorDisplay {
   position: relative;
-  @media only screen and (min-device-width: 480px){
+  @media #{$desktop}{
       bottom: 5px;
   }
     .x {
@@ -512,19 +534,19 @@ h1 {
     color: #c9302c;
     font-size: 0.8em;
     margin-bottom: 10px;
-    @media only screen and (min-device-width: 480px) {
+    @media #{$desktop} {
         margin-bottom: 1rem;
     }
 }
 .invalidError {
     width: 97%;
-    @media only screen and (min-device-width: 480px) {
+    @media #{$desktop} {
         width: 88%;
     }
 }
 .duplicateError {
     width: 99%;
-    @media only screen and (min-device-width: 480px) {
+    @media #{$desktop} {
         width: 97.2%;
     }
 }

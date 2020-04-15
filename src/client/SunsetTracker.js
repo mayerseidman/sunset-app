@@ -244,7 +244,6 @@ export default class SunsetTracker extends Component {
                     var locationText = (
                         <p>Your Suns°et Forecast: </p>
                     )
-                    var momentTime = moment(sunset.valid_at).format("H:mm");
                 }
                 if (this.state.showFahrenheitLink) {
                     var temperatureWidget = (
@@ -403,7 +402,7 @@ export default class SunsetTracker extends Component {
                 </div>
                 <div className="container middleContainer">
                     <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here 
-                        <span className="sunsetwxLink">(powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS!
+                        <span className="sunsetwxLink"> (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS!
                     </p>
                     <div className="leftContainer">
                         <div>
