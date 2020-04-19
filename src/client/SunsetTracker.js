@@ -241,6 +241,7 @@ export default class SunsetTracker extends Component {
                     const offset = this.state.offset;
                     var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
                 } else {
+                    var momentTime = moment(sunset.valid_at).format("H:mm");
                     var locationText = (
                         <p>Your Suns°et Forecast: </p>
                     )
