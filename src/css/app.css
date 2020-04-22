@@ -2,9 +2,13 @@ $gray: #B6B5B9;
 $light-gray: #E6E7ED;
 $dark-gray: #898989;
 
-$bp-small: 480px;
-$phone: "(max-width: #{$bp-small})";
+$bp-smallest: 320px;
+$bp-small: 400px;
 $bp-medium: 480px;
+
+$oldPhone: "(min-width: #{$bp-smallest}) and (max-width: 350px)";
+$phone: "(max-width: #{$bp-medium})";
+$widePhone: "(min-width: #{$bp-small}) and (max-width: #{$bp-medium})";
 $desktop: "(min-width: #{$bp-medium})";
 
 .sunsetContainer {
@@ -14,8 +18,15 @@ $desktop: "(min-width: #{$bp-medium})";
         color: white;
         padding-top: 5px;
         padding-bottom: 5px;
+        @media #{$oldPhone} {
+            font-size: 30px !important;    
+        }
         @media #{$phone} {
             font-size: 32px;    
+        }
+        @media #{$widePhone} {
+            padding-left: 10px;
+            padding-right: 10px;
         }
         @media #{$desktop} {
             font-size: 40px;
@@ -64,7 +75,7 @@ $desktop: "(min-width: #{$bp-medium})";
             }
             @media #{$desktop} {
                 display: inline-block;
-                width: 40%;
+                width: 39%;
             }
             .actionsContainer {
                 .phoneNumberLabel {
@@ -124,13 +135,19 @@ $desktop: "(min-width: #{$bp-medium})";
                 .sunInnerImg {
                     position: absolute;
                     z-index: 1000000;
+                    @media #{$oldPhone} {
+                        left: 63px !important;
+                    }
                     @media #{$phone} {
                         width: 165px;
                         left: 83px;
                         top: 42px;
                     }
+                    @media #{$widePhone} {
+                        left: 108px;
+                    }
                     // iPhone
-                    @media only screen and (min-device-width: 375px){
+                    @media only screen and (min-device-width: 375px) and (max-device-width: #{$bp-small}){
                        left: 90px;
                     }
                     @media #{$desktop} {
@@ -168,15 +185,21 @@ $desktop: "(min-width: #{$bp-medium})";
                 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
                 
                 .infoContainer {
-                    @media #{$desktop}{
+                    @media #{$desktop} {
                         position: relative;
                         left: 40px;
                     }
                     .sunFullImage {
                         position: relative;
                         bottom: 22px;
+                        @media #{$oldPhone} {
+                            right: 115px !important;
+                        }
                         @media #{$phone} {
                             right: 130px;
+                        }
+                        @media #{$widePhone} {
+                            right: 141px;
                         }
                         @media #{$desktop} {
                             right: 350px;
@@ -190,7 +213,7 @@ $desktop: "(min-width: #{$bp-medium})";
                             right: 140px;
                             bottom: 25px;
                         }
-                        @media #{$desktop}{
+                        @media #{$desktop} {
                             right: 210px;
                             bottom: 70px;
                         }
@@ -199,7 +222,7 @@ $desktop: "(min-width: #{$bp-medium})";
                     &.loadingContainer {
                         .sunFullImage {
                             bottom: 28px;
-                            @media #{$desktop}{
+                            @media #{$desktop} {
                                 right: 350px;
                                 top: -21px;
                             }
@@ -265,6 +288,9 @@ $desktop: "(min-width: #{$bp-medium})";
                         background-color: #F2F3F5;
                         text-align: left;
                         width: 75%;
+                        @media #{$oldPhone} {
+                            padding: 1.25rem 1.25rem !important;
+                        }
                         @media #{$phone} {
                             padding: 1.5rem 1.5rem;
                             margin-top: 15px;
@@ -412,7 +438,7 @@ $desktop: "(min-width: #{$bp-medium})";
                 cursor: pointer;
                 @media #{$desktop} {
                     margin-top: 0;
-                    width: auto;
+                    width: 180px;
                 }
                 &:hover {
                     background-color: #237600;
@@ -452,7 +478,7 @@ $desktop: "(min-width: #{$bp-medium})";
             }
         }
         .mobileHide {
-            @media only screen and (max-device-width: 375px){
+            @media only screen and (max-device-width: 415px){
                 display: none !important;
             }   
         }
