@@ -1,0 +1,12 @@
+$gray: #B6B5B9;
+$light-gray: #E6E7ED;
+$dark-gray: #898989;
+
+$bp-smallest: 320px;
+$bp-small: 400px;
+$bp-medium: 480px;
+
+$oldPhone: "(min-width: #{$bp-smallest}) and (max-width: 350px)";
+$phone: "(max-width: #{$bp-medium})";
+$widePhone: "(min-width: #{$bp-small}) and (max-width: #{$bp-medium})";
+$desktop: "(min-width: #{$bp-medium})";

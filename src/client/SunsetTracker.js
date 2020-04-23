@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 import Modal from "react-responsive-modal";
 
-import toaster from 'toasted-notes';
-import 'toasted-notes/src/styles.css';
 import ErrorDisplay from './ErrorDisplay';
 const _ = require('underscore')
 const moment = require('moment');
@@ -333,7 +331,6 @@ export default class SunsetTracker extends Component {
             }
         }
 
-        const className = this.state.submissionSuccess ? 'success' : 'hidden'
         if (this.state.submissionSuccess) {
             var notificationText = (
                 <p className="notificationText successNotification">Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!</p>    

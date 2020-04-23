@@ -1,5 +1,6 @@
 // require("utility/error_display.scss");
 import React, { Component } from 'react';
+import './../css/error_display.css';
 
 export default class ErrorDisplay extends Component {
 	constructor(props) {

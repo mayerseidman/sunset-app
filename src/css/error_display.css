@@ -1,0 +1,46 @@
+@import "./../scss/variables";
+
+.errorDisplay {
+    position: relative;
+    @media #{$desktop} {
+        bottom: 5px;
+    }
+    .errorContent {
+        color: #c9302c;
+        font-size: 0.8em;
+        @media #{$phone} {
+            margin-bottom: 10px;
+        }
+        @media #{$desktop} {
+            margin-bottom: 1rem;
+        }
+        .closeLink {
+            cursor: pointer;
+            color: #555 !important;
+            float: right;
+        }
+        .x {
+            position: relative;
+            bottom: 9px;
+            left: 1px;
+            float: right;
+            color: #555;
+        }
+        .invalidError {
+            @media #{$phone} {
+                width: 97%;
+            }
+            @media #{$desktop} {
+                width: 88%;
+            }
+        }
+        .duplicateError {
+            @media #{$phone} {
+                width: 99%;
+            }
+            @media #{$desktop} {
+                width: 97.2%;
+            }
+        }
+    }
+}
