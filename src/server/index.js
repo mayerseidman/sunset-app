@@ -52,7 +52,7 @@ var job = new CronJob('0 12 * * *', function() {
 				var lat = user.lat;
 				var long = user.long;
 				console.log(lat, long)
-				runIT(lat, long).then((sunset) => {
+				fetchFromSunsetWX(lat, long).then((sunset) => {
 					const phoneNumber = user.phone_number;
 					const locale = geoTz(lat, long)[0];
 					const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
