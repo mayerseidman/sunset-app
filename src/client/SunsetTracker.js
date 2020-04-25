@@ -86,7 +86,7 @@ export default class SunsetTracker extends Component {
     // Wreck Beach - 49.2622, -123.2615
 
     fetchSunset(lat, long) { 
-        fetch("/api/send", {
+        fetch("/api/fetch-sunset", {
             method: 'POST',
             body: JSON.stringify({ lat: lat, long: long }), // stringify JSON
             headers: new Headers({ "Content-Type": "application/json" }) // add headers
@@ -125,7 +125,7 @@ export default class SunsetTracker extends Component {
                 this.refs.errors.setErrors(errors, "invalid");
             } else {
                 this.setState({ loading: true })
-                fetch('/api/submit-form', {
+                fetch('/api/create-user', {
                    method: 'POST',
                    headers: {
                        'Content-Type': 'application/json',

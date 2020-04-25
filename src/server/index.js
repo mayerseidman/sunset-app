@@ -1,7 +1,6 @@
 
 'use strict';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-const fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -23,46 +22,7 @@ const _ = require('underscore')
 require('dotenv').config();
 
 const path = require('path');
-const PDF2Pic = require("pdf2pic");
-
-function createImage(pdfFile) {
-	const baseFile = '/Users/mayerseidman/Desktop/Projects/simple-react-full-stack/';
-	let file =  baseFile + pdfFile + ".pdf";
-	 
-	const pdf2pic = new PDF2Pic({
-	  density: 100,           // output pixels per inch
-	  savename: pdfFile,   // output file name
-	  savedir: path.dirname(file),    // output file location
-	  format: "png",          // output file format
-	  size: "1000x1000"         // output size in pixels
-	});
-	 
-	pdf2pic.convert(file).then((resolve) => {
-	  console.log("image converter successfully!", resolve.name);
-	});
-	return pdfFile + "_1.png" 
-}
-
-var methodOne = function(fileName, quality, time) {
-   const promise = new Promise(function(resolve, reject){
-      setTimeout(function() {
-        console.log('first method completed');
-        resolve(createPDF(fileName, quality, time));
-      }, 2000);
-   });
-   return promise;
-};
-
-var methodTwo = function(returnedPDF) {
-	console.log(returnedPDF)
-   const promise = new Promise(function(resolve, reject){
-      setTimeout(function() {
-        console.log('second method completed', returnedPDF);
-        resolve(createImage(returnedPDF));
-      }, 2000);
-   });
-   return promise;
-};
+app.listen(process.env.PORT || 8080, () => console.log("Shemesh APP Running"));
 
 // Run the app and set its root // 
 const distPath = path.join(__dirname, '../..', 'dist')
@@ -71,8 +31,6 @@ app.use(express.static(distPath))
 app.get("/", (req, res) => {
 	res.sendFile(path.join(distPath, 'index.html'))
 })
-
-app.listen(process.env.PORT || 8080, () => console.log("Shemesh APP Running"));
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -83,32 +41,6 @@ const sunsetwx = new SunsetWx({
 	email: process.env.EMAIL,
 	password: process.env.PASSWORD,
 });
-
-// schedule.scheduleJob('26 * * * *', function(){
-// 	console.log("RUNNINGG") 
-// 	users.find().then((result)=>{
-// 		result.forEach(user => {
-// 			runIT(user.lat, user.long, (quality) => {
-// 				let phoneNumber = user.phone_number;
-// 				var momentDate = moment(quality.valid_at).format("H:mm");
-// 				methodOne(user._id, quality, momentDate)
-//    				.then(methodTwo).then((result)=>{
-//    					console.log("image", result)
-//    					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${quality.quality} (${quality.quality_percent}%)\nTemperature: ${Math.floor(quality.temperature)}°`;
-//    					client.messages
-// 			  			.create({
-// 			  				body: message, 
-// 			    			from: process.env.PHONE_NUMBER,
-// 			    			to: phoneNumber,
-// 			    			mediaUrl: `https://3c3abf0b.ngrok.io/${result}`,
-// 			    			contentType: "image/png"
-// 						})
-// 					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
-//    				})	
-// 			})
-// 		})
-// 	}) 
-// });
 
 var url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 var job = new CronJob('0 12 * * *', function() { 
@@ -154,7 +86,7 @@ function checkForExistingUsers(phoneNumber) {
 	})
 }
 
-function runIT(lat, long) {
+function fetchFromSunsetWX(lat, long) {
 	return new Promise((resolve, reject) => {
 		const coordsString = '' + lat + ',' + long + '';
 	    sunsetwx.quality({
@@ -168,11 +100,11 @@ function runIT(lat, long) {
 	});
 }
 
-app.post('/api/send', (req, res) => {
+app.post('/api/fetch-sunset', (req, res) => {
 	console.log("show me something")
 	var lat = req.body.lat;
 	var long = req.body.long;
-	runIT(lat, long).then((sunset) => {
+	fetchFromSunsetWX(lat, long).then((sunset) => {
 		res.send({ sunset })
 	})
 });
@@ -188,7 +120,7 @@ function sendIntroText(phoneNumber) {
  	.then(message => console.log("IT WORKED: ", message.subresourceUris.media));
 }
 
-app.post('/api/submit-form', function (req, res) {
+app.post('/api/create-user', function (req, res) {
 	const phoneNumber = "+1" + req.body.user.phone_number;
 	const location = req.body.user.location;
 	const lat = req.body.user.lat;
@@ -216,50 +148,3 @@ app.post('/api/submit-form', function (req, res) {
 		}
 	});
 })
-
-function createPDF(fileName, quality, time) {
-	// PDF KIT 
-	console.log(quality, time)
-	const PDFDocument = require('pdfkit'); 
-	// const blobStream  = require('blob-stream');
-	 
-	// create a document 
-	const doc = new PDFDocument();
-	 
-	// pipe the document to a blob
-	// const stream = doc.pipe(blobStream());  
-
-	// Pipe its output somewhere, like to a file or HTTP response
-	// See below for browser usage
-	doc.pipe(fs.createWriteStream(fileName + ".pdf")); 
-	// doc.pipe(res); 
-
-
-	// Embed a font, set the font size, and render some text
-	
-
-	// Add an image, constrain it to a given size, and center it vertically and horizontally
-	doc.image('./testImageNoBorder.png', 0, 17, {width: 612, height: 775}); 
-	doc.moveDown(6);
-	doc.fontSize(48)
-	   .text('SAN DIEGO', {align: "center"});
-	doc.fontSize(18)
-	doc.moveDown(0.5).text('Sunset: ' + time + ' pm    |    ' + quality.temperature + '° c', {align: "center"})
-	doc.moveDown(2.0).fontSize(36).text("Sunset Quality", {align: "center"})
-	doc.moveDown(0.5).fontSize(46).font('Times-Bold').text("" + quality.quality + "  ", 220, 340)
-	doc.fontSize(18).font("Times-Roman").text('(' + quality.quality_percent + '%)', 330, 360)
-
-	// Fit the image within the dimensions
-	// doc.image('/Users/mayerseidman/Desktop/imageFile.png', 320, 15, {fit: [100, 100]})
-	//    .rect(320, 15, 100, 100)
-	//    .stroke()
-	//    .text('Fit', 320, 0);
-
-	// Scale the image
-	// doc.image('./testImage.png', 100, 100)
-		// .text('Scale', 320, 265)
-	 //   .text('Lots', 100, 400);
-
-	doc.end();
-	return fileName;
-}
