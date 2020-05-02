@@ -36,55 +36,84 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioClient = require('twilio')(accountSid, authToken); 
 
-// SUNSETWX credentials...
+// SUNSETWX credentials
 const sunsetwx = new SunsetWx({
 	email: process.env.EMAIL,
-	password: process.env.PASSWORD,
+	password: process.env.PASSWORD
 });
 
+function doSomething() {
+	console.log("!!")
+}
+// var users = ["a", "b", "c", "d", "e", "f", "g", "h", "j", "k", "l", "m"]
+// var usersLength = users.length;
+// var userLimit = 6;
+
+// for (var i = 0; i < usersLength; i += userLimit) {
+// 	var batch = _.first(users, userLimit);
+// 	doSomething()
+// 	console.log(users)
+// 	users.splice(0, userLimit);
+// 	console.log(users)
+//
+
+
+// Cron SMS Job
 var url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-var job = new CronJob('0 12 * * *', function() { 
+var job = new CronJob('26 16 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
-		const users = db.collection('users')
-		users.find().toArray().then((result)=>{
-			result.forEach(user => {
-				var lat = user.lat;
-				var long = user.long;
-				console.log(lat, long)
-				fetchFromSunsetWX(lat, long).then((sunset) => {
-					const phoneNumber = user.phone_number;
-					const locale = geoTz(lat, long)[0];
-					const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
-					const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
-					twilioClient.messages
-		  			.create({
-		  				body: message, 
-		    			from: process.env.PHONE_NUMBER,
-		    			to: phoneNumber
-					})
-					.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 
-				})
+		var users = db.collection('users')
+		users.countDocuments({}, function (error, count) {
+			var userCount = count;
+			var userLimit = 10;
+			users.find().toArray().then((result)=>{
+				for (var i = 0; i < userCount; i += userLimit) {
+					var batchUsers = _.first(result, userLimit);
+					console.log(batchUsers.length)
+					setTimeout(function() {
+						batchUsers.forEach(user => {
+							var lat = user.lat;
+							var long = user.long;
+							console.log(user.phone_number)
+							fetchFromSunsetWX(lat, long).then((sunset) => {
+								console.log(sunset.quality_percent)
+								const phoneNumber = user.phone_number;
+								const locale = geoTz(lat, long)[0];
+								const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
+								const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
+								twilioClient.messages
+					  			.create({
+					  				body: message,
+					    			from: process.env.PHONE_NUMBER,
+					    			to: phoneNumber
+								})
+								.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 		
+							})	
+						})
+						result.splice(0, userLimit);
+					}.bind(this), 2000);
+				}
 			})
-		})
+		});
 	});		
 }, null, true, 'America/Los_Angeles')
 job.start()
 
-function checkForExistingUsers(phoneNumber) {
-	return new Promise((resolve, reject) => {
-		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
-			let  db = client.db('heroku_9v9cjldm') 
-			let users = db.collection('users')
+// function checkForExistingUsers(phoneNumber) {
+// 	return new Promise((resolve, reject) => {
+// 		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
+// 			let  db = client.db('heroku_9v9cjldm') 
+// 			let users = db.collection('users')
 
-			let findPhoneNumber = users.findOne({ phone_number: phoneNumber })
+// 			let findPhoneNumber = users.findOne({ phone_number: phoneNumber })
 
-			findPhoneNumber.then((doc) => {
-				resolve(_.isEmpty(doc))
-			}).catch(err=>reject(err))
-		})
-	})
-}
+// 			findPhoneNumber.then((doc) => {
+// 				resolve(_.isEmpty(doc))
+// 			}).catch(err=>reject(err))
+// 		})
+// 	})
+// }
 
 function fetchFromSunsetWX(lat, long) {
 	return new Promise((resolve, reject) => {
@@ -94,7 +123,7 @@ function fetchFromSunsetWX(lat, long) {
 	        type: 'sunset',
 	        limit: '1'
 	    }, function (err, httpResponse, body) {
-			console.log(body)
+			console.log(err, body)
 			resolve(body.features[0].properties);		
 	    });
 	});
@@ -126,25 +155,40 @@ app.post('/api/create-user', function (req, res) {
 	const lat = req.body.user.lat;
 	const long = req.body.user.long;
 
-	checkForExistingUsers(phoneNumber).then(function(result) {
-		console.log("result:", result)
-		if (!result) {
-			res.send({ error: true });
-		} else {
-			MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
-				let  db = client.db('heroku_9v9cjldm') 
-				let users = db.collection('users')
+	MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
+		let  db = client.db('heroku_9v9cjldm') 
+		let users = db.collection('users')
+		 
+		users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+			if(err)  {
+				console.log('error inserting', result)
+		 	} else {
+		 		console.log("data inserted", result)
+		 		sendIntroText(phoneNumber)
+		 	}
+		})   
+   	});
+	res.send(req.body)
+
+	// checkForExistingUsers(phoneNumber).then(function(result) {
+	// 	console.log("result:", result)
+	// 	if (!result) {
+	// 		res.send({ error: true });
+	// 	} else {
+	// 		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
+	// 			let  db = client.db('heroku_9v9cjldm') 
+	// 			let users = db.collection('users')
 				 
-				users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
-					if(err)  {
-						console.log('error inserting', result)
-				 	} else {
-				 		console.log("data inserted", result)
-				 		sendIntroText(phoneNumber)
-				 	}
-				})   
-		   	});
-			res.send(req.body)
-		}
-	});
+	// 			users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+	// 				if(err)  {
+	// 					console.log('error inserting', result)
+	// 			 	} else {
+	// 			 		console.log("data inserted", result)
+	// 			 		sendIntroText(phoneNumber)
+	// 			 	}
+	// 			})   
+	// 	   	});
+	// 		res.send(req.body)
+	// 	}
+	// });
 })
