@@ -83,8 +83,6 @@ export default class SunsetTracker extends Component {
         }
     }
 
-    // Wreck Beach - 49.2622, -123.2615
-
     fetchSunset(lat, long) { 
         fetch("/api/fetch-sunset", {
             method: 'POST',
@@ -157,7 +155,7 @@ export default class SunsetTracker extends Component {
 
     showRandomSunset() {
         if (this.state.sunsetInfo) {
-            this.setState({ sunsetInfo: null, loadingMessage: true })
+            this.setState({ sunsetInfo: null, loadingRandomSunset: true })
         } else {
             this.setState({ spin: true })
         }
@@ -210,98 +208,122 @@ export default class SunsetTracker extends Component {
             this.setState({ showFahrenheitLink: true, temperature: fahrenheit })
         }
     }
-
-    render() {
+    renderTopSection() {
+        return (
+            <div className="topSection">
+                <p className="header">Suns°ets are awesome. Don't miss another!</p>
+            </div>
+        )
+    }
+    renderSunsetError() {
+        return (
+            <div className="infoContainer">
+                <div className="infoBubble errorBubble">
+                   <p>We couldn't get your sunset forecast.</p>
+                   <p>Try <a onClick={ this.reloadPage.bind(this) }>refreshing</a> the page.</p>
+                   <p>If that does not work, try again in 30 minutes.</p>
+                </div>
+                <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+        </div>
+        )
+    }
+    renderSunsetSuccess() {
         const { open } = this.state;
-        var sunset = this.state.sunsetInfo;
-        if (this.state.fetchingError) {
-            var sunsetInfo = (
-                <div className="infoContainer">
-                    <div className="infoBubble errorBubble">
-                       <p>We couldn't get your sunset forecast.</p>
-                       <p>Try <a onClick={ this.reloadPage.bind(this) }>refreshing</a> the page.</p>
-                       <p>If that does not work, try again in 30 minutes.</p>
-                    </div>
-                    <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+        const sunset = this.state.sunsetInfo;
+        if (this.state.showRandomSunset) {
+            var locationText = (
+                <p>{ this.state.city } Suns°et Forecast: </p>
+            )
+            var randomLocation = "randomLocation";
+            const offset = this.state.offset;
+            var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
+        } else {
+            var momentTime = moment(sunset.valid_at).format("H:mm");
+            var locationText = (
+                <p>Your Suns°et Forecast: </p>
+            )
+        }
+        if (this.state.showFahrenheitLink) {
+            var temperatureWidget = (
+                <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "F") }>F</a>
+            ) 
+        } else {
+            var temperatureWidget = (
+                <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "C") }>C</a>
+            ) 
+        }
+        return (
+            <div className="infoContainer">
+                <div className="infoBubble">
+                    { locationText }
+                    <p>Time: { momentTime }</p>
+                    <p>
+                        Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)
+                        <img src={ questionImage } alt="question" className="questionImage mobileHide" 
+                            onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)} />
+                        <img src={ questionImage } alt="question" className="questionImage webHide" 
+                            onClick={ this.onOpenModal.bind(this) } />    
+                    </p>
+                    <p>Temperature: { this.state.temperature }° { temperatureWidget }</p>
+                </div>
+                <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+                <Modal open={ open } onClose={ this.onCloseModal.bind(this) } className="modal">
+                    <img src={ sunsetInfoImage } alt="question" className="questionImage" />
+                </Modal>
+            </div>
+        )
+    }
+    renderLoadingBubble() {
+        return (
+            <div className="infoContainer loadingContainer">
+                <div className="infoBubble loadingBubble">
+                    <div className="dots"></div>
+                </div>
+                <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+            </div>
+        )
+    }
+    renderInfoBubble() {
+        if (this.state.spin) {
+            var imgClassName = "spin";
+            var containerClass = "shrink";
+        }
+        return (
+            var displayImage = (
+                <div className={ "sunImageContainer "  + containerClass }>
+                    <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.submitCoordinates.bind(this) } />
+                    <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
                 </div>
             )
+        )
+    }
+    renderLeftSection() {
+        const sunset = this.state.sunsetInfo;
+        if (this.state.fetchingError) {
+            var sunsetInfo = this.renderSunsetError()
             var links =  (
                 <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
             )
             const linksClassName = "altLinksContainer";
         } else {
             if (sunset) {
-                if (this.state.showRandomSunset) {
-                    var locationText = (
-                        <p>{ this.state.city } Suns°et Forecast: </p>
-                    )
-                    var randomLocation = "randomLocation";
-                    const offset = this.state.offset;
-                    var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
-                } else {
-                    var momentTime = moment(sunset.valid_at).format("H:mm");
-                    var locationText = (
-                        <p>Your Suns°et Forecast: </p>
-                    )
-                }
-                if (this.state.showFahrenheitLink) {
-                    var temperatureWidget = (
-                        <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "F") }>F</a>
-                    ) 
-                } else {
-                    var temperatureWidget = (
-                        <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "C") }>C</a>
-                    ) 
-                }   
-                var sunsetInfo = (
-                    <div className="infoContainer">
-                        <div className="infoBubble">
-                            { locationText }
-                            <p>Time: { momentTime }</p>
-                            <p>
-                                Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)
-                                <img src={ questionImage } alt="question" className="questionImage mobileHide" 
-                                    onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)} />
-                                <img src={ questionImage } alt="question" className="questionImage webHide" 
-                                    onClick={ this.onOpenModal.bind(this) } />    
-                            </p>
-                            <p>Temperature: { this.state.temperature }° { temperatureWidget }</p>
-                        </div>
-                        <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
-                        <Modal open={ open } onClose={ this.onCloseModal.bind(this) } className="modal">
-                            <img src={ sunsetInfoImage } alt="question" className="questionImage" />
-                        </Modal>
-                    </div>
-                )
+                var sunsetInfo = this.renderSunsetSuccess()
                 var links =  (
                     <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
                 )
                 const linksClassName = "altLinksContainer";
+                if (this.state.showRandomSunset) {
+                    var randomLocation = "randomLocation";
+                }
             } else {
-                if (this.state.loadingMessage) {
-                    var displayImage = (
-                        <div className="infoContainer loadingContainer">
-                            <div className="infoBubble loadingBubble">
-                                <div className="dots"></div>
-                            </div>
-                            <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
-                        </div>
-                    )
+                if (this.state.loadingRandomSunset) {
+                    var displayImage = this.renderLoadingBubble();
                     var links =  (
                         <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
                     )
                     var linksClassName = "altLinksContainer";
                 } else {
-                    if (this.state.spin) {
-                        var imgClassName = "spin";
-                        var containerClass = "shrink";
-                    }
-                    var displayImage = (
-                        <div className={ "sunImageContainer "  + containerClass }>
-                            <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.submitCoordinates.bind(this) } />
-                            <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
-                        </div>
-                    )
+                    var displayImage = this.renderInfoBubble();
                     var links =  (
                         <div>
                             <a onClick={ this.submitCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
@@ -311,6 +333,25 @@ export default class SunsetTracker extends Component {
                 }
             }
         }
+        return (
+            <div className="leftContainer">
+                <div>
+                    <div className={ "imagesContainer " + randomLocation }>
+                        { displayImage }
+                        { sunsetInfo }
+                    </div>
+                    <div className={ "linksContainer " + linksClassName }>
+                        { links }
+                    </div>
+                </div>
+            </div>  
+        )
+    }
+    renderRightSection() {
+
+    }
+
+    render() {
         const override = css`
             height: 5px;
             display: inline-block;
@@ -395,24 +436,12 @@ export default class SunsetTracker extends Component {
 
         return (
             <div className="sunsetContainer">
-                <div className="topSection">
-                    <p className="header">Suns°ets are awesome. Don't miss another!</p>
-                </div>
+               { this.renderTopSection() }
                 <div className="container middleContainer">
                     <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here 
-                        <span className="sunsetwxLink"> (powered by <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)</span> or sign up for a daily SMS!
+                        <span className="sunsetwxLink"> (powered by { sunsetWxLink })</span> or sign up for a daily SMS!
                     </p>
-                    <div className="leftContainer">
-                        <div>
-                            <div className={ "imagesContainer " + randomLocation }>
-                                { displayImage }
-                                { sunsetInfo }
-                            </div>
-                            <div className={ "linksContainer " + linksClassName }>
-                                { links }
-                            </div>
-                        </div>
-                    </div>        
+                    { this.renderLeftSection() }      
                     <div className="rightContainer formContainer">
                         <img src={ sunsetInfoImage } alt="sunset-info" className="infoImage" style={{ display: this.state.hover ? "inline-block" : "none" }}/>
                         <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
@@ -426,14 +455,16 @@ export default class SunsetTracker extends Component {
                     </div>
                     { bottomMobile }
                 </div>
+                <div className="footer mobileHide"></div>
             </div>
         );
     }
 }
 
 const randomLocations = [
-    { "city" : "SD", "lat" : 32.7157, "long" : -117.1611, offset: -7 }, { "city" : "NYC", "lat" : 40.7128, "long" : -74.0060, offset: -4 }, { "city" : "LA", "lat" : 34.0522, "long" : -118.2437, offset: -7 }, 
-    { "city" : "CHI", "lat" : 41.8781, "long" : -87.6298, offset: -5 }, { "city" : "MIA", "lat" : 25.7617, "long" : -80.1918, offset: -4 }, { "city" : "DEN", "lat" : 39.7392, "long" : -104.9903, offset: -6 },
-    { "city" : "ATX", "lat" : 30.2672, "long" : -97.7431, offset: -5 }, { "city" : "SEA", "lat" : 47.6062, "long" : -122.3321, offset: -7 }, { "city" : "SF", "lat" : 37.7749, "long" : -122.4194, offset: -7 },
-    { "city" : "PHX", "lat" : 33.4484, "long" : -112.0740, offset: -6 } 
+    { "city" : "SD", "lat" : 32.7157, "long" : -117.1611, offset: -7 }, { "city" : "DEN", "lat" : 39.7392, "long" : -104.9903, offset: -6 },
+    { "city" : "NYC", "lat" : 40.7128, "long" : -74.0060, offset: -4 }, { "city" : "SEA", "lat" : 47.6062, "long" : -122.3321, offset: -7 },
+    { "city" : "LA", "lat" : 34.0522, "long" : -118.2437, offset: -7 }, { "city" : "SF", "lat" : 37.7749, "long" : -122.4194, offset: -7 },
+    { "city" : "CHI", "lat" : 41.8781, "long" : -87.6298, offset: -5 }, { "city" : "MIA", "lat" : 25.7617, "long" : -80.1918, offset: -4 },
+    { "city" : "ATX", "lat" : 30.2672, "long" : -97.7431, offset: -5 }, { "city" : "PHX", "lat" : 33.4484, "long" : -112.0740, offset: -6 } 
 ]

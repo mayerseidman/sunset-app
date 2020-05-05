@@ -15,20 +15,12 @@ body { font-size: 18px }
     }
 }
 
-button:disabled {
-    background-color:#CCC;
-}
-
 .container {
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
-    margin-left: auto; 
-}
-
-
-@media (min-width: 992px) {
-    .container {
+    margin-left: auto;
+    @media (min-width: 992px) {
         width: 970px !important; 
     }
 }
@@ -52,7 +44,7 @@ button:disabled {
         }
         @media #{$desktop} {
             font-size: 40px;
-            margin-bottom: 20px;
+            margin-bottom: 55px;
         }
         .header {
             margin-bottom: 10px;
@@ -336,6 +328,8 @@ button:disabled {
                         .questionImage  {
                             display: inline-block;
                             margin-left: 5px;
+                            position: relative;
+                            bottom: 1px;
                             @media #{$phone} {
                                 width: 15px;
                             }
@@ -506,16 +500,6 @@ button:disabled {
                 &:focus {outline: 0}
             }
         }
-        .mobileHide {
-            @media only screen and (max-device-width: 415px) {
-                display: none !important;
-            }   
-        }
-        .webHide {
-            @media #{$desktop} {
-                display: none !important;
-            }
-        }
         a {
             color: #ED675C;
             &:hover {
@@ -523,5 +507,25 @@ button:disabled {
                 text-decoration: underline;
             }
         }
+    }
+    .mobileHide {
+        @media only screen and (max-device-width: 415px) {
+            display: none !important;
+        }   
+    }
+    .webHide {
+        @media #{$desktop} {
+            display: none !important;
+        }
+    }
+    .footer {
+        height: 100px;
+        background: #5e3939;
+        position: fixed;
+        left: 61px;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: white;
     }
 }
