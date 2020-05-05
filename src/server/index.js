@@ -94,21 +94,20 @@ function sendSMS(users, timezone) {
 						var long = user.long;
 						var includesLong = findLong(long, timezone);
 						if (includesLong) {
-							console.log("ZEZ®", long)
-							// fetchFromSunsetWX(lat, long).then((sunset) => {
-							// 	console.log(sunset.quality_percent)
-							// 	const phoneNumber = user.phone_number;
-							// 	const locale = geoTz(lat, long)[0];
-							// 	const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
-							// 	const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
-							// 	twilioClient.messages
-					  // 			.create({
-					  // 				body: message,
-					  //   			from: process.env.PHONE_NUMBER,
-					  //   			to: phoneNumber
-							// 	})
-							// 	.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 		
-							// })	
+							fetchFromSunsetWX(lat, long).then((sunset) => {
+								console.log(sunset.quality_percent)
+								const phoneNumber = user.phone_number;
+								const locale = geoTz(lat, long)[0];
+								const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
+								const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
+								twilioClient.messages
+					  			.create({
+					  				body: message,
+					    			from: process.env.PHONE_NUMBER,
+					    			to: phoneNumber
+								})
+								.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 		
+							})	
 						}
 					})
 					result.splice(0, userLimit);
@@ -123,7 +122,7 @@ function sendSMS(users, timezone) {
 var url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 
 // EST Cron Job - South Bend, IA to Bangore, ME
-var job = new CronJob('38 10 * * *', function() { 
+var job = new CronJob('0 09 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
