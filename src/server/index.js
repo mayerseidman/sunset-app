@@ -57,45 +57,107 @@ function doSomething() {
 // 	console.log(users)
 //
 
+const PST = "PST";
+const MT = "MT";
+const CT = "CT";
+const EST = "EST";
 
-// Cron SMS Job
+function findLong(long, timezone) {
+	var inRange = false;
+	switch(timezone) {
+		case EST:
+			inRange = long >= -86 && long <= -69;
+		case CT:
+			inRange = long > -103 && long <= -88;
+			break;
+		case MT:
+			inRange = long > -114 && long <= -103;
+			break;
+		case PST:
+	    	inRange = long <= -114;
+	    	break;
+	}
+	return inRange
+}
+
+function sendSMS(users, timezone) {
+	users.countDocuments({}, function (error, count) {
+		var userCount = count;
+		var userLimit = 10;
+		users.find().toArray().then((result)=>{
+			for (var i = 0; i < userCount; i += userLimit) {
+				var batchUsers = _.first(result, userLimit);
+				console.log(batchUsers.length)
+				setTimeout(function() {
+					batchUsers.forEach(user => {
+						var lat = user.lat;
+						var long = user.long;
+						var includesLong = findLong(long, timezone);
+						if (includesLong) {
+							console.log("BOOBS")
+							// fetchFromSunsetWX(lat, long).then((sunset) => {
+							// 	console.log(sunset.quality_percent)
+							// 	const phoneNumber = user.phone_number;
+							// 	const locale = geoTz(lat, long)[0];
+							// 	const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
+							// 	const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
+							// 	twilioClient.messages
+					  // 			.create({
+					  // 				body: message,
+					  //   			from: process.env.PHONE_NUMBER,
+					  //   			to: phoneNumber
+							// 	})
+							// 	.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 		
+							// })	
+						}
+					})
+					result.splice(0, userLimit);
+				}.bind(this), 2000);
+			}
+		})
+	});
+}
+
+
+// Cron SMS Jobs
 var url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-var job = new CronJob('0 12 * * *', function() { 
+
+// EST Cron Job - South Bend, IA to Bangore, ME
+var job = new CronJob('0 09 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
-		users.countDocuments({}, function (error, count) {
-			var userCount = count;
-			var userLimit = 10;
-			users.find().toArray().then((result)=>{
-				for (var i = 0; i < userCount; i += userLimit) {
-					var batchUsers = _.first(result, userLimit);
-					console.log(batchUsers.length)
-					setTimeout(function() {
-						batchUsers.forEach(user => {
-							var lat = user.lat;
-							var long = user.long;
-							console.log(user.phone_number)
-							fetchFromSunsetWX(lat, long).then((sunset) => {
-								console.log(sunset.quality_percent)
-								const phoneNumber = user.phone_number;
-								const locale = geoTz(lat, long)[0];
-								const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
-								const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
-								twilioClient.messages
-					  			.create({
-					  				body: message,
-					    			from: process.env.PHONE_NUMBER,
-					    			to: phoneNumber
-								})
-								.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 		
-							})	
-						})
-						result.splice(0, userLimit);
-					}.bind(this), 2000);
-				}
-			})
-		});
+		sendSMS(users, EST)
+	});		
+}, null, true, 'America/Los_Angeles')
+job.start()
+
+// CT Cron Job - Chicago, IL to Lincoln, NE
+var job = new CronJob('00 10 * * *', function() { 
+	mongodb.MongoClient.connect(url, (err, client)=>{
+		const  db = client.db('heroku_9v9cjldm') 
+		var users = db.collection('users')
+		sendSMS(users, CT)
+	});		
+}, null, true, 'America/Los_Angeles')
+job.start()
+
+// MT Cron Job - Eskdale, UT to Alliance, NE
+var job = new CronJob('0 11 * * *', function() { 
+	mongodb.MongoClient.connect(url, (err, client)=>{
+		const  db = client.db('heroku_9v9cjldm') 
+		var users = db.collection('users')
+		sendSMS(users, MT)
+	});		
+}, null, true, 'America/Los_Angeles')
+job.start()
+
+// PST Cron Job - Baker, NV Westwards
+var job = new CronJob('18 17 * * *', function() { 
+	mongodb.MongoClient.connect(url, (err, client)=>{
+		const  db = client.db('heroku_9v9cjldm') 
+		var users = db.collection('users')
+		sendSMS(users, PST)
 	});		
 }, null, true, 'America/Los_Angeles')
 job.start()
