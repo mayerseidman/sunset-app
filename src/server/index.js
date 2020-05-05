@@ -67,8 +67,9 @@ function findLong(long, timezone) {
 	switch(timezone) {
 		case EST:
 			inRange = long >= -86 && long <= -69;
+			break;
 		case CT:
-			inRange = long > -103 && long <= -88;
+			inRange = long > -103 && long <= -87;
 			break;
 		case MT:
 			inRange = long > -114 && long <= -103;
@@ -87,14 +88,13 @@ function sendSMS(users, timezone) {
 		users.find().toArray().then((result)=>{
 			for (var i = 0; i < userCount; i += userLimit) {
 				var batchUsers = _.first(result, userLimit);
-				console.log(batchUsers.length)
 				setTimeout(function() {
 					batchUsers.forEach(user => {
 						var lat = user.lat;
 						var long = user.long;
 						var includesLong = findLong(long, timezone);
 						if (includesLong) {
-							console.log("BOOBS")
+							console.log("ZEZ®", long)
 							// fetchFromSunsetWX(lat, long).then((sunset) => {
 							// 	console.log(sunset.quality_percent)
 							// 	const phoneNumber = user.phone_number;
@@ -123,7 +123,7 @@ function sendSMS(users, timezone) {
 var url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 
 // EST Cron Job - South Bend, IA to Bangore, ME
-var job = new CronJob('0 09 * * *', function() { 
+var job = new CronJob('38 10 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
@@ -133,7 +133,7 @@ var job = new CronJob('0 09 * * *', function() {
 job.start()
 
 // CT Cron Job - Chicago, IL to Lincoln, NE
-var job = new CronJob('00 10 * * *', function() { 
+var job = new CronJob('0 10 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
@@ -153,7 +153,7 @@ var job = new CronJob('0 11 * * *', function() {
 job.start()
 
 // PST Cron Job - Baker, NV Westwards
-var job = new CronJob('18 17 * * *', function() { 
+var job = new CronJob('0 12 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')

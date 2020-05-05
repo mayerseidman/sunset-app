@@ -107,7 +107,7 @@ button:disabled {
                 }
             }
             .descriptionText {
-                color: #4990e2;
+                font-weight: 500;
             }
         }
         .leftContainer {
