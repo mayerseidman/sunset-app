@@ -488,7 +488,7 @@ body { font-size: 18px }
                 font-size: 0.8em;
                 cursor: pointer;
                 @media #{$phone} {
-                    width: 100%;
+                    width: 100%; 
                 }
                 @media #{$desktop} {
                     width: 175px;
@@ -520,7 +520,7 @@ body { font-size: 18px }
     }
     .footer {
         height: 100px;
-        background: #5e3939;
+        background: ##9e7361;
         position: fixed;
         left: 61px;
         left: 0;
