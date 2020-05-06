@@ -289,12 +289,10 @@ export default class SunsetTracker extends Component {
             var containerClass = "shrink";
         }
         return (
-            var displayImage = (
-                <div className={ "sunImageContainer "  + containerClass }>
-                    <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.submitCoordinates.bind(this) } />
-                    <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
-                </div>
-            )
+            <div className={ "sunImageContainer "  + containerClass }>
+                <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.submitCoordinates.bind(this) } />
+                <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
+            </div>
         )
     }
     renderLeftSection() {
