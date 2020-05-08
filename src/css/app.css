@@ -502,10 +502,6 @@ body { font-size: 18px }
         }
         a {
             color: #ED675C;
-            &:hover {
-                cursor: pointer;
-                text-decoration: underline;
-            }
         }
     }
     .mobileHide {
@@ -518,14 +514,40 @@ body { font-size: 18px }
             display: none !important;
         }
     }
+    .cropsContainer {
+        position: relative;
+        text-align: center;
+        margin-top: 5%;
+        z-index: 10000;
+    }
     .footer {
+       /* display: none;*/
         height: 100px;
-        background: #9e7361;
+        background: #8A716A;
         position: fixed;
         left: 61px;
         left: 0;
         bottom: 0;
         width: 100%;
         color: white;
+        text-align: center;
+        padding-top: 40px;
+        .footerText {
+            display: inline-block;
+            width: 21.9%;
+            border-left: 1px solid #fff;
+            &.name {
+                font-size: 18px;
+            }
+            &:nth-of-type(1) {
+                border-left: none;
+            }
+        }
+    }
+    a {
+        &:hover {
+                cursor: pointer;
+                text-decoration: underline !important;
+            }
     }
 }

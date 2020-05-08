@@ -57,11 +57,6 @@ function doSomething() {
 // 	console.log(users)
 //
 
-const PST = "PST";
-const MT = "MT";
-const CT = "CT";
-const EST = "EST";
-
 function findLong(long, timezone) {
 	var inRange = false;
 	switch(timezone) {
@@ -76,6 +71,15 @@ function findLong(long, timezone) {
 			break;
 		case PST:
 	    	inRange = long <= -114;
+	    	break;
+	    case EURO:
+	    	inRange = long > -9.5 && long < 36;
+	    	break;
+	    case SEA:
+	    	inRange = long > 36 && long < 120;
+	    	break;
+	    case AUS:
+	    	inRange = long > 120 && long < 135;
 	    	break;
 	}
 	return inRange
@@ -95,8 +99,8 @@ function sendSMS(users, timezone) {
 						var includesLong = findLong(long, timezone);
 						if (includesLong) {
 							fetchFromSunsetWX(lat, long).then((sunset) => {
-								console.log(sunset.quality_percent)
 								const phoneNumber = user.phone_number;
+								console.log(lat, long, phoneNumber)
 								const locale = geoTz(lat, long)[0];
 								const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
 								const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
@@ -157,6 +161,36 @@ var job = new CronJob('0 12 * * *', function() {
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
 		sendSMS(users, PST)
+	});		
+}, null, true, 'America/Los_Angeles')
+job.start()
+
+// EUROPE
+var job = new CronJob('0 03 * * *', function() { 
+	mongodb.MongoClient.connect(url, (err, client)=>{
+		const  db = client.db('heroku_9v9cjldm') 
+		var users = db.collection('users')
+		sendSMS(users, EURO)
+	});		
+}, null, true, 'America/Los_Angeles')
+job.start()
+
+// SEA
+var job = new CronJob('0 21 * * *', function() { 
+	mongodb.MongoClient.connect(url, (err, client)=>{
+		const  db = client.db('heroku_9v9cjldm') 
+		var users = db.collection('users')
+		sendSMS(users, SEA)
+	});		
+}, null, true, 'America/Los_Angeles')
+job.start()
+
+// AUS
+var job = new CronJob('0 19 * * *', function() { 
+	mongodb.MongoClient.connect(url, (err, client)=>{
+		const  db = client.db('heroku_9v9cjldm') 
+		var users = db.collection('users')
+		sendSMS(users, AUS)
 	});		
 }, null, true, 'America/Los_Angeles')
 job.start()
@@ -238,3 +272,11 @@ app.post('/api/create-user', function (req, res) {
 		}
 	});
 })
+
+const EST = "EST";
+const CT = "CT";
+const MT = "MT";
+const PST = "PST";
+const EURO = "EURO";
+const SEA = "SEA";
+const AUS = "AUS";

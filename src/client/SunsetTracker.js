@@ -13,6 +13,7 @@ import sunOuterImage from './../images/sun-outer-shell.png';
 import sunFullImage from './../images/sun-full.png';
 import questionImage from './../images/question.png';
 import sunsetInfoImage from './../images/sunset-info.png';
+import cropsImage from './../images/crops.png';
 
 // CSS //
 import { css } from "@emotion/core";
@@ -453,7 +454,11 @@ export default class SunsetTracker extends Component {
                     </div>
                     { bottomMobile }
                 </div>
-                <div className="footer mobileHide"></div>
+                <div className="footer mobileHide">
+                    <p className="footerText"><a>Project Docs</a></p>
+                    <p className="footerText name">Made by Mayer</p>
+                    <p className="footerText"><a>About Me</a></p>
+                </div>
             </div>
         );
     }
