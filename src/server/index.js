@@ -186,7 +186,7 @@ var job = new CronJob('0 19 * * *', function() {
 job.start()
 
 // SEA
-var job = new CronJob('45 21 * * *', function() { 
+var job = new CronJob('0 21 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
