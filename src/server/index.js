@@ -175,22 +175,22 @@ var job = new CronJob('0 03 * * *', function() {
 }, null, true, 'America/Los_Angeles')
 job.start()
 
-// SEA
-var job = new CronJob('0 21 * * *', function() { 
-	mongodb.MongoClient.connect(url, (err, client)=>{
-		const  db = client.db('heroku_9v9cjldm') 
-		var users = db.collection('users')
-		sendSMS(users, SEA)
-	});		
-}, null, true, 'America/Los_Angeles')
-job.start()
-
 // AUS
 var job = new CronJob('0 19 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
 		sendSMS(users, AUS)
+	});		
+}, null, true, 'America/Los_Angeles')
+job.start()
+
+// SEA
+var job = new CronJob('45 21 * * *', function() { 
+	mongodb.MongoClient.connect(url, (err, client)=>{
+		const  db = client.db('heroku_9v9cjldm') 
+		var users = db.collection('users')
+		sendSMS(users, SEA)
 	});		
 }, null, true, 'America/Los_Angeles')
 job.start()
