@@ -1,6 +1,9 @@
 @import "./../scss/variables";
 
-body { font-size: 18px }
+body { 
+    font-size: 18px;
+    color: #333366;
+}
 
 .styles_modal__gNwvD {
     .questionImage {
@@ -28,9 +31,9 @@ body { font-size: 18px }
 .sunsetContainer {
     .topSection {
         text-align: center;
-        background: #4A90E2;
-        color: white;
-        padding-top: 5px;
+        /*background: #4A90E2;*/
+        /*color: #fff;*/
+        padding-top: 15px;
         padding-bottom: 5px;
         @media #{$oldPhone} {
             font-size: 30px !important;    
@@ -44,7 +47,7 @@ body { font-size: 18px }
         }
         @media #{$desktop} {
             font-size: 40px;
-            margin-bottom: 55px;
+            margin-bottom: 35px;
         }
         .header {
             margin-bottom: 10px;
@@ -448,9 +451,11 @@ body { font-size: 18px }
             }
             .submitButton {
                 color: #fff;
-                background-color: #2b9401;
-                border: 1px solid #237600;
-                padding: 6px 12px;
+/*                background-color: #2b9401;
+*/                background: #8ad88a;
+/*                border: 1px solid #237600;
+*/              padding: 6px 12px;
+                border: none;
                 font-size: 1em;
                 border-radius: 5px;
                 cursor: pointer;
@@ -462,8 +467,9 @@ body { font-size: 18px }
                     width: 180px;
                 }
                 &:hover {
-                    background-color: #237600;
-                    border-color: #195500;
+                    /*background-color: #237600;*/
+                    background: #6ead6e;
+                    /*border-color: #195500;*/
                 }
                 &:focus {outline: 0}
             }
@@ -501,7 +507,7 @@ body { font-size: 18px }
             }
         }
         a {
-            color: #ED675C;
+            color: #ff3333;
         }
     }
     .mobileHide {
@@ -521,21 +527,17 @@ body { font-size: 18px }
         z-index: 10000;
     }
     .footer {
-       /* display: none;*/
-        height: 100px;
-        background: #8A716A;
-        position: fixed;
-        left: 61px;
-        left: 0;
+        background: #F4EBE8;
         bottom: 0;
-        width: 100%;
-        color: white;
+        left: 0;
+        padding: 30px 0;
+        position: fixed;
+        right: 0;
         text-align: center;
-        padding-top: 40px;
         .footerText {
             display: inline-block;
             width: 21.9%;
-            border-left: 1px solid #fff;
+            border-left: 1px solid #999;
             &.name {
                 font-size: 18px;
             }

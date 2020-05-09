@@ -216,6 +216,16 @@ export default class SunsetTracker extends Component {
             </div>
         )
     }
+    renderMobileText() {
+        var sunsetWxLink = (
+            <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>
+        )
+        return (
+            <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here 
+                <span className="sunsetwxLink"> (powered by { sunsetWxLink })</span> or sign up for a daily SMS!
+            </p>
+        )
+    }
     renderSunsetError() {
         return (
             <div className="infoContainer">
@@ -225,7 +235,7 @@ export default class SunsetTracker extends Component {
                    <p>If that does not work, try again in 30 minutes.</p>
                 </div>
                 <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
-        </div>
+            </div>
         )
     }
     renderSunsetSuccess() {
@@ -346,49 +356,70 @@ export default class SunsetTracker extends Component {
             </div>  
         )
     }
-    renderRightSection() {
-
+    renderRightContent() {
+        var sunsetWxLink = (
+            <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>
+        )
+        return (
+            <div>
+                <img src={ sunsetInfoImage } alt="sunset-info" className="infoImage" style={{ display: this.state.hover ? "inline-block" : "none" }}/>
+                <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
+                <p className="descriptionText">Wondering whether today's sunset will be a banger? 
+                    Get your sunset forecast here (powered by { sunsetWxLink }) or sign up for a daily SMS!
+                </p>
+                <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
+                <ErrorDisplay ref="errors"/>
+            </div>
+        )
     }
-
-    render() {
-        const override = css`
-            height: 5px;
-            display: inline-block;
-            width: 175px;
-            margin-bottom: 4px;
-        `
+    renderLoadingBar(mobile=false) {
+        if (mobile) {
+            var override = css`
+                height: 5px;
+                display: inline-block;
+                width: 100%;
+                margin-bottom: 4px;
+            `
+        } else {
+           var override = css`
+               height: 5px;
+               display: inline-block;
+               width: 175px;
+               margin-bottom: 4px;
+           `
+        }
+        return (
+            <BarLoader css={ override } color={ "#bbb" } loading={ this.state.loading } />
+        )
+    }
+    renderSubmitButton() {
+        return (
+            <button onClick={ this.submitUser.bind(this) } className="submitButton"
+                ref="submitBtn">Send Suns°ets</button>
+        )
+    }
+    renderCoordinatesButton() {
+        return (
+            <button onClick={ this.findMyCoordinates.bind(this) } className="findLocationButton">Find My Location</button>
+        )
+    }
+    renderForm() {
         var readyForSubmit = this.state.lat && this.state.long;
         if (readyForSubmit) {
             if (this.state.loading) {
-                var loadingBar = (
-                    <BarLoader css={ override } color={ "#bbb" } loading={ this.state.loading } />
-                )
+                var loadingBar = this.renderLoadingBar();
             } else {
-                var submitButton = (
-                    <button onClick={ this.submitUser.bind(this) } className="submitButton"
-                        ref="submitBtn">Send Suns°ets</button>
-                )
+                var submitButton = this.renderSubmitButton();
             }
-        }
-
-        if (this.state.submissionSuccess) {
-            var notificationText = (
-                <p className="notificationText successNotification">Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!</p>    
-            )
-        }
-        if (!readyForSubmit) {
+        } else {
             if (this.state.loading) {
-                var loadingBar = (
-                    <BarLoader css={ override } color={ "#bbb" } loading={ this.state.loading } />
-                )
+                var loadingBar = this.renderLoadingBar();
             } else {
-                var findCoordinatesButton = (
-                    <button onClick={ this.findMyCoordinates.bind(this) } className="findLocationButton">Find My Location</button>
-                )
+                var findCoordinatesButton = this.renderCoordinatesButton();
             }
         }
         if (!this.state.submissionSuccess) {
-            var actionsContainer = (
+            return (
                 <div className="actionsContainer">
                     <label className="phoneNumberLabel">Phone Number</label>
                     <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
@@ -398,67 +429,87 @@ export default class SunsetTracker extends Component {
                     { submitButton }
                 </div>
             )
-            // Mobile //
-            if (window.innerWidth <= 480 && window.innerHeight <= 820) {
-                const override = css`
-                    height: 5px;
-                    display: inline-block;
-                    width: 100%;
-                    margin-bottom: 4px;
-                `
-                var loadingBar = (
-                    <BarLoader css={ override } color={ "#bbb" } loading={ this.state.loading } />
-                )
-                var formContainer = (
-                    <div className="formContainer webHide">                       
-                        <ErrorDisplay ref="errors"/>
-                        <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
-                            onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
-                        { findCoordinatesButton }
-                        { submitButton }
-                        { loadingBar }
-                    </div>
-                )
+        }
+    }
+    renderBottomMobile() {
+        var readyForSubmit = this.state.lat && this.state.long;
+           if (readyForSubmit) {
+               if (this.state.loading) {
+                   var loadingBar = this.renderLoadingBar();
+               } else {
+                   var submitButton = this.renderSubmitButton();
+               }
+           } else {
+               if (this.state.loading) {
+                   var loadingBar = this.renderLoadingBar();
+               } else {
+                   var findCoordinatesButton = this.renderCoordinatesButton();
             }
         }
 
+        if (this.state.submissionSuccess) {
+            var notificationText = (
+                <p className="notificationText successNotification">Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!</p>    
+            )
+        }
+
+        // Mobile //
         if (window.innerWidth <= 480 && window.innerHeight <= 820) {
-            var bottomMobile =  (
+            var loadingBar = this.renderLoadingBar("mobile");
+            var formContainer = (
+                <div className="formContainer webHide">                       
+                    <ErrorDisplay ref="errors"/>
+                    <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
+                        onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
+                    { findCoordinatesButton }
+                    { submitButton }
+                    { loadingBar }
+                </div>
+            )
+        }
+
+        if (window.innerWidth <= 480 && window.innerHeight <= 820) {
+            return (
                 <div>
                     { formContainer }
                     { notificationText } 
                 </div>
             )
         }
+    }
+    renderFooter() {
+        return (
+            <footer className="footer">
+                <p className="footerText"><a>Project Docs</a></p>
+                <p className="footerText name">Made by Mayer</p>
+                <p className="footerText"><a>About Me</a></p>
+            </footer>
+        )
+    }
 
-        var sunsetWxLink = (<a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>)
+    render() {
+        if (this.state.submissionSuccess) {
+            var notificationText = (
+                <p className="notificationText successNotification">
+                    Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!
+                </p>    
+            )
+        }
 
         return (
             <div className="sunsetContainer">
                { this.renderTopSection() }
                 <div className="container middleContainer">
-                    <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here 
-                        <span className="sunsetwxLink"> (powered by { sunsetWxLink })</span> or sign up for a daily SMS!
-                    </p>
+                    { this.renderMobileText() }
                     { this.renderLeftSection() }      
                     <div className="rightContainer formContainer">
-                        <img src={ sunsetInfoImage } alt="sunset-info" className="infoImage" style={{ display: this.state.hover ? "inline-block" : "none" }}/>
-                        <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
-                        <p className="descriptionText">Wondering whether today's sunset will be a banger? 
-                            Get your sunset forecast here (powered by { sunsetWxLink }) or sign up for a daily SMS!
-                        </p>
-                        <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
-                        <ErrorDisplay ref="errors"/>
-                        { actionsContainer }
+                        { this.renderRightContent() }
+                        { this.renderForm() }
                         { notificationText }
                     </div>
-                    { bottomMobile }
+                    { this.renderBottomMobile() }
                 </div>
-                <div className="footer mobileHide">
-                    <p className="footerText"><a>Project Docs</a></p>
-                    <p className="footerText name">Made by Mayer</p>
-                    <p className="footerText"><a>About Me</a></p>
-                </div>
+                { this.renderFooter() }
             </div>
         );
     }
