@@ -95,6 +95,9 @@ body {
                 display: inline-block;
                 width: 39%;
             }
+            @media #{$ipadPortrait} {
+                width: 50%;
+            }
             .actionsContainer {
                 .phoneNumberLabel {
                     font-size: 12px;
@@ -114,6 +117,12 @@ body {
                 width: 40%;
                 margin-right: 3%;
                 margin-left: 5%;
+            }
+            @media #{$ipadPortrait} {
+                margin-right: 8%;
+                margin-left: 0%;
+                position: relative;
+                right: 2%;
             }
             .imagesContainer {
                 position: relative;
@@ -167,6 +176,9 @@ body {
                     // iPhone
                     @media only screen and (min-device-width: 375px) and (max-device-width: #{$bp-small}){
                        left: 90px;
+                    }
+                    @media #{$ipadPortrait} {
+                        left: 51px !important;
                     }
                     @media #{$desktop} {
                         width: 205px;
@@ -222,6 +234,10 @@ body {
                         @media #{$desktop} {
                             right: 350px;
                             top: 74px;
+                        }
+                        @media #{$ipadPortrait} {
+                            right: 142px; 
+                            top: -43px;
                         }
                     }
 
@@ -315,6 +331,10 @@ body {
                             margin-left: 16%;
                             border-radius: 65px;
                         }
+                         @media #{$ipadPortrait} {
+                            width: 100%;
+                            padding: 2rem 1.5rem !important;
+                         }
                         @media #{$desktop}{
                             padding: 2rem 2.5rem;
                             margin: 3.4rem 0 10rem;
@@ -393,6 +413,9 @@ body {
                 @media #{$phone} {
                     margin-bottom: 10px;
                 }
+                @media #{$ipadPortrait} {
+                    left: 8.5px;
+                }
                 @media #{$desktop} {
                     top: 30px;
                     margin-bottom: 0;
@@ -462,6 +485,9 @@ body {
                 cursor: pointer;
                 @media #{$phone} {
                     width: 100%;
+                }
+                @media #{$ipadPortrait} {
+                    width: 175px !important;
                 }
                 @media #{$desktop} {
                     margin-top: 0;
