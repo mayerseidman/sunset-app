@@ -2,7 +2,8 @@
 
 body { 
     font-size: 18px;
-    color: #333366;
+    color: #333366 !important;
+    /*color: #6E86B0 !important;*/
 }
 
 .styles_modal__gNwvD {
@@ -34,7 +35,7 @@ body {
         /*background: #4A90E2;*/
         /*color: #fff;*/
         padding-top: 15px;
-        padding-bottom: 5px;
+        /*padding-bottom: 5px;*/
         @media #{$oldPhone} {
             font-size: 30px !important;    
         }
@@ -538,6 +539,8 @@ body {
             display: inline-block;
             width: 21.9%;
             border-left: 1px solid #999;
+            position: relative;
+            top: 8px;
             &.name {
                 font-size: 18px;
             }
