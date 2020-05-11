@@ -479,10 +479,11 @@ export default class SunsetTracker extends Component {
     }
     renderFooter() {
         return (
-            <footer className="footer mobileHide">
+            <footer className="footer">
                 <p className="footerText"><a>Project Docs</a></p>
-                <p className="footerText name">Made by Mayer</p>
+                <p className="footerText name mobileHide">Made by Mayer</p>
                 <p className="footerText"><a>About Me</a></p>
+                <p className="footerText name webHide">Made by Mayer</p>
             </footer>
         )
     }

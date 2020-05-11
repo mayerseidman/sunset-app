@@ -567,6 +567,13 @@ body {
             border-left: 1px solid #999;
             position: relative;
             top: 8px;
+            @media #{$phone} {
+                width: 35%;
+                border: none;
+                display: block;
+                margin: auto;
+                padding-bottom: 10px;
+            }
             &.name {
                 font-size: 18px;
             }
