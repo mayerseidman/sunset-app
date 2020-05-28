@@ -42,20 +42,23 @@ const sunsetwx = new SunsetWx({
 	password: process.env.PASSWORD
 });
 
-function doSomething() {
-	console.log("!!")
-}
-// var users = ["a", "b", "c", "d", "e", "f", "g", "h", "j", "k", "l", "m"]
-// var usersLength = users.length;
-// var userLimit = 6;
 
-// for (var i = 0; i < usersLength; i += userLimit) {
-// 	var batch = _.first(users, userLimit);
-// 	doSomething()
-// 	console.log(users)
-// 	users.splice(0, userLimit);
-// 	console.log(users)
-//
+function doSomething(batch) {
+	console.log(batch)
+}
+var users = ["a", "b", "c", "d", "e", "f", "g", "h", "j", "k", "l", "m"]
+var usersLength = users.length;
+var userLimit = 6;
+
+// Change to "while"
+
+for (var i = 0; i < usersLength; i += userLimit) {
+	console.log(i)
+	var batch = _.first(users, userLimit);
+	doSomething(batch)
+	users.splice(0, userLimit);
+}
+
 
 function findLong(long, timezone) {
 	var inRange = false;
@@ -88,39 +91,34 @@ function findLong(long, timezone) {
 function sendSMS(users, timezone) {
 	users.countDocuments({}, function (error, count) {
 		var userCount = count;
-		var userLimit = 10;
 		users.find().toArray().then((result)=>{
-			for (var i = 0; i < userCount; i += userLimit) {
-				var batchUsers = _.first(result, userLimit);
+			for (var i = 0; i < userCount; i++) {
+				var user = result[i]
 				setTimeout(function() {
-					batchUsers.forEach(user => {
-						var lat = user.lat;
-						var long = user.long;
-						var includesLong = findLong(long, timezone);
-						if (includesLong) {
-							fetchFromSunsetWX(lat, long).then((sunset) => {
-								const phoneNumber = user.phone_number;
-								console.log(lat, long, phoneNumber)
-								const locale = geoTz(lat, long)[0];
-								const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
-								const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
-								twilioClient.messages
-					  			.create({
-					  				body: message,
-					    			from: process.env.PHONE_NUMBER,
-					    			to: phoneNumber
-								})
-								.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 		
-							})	
-						}
-					})
-					result.splice(0, userLimit);
-				}.bind(this), 2000);
+					var lat = user.lat;
+					var long = user.long;
+					var includesLong = findLong(long, timezone);
+					if (includesLong) {
+						fetchFromSunsetWX(lat, long).then((sunset) => {
+							const phoneNumber = user.phone_number;
+							console.log(lat, long, phoneNumber)
+							const locale = geoTz(lat, long)[0];
+							const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
+							const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
+							twilioClient.messages
+				  			.create({
+				  				body: message,
+				    			from: process.env.PHONE_NUMBER,
+				    			to: phoneNumber
+							})
+							.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 		
+						})	
+					}
+				}.bind(this), i * 200);
 			}
 		})
 	});
 }
-
 
 // Cron SMS Jobs
 var url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
