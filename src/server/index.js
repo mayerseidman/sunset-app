@@ -92,8 +92,8 @@ function sendSMS(users, timezone) {
 	users.countDocuments({}, function (error, count) {
 		var userCount = count;
 		users.find().toArray().then((result)=>{
-			for (var i = 0; i < userCount; i++) {
-				var user = result[i]
+			console.log(result)
+			result.forEach(user => {
 				setTimeout(function() {
 					var lat = user.lat;
 					var long = user.long;
@@ -113,9 +113,9 @@ function sendSMS(users, timezone) {
 							})
 							.then(message => console.log("IT WORKED: ", message.subresourceUris.media)); 		
 						})	
-					}
+					}	
 				}.bind(this), i * 200);
-			}
+			})
 		})
 	});
 }
@@ -248,27 +248,42 @@ app.post('/api/create-user', function (req, res) {
 	const lat = req.body.user.lat;
 	const long = req.body.user.long;
 
-	checkForExistingUsers(phoneNumber).then(function(result) {
-		console.log("result:", result)
-		if (!result) {
-			res.send({ error: true });
-		} else {
-			MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
-				let  db = client.db('heroku_9v9cjldm') 
-				let users = db.collection('users')
+	// checkForExistingUsers(phoneNumber).then(function(result) {
+	// 	console.log("result:", result)
+	// 	if (!result) {
+	// 		res.send({ error: true });
+	// 	} else {
+	// 		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
+	// 			let  db = client.db('heroku_9v9cjldm') 
+	// 			let users = db.collection('users')
 				 
-				users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
-					if(err)  {
-						console.log('error inserting', result)
-				 	} else {
-				 		console.log("data inserted", result)
-				 		sendIntroText(phoneNumber)
-				 	}
-				})   
-		   	});
-			res.send(req.body)
-		}
-	});
+	// 			users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+	// 				if(err)  {
+	// 					console.log('error inserting', result)
+	// 			 	} else {
+	// 			 		console.log("data inserted", result)
+	// 			 		sendIntroText(phoneNumber)
+	// 			 	}
+	// 			})   
+	// 	   	});
+	// 		res.send(req.body)
+	// 	}
+	// });
+
+		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
+			let  db = client.db('heroku_9v9cjldm') 
+			let users = db.collection('users')
+			 
+			users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+				if(err)  {
+					console.log('error inserting', result)
+			 	} else {
+			 		console.log("data inserted", result)
+			 		sendIntroText(phoneNumber)
+			 	}
+			})   
+	   	});
+		res.send(req.body)
 })
 
 const EST = "EST";
