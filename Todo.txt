@@ -1,6 +1,0 @@
-To-do
-
--Grab user's coordinates
--Return sunrise and sunset for those coordinates
-
-Def wanna fully understand HOW to make an api call like without the wrapper via the plugin...see sunset watcher master ...m maybe implement that once I finish the app via the plugin 
