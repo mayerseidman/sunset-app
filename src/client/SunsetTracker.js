@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Modal from "react-responsive-modal";
 
 import ErrorDisplay from './ErrorDisplay';
+import InformationSection from "./InformationSection";
+import ResultsSection from "./ResultsSection";
 const _ = require('underscore')
 const moment = require('moment');
 import BarLoader from "react-spinners/BarLoader";
@@ -499,18 +501,8 @@ export default class SunsetTracker extends Component {
 
         return (
             <div className="sunsetContainer">
-               { this.renderTopSection() }
-                <div className="container middleContainer">
-                    { this.renderMobileText() }
-                    { this.renderLeftSection() }      
-                    <div className="rightContainer formContainer">
-                        { this.renderRightContent() }
-                        { this.renderForm() }
-                        { notificationText }
-                    </div>
-                    { this.renderBottomMobile() }
-                </div>
-                { this.renderFooter() }
+                <InformationSection />
+                <ResultsSection />
             </div>
         );
     }
