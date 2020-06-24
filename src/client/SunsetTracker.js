@@ -50,20 +50,20 @@ export default class SunsetTracker extends Component {
         this.setState({ showSunsetInfo: false })
     }
 
-    submitCoordinates() {
-        if ("geolocation" in navigator) {
-          /* geolocation is available */
-            this.setState({ spin: true })
-            this.getPosition().then((position) => {
-                const lat = position.coords.latitude;
-                const long = position.coords.longitude;
-                this.setState({ lat: lat, long: long })
-                this.fetchSunset(lat, long)
-            })
-        } else {
-          /* geolocation IS NOT available */
-        }
-    }
+    // submitCoordinates() {
+    //     if ("geolocation" in navigator) {
+    //       /* geolocation is available */
+    //         this.setState({ spin: true })
+    //         this.getPosition().then((position) => {
+    //             const lat = position.coords.latitude;
+    //             const long = position.coords.longitude;
+    //             this.setState({ lat: lat, long: long })
+    //             this.fetchSunset(lat, long)
+    //         })
+    //     } else {
+    //       /* geolocation IS NOT available */
+    //     }
+    // }
 
     getPosition() {
         // Simple wrapper
@@ -72,13 +72,15 @@ export default class SunsetTracker extends Component {
         });
     }
 
-    findMyCoordinates() {
+    findMySunset = () => {
         if ("geolocation" in navigator) {
             /* geolocation is available */
+            this.setState({ spin: true })
             this.setState({ loading: true })
             this.getPosition().then((position) => {
                 const lat = position.coords.latitude;
                 const long = position.coords.longitude;
+                this.fetchSunset(lat, long)
                 this.setState({ lat: lat, long: long, loading: false  })
             })
         } else {
@@ -402,7 +404,7 @@ export default class SunsetTracker extends Component {
     }
     renderCoordinatesButton() {
         return (
-            <button onClick={ this.findMyCoordinates.bind(this) } className="findLocationButton">Find My Location</button>
+            <button onClick={ this.findMySunset.bind(this) } className="findLocationButton">Find My Location</button>
         )
     }
     renderForm() {
@@ -501,7 +503,7 @@ export default class SunsetTracker extends Component {
 
         return (
             <div className="sunsetContainer">
-                <InformationSection />
+                <InformationSection findMySunset={ this.findMySunset }/>
                 <ResultsSection />
             </div>
         );

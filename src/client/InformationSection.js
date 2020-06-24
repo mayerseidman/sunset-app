@@ -11,9 +11,10 @@ export default class InformationSection extends Component {
 			<div className="section informationSection">
 				<div className="innerContent">
 					<p className="header">SUNSETS ARE AWESOME</p>
-					<p className="regularText">	Dont miss another great sunset! <br/>
+					<p className="valuePropText">	Dont miss another great sunset! <br/>
 						View the sunset forecast for your area.
 					</p>
+					<button onClick={ this.props.findMySunset } className="findLocationButton">Find My Sunset</button>
 				</div>
 			</div>
 		)

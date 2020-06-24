@@ -1,7 +1,7 @@
 @import "./../scss/variables";
 
 body { 
-    font-size: 18px;
+    font-size: 24px;
     color: #333366 !important;
     /*color: #6E86B0 !important;*/
 }
@@ -11,6 +11,7 @@ body {
     width: 50%;    
     height: 100vh;
     vertical-align: top;
+    border-bottom: 10px solid #031D44;
     @media (max-width: 760px) {
         display: block;
         width: 100%;
@@ -22,10 +23,16 @@ body {
     font-size: 60px;
     font-weight: 500;
     line-height: 1.2;
+    @media (min-width: 760px) and (max-width: 800px) {
+        font-size: 55px;
+    }
+    @media (max-width: 420px) {
+        font-size: 52px;
+    }
 }
 
-.regularText {
-    font-size: 24px;
+.valuePropText {
+    margin-bottom: 50px;
 }
 
 .innerContent {
@@ -33,6 +40,9 @@ body {
     top: 25%;
     margin: auto;
     width: 400px;
+    @media (min-width: 760px) and (max-width: 800px) {
+        padding: 15px;
+    }
 }
 
 .informationSection {
@@ -45,6 +55,12 @@ body {
         top: 100%;
         width: 100%;
     }
+    .innerContent {
+        @media (max-width: 420px) {
+            top: 10%;
+            width: 350px;
+        }
+    }
 }
 
 .resultsSection {
@@ -54,6 +70,18 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    .sunImg {
+        width: 355px;
+    }
+    .innerContent {
+        @media (max-width: 760px) {
+            top: 15%;
+            width: 300px;
+            .sunImg {
+                width: 300px;
+            }
+        }
+    }
 }
 
 .styles_modal__gNwvD {
