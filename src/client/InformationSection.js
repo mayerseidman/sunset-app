@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './../css/information_section.css';
 
 export default class InformationSection extends Component {
 	constructor(props) {
@@ -14,7 +15,8 @@ export default class InformationSection extends Component {
 					<p className="valuePropText">	Dont miss another great sunset! <br/>
 						View the sunset forecast for your area.
 					</p>
-					<button onClick={ this.props.findMySunset } className="findLocationButton">Find My Sunset</button>
+					<button onClick={ this.props.findMySunset } className="findSunsetButton">Find My Sunset</button>
+					<a className="signupLink">Sign Up For Daily SMS</a>
 				</div>
 			</div>
 		)

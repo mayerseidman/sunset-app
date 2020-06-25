@@ -1,0 +1,46 @@
+.resultsSection {
+    background-image: url('./../images/bg-home.png');
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-timing-function: ease-in;
+    animation-duration: 0.7s;
+    .sunImg {
+        width: 355px;
+    }
+    .innerContent {
+        @media (max-width: 760px) {
+            top: 7%;
+            width: 300px;
+            .sunImg {
+                width: 300px;
+            }
+        }
+    }
+    &.poorResult {
+        background-image: url('./../images/bg-poor.png');
+    }
+    &.fairResult {
+        background-image: url('./../images/bg-fair.png');
+    }
+    &.goodResult {
+        background-image: url('./../images/bg-good.png');
+    }
+    &.greatResult {
+        background-image: url('./../images/bg-great.png');
+    }
+}
+
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

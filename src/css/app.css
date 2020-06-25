@@ -1,8 +1,8 @@
 @import "./../scss/variables";
 
 body { 
-    font-size: 24px;
-    color: #333366 !important;
+    font-size: 18px;
+    color: #031D44 !important;
     /*color: #6E86B0 !important;*/
 }
 
@@ -11,7 +11,7 @@ body {
     width: 50%;    
     height: 100vh;
     vertical-align: top;
-    border-bottom: 10px solid #031D44;
+    border-bottom: 10px solid rgba(3, 29, 68, 0.75);
     @media (max-width: 760px) {
         display: block;
         width: 100%;
@@ -22,7 +22,7 @@ body {
 
 .header {
     font-size: 60px;
-    font-weight: 500;
+    font-weight: 550;
     line-height: 1.2;
     @media (min-width: 760px) and (max-width: 800px) {
         font-size: 55px;
@@ -30,10 +30,6 @@ body {
     @media (max-width: 760px) {
         font-size: 52px;
     }
-}
-
-.valuePropText {
-    margin-bottom: 50px;
 }
 
 .innerContent {
@@ -46,44 +42,10 @@ body {
     }
 }
 
-.informationSection {
-    background: #fafafa;
-    /*.header {
-        width: 400px;
-    }*/
-    @media (max-width: 760px) {
-        position: absolute;
-        top: 100%;
-        width: 100%;
-    }
-    .innerContent {
-        @media (max-width: 760px) {
-            top: 10%;
-            width: 350px;
-        }
-    }
-}
 
-.resultsSection {
-    background-image: url('./../images/blue-bg.png');
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    .sunImg {
-        width: 355px;
-    }
-    .innerContent {
-        @media (max-width: 760px) {
-            top: 15%;
-            width: 300px;
-            .sunImg {
-                width: 300px;
-            }
-        }
-    }
-}
+
+
+// old CSS
 
 .styles_modal__gNwvD {
     .questionImage {

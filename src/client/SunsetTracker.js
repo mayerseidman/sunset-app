@@ -75,7 +75,7 @@ export default class SunsetTracker extends Component {
     findMySunset = () => {
         if ("geolocation" in navigator) {
             /* geolocation is available */
-            this.setState({ spin: true })
+            this.setState({ loadingSunset: true })
             this.setState({ loading: true })
             this.getPosition().then((position) => {
                 const lat = position.coords.latitude;
@@ -96,7 +96,7 @@ export default class SunsetTracker extends Component {
         }).then((response) => {
             if (!response.ok) {
                 setTimeout(function(){
-                    this.setState({ spin :false, fetchingError: true })
+                    this.setState({ loadingSunset: false, fetchingError: true })
                  }.bind(this), 2000)
             } else {
                 return response.json();
@@ -104,8 +104,9 @@ export default class SunsetTracker extends Component {
         }).then((sunset) => {
             var sunset = sunset.sunset;
             setTimeout(function(){
-                this.setState({ spin :false, sunsetInfo: sunset, 
-                    temperature: Math.floor(sunset.temperature) 
+                const temperature = Math.floor(sunset.temperature);
+                this.setState({ loadingSunset: false, sunsetInfo: sunset, 
+                    temperature: temperature
                 })
             }.bind(this), 2000)
         })
@@ -504,7 +505,7 @@ export default class SunsetTracker extends Component {
         return (
             <div className="sunsetContainer">
                 <InformationSection findMySunset={ this.findMySunset }/>
-                <ResultsSection />
+                <ResultsSection sunset={ this.state.sunsetInfo } loadingSunset={ this.state.loadingSunset } />
             </div>
         );
     }

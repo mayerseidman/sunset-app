@@ -1,0 +1,59 @@
+@import "./../scss/variables";
+.informationSection {
+    background: #fafafa;
+    /*.header {
+        width: 400px;
+    }*/
+    @media (max-width: 760px) {
+        position: absolute;
+        top: 100%;
+        width: 100%;
+    }
+    .innerContent {
+        @media (max-width: 760px) {
+            top: 10%;
+            width: 350px;
+        }
+        .findSunsetButton {
+            background: #094CB1;
+            height: 44px;
+            border: 1px solid #CCC;
+            margin-bottom: 25px;
+            padding: 6px 12px;
+            border-radius: 5px;
+            color: #fafafa;
+            cursor: pointer;
+            @media #{$phone} {
+                width: 100%; 
+            }
+            @media #{$desktop} {
+                width: 175px;
+            }
+            &:hover {
+                background-color: #031D44;
+                border-color: #aaa;
+            }
+            &:focus {outline: 0}
+        }
+        .signupLink {
+            margin-left: 25px;
+            padding-bottom: 3px;
+            border-bottom: 2px solid #031D44;
+            text-decoration: none !important;
+            &:hover {
+                padding: 12px;
+                background-color: rgba(3, 29, 68, 0.75);
+                color: #fafafa;
+                border-color: #aaa;
+                border-radius: 5px;
+                border-bottom: none;
+            }
+        }
+        .valuePropText {
+            font-size: 24px;
+            margin-bottom: 50px;
+            font-weight: 300;
+            line-height: 1.35;
+        }
+    }
+}
