@@ -18,6 +18,7 @@ export default class ResultsSection extends Component {
 				break;
 			case "Good":
 				var className = "goodResult";
+				break;
 			case "Great":
 				var className = "greatResult";
 				break;
@@ -28,12 +29,14 @@ export default class ResultsSection extends Component {
 		if (this.props.sunset) {
 			var className = this.fetchBackground()
 		} else {
-
+			if (this.state.spin) {
+			    var sunClassName = "spin";
+			    var containerClass = "shrink";
+			}
 		}
 		return (
 			<div className={ "section resultsSection " + className }>
 				<div className="innerContent">
-					<img src={ sunFullImage } alt="sun-inner" className="sunImg" />
 				</div>
 			</div>
 		)

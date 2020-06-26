@@ -33,7 +33,7 @@
                 background-color: #031D44;
                 border-color: #aaa;
             }
-            &:focus {outline: 0}
+            &:focus { outline: 0 }
         }
         .signupLink {
             margin-left: 25px;
