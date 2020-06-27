@@ -5,11 +5,11 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-
-    opacity: 1;
+    color: #fafafa;
+   /* opacity: 1;
     animation-name: fadeInOpacity;
     animation-timing-function: ease-in;
-    animation-duration: 0.7s;
+    animation-duration: 0.7s;*/
     .sunImg {
         width: 355px;
     }
@@ -36,11 +36,11 @@
     }
 }
 
-@keyframes fadeInOpacity {
+/*@keyframes fadeInOpacity {
     0% {
         opacity: 0;
     }
     100% {
         opacity: 1;
     }
-}
+}*/

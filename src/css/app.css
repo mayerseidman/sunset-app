@@ -32,6 +32,12 @@ body {
     }
 }
 
+.mediumText {
+    font-size: 36px;
+    font-weight: 550;
+    opacity: 0.85;
+}
+
 .innerContent {
     position: relative;
     top: 25%;
