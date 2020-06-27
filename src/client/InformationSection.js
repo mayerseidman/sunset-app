@@ -16,7 +16,7 @@ export default class InformationSection extends Component {
 						View the sunset forecast for your area.
 					</p>
 					<button onClick={ this.props.findMySunset } className="findSunsetButton">Find My Sunset</button>
-					<a className="signupLink">Sign Up For Daily SMS</a>
+					<a className="signupLink link">Sign Up For Daily SMS</a>
 				</div>
 			</div>
 		)

@@ -34,6 +34,87 @@
     &.greatResult {
         background-image: url('./../images/bg-great.png');
     }
+
+    .detailsLink {
+        padding-left: 5px;
+        &:hover {
+            background-color: rgba(3, 29, 68, 0.75);
+            color: #fafafa;
+            border-bottom: none;
+            text-decoration: none !important;
+            padding: 5px;
+        }
+    }
+
+
+    $breakpoint-alpha: 480px; // adjust to your needs
+
+    .rubricTable {
+        min-width: 450px; // adjust to your needs
+        @media (max-width: 760px) {
+            font-size: 1em;
+        }
+        @media (min-width: 760px) and (max-width: 1030px) {
+            min-width: 350px;
+            font-size: 14px;
+        }
+        td {
+            display: block; 
+        
+            &:first-child {
+                padding-top: .5em;
+                width: 125px;
+                font-weight: 550;
+            }
+            &:last-child {
+                padding-bottom: .5em;
+            }
+
+            &:before {
+                content: attr(data-th)": "; 
+                font-weight: bold;
+
+                // optional stuff to make it look nicer
+                width: 6.5em; // magic number :( adjust according to your own content
+                display: inline-block;
+                // end options
+
+                @media (min-width: $breakpoint-alpha) {
+                    display: none;
+                }
+            }
+        }
+      
+      th, td {
+        text-align: left;
+        
+        @media (min-width: $breakpoint-alpha) {
+            display: table-cell;
+            padding: 1em;
+          
+          &:first-child {
+            padding-left: 0;
+          }
+          
+          &:last-child {
+            padding-right: 0;
+          }
+        }
+
+      }
+      
+      
+    }
+
+    .rwd-table {
+      overflow: hidden;
+        th, td {
+            margin: .5em 1em;
+            @media (min-width: $breakpoint-alpha) { 
+                padding: 1em !important; 
+            }
+        }
+    }
 }
 
 /*@keyframes fadeInOpacity {

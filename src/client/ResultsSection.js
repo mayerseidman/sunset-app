@@ -6,7 +6,7 @@ const moment = require('moment');
 export default class ResultsSection extends Component {
 	constructor(props) {
 		super();
-		this.state = {};
+		this.state = { showRubric: false};
 	}
 	fetchBackground = () => {
 		var quality = this.props.sunset.quality;
@@ -26,7 +26,38 @@ export default class ResultsSection extends Component {
 		}
 		return className;
 	}
-	renderSunsetSuccess() {
+	showRubric = () => {
+		this.setState({ showRubric: true })
+	}
+	renderRubric = () =>  {
+		var poorDescription = "Little to no color, with precipitation or a thick cloud layer often blocking a direct view of the sun.";
+		var fairDescription = "Some color for a short time, with conditions ranging from mostly cloudy, or hazy, to clear, with little to no clouds at all levels.";
+		var goodDescripton = "A fair amount of color, often multi-colored, lasting a considerable amount of time. Often caused by scattered clouds at multiple elvels.";
+		var greatDescription = "Extremely vibrant color lasting 30 minutes or more. Often caused by multiple arrangements of clouds at multiple levels, transitioning through multiple stages of vivid color.";
+		return (
+			<div>
+				<table className="rubricTable">
+					<tr>
+						<td data-th="Quality">Poor <br/>(0-25%)</td>
+						<td data-th="Description">{ poorDescription }</td>
+					</tr>
+					<tr>
+						<td data-th="Quality">Fair <br/>(25-50%)</td>
+						<td data-th="Description">{ fairDescription }</td>
+					</tr>
+					<tr>
+						<td data-th="Quality">Good <br/>(50-75%)</td>
+						<td data-th="Description">{ goodDescripton }</td>
+					</tr>
+					<tr>
+						<td data-th="Quality">Great <br/>(75-100%)</td>
+						<td data-th="Description">{ greatDescription }</td>
+					</tr>
+				</table>
+			</div>
+		)
+	}
+	renderSunsetSuccess = () => {
 		const sunset = this.props.sunset;
 	    if (this.state.showRandomSunset) {
 	        var locationText = (
@@ -51,16 +82,22 @@ export default class ResultsSection extends Component {
 		return (
 	    	<div className="resultsContainer">
 	    		<p className="header">YOUR SUNSET:</p>
-	    		<p className="time mediumText">TIME: { momentTime }</p>
-	    		<p className="temperature mediumText">TEMP: { Math.floor(sunset.temperature) }° { temperatureWidget }</p>
-	    		<p className="quality mediumText">QUALITY: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%) </p>
+	    		<p className="mediumText time">TIME: { momentTime }</p>
+	    		<p className="mediumText temperature">TEMP: { Math.floor(sunset.temperature) }° </p>
+	    		<p className="mediumText quality">QUALITY: 
+	    			<a className="detailsLink link" onClick={ this.showRubric }> { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</a>
+	    		</p>
 	    	</div>
 	    )
 	}
 	render() {
 		if (this.props.sunset) {
 			var className = this.fetchBackground();
-			var resultsContent = this.renderSunsetSuccess();
+			if (this.state.showRubric) {
+				var resultsContent = this.renderRubric();	
+			} else {
+				var resultsContent = this.renderSunsetSuccess();
+			}
 		} else {
 			if (this.state.spin) {
 			    var sunClassName = "spin";
@@ -77,6 +114,7 @@ export default class ResultsSection extends Component {
 		// )
 		return (
 			<div className={ "section resultsSection " + className }>
+				<div className="nav"><a>DOCS</a></div>
 				<div className="innerContent">
 					{ resultsContent }
 				</div>
