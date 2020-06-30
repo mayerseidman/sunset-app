@@ -9,9 +9,8 @@ body {
 .section {
     display: inline-block;
     width: 50%;    
-    height: 100vh;
+    height: 98.5vh;
     vertical-align: top;
-    border-bottom: 10px solid rgba(3, 29, 68, 0.75);
     @media (max-width: 760px) {
         display: block;
         width: 100%;
@@ -36,6 +35,9 @@ body {
     font-size: 36px;
     font-weight: 550;
     opacity: 0.85;
+    @media (max-width: 760px) {
+        font-size: 30px;
+    }
 }
 
 .innerContent {
@@ -53,6 +55,26 @@ body {
     border-bottom: 2px solid #031D44;
     text-decoration: none !important;
 }
+
+
+.showMobile {
+    @media (max-width: 760px) {
+        display: block;
+    }
+    @media (min-width: 760px) {
+        display: none;
+    }
+}
+
+.bottomSection {
+    background: rgba(3, 29, 68, 0.75);
+    height: 10px;
+}
+
+
+
+
+
 
 
 

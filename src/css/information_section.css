@@ -4,6 +4,11 @@
     /*.header {
         width: 400px;
     }*/
+    &.hideInformationView {
+        @media (max-width: 760px) {
+            display: none;
+        }
+    }
     @media (max-width: 760px) {
         position: absolute;
         top: 100%;

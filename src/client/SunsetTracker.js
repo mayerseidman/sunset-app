@@ -38,7 +38,7 @@ export default class SunsetTracker extends Component {
         super(props);
         this.state = { pictures: [], username: null, imgName: null, results: null, 
             showSunsetInfo: false, sunsetInfo: null, submissionSuccess: false, spin: false, 
-            fetchingError: false, loading: false
+            fetchingError: false, loading: false, hideInformationView: false, showFullView: false
          };
     }
 
@@ -81,7 +81,7 @@ export default class SunsetTracker extends Component {
                 const lat = position.coords.latitude;
                 const long = position.coords.longitude;
                 this.fetchSunset(lat, long)
-                this.setState({ lat: lat, long: long, loading: false  })
+                this.setState({ lat: lat, long: long, loading: false })
             })
         } else {
             /* geolocation IS NOT available */
@@ -106,7 +106,7 @@ export default class SunsetTracker extends Component {
             setTimeout(function(){
                 const temperature = Math.floor(sunset.temperature);
                 this.setState({ loadingSunset: false, sunsetInfo: sunset, 
-                    temperature: temperature
+                    temperature: temperature, hideInformationView: true, showFullView: true  
                 })
             }.bind(this), 2000)
         })
@@ -492,8 +492,11 @@ export default class SunsetTracker extends Component {
             </footer>
         )
     }
-
     render() {
+        var sunsetInfo = this.state.sunsetInfo;
+        var loadingSunset = this.state.loadingSunset;
+        var hideInformationView = this.state.hideInformationView;
+        var showFullView = this.state.showFullView;
         if (this.state.submissionSuccess) {
             var notificationText = (
                 <p className="notificationText successNotification">
@@ -504,8 +507,10 @@ export default class SunsetTracker extends Component {
 
         return (
             <div className="sunsetContainer">
-                <InformationSection findMySunset={ this.findMySunset }/>
-                <ResultsSection sunset={ this.state.sunsetInfo } loadingSunset={ this.state.loadingSunset } />
+                <InformationSection findMySunset={ this.findMySunset } 
+                    hideInformationView={ hideInformationView } />
+                <ResultsSection sunset={ sunsetInfo } loadingSunset={ loadingSunset } />
+                <div className="bottomSection"></div>
             </div>
         );
     }

@@ -8,8 +8,11 @@ export default class InformationSection extends Component {
 	}
 
 	render() {
+		if (this.props.hideInformationView) {
+			var className = "hideInformationView"
+		}
 		return (
-			<div className="section informationSection">
+			<div className={ "section informationSection  " + className }>
 				<div className="innerContent">
 					<p className="header">SUNSETS ARE AWESOME</p>
 					<p className="valuePropText">	Dont miss another great sunset! <br/>

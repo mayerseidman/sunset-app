@@ -6,6 +6,12 @@
     -o-background-size: cover;
     background-size: cover;
     color: #fafafa;
+
+    &.fullView {
+        @media (max-width: 760px) {
+            height: 100vh;
+        }
+    } 
    /* opacity: 1;
     animation-name: fadeInOpacity;
     animation-timing-function: ease-in;
@@ -13,9 +19,23 @@
     .sunImg {
         width: 355px;
     }
+    .navbar {
+        width: 400px;
+        margin: auto;
+        position: relative;
+        top: 5%;
+        color: #031D44 !important;
+        padding: 0;
+        .docsLink {
+            left: 88%;
+            position: relative;
+        }
+    }
     .innerContent {
+        @media (min-width: 760px) {
+            top: 21%;
+        }
         @media (max-width: 760px) {
-            top: 7%;
             width: 300px;
             .sunImg {
                 width: 300px;

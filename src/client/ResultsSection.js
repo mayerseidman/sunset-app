@@ -57,6 +57,9 @@ export default class ResultsSection extends Component {
 			</div>
 		)
 	}
+	goBack = () => {
+		this.setState({ showRubric: false })
+	}
 	renderSunsetSuccess = () => {
 		const sunset = this.props.sunset;
 	    if (this.state.showRandomSunset) {
@@ -87,14 +90,20 @@ export default class ResultsSection extends Component {
 	    		<p className="mediumText quality">QUALITY: 
 	    			<a className="detailsLink link" onClick={ this.showRubric }> { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</a>
 	    		</p>
+	    		<button onClick={ this.props.findMySunset } className="findSunsetButton showMobile">
+	    			Sign Up For Daily SMS
+	    		</button>
 	    	</div>
 	    )
 	}
 	render() {
 		if (this.props.sunset) {
-			var className = this.fetchBackground();
+			var className = this.fetchBackground()  + " fullView";
+			// if (this.props.showFullView) {
+			// 	var fullClassName = ;
+			// }
 			if (this.state.showRubric) {
-				var resultsContent = this.renderRubric();	
+				var resultsContent = this.renderRubric();
 			} else {
 				var resultsContent = this.renderSunsetSuccess();
 			}
@@ -104,6 +113,11 @@ export default class ResultsSection extends Component {
 			    var containerClass = "shrink";
 			}
 		}
+		var docksLink = <a className="docksLink">DOCS</a>
+		var backLink = (
+			<a className="backLink" style={{ visibility: this.state.showRubric ? "visible" : "hidden" }}
+				onClick={ this.goBack }>BACK</a>
+		)
 		// var resultsContent = (
 		// 	<div className="resultsContainer">
 		// 		<p className="header">YOUR SUNSET:</p>
@@ -114,7 +128,10 @@ export default class ResultsSection extends Component {
 		// )
 		return (
 			<div className={ "section resultsSection " + className }>
-				<div className="nav"><a>DOCS</a></div>
+				<div className="navbar">
+					{ backLink }
+					{ docksLink }
+				</div>
 				<div className="innerContent">
 					{ resultsContent }
 				</div>
