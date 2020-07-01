@@ -99,6 +99,7 @@ export default class ResultsSection extends Component {
 	render() {
 		if (this.props.sunset) {
 			var className = this.fetchBackground()  + " fullView";
+			var resultsClassName = "resultsView";
 			// if (this.props.showFullView) {
 			// 	var fullClassName = ;
 			// }
@@ -132,7 +133,7 @@ export default class ResultsSection extends Component {
 					{ backLink }
 					{ docksLink }
 				</div>
-				<div className="innerContent">
+				<div className={ "innerContent " + resultsClassName }>
 					{ resultsContent }
 				</div>
 			</div>
