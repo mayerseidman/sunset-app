@@ -20,6 +20,11 @@
         @media (max-width: 760px) {
             height: 100vh;
         }
+         .innerContent {
+            @media (max-width: 500px) {
+                width: 305px;
+            }
+         }
     } 
 
     .sunImg {
@@ -85,6 +90,12 @@
             margin-left: 5px;
             border-radius: 5px;
         }
+    }
+
+    .findSunsetButton {
+        margin: auto;
+        width: 275px;
+        margin-top: 30px;
     }
 
 

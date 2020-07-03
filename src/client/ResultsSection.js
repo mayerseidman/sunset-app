@@ -83,17 +83,19 @@ export default class ResultsSection extends Component {
 	    // }
 	    var temperatureWidget = (<span>widget</span>)
 		return (
-	    	<div className="resultsContainer">
-	    		<p className="header">YOUR SUNSET:</p>
-	    		<p className="mediumText time">TIME: { momentTime }</p>
-	    		<p className="mediumText temperature">TEMP: { Math.floor(sunset.temperature) }° </p>
-	    		<p className="mediumText quality">QUALITY: 
-	    			<a className="detailsLink link" onClick={ this.showRubric }> { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</a>
-	    		</p>
-	    		<button onClick={ this.props.findMySunset } className="findSunsetButton showMobile">
-	    			Sign Up For Daily SMS
-	    		</button>
-	    	</div>
+			<div>
+				<div className="resultsContainer">
+					<p className="header">YOUR SUNSET:</p>
+					<p className="mediumText time">TIME: { momentTime }</p>
+					<p className="mediumText temperature">TEMP: { Math.floor(sunset.temperature) }° </p>
+					<p className="mediumText quality">QUALITY: 
+						<a className="detailsLink link" onClick={ this.showRubric }> { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</a>
+					</p>
+				</div>
+				<button onClick={ this.props.findMySunset } className="findSunsetButton showMobile">
+					Sign Up For Daily SMS
+				</button>
+			</div>
 	    )
 	}
 	render() {
