@@ -26,6 +26,9 @@
         width: 355px;
     }
     .navbar {
+        @media (max-width: 760px) {
+            width: 305px;
+        }
         width: 400px;
         margin: auto;
         position: relative;
@@ -49,7 +52,7 @@
             top: 21%;
         }
         @media (max-width: 760px) {
-            width: 300px;
+            width: 350px;
             .sunImg {
                 width: 300px;
             }
@@ -80,6 +83,7 @@
             text-decoration: none !important;
             padding: 5px;
             margin-left: 5px;
+            border-radius: 5px;
         }
     }
 

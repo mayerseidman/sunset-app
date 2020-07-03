@@ -15,9 +15,13 @@
         width: 100%;
     }
     .innerContent {
-        @media (max-width: 760px) {
-            top: 10%;
+        @media (max-width: 470px) {
             width: 350px;
+            top: 10%;
+        }
+        @media (min-width: 470px) and (max-width: 760px) {
+            top: 10%;
+            width: 400px;
         }
         .findSunsetButton {
             background: #094CB1;
@@ -47,7 +51,7 @@
                 background-color: rgba(3, 29, 68, 0.75);
                 color: #fafafa;
                 border-color: #aaa;
-                border-radius: none !important;
+                border-radius: 5px;
                 border-bottom: none;
                 text-decoration: none !important;
             }
@@ -57,6 +61,9 @@
             margin-bottom: 50px;
             font-weight: 300;
             line-height: 1.35;
+             @media (max-width: 760px) {
+                margin-bottom: 30px;
+             }
         }
     }
 }
