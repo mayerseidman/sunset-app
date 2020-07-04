@@ -6,7 +6,7 @@ const moment = require('moment');
 export default class ResultsSection extends Component {
 	constructor(props) {
 		super();
-		this.state = { showRubric: false};
+		this.state = { showRubric: false };
 	}
 	fetchBackground = () => {
 		var quality = this.props.sunset.quality;
@@ -92,7 +92,7 @@ export default class ResultsSection extends Component {
 						<a className="detailsLink link" onClick={ this.showRubric }> { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</a>
 					</p>
 				</div>
-				<button onClick={ this.props.findMySunset } className="findSunsetButton showMobile">
+				<button className="findSunsetButton showMobile">
 					Sign Up For Daily SMS
 				</button>
 			</div>

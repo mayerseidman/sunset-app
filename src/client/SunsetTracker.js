@@ -87,7 +87,6 @@ export default class SunsetTracker extends Component {
             /* geolocation IS NOT available */
         }
     }
-
     fetchSunset(lat, long) { 
         fetch("/api/fetch-sunset", {
             method: 'POST',
@@ -112,7 +111,7 @@ export default class SunsetTracker extends Component {
         })
     }
 
-    submitUser() {
+    submitUser = () => {
          /* geolocation is available */
         if ("geolocation" in navigator) {
             this.refs.errors.reset();
@@ -508,7 +507,7 @@ export default class SunsetTracker extends Component {
         return (
             <div className="sunsetContainer">
                 <InformationSection findMySunset={ this.findMySunset } 
-                    hideInformationView={ hideInformationView } />
+                    hideInformationView={ hideInformationView } submitUser={ this.submitUser } />
                 <ResultsSection sunset={ sunsetInfo } loadingSunset={ loadingSunset } />
                 <div className="bottomSection"></div>
             </div>

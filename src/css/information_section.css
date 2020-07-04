@@ -65,5 +65,17 @@
                 margin-bottom: 30px;
              }
         }
+        .actionsContainer {
+            position: relative;
+            bottom: 10px;
+            input, button {
+                width: 45%;
+                display: inline-block;
+            }
+            button {
+                margin-left: 5%;
+                height: calc(1.5em + 0.75rem + 2px);
+            }
+        }
     }
 }
