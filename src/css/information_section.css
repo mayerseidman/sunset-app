@@ -27,15 +27,16 @@
             
         }
         .signupLink {
-            margin-left: 25px;
+            margin-left: 7%;
             &:hover {
-                padding: 12px;
+                padding: 11.5px;
                 background-color: rgba(3, 29, 68, 0.75);
                 color: #fafafa;
                 border-color: #aaa;
                 border-radius: 5px;
                 border-bottom: none;
                 text-decoration: none !important;
+                border: 1px solid #031D44;
             }
         }
         .valuePropText {

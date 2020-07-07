@@ -7,6 +7,19 @@
     background-size: cover;
     color: #fafafa;
 
+    &.poorResult {
+        background-image: url('./../images/bg-poor.png');
+    }
+    &.fairResult {
+        background-image: url('./../images/bg-fair.png');
+    }
+    &.goodResult {
+        background-image: url('./../images/bg-good.png');
+    }
+    &.greatResult {
+        background-image: url('./../images/bg-great.png');
+    }
+
     &.fullView {
 /*      opacity: 1;
         animation-name: fadeInOpacity;
@@ -46,6 +59,10 @@
         }
     }
     .innerContent {
+        &.homePage {
+            background-image: url('./../images/bg-home.png');
+        }
+
         .resultsContainer, .rubricTable {
             opacity: 0.85;
         }
@@ -53,7 +70,7 @@
             opacity: 1;
             animation-name: fadeInOpacity;
             animation-timing-function: ease-in;
-            animation-duration: 2.5s;
+            animation-duration: 2.85s;
             -webkit-backface-visibility: hidden;
         }
         @media (min-width: 760px) {
@@ -65,25 +82,22 @@
                 width: 300px;
             }
         }
-    }
-    &.homePage {
-        background-image: url('./../images/bg-home.png');
-    }
-    &.poorResult {
-        background-image: url('./../images/bg-poor.png');
-    }
-    &.fairResult {
-        background-image: url('./../images/bg-fair.png');
-    }
-    &.goodResult {
-        background-image: url('./../images/bg-good.png');
-    }
-    &.greatResult {
-        background-image: url('./../images/bg-great.png');
+        .changeTemperatureLink {
+            margin-left: 10px;
+            padding-bottom: 0px;
+            &:hover {
+                text-decoration: none !important;
+                background-color: rgba(3, 29, 68, 0.75);
+                padding: 5px;
+                border-radius: 5px;
+                margin-left: 5px;
+            }
+        }
     }
 
     .detailsLink {
-        padding-left: 5px;
+        margin-left: 10px;
+        padding-bottom: 2px;
         &:hover {
             background-color: rgba(3, 29, 68, 0.75);
             color: #fafafa;

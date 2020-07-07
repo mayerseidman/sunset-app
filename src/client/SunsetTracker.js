@@ -21,18 +21,6 @@ import cropsImage from './../images/crops.png';
 import { css } from "@emotion/core";
 import './../css/app.css';
 
-const normalizeInput = (value, previousValue) => {
-    if (!value) return value;
-    const currentValue = value.replace(/[^\d]/g, '');
-    const cvLength = currentValue.length;
-  
-    if (!previousValue || value.length > previousValue.length) {
-        if (cvLength < 4) return currentValue;
-        if (cvLength < 7) return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`;
-        return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`;
-    }
-};
-
 export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
@@ -174,25 +162,6 @@ export default class SunsetTracker extends Component {
     reloadPage () {
         window.location.reload()
     }
-    
-    mouseOver() {
-        this.setState({hover: true});
-    }
-    mouseOut() {
-        this.setState({hover: false});
-    }
-
-    onOpenModal() {
-        this.setState({ open: true });
-    };
-
-    onCloseModal() {
-        this.setState({ open: false });
-    };
-
-    // handleChange({ target: { value } }) {   
-    //     this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
-    // };
 
     changeTemperature(type) {
         const celsius = Math.floor(this.state.sunsetInfo.temperature);
@@ -482,7 +451,7 @@ export default class SunsetTracker extends Component {
     //     )
     // }
     render() {
-        const sunsetInfo = this.state.sunsetInfo;
+        const sunset = this.state.sunsetInfo;
         const loadingSunset = this.state.loadingSunset;
         const hideInformationView = this.state.hideInformationView;
         const showFullView = this.state.showFullView;
@@ -498,13 +467,18 @@ export default class SunsetTracker extends Component {
             )
         }
 
+        if (sunset) {
+            var temperature = sunset.temperature
+        }
+
         return (
             <div className="sunsetContainer">
                 <InformationSection findMySunset={ this.findMySunset } 
                     hideInformationView={ hideInformationView } submitUser={ this.submitUser }
                     invalidPhoneNumber={ invalidPhoneNumber } duplicatePhoneNumber={ duplicatePhoneNumber } 
                     errors={ errors } submissionSuccess={ submissionSuccess } />
-                <ResultsSection sunset={ sunsetInfo } loadingSunset={ loadingSunset } />
+                <ResultsSection sunset={ sunset } temperature={ temperature }
+                    loadingSunset={ loadingSunset } />
                 <div className="bottomSection"></div>
             </div>
         );

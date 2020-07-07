@@ -57,6 +57,20 @@ export default class ResultsSection extends Component {
 			</div>
 		)
 	}
+	changeTemperature = (type) => {
+		const sunset = this.props.sunset;
+		if (sunset) {
+			const celsius = Math.floor(sunset.temperature);
+			const fahrenheit = Math.floor(( (9 * celsius) + 160 ) / 5)
+			if (type == "F") {
+				console.log("F")
+			    this.setState({ showFahrenheit: true, temperature: fahrenheit })
+			} else {
+				console.log("C")
+			    this.setState({ showFahrenheit: false, temperature: celsius })
+			}
+		}
+	}
 	goBack = () => {
 		this.setState({ showRubric: false })
 	}
@@ -72,23 +86,27 @@ export default class ResultsSection extends Component {
 	    } else {
 	        var momentTime = moment(sunset.valid_at).format("H:mm");
 	    }
-	    // if (this.state.showFahrenheitLink) {
-	    //     var temperatureWidget = (
-	    //         <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "F") }>F</a>
-	    //     ) 
-	    // } else {
-	    //     var temperatureWidget = (
-	    //         <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "C") }>C</a>
-	    //     ) 
-	    // }
-	    var temperatureWidget = (<span>widget</span>)
+	    if (this.state.showFahrenheit) {
+	    	var temperatureWidget = (
+	    	    <a className="changeTemperatureLink link" onClick={ () => this.changeTemperature("C") }>F</a>
+	    	) 
+	    } else {
+	        var temperatureWidget = (
+	            <a className="changeTemperatureLink link" onClick={ () => this.changeTemperature("F") }>C</a>
+	        ) 
+	    }
+	    if (this.state.temperature) {
+	    	var temperature = this.state.temperature;
+	    } else {
+	    	var temperature = this.props.temperature;
+	    }
 		return (
 			<div>
 				<div className="resultsContainer">
 					<p className="header">YOUR SUNSET:</p>
 					<p className="mediumText time">TIME: { momentTime }</p>
-					<p className="mediumText temperature">TEMP: { Math.floor(sunset.temperature) }° </p>
-					<p className="mediumText quality">QUALITY: 
+					<p className="mediumText temperature">TEMP: { Math.floor(temperature) }° { temperatureWidget }</p>
+					<p className="mediumText quality"><span>QUALITY:</span> 
 						<a className="detailsLink link" onClick={ this.showRubric }> { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</a>
 					</p>
 				</div>
@@ -121,14 +139,6 @@ export default class ResultsSection extends Component {
 			<a className="backLink" style={{ visibility: this.state.showRubric ? "visible" : "hidden" }}
 				onClick={ this.goBack }>BACK</a>
 		)
-		// var resultsContent = (
-		// 	<div className="resultsContainer">
-		// 		<p className="header">YOUR SUNSET:</p>
-		// 		<p className="time mediumText">TIME:</p>
-		// 		<p className="temperature mediumText">TEMP:</p>
-		// 		<p className="quality mediumText">QUALITY:</p>
-		// 	</div>
-		// )
 		return (
 			<div className={ "section resultsSection " + className }>
 				<div className="navbar">
