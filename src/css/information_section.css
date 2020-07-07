@@ -24,25 +24,7 @@
             width: 400px;
         }
         .findSunsetButton {
-            background: #094CB1;
-            height: 44px;
-            border: 1px solid #CCC;
-            margin-bottom: 25px;
-            padding: 6px 12px;
-            border-radius: 5px;
-            color: #fafafa;
-            cursor: pointer;
-            @media #{$phone} {
-                width: 100%; 
-            }
-            @media #{$desktop} {
-                width: 175px;
-            }
-            &:hover {
-                background-color: #031D44;
-                border-color: #aaa;
-            }
-            &:focus { outline: 0 }
+            
         }
         .signupLink {
             margin-left: 25px;
@@ -67,14 +49,23 @@
         }
         .actionsContainer {
             position: relative;
-            bottom: 10px;
+            bottom: 5px;
             input, button {
-                width: 45%;
+                /*width: 45%;*/
                 display: inline-block;
+                height: 44px !important;
             }
-            button {
+            .inputContainer, .linksContainer {
+                display: inline-block;
+                width: 45%;
+            }
+            .linksContainer {
+                a {
+                    margin-bottom: 0.25em;
+                    display: block;
+                }
+                vertical-align: top;
                 margin-left: 5%;
-                height: calc(1.5em + 0.75rem + 2px);
             }
         }
     }

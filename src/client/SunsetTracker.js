@@ -1,6 +1,6 @@
 // LIBRARIES //
 import React, { Component } from 'react';
-import Modal from "react-responsive-modal";
+import { createStore } from 'redux'
 
 import ErrorDisplay from './ErrorDisplay';
 import InformationSection from "./InformationSection";
@@ -9,7 +9,7 @@ const _ = require('underscore')
 const moment = require('moment');
 import BarLoader from "react-spinners/BarLoader";
 
-//  IMA GES //
+// IMAGES //
 import sunInnerImage from './../images/sun-inner.png';
 import sunOuterImage from './../images/sun-outer-shell.png';
 import sunFullImage from './../images/sun-full.png';
@@ -36,18 +36,9 @@ const normalizeInput = (value, previousValue) => {
 export default class SunsetTracker extends Component {
     constructor(props) {
         super(props);
-        this.state = { pictures: [], username: null, imgName: null, results: null, 
-            showSunsetInfo: false, sunsetInfo: null, submissionSuccess: false, spin: false, 
+        this.state = { imgName: null, sunsetInfo: null, submissionSuccess: false, spin: false, 
             fetchingError: false, loading: false, hideInformationView: false, showFullView: false
          };
-    }
-
-    showSunsetInfo() {
-        this.setState({ showSunsetInfo: true })
-    }
-
-    hideSunsetInfo() {
-        this.setState({ showSunsetInfo: false })
     }
 
     // submitCoordinates() {
@@ -111,21 +102,21 @@ export default class SunsetTracker extends Component {
         })
     }
 
-    submitUser = () => {
+    submitUser = (phoneNumber) => {
          /* geolocation is available */
         if ("geolocation" in navigator) {
-            this.refs.errors.reset();
             var errors = [];
+            var phoneNumber = phoneNumber;
 
             const lat = this.state.lat;
             const long = this.state.long;
-            const phoneNumber = this.refs.phone_number.value.replace(/[^\d]/g, '')
+            phoneNumber = phoneNumber.replace(/[^\d]/g, '')
             const phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
             const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
             if (invalidPhoneNumber) {
                 errors.push("This phone number does not look right. Phone numbers should have 10 digits.")
                 // this.setState({ errorPhoneNumber: true })
-                this.refs.errors.setErrors(errors, "invalid");
+                this.setState({ errors: errors, invalidPhoneNumber: true })
             } else {
                 this.setState({ loading: true })
                 fetch('/api/create-user', {
@@ -145,11 +136,10 @@ export default class SunsetTracker extends Component {
                     return response.json()
                 }).then(value => {
                    if (value.error) {
-                       errors.push("This phone number is already in our system. Please enter another phone number. ")
-                       this.refs.errors.setErrors(errors, "duplicate");
-                       this.setState({ loading: false })
+                       errors.push("This phone number is already in our system. Please use another phone number. ")
+                       this.setState({ loading: false, errors: errors, duplicatePhoneNumber: true })
                    } else {
-                       this.setState({ submissionSuccess: true, loading: false })
+                       this.setState({ errors: [], submissionSuccess: true, loading: false })
                    }
                 })
             }
@@ -200,9 +190,9 @@ export default class SunsetTracker extends Component {
         this.setState({ open: false });
     };
 
-    handleChange({ target: { value } }) {   
-        this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
-    };
+    // handleChange({ target: { value } }) {   
+    //     this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
+    // };
 
     changeTemperature(type) {
         const celsius = Math.floor(this.state.sunsetInfo.temperature);
@@ -213,23 +203,23 @@ export default class SunsetTracker extends Component {
             this.setState({ showFahrenheitLink: true, temperature: fahrenheit })
         }
     }
-    renderTopSection() {
-        return (
-            <div className="topSection">
-                <p className="header">Suns°ets are awesome. Don't miss another!</p>
-            </div>
-        )
-    }
-    renderMobileText() {
-        var sunsetWxLink = (
-            <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>
-        )
-        return (
-            <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here 
-                <span className="sunsetwxLink"> (powered by { sunsetWxLink })</span> or sign up for a daily SMS!
-            </p>
-        )
-    }
+    // renderTopSection() {
+    //     return (
+    //         <div className="topSection">
+    //             <p className="header">Suns°ets are awesome. Don't miss another!</p>
+    //         </div>
+    //     )
+    // }
+    // renderMobileText() {
+    //     var sunsetWxLink = (
+    //         <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>
+    //     )
+    //     return (
+    //         <p className="subHeader webHide">Wondering whether today's sunset will be a banger? Get your sunset forecast here 
+    //             <span className="sunsetwxLink"> (powered by { sunsetWxLink })</span> or sign up for a daily SMS!
+    //         </p>
+    //     )
+    // }
     renderSunsetError() {
         return (
             <div className="infoContainer">
@@ -242,260 +232,264 @@ export default class SunsetTracker extends Component {
             </div>
         )
     }
-    renderSunsetSuccess() {
-        const { open } = this.state;
-        const sunset = this.state.sunsetInfo;
-        if (this.state.showRandomSunset) {
-            var locationText = (
-                <p>{ this.state.city } Suns°et Forecast: </p>
-            )
-            var randomLocation = "randomLocation";
-            const offset = this.state.offset;
-            var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
-        } else {
-            var momentTime = moment(sunset.valid_at).format("H:mm");
-            var locationText = (
-                <p>Your Suns°et Forecast: </p>
-            )
-        }
-        if (this.state.showFahrenheitLink) {
-            var temperatureWidget = (
-                <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "F") }>F</a>
-            ) 
-        } else {
-            var temperatureWidget = (
-                <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "C") }>C</a>
-            ) 
-        }
-        return (
-            <div className="infoContainer">
-                <div className="infoBubble">
-                    { locationText }
-                    <p>Time: { momentTime }</p>
-                    <p>
-                        Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)
-                        <img src={ questionImage } alt="question" className="questionImage mobileHide" 
-                            onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)} />
-                        <img src={ questionImage } alt="question" className="questionImage webHide" 
-                            onClick={ this.onOpenModal.bind(this) } />    
-                    </p>
-                    <p>Temperature: { this.state.temperature }° { temperatureWidget }</p>
-                </div>
-                <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
-                <Modal open={ open } onClose={ this.onCloseModal.bind(this) } className="modal">
-                    <img src={ sunsetInfoImage } alt="question" className="questionImage" />
-                </Modal>
-            </div>
-        )
-    }
-    renderLoadingBubble() {
-        return (
-            <div className="infoContainer loadingContainer">
-                <div className="infoBubble loadingBubble">
-                    <div className="dots"></div>
-                </div>
-                <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
-            </div>
-        )
-    }
-    renderInfoBubble() {
-        if (this.state.spin) {
-            var imgClassName = "spin";
-            var containerClass = "shrink";
-        }
-        return (
-            <div className={ "sunImageContainer "  + containerClass }>
-                <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.submitCoordinates.bind(this) } />
-                <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
-            </div>
-        )
-    }
-    renderLeftSection() {
-        const sunset = this.state.sunsetInfo;
-        if (this.state.fetchingError) {
-            var sunsetInfo = this.renderSunsetError()
-            var links =  (
-                <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
-            )
-            const linksClassName = "altLinksContainer";
-        } else {
-            if (sunset) {
-                var sunsetInfo = this.renderSunsetSuccess()
-                var links =  (
-                    <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
-                )
-                const linksClassName = "altLinksContainer";
-                if (this.state.showRandomSunset) {
-                    var randomLocation = "randomLocation";
-                }
-            } else {
-                if (this.state.loadingRandomSunset) {
-                    var displayImage = this.renderLoadingBubble();
-                    var links =  (
-                        <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
-                    )
-                    var linksClassName = "altLinksContainer";
-                } else {
-                    var displayImage = this.renderInfoBubble();
-                    var links =  (
-                        <div>
-                            <a onClick={ this.submitCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
-                            <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
-                        </div>
-                    )
-                }
-            }
-        }
-        return (
-            <div className="leftContainer">
-                <div>
-                    <div className={ "imagesContainer " + randomLocation }>
-                        { displayImage }
-                        { sunsetInfo }
-                    </div>
-                    <div className={ "linksContainer " + linksClassName }>
-                        { links }
-                    </div>
-                </div>
-            </div>  
-        )
-    }
-    renderRightContent() {
-        var sunsetWxLink = (
-            <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>
-        )
-        return (
-            <div>
-                <img src={ sunsetInfoImage } alt="sunset-info" className="infoImage" style={{ display: this.state.hover ? "inline-block" : "none" }}/>
-                <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
-                <p className="descriptionText">Wondering whether today's sunset will be a banger? 
-                    Get your sunset forecast here (powered by { sunsetWxLink }) or sign up for a daily SMS!
-                </p>
-                <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
-                <ErrorDisplay ref="errors"/>
-            </div>
-        )
-    }
-    renderLoadingBar(mobile=false) {
-        if (mobile) {
-            var override = css`
-                height: 5px;
-                display: inline-block;
-                width: 100%;
-                margin-bottom: 4px;
-            `
-        } else {
-           var override = css`
-               height: 5px;
-               display: inline-block;
-               width: 175px;
-               margin-bottom: 4px;
-           `
-        }
-        return (
-            <BarLoader css={ override } color={ "#bbb" } loading={ this.state.loading } />
-        )
-    }
-    renderSubmitButton() {
-        return (
-            <button onClick={ this.submitUser.bind(this) } className="submitButton"
-                ref="submitBtn">Send Suns°ets</button>
-        )
-    }
-    renderCoordinatesButton() {
-        return (
-            <button onClick={ this.findMySunset.bind(this) } className="findLocationButton">Find My Location</button>
-        )
-    }
-    renderForm() {
-        var readyForSubmit = this.state.lat && this.state.long;
-        if (readyForSubmit) {
-            if (this.state.loading) {
-                var loadingBar = this.renderLoadingBar();
-            } else {
-                var submitButton = this.renderSubmitButton();
-            }
-        } else {
-            if (this.state.loading) {
-                var loadingBar = this.renderLoadingBar();
-            } else {
-                var findCoordinatesButton = this.renderCoordinatesButton();
-            }
-        }
-        if (!this.state.submissionSuccess) {
-            return (
-                <div className="actionsContainer">
-                    <label className="phoneNumberLabel">Phone Number</label>
-                    <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
-                        onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
-                    { loadingBar }
-                    { findCoordinatesButton }
-                    { submitButton }
-                </div>
-            )
-        }
-    }
-    renderBottomMobile() {
-        var readyForSubmit = this.state.lat && this.state.long;
-           if (readyForSubmit) {
-               if (this.state.loading) {
-                   var loadingBar = this.renderLoadingBar();
-               } else {
-                   var submitButton = this.renderSubmitButton();
-               }
-           } else {
-               if (this.state.loading) {
-                   var loadingBar = this.renderLoadingBar();
-               } else {
-                   var findCoordinatesButton = this.renderCoordinatesButton();
-            }
-        }
+    // renderSunsetSuccess() {
+    //     const { open } = this.state;
+    //     const sunset = this.state.sunsetInfo;
+    //     if (this.state.showRandomSunset) {
+    //         var locationText = (
+    //             <p>{ this.state.city } Suns°et Forecast: </p>
+    //         )
+    //         var randomLocation = "randomLocation";
+    //         const offset = this.state.offset;
+    //         var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
+    //     }  else {
+    //         var momentTime = moment(sunset.valid_at).format("H:mm");
+    //         var locationText = (
+    //             <p>Your Suns°et Forecast: </p>
+    //         )
+    //     }
+    //     if (this.state.showFahrenheitLink) {
+    //         var temperatureWidget = (
+    //             <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "F") }>F</a>
+    //         ) 
+    //     } else {
+    //         var temperatureWidget = (
+    //             <a className="changeTemperatureLink" onClick={ this.changeTemperature.bind(this, "C") }>C</a>
+    //         ) 
+    //     }
+    //     return (
+    //         <div className="infoContainer">
+    //             <div className="infoBubble">
+    //                 { locationText }
+    //                 <p>Time: { momentTime }</p>
+    //                 <p>
+    //                     Quality: { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)
+    //                     <img src={ questionImage } alt="question" className="questionImage mobileHide" 
+    //                         onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)} />
+    //                     <img src={ questionImage } alt="question" className="questionImage webHide" 
+    //                         onClick={ this.onOpenModal.bind(this) } />    
+    //                 </p>
+    //                 <p>Temperature: { this.state.temperature }° { temperatureWidget }</p>
+    //             </div>
+    //             <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+    //             <Modal open={ open } onClose={ this.onCloseModal.bind(this) } className="modal">
+    //                 <img src={ sunsetInfoImage } alt="question" className="questionImage" />
+    //            </Modal>
+    //         </div>
+    //     )
+    // }
+    // renderLoadingBubble() {
+    //     return (
+    //         <div className="infoContainer loadingContainer">
+    //             <div className="infoBubble loadingBubble">
+    //                 <div className="dots"></div>
+    //             </div>
+    //             <img src={ sunFullImage } alt="sun-full" className="sunFullImage" />
+    //         </div>
+    //     )
+    // }
+    // renderInfoBubble() {
+    //     if (this.state.spin) {
+    //         var imgClassName = "spin";
+    //         var containerClass = "shrink";
+    //     }
+    //     return (
+    //         <div className={ "sunImageContainer "  + containerClass }>
+    //             <img src={ sunInnerImage } alt="sun-inner" className="sunInnerImg" onClick={ this.submitCoordinates.bind(this) } />
+    //             <img src={ sunOuterImage } alt="sun-outer" className={ "sunOuterImg " + imgClassName } />
+    //         </div>
+    //     )
+    // }
+    // renderLeftSection() {
+    //     const sunset = this.state.sunsetInfo;
+    //     if (this.state.fetchingError) {
+    //         var sunsetInfo = this.renderSunsetError()
+    //         var links =  (
+    //             <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
+    //         )
+    //         const linksClassName = "altLinksContainer";
+    //     } else {
+    //         if (sunset) {
+    //             var sunsetInfo = this.renderSunsetSuccess()
+    //             var links =  (
+    //                 <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
+    //             )
+    //             const linksClassName = "altLinksContainer";
+    //             if (this.state.showRandomSunset) {
+    //                 var randomLocation = "randomLocation";
+    //             }
+    //         } else {
+    //             if (this.state.loadingRandomSunset) {
+    //                 var displayImage = this.renderLoadingBubble();
+    //                 var links =  (
+    //                     <a onClick={ this.showRandomSunset.bind(this) }>Show Random Sunset</a>
+    //                 )
+    //                 var linksClassName = "altLinksContainer";
+    //             } else {
+    //                 var displayImage = this.renderInfoBubble();
+    //                 var links =  (
+    //                     <div>
+    //                         <a onClick={ this.submitCoordinates.bind(this) } className="showMySunsetLink">Show My Sunset</a>
+    //                         <a onClick={ this.showRandomSunset.bind(this) } className="showRandomSunsetLink">Random Sunset</a>
+    //                     </div>
+    //                 )
+    //             }
+    //         }
+    //     }
+    //     return (
+    //         <div className="leftContainer">
+    //             <div>
+    //                 <div className={ "imagesContainer " + randomLocation }>
+    //                     { displayImage }
+    //                     { sunsetInfo }
+    //                 </div>
+    //                 <div className={ "linksContainer " + linksClassName }>
+    //                     { links }
+    //                 </div>
+    //             </div>
+    //         </div>  
+    //     )
+    // }
+    // renderRightContent() {
+    //     var sunsetWxLink = (
+    //         <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a>
+    //     )
+    //     return (
+    //         <div>
+    //             <img src={ sunsetInfoImage } alt="sunset-info" className="infoImage" style={{ display: this.state.hover ? "inline-block" : "none" }}/>
+    //             <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>                       
+    //             <p className="descriptionText">Wondering whether today's sunset will be a banger? 
+    //                 Get your sunset forecast here (powered by { sunsetWxLink }) or sign up for a daily SMS!
+    //             </p>
+    //             <p>Sunsets are awesome. Dont miss another! Sunsets are awesome. Dont miss another!</p>
+    //             <ErrorDisplay ref="errors"/>
+    //         </div>
+    //     )
+    // }
+    // renderLoadingBar(mobile=false) {
+    //     if (mobile) {
+    //         var override = css`
+    //             height: 5px;
+    //             display: inline-block;
+    //             width: 100%;
+    //             margin-bottom: 4px;
+    //         `
+    //     } else {
+    //        var override = css`
+    //            height: 5px;
+    //            display: inline-block;
+    //            width: 175px;
+    //            margin-bottom: 4px;
+    //        `
+    //     }
+    //     return (
+    //         <BarLoader css={ override } color={ "#bbb" } loading={ this.state.loading } />
+    //     )
+    // }
+    // renderSubmitButton() {
+    //     return (
+    //         <button onClick={ this.submitUser.bind(this) } className="submitButton"
+    //             ref="submitBtn">Send Suns°ets</button>
+    //     )
+    // }
+    // renderCoordinatesButton() {
+    //     return (
+    //         <button onClick={ this.findMySunset.bind(this) } className="findLocationButton">Find My Location</button>
+    //     )
+    // }
+    // renderForm() {
+    //     var readyForSubmit = this.state.lat && this.state.long;
+    //     if (readyForSubmit) {
+    //         if (this.state.loading) {
+    //             var loadingBar = this.renderLoadingBar();
+    //         } else {
+    //             var submitButton = this.renderSubmitButton();
+    //         }
+    //     } else {
+    //         if (this.state.loading) {
+    //             var loadingBar = this.renderLoadingBar();
+    //         } else {
+    //             var findCoordinatesButton = this.renderCoordinatesButton();
+    //         }
+    //     }
+    //     if (!this.state.submissionSuccess) {
+    //         return (
+    //             <div className="actionsContainer">
+    //                 <label className="phoneNumberLabel">Phone Number</label>
+    //                 <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
+    //                     onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
+    //                 { loadingBar }
+    //                 { findCoordinatesButton }
+    //                 { submitButton }
+    //             </div>
+    //         )
+    //     }
+    // }
+    // renderBottomMobile() {
+    //     var readyForSubmit = this.state.lat && this.state.long;
+    //        if (readyForSubmit) {
+    //            if (this.state.loading) {
+    //                var loadingBar = this.renderLoadingBar();
+    //            } else {
+    //                var submitButton = this.renderSubmitButton();
+    //            }
+    //        } else {
+    //            if (this.state.loading) {
+    //                var loadingBar = this.renderLoadingBar();
+    //            } else {
+    //                var findCoordinatesButton = this.renderCoordinatesButton();
+    //         }
+    //     }
 
-        if (this.state.submissionSuccess) {
-            var notificationText = (
-                <p className="notificationText successNotification">Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!</p>    
-            )
-        }
+    //     if (this.state.submissionSuccess) {
+    //         var notificationText = (
+    //             <p className="notificationText successNotification">Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!</p>    
+    //         )
+    //     }
 
-        // Mobile //
-        if (window.innerWidth <= 480 && window.innerHeight <= 820) {
-            var loadingBar = this.renderLoadingBar("mobile");
-            var formContainer = (
-                <div className="formContainer webHide">                       
-                    <ErrorDisplay ref="errors"/>
-                    <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
-                        onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
-                    { findCoordinatesButton }
-                    { submitButton }
-                    { loadingBar }
-                </div>
-            )
-        }
+    //     // Mobile //
+    //     if (window.innerWidth <= 480 && window.innerHeight <= 820) {
+    //         var loadingBar = this.renderLoadingBar("mobile");
+    //         var formContainer = (
+    //             <div className="formContainer webHide">                       
+    //                 <ErrorDisplay ref="errors"/>
+    //                 <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
+    //                     onChange={ this.handleChange.bind(this) } value={ this.state.phone } />
+    //                 { findCoordinatesButton }
+    //                 { submitButton }
+    //                 { loadingBar }
+    //             </div>
+    //         )
+    //     }
 
-        if (window.innerWidth <= 480 && window.innerHeight <= 820) {
-            return (
-                <div>
-                    { formContainer }
-                    { notificationText } 
-                </div>
-            )
-        }
-    }
-    renderFooter() {
-        return (
-            <footer className="footer">
-                <p className="footerText"><a>Project Docs</a></p>
-                <p className="footerText name mobileHide">Made by Mayer</p>
-                <p className="footerText"><a>About Me</a></p>
-                <p className="footerText name webHide">Made by Mayer</p>
-            </footer>
-        )
-    }
+    //     if (window.innerWidth <= 480 && window.innerHeight <= 820) {
+    //         return (
+    //             <div>
+    //                 { formContainer }
+    //                 { notificationText } 
+    //             </div>
+    //         )
+    //     }
+    // }
+    // renderFooter() {
+    //     return (
+    //         <footer className="footer">
+    //             <p className="footerText"><a>Project Docs</a></p>
+    //             <p className="footerText name mobileHide">Made by Mayer</p>
+    //             <p className="footerText"><a>About Me</a></p>
+    //             <p className="footerText name webHide">Made by Mayer</p>
+    //         </footer>
+    //     )
+    // }
     render() {
-        var sunsetInfo = this.state.sunsetInfo;
-        var loadingSunset = this.state.loadingSunset;
-        var hideInformationView = this.state.hideInformationView;
-        var showFullView = this.state.showFullView;
+        const sunsetInfo = this.state.sunsetInfo;
+        const loadingSunset = this.state.loadingSunset;
+        const hideInformationView = this.state.hideInformationView;
+        const showFullView = this.state.showFullView;
+        const invalidPhoneNumber = this.state.invalidPhoneNumber;
+        const duplicatePhoneNumber = this.state.duplicatePhoneNumber;
+        const errors = this.state.errors;
+        const submissionSuccess = this.state.submissionSuccess;
         if (this.state.submissionSuccess) {
             var notificationText = (
                 <p className="notificationText successNotification">
@@ -507,7 +501,9 @@ export default class SunsetTracker extends Component {
         return (
             <div className="sunsetContainer">
                 <InformationSection findMySunset={ this.findMySunset } 
-                    hideInformationView={ hideInformationView } submitUser={ this.submitUser } />
+                    hideInformationView={ hideInformationView } submitUser={ this.submitUser }
+                    invalidPhoneNumber={ invalidPhoneNumber } duplicatePhoneNumber={ duplicatePhoneNumber } 
+                    errors={ errors } submissionSuccess={ submissionSuccess } />
                 <ResultsSection sunset={ sunsetInfo } loadingSunset={ loadingSunset } />
                 <div className="bottomSection"></div>
             </div>

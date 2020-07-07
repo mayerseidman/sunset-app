@@ -20,7 +20,7 @@ body {
 
 .header {
     font-size: 60px;
-    font-weight: 550;
+    font-weight: 650;
     line-height: 1.2;
     @media (min-width: 760px) and (max-width: 900px) {
         font-size: 55px;
@@ -75,6 +75,52 @@ body {
 
 label {
     display: block !important;
+    margin-bottom: 0.25em !important;
+}
+
+.successButton {
+    background: #094CB1;
+    height: 44px !important;
+    border: 1px solid #CCC;
+    margin-bottom: 25px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    color: #fafafa;
+    cursor: pointer;
+
+    @media #{$phone} {
+        width: 100%; 
+    }
+    @media #{$desktop} {
+        width: 175px;
+    }
+    &:hover {
+        background-color: #031D44;
+        border-color: #aaa;
+    }
+    &:focus { outline: 0 }
+}
+
+.notificationText {
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.2s;
+    @media #{$desktop} {
+        padding-left: 0px;
+    }
+}
+.successNotification {
+    color: #2b9401;
+}
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 
@@ -86,19 +132,6 @@ label {
 
 
 // old CSS
-
-.styles_modal__gNwvD {
-    .questionImage {
-        width: 250px;
-        position: relative;
-        top: 10px;
-    }
-    .styles_closeButton__20ID4  {
-        width: 25px;
-        display: none !important;
-        &:focus { outline: none }
-    }
-}
 
 .container {
     padding-right: 15px;
@@ -516,28 +549,6 @@ label {
                 .showRandomSunsetLink {
                     padding-left: 10px;
                 }
-            }
-        }
-        .notificationText {
-            opacity: 1;
-            animation-name: fadeInOpacity;
-            animation-iteration-count: 1;
-            animation-timing-function: ease-in;
-            animation-duration: 0.2s;
-            @media #{$desktop} {
-                padding-left: 0px;
-            }
-        }
-        .successNotification {
-            color: #2b9401;
-            font-size: 0.8em;
-        }
-        @keyframes fadeInOpacity {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
             }
         }
         .rightContainer {

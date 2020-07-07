@@ -23,7 +23,9 @@ export default class ErrorDisplay extends Component {
 		}
 	}
 
-	reset() {
+	reset = () => {
+		console.log("reset")
+		this.props.updateErrors();
 		// e.preventDefault();
 		this.setState({ errorText: null, errors: null });
 	}
@@ -52,21 +54,20 @@ export default class ErrorDisplay extends Component {
 			);
 		}
 		
-		closeButton = (
-			<span>
-				<span className="x">x</span>
-				<a className="closeLink btn-link" aria-label="Close" onClick={ this.reset.bind(this) }>
-					<span aria-hidden="true">Got it </span>
-				</a>
-			</span>
-		)
+		// closeButton = (
+		// 	<span>
+		// 		<span className="x">x</span>
+		// 		<a className="closeLink btn-link" aria-label="Close" onClick={ this.reset.bind(this) }>
+		// 			<span aria-hidden="true">Got it </span>
+		// 		</a>
+		// 	</span>
+		// )
 
 		if (errorContent) {
 			return (
 				<div className="errorDisplay notificationText" role="alert">
 					<p className={ "errorContent " + errorClassName}>
 						{ errorContent }
-						{ closeButton }
 					</p>
 				</div>
 			)			

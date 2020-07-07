@@ -1,21 +1,32 @@
 import React, { Component } from 'react';
 import BarLoader from "react-spinners/BarLoader";
+import ErrorDisplay from './ErrorDisplay';
 import './../css/information_section.css';
 import { css } from "@emotion/core";
 
 export default class InformationSection extends Component {
 	constructor(props) {
 		super();
-		this.state = { showSignupForm: false };
+		this.state = { showSignupForm: false, showFindSunsetButton: true };
 	}
 
 	showSignupForm = () => {
 		this.setState({ showSignupForm: true })
 	}
 
+	showFindSunsetButton = () =>  {
+		this.setState({ showSignupForm: false, showFindSunsetButton: true })
+	}
+
 	handleChange = ({ target: { value } }) => {   
 	    this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
 	};
+
+	submitUser = () => {
+		const phoneNumber = this.refs.phone_number.value;
+		console.log(phoneNumber)
+		this.props.submitUser(phoneNumber);
+	}
 
 	renderLoadingBar = (mobile = false) => {
 	    if (mobile) {
@@ -40,8 +51,11 @@ export default class InformationSection extends Component {
 
 	renderSubmitButton = () => {
 	    return (
-	        <button onClick={ this.props.submitUser } className="submitButton"
-	            ref="submitBtn">Send Sunsets</button>
+	    	<div className="linksContainer">
+	    		<a onClick={ this.showFindSunsetButton }>BACK</a>
+	    		<button onClick={ this.submitUser } className="successButton"
+	    		    ref="submitBtn">Send Sunsets</button>
+	    	</div>
 	    )
 	}
 
@@ -55,29 +69,45 @@ export default class InformationSection extends Component {
 			if (!this.state.submissionSuccess) {
 				return (
 					<div className="actionsContainer">
-					    <label className="phoneNumberLabel">Phone Number</label>
-					    <input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
-					        onChange={ this.handleChange } value={ this.state.phone } />
+						<div className="inputContainer">
+							<label className="phoneNumberLabel">PHONE NUMBER</label>
+							<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
+							    onChange={ this.handleChange } value={ this.state.phone } />
+						</div>
 					    { loadingBar }
 					    { submitButton }
 					</div>
 				)	
 			}
-		} else {
+		} else if (this.state.showFindSunsetButton) {
 			return (
 				<div>
-					<button onClick={ this.props.findMySunset } className="findSunsetButton">Find My Sunset</button>
+					<button onClick={ this.props.findMySunset } className="findSunsetButton successButton">Find My Sunset</button>
 					<a className="signupLink link" onClick={ this.showSignupForm }>Sign Up For Daily SMS</a>
 				</div>
 			)
 		}
 	}
-
 	render() {
+		if (this.props.invalidPhoneNumber) {
+			this.refs.errors.setErrors(this.props.errors, "invalid");
+		} else if (this.props.duplicatePhoneNumber) {
+			this.refs.errors.setErrors(this.props.errors, "duplicate");
+		}
 		if (this.props.hideInformationView) {
 			var className = "hideInformationView"
 		}
 		var actionsSection = this.renderActionsSection();
+
+		if (this.props.submissionSuccess) {
+			var successText = (
+			    <p className="notificationText successNotification">
+			    	Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!
+			    </p>    
+			)
+		} else {
+			var errorDisplay = <ErrorDisplay ref="errors" />
+		}
 
 		return (
 			<div className={ "section informationSection  " + className }>
@@ -87,6 +117,8 @@ export default class InformationSection extends Component {
 						View the sunset forecast for your area.
 					</p>
 					{ actionsSection }
+					{ successText }
+					{ errorDisplay }
 				</div>
 			</div>
 		)
