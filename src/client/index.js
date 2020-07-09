@@ -1,15 +1,20 @@
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
 import React from 'react';
-import App from './App';
-global.jQuery = require('jquery');
+import tether from 'tether';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import tether from 'tether';
+import App from './App';
+import { store } from './redux/store'
+
+global.jQuery = require('jquery');
 global.Tether = tether;
 
 ReactDOM.render((
-	<BrowserRouter>
-		<App />
-	</BrowserRouter>
+	<Provider store={store}>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</Provider>
 ), document.getElementById('root'))

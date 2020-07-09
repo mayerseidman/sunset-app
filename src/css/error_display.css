@@ -9,10 +9,10 @@
         color: #c9302c;
         /*font-size: 0.8em;*/
         @media #{$phone} {
-            margin-bottom: 10px;
+            margin-top: 1rem;
         }
         @media #{$desktop} {
-            margin-bottom: 1rem;
+            margin-top: 1rem;
         }
         .closeLink {
             cursor: pointer;

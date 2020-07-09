@@ -1,13 +1,20 @@
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import BarLoader from "react-spinners/BarLoader";
 import ErrorDisplay from './ErrorDisplay';
 import './../css/information_section.css';
 import { css } from "@emotion/core";
 
-export default class InformationSection extends Component {
+export class InformationSection extends Component {
 	constructor(props) {
 		super();
-		this.state = { showSignupForm: false, showFindSunsetButton: true };
+		this.state = { showSignupForm: false, showFindSunsetButton: true, phone: '' };
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.user.submissionSuccess !== this.props.user.submissionSuccess) {
+			this.setState({ phone: '' })
+		}
 	}
 
 	showSignupForm = () => {
@@ -45,7 +52,7 @@ export default class InformationSection extends Component {
 	       `
 	    }
 	    return (
-	        <BarLoader css={ override } color={ "#bbb" } loading={ this.state.loading } />
+	        <BarLoader css={ override } color={ "#bbb" } loading={ this.props.user.loading } />
 	    )
 	}
 
@@ -60,7 +67,7 @@ export default class InformationSection extends Component {
 	}
 
 	renderActionsSection = () => {
-	    if (this.state.loading) {
+	    if (this.props.user.loading) {
 	        var loadingBar = this.renderLoadingBar();
 	    } else {
 	        var submitButton = this.renderSubmitButton();
@@ -89,25 +96,28 @@ export default class InformationSection extends Component {
 		}
 	}
 	render() {
-		if (this.props.invalidPhoneNumber) {
-			this.refs.errors.setErrors(this.props.errors, "invalid");
-		} else if (this.props.duplicatePhoneNumber) {
-			this.refs.errors.setErrors(this.props.errors, "duplicate");
+		const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
+		if (this.refs.errors && invalidPhoneNumber) {
+			this.refs.errors.setErrors(errors, "invalid");
+		} else if (this.refs.errors && duplicatePhoneNumber) {
+			this.refs.errors.setErrors(errors, "duplicate");
 		}
-		if (this.props.hideInformationView) {
-			var className = "hideInformationView"
+		if (this.props.sunset.hideInformationSection) {
+			var className = "hideInformationSection";
 		}
 		var actionsSection = this.renderActionsSection();
 
-		if (this.props.submissionSuccess) {
-			var successText = (
-			    <p className="notificationText successNotification">
-			    	Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!
-			    </p>    
-			)
-		} else {
-			var errorDisplay = <ErrorDisplay ref="errors" />
-		}
+		// if (this.state.showSignupForm) {
+		// 	if (submissionSuccess) {
+		// 		var successText = (
+		// 		    <p className="notificationText successNotification">
+		// 		    	Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!
+		// 		    </p>    
+		// 		)
+		// 	} else {
+		// 		var errorDisplay = <ErrorDisplay ref="errors" />
+		// 	}
+		// }
 
 		return (
 			<div className={ "section informationSection  " + className }>
@@ -117,8 +127,12 @@ export default class InformationSection extends Component {
 						View the sunset forecast for your area.
 					</p>
 					{ actionsSection }
-					{ successText }
-					{ errorDisplay }
+					{ this.state.showSignupForm && submissionSuccess && (
+						<p className="notificationText successNotification">
+				    		Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!
+				    	</p>
+				    ) }
+					{ this.state.showSignupForm && !submissionSuccess && <ErrorDisplay ref="errors" /> }
 				</div>
 			</div>
 		)
@@ -136,3 +150,8 @@ const normalizeInput = (value, previousValue) => {
         return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`;
     }
 };
+
+export default connect((state) => ({
+    sunset: state.sunset,
+    user: state.user
+}))(InformationSection)

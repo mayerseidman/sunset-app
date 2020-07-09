@@ -67,7 +67,7 @@ body {
 
 .bottomSection {
     background: rgba(3, 29, 68, 0.75);
-    height: 10px;
+    height: 1.5vh;
     @media (max-width: 760px) {
         visibility: hidden;
     }

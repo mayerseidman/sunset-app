@@ -24,10 +24,7 @@ export default class ErrorDisplay extends Component {
 	}
 
 	reset = () => {
-		console.log("reset")
-		this.props.updateErrors();
-		// e.preventDefault();
-		this.setState({ errorText: null, errors: null });
+		this.setState({ errorText: "", errors: null });
 	}
 
 	render() {

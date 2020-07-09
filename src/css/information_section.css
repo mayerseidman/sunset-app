@@ -4,7 +4,7 @@
     /*.header {
         width: 400px;
     }*/
-    &.hideInformationView {
+    &.hideInformationSection {
         @media (max-width: 760px) {
             display: none;
         }
@@ -27,7 +27,7 @@
             
         }
         .signupLink {
-            margin-left: 7%;
+            margin-left: 4%;
             &:hover {
                 padding: 11.5px;
                 background-color: rgba(3, 29, 68, 0.75);

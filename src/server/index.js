@@ -248,7 +248,6 @@ app.post('/api/create-user', function (req, res) {
 	const location = req.body.user.location;
 	const lat = req.body.user.lat;
 	const long = req.body.user.long;
-
 	checkForExistingUsers(phoneNumber).then(function(result) {
 		console.log("result:", result)
 		if (!result) {

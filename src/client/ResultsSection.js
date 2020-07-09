@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import sunFullImage from './../images/sun-full.png';
 import './../css/results_section.css';
 const moment = require('moment');
 
-export default class ResultsSection extends Component {
+export class ResultsSection extends Component {
 	constructor(props) {
 		super();
 		this.state = { showRubric: false };
 	}
 	fetchBackground = () => {
-		var quality = this.props.sunset.quality;
+		var quality = this.props.sunset.info.quality;
 		switch (quality) {
 			case "Poor":
 				var className = "poorResult";
@@ -58,7 +59,7 @@ export default class ResultsSection extends Component {
 		)
 	}
 	changeTemperature = (type) => {
-		const sunset = this.props.sunset;
+		const sunset = this.props.sunset.info;
 		if (sunset) {
 			const celsius = Math.floor(sunset.temperature);
 			const fahrenheit = Math.floor(( (9 * celsius) + 160 ) / 5)
@@ -75,7 +76,7 @@ export default class ResultsSection extends Component {
 		this.setState({ showRubric: false })
 	}
 	renderSunsetSuccess = () => {
-		const sunset = this.props.sunset;
+		var sunset = this.props.sunset.info;
 	    if (this.state.showRandomSunset) {
 	        var locationText = (
 	            <p>{ this.state.city } Suns°et Forecast: </p>
@@ -98,7 +99,7 @@ export default class ResultsSection extends Component {
 	    if (this.state.temperature) {
 	    	var temperature = this.state.temperature;
 	    } else {
-	    	var temperature = this.props.temperature;
+	    	var temperature = sunset.temperature;
 	    }
 		return (
 			<div>
@@ -117,7 +118,9 @@ export default class ResultsSection extends Component {
 	    )
 	}
 	render() {
-		if (this.props.sunset) {
+		console.log(this.props)
+		var sunset = this.props.sunset.info;
+		if (sunset) {
 			var className = this.fetchBackground()  + " fullView";
 			var resultsClassName = "resultsView";
 			// if (this.props.showFullView) {
@@ -139,6 +142,7 @@ export default class ResultsSection extends Component {
 			<a className="backLink" style={{ visibility: this.state.showRubric ? "visible" : "hidden" }}
 				onClick={ this.goBack }>BACK</a>
 		)
+
 		return (
 			<div className={ "section resultsSection " + className }>
 				<div className="navbar">
@@ -146,9 +150,12 @@ export default class ResultsSection extends Component {
 					{ docksLink }
 				</div>
 				<div className={ "innerContent " + resultsClassName }>
-					{ resultsContent }
+					{ sunset && resultsContent }
 				</div>
 			</div>
 		)
 	}
 };
+export default connect((state) => ({
+    sunset: state.sunset
+}))(ResultsSection)
