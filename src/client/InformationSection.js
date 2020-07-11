@@ -129,17 +129,20 @@ export class InformationSection extends Component {
 		}
 		var actionsSection = this.renderActionsSection();
 
-		// if (this.state.showSignupForm) {
-		// 	if (submissionSuccess) {
-		// 		var successText = (
-		// 		    <p className="notificationText successNotification">
-		// 		    	Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!
-		// 		    </p>    
-		// 		)
-		// 	} else {
-		// 		var errorDisplay = <ErrorDisplay ref="errors" />
-		// 	}
-		// }
+		if (this.state.showSignupForm && submissionSuccess) {
+			var successNotification = (
+				<p className="successNotification">
+		    		Congrats 🎉! You signed up for a daily sunset SMS. Enjoy those sunset vibes!
+		    	</p>
+			)
+		}
+		if (sunset.sunsetSuccess && submissionSuccess) {
+			var successNotification = (
+				<p className="notificationText successText">
+		    		Congrats 🎉! You signed up for a daily sunset SMS. Enjoy those sunset vibes!
+		    	</p>
+			)
+		}
 
 		return (
 			<div className={ "section informationSection  " + className }>
@@ -149,11 +152,7 @@ export class InformationSection extends Component {
 						View the sunset forecast for your area.
 					</p>
 					{ actionsSection }
-					{ this.state.showSignupForm && submissionSuccess && (
-						<p className="notificationText successNotification">
-				    		Congrats 🎉! You signed up for a daily suns°et SMS. Enjoy those sunset vibes!
-				    	</p>
-				    ) }
+					{ successNotification }
 					{ this.state.showSignupForm && !submissionSuccess && <ErrorDisplay ref="errors" /> }
 				</div>
 			</div>
