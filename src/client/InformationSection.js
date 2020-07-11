@@ -58,9 +58,11 @@ export class InformationSection extends Component {
 	renderSubmitButton = () => {
 		if (!this.props.sunset.sunsetSuccess) {
 			var backLink = <a onClick={ this.showFindSunsetButton }>BACK</a>
+		} else {
+			var className = "linksContainerPlain";
 		}
 	    return (
-	    	<div className="linksContainer">
+	    	<div className={ "linksContainer "  + className }>
 	    		{ backLink }
 	    		<button onClick={ this.submitUser } className="successButton"
 	    		    ref="submitBtn">Send Sunsets</button>

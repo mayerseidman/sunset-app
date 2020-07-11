@@ -84,6 +84,9 @@
                 vertical-align: top;
                 margin-left: 5%;
             }
+            .linksContainerPlain {
+                vertical-align: inherit;
+            }
         }
     }
 }
