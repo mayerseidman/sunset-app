@@ -7,7 +7,6 @@ import {
 export function fetchSunset(lat, long) {
     return dispatch => {
         dispatch({ type: FETCH_SUNSET })
-        
         return fetch("/api/fetch-sunset", {
             method: 'POST',
             body: JSON.stringify({ lat: lat, long: long }), // stringify JSON

@@ -31,7 +31,6 @@ export class InformationSection extends Component {
 
 	submitUser = () => {
 		const phoneNumber = this.refs.phone_number.value;
-		console.log(phoneNumber)
 		this.props.submitUser(phoneNumber);
 	}
 
@@ -57,9 +56,12 @@ export class InformationSection extends Component {
 	}
 
 	renderSubmitButton = () => {
+		if (!this.props.sunset.sunsetSuccess) {
+			var backLink = <a onClick={ this.showFindSunsetButton }>BACK</a>
+		}
 	    return (
 	    	<div className="linksContainer">
-	    		<a onClick={ this.showFindSunsetButton }>BACK</a>
+	    		{ backLink }
 	    		<button onClick={ this.submitUser } className="successButton"
 	    		    ref="submitBtn">Send Sunsets</button>
 	    	</div>
@@ -72,37 +74,55 @@ export class InformationSection extends Component {
 	    } else {
 	        var submitButton = this.renderSubmitButton();
 	    }
-		if (this.state.showSignupForm) {
-			if (!this.state.submissionSuccess) {
-				return (
-					<div className="actionsContainer">
-						<div className="inputContainer">
-							<label className="phoneNumberLabel">PHONE NUMBER</label>
-							<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
-							    onChange={ this.handleChange } value={ this.state.phone } />
-						</div>
-					    { loadingBar }
-					    { submitButton }
+		if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
+			return (
+				<div className="actionsContainer">
+					<div className="inputContainer">
+						<label className="phoneNumberLabel">PHONE NUMBER</label>
+						<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
+						    onChange={ this.handleChange } value={ this.state.phone } />
 					</div>
-				)	
+				    { loadingBar }
+				    { submitButton }
+				</div>
+			)	
+		} else {
+			if (this.props.sunset.sunsetSuccess && !this.props.user.submissionSuccess) {
+				var sunsetButton = (
+					<button onClick={ this.showSignupForm } className="signupButton successButton">Sign Up For Daily SMS</button>
+				)
+			} else {
+				if (this.props.user.submissionSuccess) {
+					var className = "extraWide"
+				}
+				if (!this.props.sunset.sunsetSuccess) {
+					var sunsetButton = (
+						<button onClick={ this.props.findMySunset } className={ "findSunsetButton successButton " + className }>Find My Sunset</button>
+					)
+				}
+				if (!this.props.user.submissionSuccess) {
+					var signupAction = (
+						<a className="signupLink link" onClick={ this.showSignupForm }>Sign Up For Daily SMS</a>
+					)
+				}
 			}
-		} else if (this.state.showFindSunsetButton) {
 			return (
 				<div>
-					<button onClick={ this.props.findMySunset } className="findSunsetButton successButton">Find My Sunset</button>
-					<a className="signupLink link" onClick={ this.showSignupForm }>Sign Up For Daily SMS</a>
+					{ sunsetButton }
+					{ signupAction }
 				</div>
 			)
 		}
 	}
 	render() {
+		var sunset = this.props.sunset;
 		const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
 		if (this.refs.errors && invalidPhoneNumber) {
 			this.refs.errors.setErrors(errors, "invalid");
 		} else if (this.refs.errors && duplicatePhoneNumber) {
 			this.refs.errors.setErrors(errors, "duplicate");
 		}
-		if (this.props.sunset.hideInformationSection) {
+		if (sunset.sunsetSuccess) {
 			var className = "hideInformationSection";
 		}
 		var actionsSection = this.renderActionsSection();

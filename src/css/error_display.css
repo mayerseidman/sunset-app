@@ -11,9 +11,9 @@
         @media #{$phone} {
             margin-top: 1rem;
         }
-        @media #{$desktop} {
+        /*@media #{$desktop} {
             margin-top: 1rem;
-        }
+        }*/
         .closeLink {
             cursor: pointer;
             color: #555 !important;

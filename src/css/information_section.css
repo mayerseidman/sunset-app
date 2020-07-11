@@ -23,9 +23,6 @@
             top: 10%;
             width: 400px;
         }
-        .findSunsetButton {
-            
-        }
         .signupLink {
             margin-left: 4%;
             &:hover {
@@ -38,6 +35,25 @@
                 text-decoration: none !important;
                 border: 1px solid #031D44;
             }
+        }
+        .signupButton {
+            opacity: 1;
+            animation-name: fadeInOpacity;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-in;
+            animation-duration: 2.85s;
+            width: 100%;
+        }
+        @keyframes fadeInOpacity {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        .extraWide {
+            width: 100%;
         }
         .valuePropText {
             font-size: 24px;

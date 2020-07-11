@@ -86,6 +86,7 @@ label {
     border-radius: 5px;
     color: #fafafa;
     cursor: pointer;
+    margin-bottom: 20px;
 
     @media #{$phone} {
         width: 100%; 
@@ -105,7 +106,7 @@ label {
     animation-name: fadeInOpacity;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
-    animation-duration: 0.2s;
+    animation-duration: 0.5s;
     @media #{$desktop} {
         padding-left: 0px;
     }

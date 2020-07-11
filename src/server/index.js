@@ -42,24 +42,6 @@ const sunsetwx = new SunsetWx({
 	password: process.env.PASSWORD
 });
 
-
-function doSomething(batch) {
-	console.log(batch)
-}
-var users = ["a", "b", "c", "d", "e", "f", "g", "h", "j", "k", "l", "m"]
-var usersLength = users.length;
-var userLimit = 6;
-
-// Change to "while"
-
-for (var i = 0; i < usersLength; i += userLimit) {
-	console.log(i)
-	var batch = _.first(users, userLimit);
-	doSomething(batch)
-	users.splice(0, userLimit);
-}
-
-
 function findLong(long, timezone) {
 	var inRange = false;
 	switch(timezone) {
@@ -94,6 +76,7 @@ function sendSMS(users, timezone) {
 		users.find().toArray().then((result)=>{
 			result.forEach(user => {
 				var i = result.indexOf(user);
+				// Stagger the api calls so that do not hit limit 
 				setTimeout(function() {
 					var lat = user.lat;
 					var long = user.long;
@@ -224,7 +207,6 @@ function fetchFromSunsetWX(lat, long) {
 }
 
 app.post('/api/fetch-sunset', (req, res) => {
-	console.log("show me something")
 	var lat = req.body.lat;
 	var long = req.body.long;
 	fetchFromSunsetWX(lat, long).then((sunset) => {
@@ -233,7 +215,7 @@ app.post('/api/fetch-sunset', (req, res) => {
 });
 
 function sendIntroText(phoneNumber) {
-	const message = "Thank you for signing up for daily SUNS°ET forecasts. \n\nText 'Stop' at any time to stop receving these. \n\nHave a fab day!"
+	const message = "Thank you for signing up for daily SUNS°ET forecasts. \n\nText 'Stop' at any time to stop receving these. \n\nHave a lovely day!"
  	twilioClient.messages
 		.create({
  			body: message, 
@@ -245,30 +227,43 @@ function sendIntroText(phoneNumber) {
 
 app.post('/api/create-user', function (req, res) {
 	const phoneNumber = "+1" + req.body.user.phone_number;
-	const location = req.body.user.location;
 	const lat = req.body.user.lat;
 	const long = req.body.user.long;
-	checkForExistingUsers(phoneNumber).then(function(result) {
-		console.log("result:", result)
-		if (!result) {
-			res.send({ error: true });
-		} else {
-			MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
-				let  db = client.db('heroku_9v9cjldm') 
-				let users = db.collection('users')
+	console.log(lat, long, phoneNumber)
+	// checkForExistingUsers(phoneNumber).then(function(result) {
+	// 	console.log("result:", result)
+	// 	if (!result) {
+	// 		res.send({ error: true });
+	// 	} else {
+	// 		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
+	// 			let  db = client.db('heroku_9v9cjldm') 
+	// 			let users = db.collection('users')
 				 
-				users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
-					if(err)  {
-						console.log('error inserting', result)
-				 	} else {
-				 		console.log("data inserted", result)
-				 		sendIntroText(phoneNumber)
-				 	}
-				})   
-		   	});
-			res.send(req.body)
-		}
-	});
+	// 			users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+	// 				if(err)  {
+	// 					console.log('error inserting', result)
+	// 			 	} else {
+	// 			 		console.log("data inserted", result)
+	// 			 		sendIntroText(phoneNumber)
+	// 			 	}
+	// 			})   
+	// 	   	});
+	// 		res.send(req.body)
+	// 	}
+	// });
+		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
+			let  db = client.db('heroku_9v9cjldm') 
+			let users = db.collection('users')
+			 
+			users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+				if(err)  {
+					console.log('error inserting', result)
+			 	} else {
+			 		console.log("data inserted", result)
+			 	}
+			})   
+	   	});
+		res.send(req.body)
 })
 
 const EST = "EST";

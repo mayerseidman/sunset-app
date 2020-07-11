@@ -8,7 +8,9 @@ const initialState = {
 	loading: false,
 	error: null,
 	info: null,
-	hideInformationSection: false
+	// hideInformationSection: false,
+	// showRandomSunsetButton: false,
+	sunsetSuccess: false
 }
 
 export default (state = initialState, action) => {
@@ -22,7 +24,9 @@ export default (state = initialState, action) => {
 				...state,
 				loading: false,
 				info: action.payload,
-				hideInformationSection: true
+				// hideInformationSection: true,
+				// showRandomSunsetButton: true,
+				sunsetSuccess: true
 			}
 		default:
 			return state;
