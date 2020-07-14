@@ -1,9 +1,9 @@
 
-## Suns°ets are Awesome
+## Sunsets are Awesome
 This is a project built with React & Node. 
 
 ### Functionality
-This web app fetches sunset forecasts from the [SunsetWx API](https://sunburst.sunsetwx.com/v1/docs/). You can also sign up for a daily SMS (via Twilio) with your forecast. 
+This web app fetches sunset forecasts from the [SunsetWx API](https://sunburst.sunsetwx.com/v1/docs/). You can also sign up for a daily SMS (via Twilio) of your forecast. 
 
 ### Code
 [Boiler Plate](https://github.com/crsandeep/simple-react-full-stack) used that contains React, Node, Express, Webpack, and more.
