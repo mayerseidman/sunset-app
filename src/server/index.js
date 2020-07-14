@@ -138,7 +138,7 @@ var job = new CronJob('15 11 * * *', function() {
 job.start()
 
 // PST Cron Job - Baker, NV Westwards
-var job = new CronJob('15 12 * * *', function() { 
+var job = new CronJob('10 13 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
