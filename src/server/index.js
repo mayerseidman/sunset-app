@@ -108,7 +108,7 @@ function sendSMS(users, timezone) {
 var url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 
 // EST Cron Job - South Bend, IA to Bangore, ME
-var job = new CronJob('15 09 * * *', function() { 
+var job = new CronJob('00 09 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
@@ -118,7 +118,7 @@ var job = new CronJob('15 09 * * *', function() {
 job.start()
 
 // CT Cron Job - Chicago, IL to Lincoln, NE
-var job = new CronJob('15 10 * * *', function() { 
+var job = new CronJob('00 10 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
@@ -128,7 +128,7 @@ var job = new CronJob('15 10 * * *', function() {
 job.start()
 
 // MT Cron Job - Eskdale, UT to Alliance, NE
-var job = new CronJob('15 11 * * *', function() { 
+var job = new CronJob('00 11 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
@@ -138,7 +138,7 @@ var job = new CronJob('15 11 * * *', function() {
 job.start()
 
 // PST Cron Job - Baker, NV Westwards
-var job = new CronJob('15 12 * * *', function() { 
+var job = new CronJob('00 12 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
@@ -148,7 +148,7 @@ var job = new CronJob('15 12 * * *', function() {
 job.start()
 
 // EUROPE
-var job = new CronJob('15 03 * * *', function() { 
+var job = new CronJob('00 03 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
@@ -158,7 +158,7 @@ var job = new CronJob('15 03 * * *', function() {
 job.start()
 
 // AUS
-var job = new CronJob('15 19 * * *', function() { 
+var job = new CronJob('00 19 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
@@ -168,7 +168,7 @@ var job = new CronJob('15 19 * * *', function() {
 job.start()
 
 // SEA
-var job = new CronJob('15 21 * * *', function() { 
+var job = new CronJob('00 21 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
 		var users = db.collection('users')
