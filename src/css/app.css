@@ -14,6 +14,8 @@ body {
     @media (max-width: 760px) {
         display: block;
         width: 100%;
+    }
+    @media (min-width: 500px) and (max-width: 760px) {
         height: 50vh;
     }
 }

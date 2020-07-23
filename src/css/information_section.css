@@ -9,6 +9,9 @@
             display: none;
         }
     }
+    @media (max-width: 500px) {
+        height: 68vh;
+    }
     @media (max-width: 760px) {
         position: absolute;
         top: 100%;

@@ -7,3 +7,4 @@ export const CREATE_USER_FAIL = 'app/user/CREATE_USER_FAIL';
 export const CREATE_USER_SUCCESS = 'app/user/CREATE_USER_SUCCESS';
 export const DUPLICATE_PHONE_NUMBER = 'app/user/DUPLICATE_PHONE_NUMBER';
 export const INVALID_PHONE_NUMBER = 'app/user/INVALID_PHONE_NUMBER';
+export const CLEAR_ERRORS = 'app/user/CLEAR_ERRORS';

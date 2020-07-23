@@ -4,6 +4,7 @@ import BarLoader from "react-spinners/BarLoader";
 import ErrorDisplay from './ErrorDisplay';
 import './../css/information_section.css';
 import { css } from "@emotion/core";
+import * as userActions from './redux/actions/user';
 
 export class InformationSection extends Component {
 	constructor(props) {
@@ -23,6 +24,7 @@ export class InformationSection extends Component {
 
 	showFindSunsetButton = () =>  {
 		this.setState({ showSignupForm: false, showFindSunsetButton: true })
+		this.props.clearErrors()
 	}
 
 	handleChange = ({ target: { value } }) => {   
@@ -31,7 +33,7 @@ export class InformationSection extends Component {
 
 	submitUser = () => {
 		const phoneNumber = this.refs.phone_number.value;
-		this.props.submitUser(phoneNumber);
+		this.props.sendUser(phoneNumber);
 	}
 
 	renderLoadingBar = (mobile = false) => {
@@ -175,4 +177,4 @@ const normalizeInput = (value, previousValue) => {
 export default connect((state) => ({
     sunset: state.sunset,
     user: state.user
-}))(InformationSection)
+}), { ...userActions })(InformationSection)

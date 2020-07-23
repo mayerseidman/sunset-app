@@ -10,10 +10,6 @@ import ResultsSection from "./ResultsSection";
 import BarLoader from "react-spinners/BarLoader";
 
 // IMAGES 
-import sunInnerImage from './../images/sun-inner.png';
-import sunOuterImage from './../images/sun-outer-shell.png';
-import sunFullImage from './../images/sun-full.png';
-import sunsetInfoImage from './../images/sunset-info.png';
 
 // CSS 
 import { css } from "@emotion/core";
@@ -27,9 +23,10 @@ export class SunsetTracker extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            submissionSuccess: false, spin: false, 
-            fetchingError: false, loading: false, 
-            hideInformationView: false
+            submissionSuccess: false, 
+            fetchingError: false,
+            hideInformationView: false,
+            loading: false
          };
     }
     getPosition() {
@@ -41,16 +38,15 @@ export class SunsetTracker extends Component {
 
     findMySunset = () => {
         if ("geolocation" in navigator) {
-            /* geolocation is available */
-            // this.setState({ loadingSunset: true })
-            // this.setState({ loading: true })
-            this.getPosition().then((position) => {
-                const lat = position.coords.latitude;
-                const long = position.coords.longitude;
-                this.props.fetchSunset(lat, long)
-                // this.setState({ loading: false })
-                // hideInformationView: true 
-            })
+            this.setState({ loading: true })
+            setTimeout(() => {
+                this.getPosition().then((position) => {
+                    const lat = position.coords.latitude;
+                    const long = position.coords.longitude;
+                    this.props.fetchSunset(lat, long)
+                    // hideInformationView: true 
+                })
+            }, 2500)
         }
     }
 
@@ -59,6 +55,7 @@ export class SunsetTracker extends Component {
             phoneNumber = phoneNumber.replace(/[^\d]/g, '')
             const phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
             const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
+            console.log(invalidPhoneNumber)
             if (invalidPhoneNumber) {
                 this.props.invalidPhoneNumber();
             } else {
@@ -76,8 +73,8 @@ export class SunsetTracker extends Component {
             <div className="sunsetContainer">
                 <InformationSection 
                     findMySunset={ this.findMySunset } 
-                    submitUser={ this.submitUser } />
-                <ResultsSection />
+                    sendUser={ this.submitUser } />
+                <ResultsSection loading={ this.state.loading } />
                 <div className="bottomSection"></div>
             </div>
         );

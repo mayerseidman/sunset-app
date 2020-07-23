@@ -3,7 +3,8 @@ import {
 	CREATE_USER_FAIL,
     INVALID_PHONE_NUMBER,
     DUPLICATE_PHONE_NUMBER,
-	CREATE_USER_SUCCESS
+	CREATE_USER_SUCCESS,
+	CLEAR_ERRORS
 } from '../types'
 
 const initialState = {
@@ -46,6 +47,12 @@ export default (state = initialState, action) => {
 				loading: false,
 				duplicatePhoneNumber: true,
 				errors: [action.payload]
+			}
+		case CLEAR_ERRORS:
+			return {
+				...state,
+				invalidPhoneNumber: false,
+				duplicatePhoneNumber: false
 			}
 		default:
 			return state;

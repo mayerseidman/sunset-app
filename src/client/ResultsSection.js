@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import sunFullImage from './../images/sun-full.png';
+import sunFullImage from './../images/happy-sun-two.png';
 import './../css/results_section.css';
 const moment = require('moment');
 
@@ -119,8 +119,15 @@ export class ResultsSection extends Component {
 	}
 	render() {
 		console.log(this.props)
-		var sunset = this.props.sunset.info;
-		if (sunset) {
+		var sunset = this.props.sunset;
+		var isLoading = sunset.loading || this.props.loading;
+		var sunsetInfo = sunset.info;
+		if (isLoading) {
+			console.log("LOADING")
+		    var sunClassName = "spin";
+		    var containerClass = "shrink";
+		}
+		if (sunsetInfo) {
 			var className = this.fetchBackground()  + " fullView";
 			var resultsClassName = "resultsView";
 			// if (this.props.showFullView) {
@@ -132,10 +139,9 @@ export class ResultsSection extends Component {
 				var resultsContent = this.renderSunsetSuccess();
 			}
 		} else {
-			if (this.state.spin) {
-			    var sunClassName = "spin";
-			    var containerClass = "shrink";
-			}
+			var sunsetImage = (
+				<img className={ "sunImage " + sunClassName } src={ sunFullImage } alt=""/>
+			)
 		}
 		var docksLink = <a className="docksLink">DOCS</a>
 		var backLink = (
@@ -151,6 +157,7 @@ export class ResultsSection extends Component {
 				</div>
 				<div className={ "innerContent " + resultsClassName }>
 					{ sunset && resultsContent }
+					{ sunsetImage }
 				</div>
 			</div>
 		)

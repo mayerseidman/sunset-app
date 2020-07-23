@@ -1,9 +1,10 @@
 import {
-	CREATE_USER,
+    CREATE_USER,
 	CREATE_USER_FAIL,
     INVALID_PHONE_NUMBER,
     DUPLICATE_PHONE_NUMBER,
-	CREATE_USER_SUCCESS
+    CREATE_USER_SUCCESS,
+    CLEAR_ERRORS
 } from '../types'
 
 export function invalidPhoneNumber() {
@@ -11,6 +12,7 @@ export function invalidPhoneNumber() {
 }
 
 export function submitUser (phoneNumber, lat, long) {
+    console.log(phoneNumber)
     return dispatch => {
         dispatch({ type: CREATE_USER })
         return  fetch('/api/create-user', {
@@ -42,4 +44,9 @@ export function submitUser (phoneNumber, lat, long) {
             dispatch({ type: CREATE_USER_FAIL, payload: error });
         })
     }
+}
+
+export function clearErrors() {
+    console.log("clear!")
+    return { type: CLEAR_ERRORS }
 }
