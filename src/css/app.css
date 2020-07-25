@@ -80,6 +80,7 @@ label {
     margin-bottom: 0.25em !important;
 }
 
+
 .successButton {
     background: #094CB1;
     height: 44px !important;
@@ -94,7 +95,7 @@ label {
         width: 100%; 
     }
     @media #{$desktop} {
-        width: 175px;
+        width: 44%;
     }
     &:hover {
         background-color: #031D44;
@@ -142,16 +143,6 @@ label {
 
 
 // old CSS
-
-.container {
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-    @media (min-width: 992px) {
-        width: 970px !important; 
-    }
-}
 
 .sunsetContainer {
     position: relative;
@@ -223,32 +214,8 @@ label {
             @media #{$ipadPortrait} {
                 width: 50%;
             }
-            .actionsContainer {
-                .phoneNumberLabel {
-                    font-size: 12px;
-                    display: block;
-                    margin-bottom: 2px;
-                }
-            }
-            .descriptionText {
-                font-weight: 500;
-            }
         }
         .leftContainer {
-            text-align: center;
-            vertical-align: top;
-            @media #{$desktop} {
-                display: inline-block;
-                width: 40%;
-                margin-right: 3%;
-                margin-left: 5%;
-            }
-            @media #{$ipadPortrait} {
-                margin-right: 8%;
-                margin-left: 0%;
-                position: relative;
-                right: 2%;
-            }
             .imagesContainer {
                 position: relative;
                 left: 0;
@@ -283,38 +250,7 @@ label {
                             }
                         }
                     }
-                }
-                .sunInnerImg {
-                    position: absolute;
-                    z-index: 1000000;
-                    @media #{$oldPhone} {
-                        left: 63px !important;
-                    }
-                    @media #{$phone} {
-                        width: 165px;
-                        left: 83px;
-                        top: 42px;
-                    }
-                    @media #{$widePhone} {
-                        left: 108px;
-                    }
-                    // iPhone
-                    @media only screen and (min-device-width: 375px) and (max-device-width: #{$bp-small}){
-                       left: 90px;
-                    }
-                    @media #{$ipadPortrait} {
-                        left: 51px !important;
-                    }
-                    @media #{$desktop} {
-                        width: 205px;
-                        left: 89px;
-                        top: 47px;
-                        &:hover {
-                            cursor: pointer;
-                            opacity: 0.9;
-                        }
-                    }
-                }
+                }a
                 .sunOuterImg {
                     position: relative;
                     top: 0;

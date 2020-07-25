@@ -66,7 +66,7 @@ export class InformationSection extends Component {
 	    return (
 	    	<div className={ "linksContainer "  + className }>
 	    		{ backLink }
-	    		<button onClick={ this.submitUser } className="successButton"
+	    		<button onClick={ this.submitUser } className="successButton sendSunsets"
 	    		    ref="submitBtn">Send Sunsets</button>
 	    	</div>
 	    )

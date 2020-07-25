@@ -24,6 +24,9 @@
     }
 
     &.fullView {
+        @media (max-width: 500px) {
+            transition: background 40ms ease-in-out 40ms;
+        }
 /*      opacity: 1;
         animation-name: fadeInOpacity;
         animation-timing-function: ease-in;
@@ -33,6 +36,7 @@
         -moz-transition: background 200ms ease-in-out 300ms;
         -o-transition: background 200ms ease-in-out 300ms;
         transition: background 200ms ease-in-out 300ms;
+
         @media (max-width: 760px) {
             height: 100vh;
         }
@@ -148,7 +152,7 @@
             &:first-child {
                 padding-top: .5em;
                 width: 125px;
-                font-weight: 550;
+                font-weight: 600;
                 font-size: 18px;
             }
             &:last-child {

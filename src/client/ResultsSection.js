@@ -127,7 +127,7 @@ export class ResultsSection extends Component {
 		    var sunClassName = "spin";
 		    var containerClass = "shrink";
 		}
-		if (sunsetInfo) {
+		if (sunset.sunsetSuccess) {
 			var className = this.fetchBackground()  + " fullView";
 			var resultsClassName = "resultsView";
 			// if (this.props.showFullView) {

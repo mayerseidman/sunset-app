@@ -27,9 +27,9 @@
             width: 400px;
         }
         .signupLink {
-            margin-left: 4%;
+            margin-left: 6%;
+            cursor: pointer;
             &:hover {
-                padding: 11.5px;
                 background-color: rgba(3, 29, 68, 0.75);
                 color: #fafafa;
                 border-color: #aaa;
@@ -37,6 +37,11 @@
                 border-bottom: none;
                 text-decoration: none !important;
                 border: 1px solid #031D44;
+                height: 44px;
+                display: inline-block;
+                vertical-align: middle;
+                padding: 6px 12px;
+                margin-left: 4%;
             }
         }
         .signupButton {
@@ -86,6 +91,9 @@
                 }
                 vertical-align: top;
                 margin-left: 5%;
+                .sendSunsets {
+                    width: 200px !important;
+                }
             }
             .linksContainerPlain {
                 vertical-align: inherit;
