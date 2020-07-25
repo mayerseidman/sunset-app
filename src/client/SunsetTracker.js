@@ -4,12 +4,8 @@ const moment = require('moment');
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import ErrorDisplay from './ErrorDisplay';
 import InformationSection from "./InformationSection";
 import ResultsSection from "./ResultsSection";
-import BarLoader from "react-spinners/BarLoader";
-
-// IMAGES 
 
 // CSS 
 import { css } from "@emotion/core";
@@ -43,8 +39,7 @@ export class SunsetTracker extends Component {
                 this.getPosition().then((position) => {
                     const lat = position.coords.latitude;
                     const long = position.coords.longitude;
-                    this.props.fetchSunset(lat, long)
-                    // hideInformationView: true 
+                    this.props.fetchSunset(lat, long);
                 })
             }, 2500)
         }
@@ -74,7 +69,8 @@ export class SunsetTracker extends Component {
                 <InformationSection 
                     findMySunset={ this.findMySunset } 
                     sendUser={ this.submitUser } />
-                <ResultsSection loading={ this.state.loading } />
+                <ResultsSection loading={ this.state.loading }  
+                    fetchSunset={ this.findMySunset } />
                 <div className="bottomSection"></div>
             </div>
         );

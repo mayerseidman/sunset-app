@@ -47,6 +47,5 @@ export function submitUser (phoneNumber, lat, long) {
 }
 
 export function clearErrors() {
-    console.log("clear!")
     return { type: CLEAR_ERRORS }
 }

@@ -117,30 +117,40 @@ export class ResultsSection extends Component {
 			</div>
 	    )
 	}
+	renderSunsetError() {
+		return (
+			<div className="fetchErrorText">
+				<p>
+					Sorry! We were not able to get your sunset forecast. 
+				</p>
+				<p>	Please refresh this page and try again. 
+					Still no luck? Try again in 30 minutes.
+				</p>
+			</div>
+		)
+	}
 	render() {
-		console.log(this.props)
 		var sunset = this.props.sunset;
 		var isLoading = sunset.loading || this.props.loading;
 		var sunsetInfo = sunset.info;
 		if (isLoading) {
-			console.log("LOADING")
 		    var sunClassName = "spin";
-		    var containerClass = "shrink";
 		}
 		if (sunset.sunsetSuccess) {
 			var className = this.fetchBackground()  + " fullView";
 			var resultsClassName = "resultsView";
-			// if (this.props.showFullView) {
-			// 	var fullClassName = ;
-			// }
 			if (this.state.showRubric) {
 				var resultsContent = this.renderRubric();
 			} else {
 				var resultsContent = this.renderSunsetSuccess();
 			}
+		} else if (sunset.error) {
+			var resultsContent = this.renderSunsetError();
+			var className = "poorResult";
 		} else {
 			var sunsetImage = (
-				<img className={ "sunImage " + sunClassName } src={ sunFullImage } alt=""/>
+				<img className={ "sunImage " + sunClassName } src={ sunFullImage } alt=""
+					onClick={ this.props.fetchSunset } />
 			)
 		}
 		var docksLink = <a className="docksLink">DOCS</a>

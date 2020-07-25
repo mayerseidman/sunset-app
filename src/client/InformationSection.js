@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import BarLoader from "react-spinners/BarLoader";
 import ErrorDisplay from './ErrorDisplay';
 import './../css/information_section.css';
@@ -46,10 +46,11 @@ export class InformationSection extends Component {
 	        `
 	    } else {
 	       var override = css`
-	           height: 5px;
+	           height: 12px;
 	           display: inline-block;
-	           width: 175px;
-	           margin-bottom: 4px;
+	           width: 47%;
+	           margin-left: 7%;
+	           vertical-align; middle;
 	       `
 	    }
 	    return (
@@ -121,10 +122,10 @@ export class InformationSection extends Component {
 	render() {
 		var sunset = this.props.sunset;
 		const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
-		if (this.refs.errors && invalidPhoneNumber) {
-			this.refs.errors.setErrors(errors, "invalid");
-		} else if (this.refs.errors && duplicatePhoneNumber) {
-			this.refs.errors.setErrors(errors, "duplicate");
+		if (invalidPhoneNumber) {
+			var type = "invalid";
+		} else if (duplicatePhoneNumber) {
+			var type = "duplicate";
 		}
 		if (sunset.sunsetSuccess) {
 			var className = "hideInformationSection";
@@ -145,7 +146,9 @@ export class InformationSection extends Component {
 		    	</p>
 			)
 		}
-
+		if (invalidPhoneNumber  || duplicatePhoneNumber) {
+			var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
+		}
 		return (
 			<div className={ "section informationSection  " + className }>
 				<div className="innerContent">
@@ -155,7 +158,7 @@ export class InformationSection extends Component {
 					</p>
 					{ actionsSection }
 					{ successNotification }
-					{ this.state.showSignupForm && !submissionSuccess && <ErrorDisplay ref="errors" /> }
+					{ this.state.showSignupForm && !submissionSuccess && errorDisplay }
 				</div>
 			</div>
 		)

@@ -1,18 +1,15 @@
-// require("utility/error_display.scss");
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as userActions from './redux/actions/user';
 import './../css/error_display.css';
 
-export default class ErrorDisplay extends Component {
+export class ErrorDisplay extends Component {
 	constructor(props) {
 		super();
 		// autobind(this);
 		this.state = {
 			errorText: null, errors: null
 		};
-	}
-
-	setError(error, type) {
-		this.setState({ errorText: error, errors: null, type: type });
 	}
 
 	setErrors(errors, type) {
@@ -23,42 +20,19 @@ export default class ErrorDisplay extends Component {
 		}
 	}
 
-	reset = () => {
-		this.setState({ errorText: "", errors: null });
-	}
-
 	render() {
-		var errorContent, errors, closeButton;
+		var errorContent, errors;
+		var errorContent = this.props.invalid || this.props.duplicate;
+		console.log(errorContent)
 
-		if (this.state.errorText) {
-			errorContent = this.state.errorText
-			if (this.state.type == "duplicate") {
+		if (this.props.errors) {
+			errorContent = this.props.errors[0];
+			if (this.props.type == "duplicate") {
 				var errorClassName = "duplicateError";
-			} else if (this.state.type == "invalid") {
+			} else if (this.props.type == "invalid") {
 				var errorClassName = "invalidError";
 			}
-		} else if (this.state.errors && this.state.errors.length == 1) {
-			errorContent = this.state.errors[0]
-			var errorClassName = "errorTwo";
-		} else if (this.state.errors) {
-			errors = this.state.errors.map(function(error, i) {
-				return <li key={ "error" + i }>{ error }</li>;
-			});
-			errorContent = (
-				<div className="errorContent">
-					<ul className="move-in">{ errors }</ul>
-				</div>
-			);
 		}
-		
-		// closeButton = (
-		// 	<span>
-		// 		<span className="x">x</span>
-		// 		<a className="closeLink btn-link" aria-label="Close" onClick={ this.reset.bind(this) }>
-		// 			<span aria-hidden="true">Got it </span>
-		// 		</a>
-		// 	</span>
-		// )
 
 		if (errorContent) {
 			return (
@@ -73,3 +47,7 @@ export default class ErrorDisplay extends Component {
 		}
 	}
 };
+
+export default connect((state) => ({
+    user: state.user
+}), { ...userActions })(ErrorDisplay)

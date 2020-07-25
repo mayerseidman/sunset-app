@@ -45,10 +45,6 @@
                 width: 305px;
             }
          }
-    } 
-
-    .sunImg {
-        width: 355px;
     }
     .navbar {
         @media (max-width: 760px) {
@@ -100,16 +96,27 @@
                 margin-left: 5px;
             }
         }
+        .sunImage {
+            width: 90%;
+            &:hover {
+                transform: scale(1.13);
+                -webkit-transition: .3s ease-out;
+                cursor: pointer;
+                opacity: 0.9;
+            }
+        }
         .spin {
             -webkit-animation:spin 4s linear infinite;
             -moz-animation:spin 4s linear infinite;
             animation:spin 4s linear infinite;
         }
-        @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-        @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-        @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-        .sunImage {
-            width: 90%;
+        @-moz-keyframes spin { 100% { -moz-transform: scale(1.13) rotate(360deg); } }
+        @-webkit-keyframes spin { 100% { -webkit-transform: scale(1.13) rotate(360deg); } }
+        @keyframes spin { 100% { -webkit-transform: scale(1.13) rotate(360deg); transform:scale(1.13) rotate(360deg); } }
+        .fetchErrorText {
+            color: #fafafa;
+            opacity: 0.85;
+            font-size: 24px;
         }
     }
 
