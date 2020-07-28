@@ -36,25 +36,16 @@ export class InformationSection extends Component {
 		this.props.sendUser(phoneNumber);
 	}
 
-	renderLoadingBar = (mobile = false) => {
-	    if (mobile) {
-	        var override = css`
-	            height: 5px;
-	            display: inline-block;
-	            width: 100%;
-	            margin-bottom: 4px;
-	        `
-	    } else {
-	       var override = css`
-	           height: 12px;
-	           display: inline-block;
-	           width: 47%;
-	           margin-left: 7%;
-	           vertical-align; middle;
-	       `
-	    }
+	renderLoadingBar = () => {
+		var override = css`
+		   height: 12px;
+		   display: inline-block;
+		   width: 47%;
+		   margin-left: 7%;
+		   vertical-align; middle;
+		`
 	    return (
-	        <BarLoader css={ override } color={ "#bbb" } loading={ this.props.user.loading } />
+	        <BarLoader css={ override } color={ "#bbb" } loading={ true } />
 	    )
 	}
 
@@ -74,7 +65,8 @@ export class InformationSection extends Component {
 	}
 
 	renderActionsSection = () => {
-	    if (this.props.user.loading) {
+		var isLoading = this.props.user.loading || this.props.loadingUser;
+	    if (isLoading) {
 	        var loadingBar = this.renderLoadingBar();
 	    } else {
 	        var submitButton = this.renderSubmitButton();

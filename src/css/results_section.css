@@ -44,7 +44,7 @@
          }
     }
     .navbar {
-        @media #{$mobile, $biggerMobile} {
+        @media #{$mobile} {
             width: 305px;
         }
         width: 400px;
@@ -54,15 +54,26 @@
         color: #031D44 !important;
         padding: 0;
         .docsLink {
-            left: 88%;
             position: relative;
+            padding-bottom: 3px;
+            cursor: pointer;
+            height: 27px;
+            overflow: visible;
+            &:hover {
+                border-bottom: 2px solid #031D44;;
+            };
         }
     }
     .innerContent {
-        @media #{$mobile, $biggerMobile} {
+        @media #{$mobile} {
             width: auto;
             text-align: center;
             top: 7.5%;
+        }
+        @media #{$biggerMobile} {
+            width: auto;
+            text-align: center;
+            top: 3.5%;
         }
         &.homePage {
             background-image: url('./../images/bg-home.png');
@@ -109,7 +120,7 @@
                 width: 270px;
             }
             @media (min-width: 480px) {
-                width: 350px;
+                width: 295px;
             }
             @media (min-width: 760px) {
                 width: 375px;

@@ -18,12 +18,7 @@ import * as userActions from './redux/actions/user';
 export class SunsetTracker extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
-            submissionSuccess: false, 
-            fetchingError: false,
-            hideInformationView: false,
-            loading: false
-         };
+        this.state = { loadingSunset: false, loadingUser: false };
     }
     getPosition() {
         // Simple Wrapper
@@ -34,7 +29,7 @@ export class SunsetTracker extends Component {
 
     findMySunset = () => {
         if ("geolocation" in navigator) {
-            this.setState({ loading: true })
+            this.setState({ loadingSunset: true })
             setTimeout(() => {
                 this.getPosition().then((position) => {
                     const lat = position.coords.latitude;
@@ -47,19 +42,21 @@ export class SunsetTracker extends Component {
 
     submitUser = (phoneNumber) => {
         if ("geolocation" in navigator) {
-            phoneNumber = phoneNumber.replace(/[^\d]/g, '')
-            const phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
-            const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
-            console.log(invalidPhoneNumber)
-            if (invalidPhoneNumber) {
-                this.props.invalidPhoneNumber();
-            } else {
-                this.getPosition().then((position) => {
-                    const lat = position.coords.latitude;
-                    const long = position.coords.longitude;
-                    this.props.submitUser(phoneNumber, lat, long)
-                })
-            }
+            this.setState({ loadingUser: true })
+            setTimeout(() => {
+                phoneNumber = phoneNumber.replace(/[^\d]/g, '')
+                const phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
+                const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
+                if (invalidPhoneNumber) {
+                    this.props.invalidPhoneNumber();
+                } else {
+                    this.getPosition().then((position) => {
+                        const lat = position.coords.latitude;
+                        const long = position.coords.longitude;
+                        this.props.submitUser(phoneNumber, lat, long)
+                    })
+                }
+             }, 800)
         }
     }
 
@@ -68,9 +65,12 @@ export class SunsetTracker extends Component {
             <div className="sunsetContainer">
                 <InformationSection 
                     findMySunset={ this.findMySunset } 
-                    sendUser={ this.submitUser } />
-                <ResultsSection loading={ this.state.loading }  
-                    fetchSunset={ this.findMySunset } />
+                    sendUser={ this.submitUser }
+                    loadingUser={ this.state.loadingUser } />
+                <ResultsSection 
+                    loadingSunset={ this.state.loadingSunset }
+                    fetchSunset={ this.findMySunset } 
+                    submissionSuccess={ this.props.user.submissionSuccess } />
                 <div className="bottomSection"></div>
             </div>
         );

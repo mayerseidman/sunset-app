@@ -12,7 +12,6 @@ export function invalidPhoneNumber() {
 }
 
 export function submitUser (phoneNumber, lat, long) {
-    console.log(phoneNumber)
     return dispatch => {
         dispatch({ type: CREATE_USER })
         return  fetch('/api/create-user', {

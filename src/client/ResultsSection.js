@@ -101,6 +101,13 @@ export class ResultsSection extends Component {
 	    } else {
 	    	var temperature = sunset.temperature;
 	    }
+	    if (!this.props.submissionSuccess) {
+	    	var signUpButton = (
+	    		<button className="findSunsetButton showMobile">
+	    			Sign Up For Daily SMS
+	    		</button>
+	    	)
+	    }
 		return (
 			<div>
 				<div className="resultsContainer">
@@ -111,9 +118,7 @@ export class ResultsSection extends Component {
 						<a className="detailsLink link" onClick={ this.showRubric }> { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</a>
 					</p>
 				</div>
-				<button className="findSunsetButton showMobile">
-					Sign Up For Daily SMS
-				</button>
+				{ signUpButton }
 			</div>
 	    )
 	}
@@ -131,9 +136,10 @@ export class ResultsSection extends Component {
 	}
 	render() {
 		var sunset = this.props.sunset;
-		var isLoading = sunset.loading || this.props.loading;
 		var sunsetInfo = sunset.info;
-		if (isLoading) {
+		var isLoadingSunset = sunset.loading || this.props.loadingSunset;
+
+		if (isLoadingSunset) {
 		    var sunClassName = "spin";
 		}
 		if (sunset.sunsetSuccess) {
@@ -153,7 +159,7 @@ export class ResultsSection extends Component {
 					onClick={ this.props.fetchSunset } />
 			)
 		}
-		var docksLink = <a className="docksLink">DOCS</a>
+		var docksLink = <a className="docsLink">DOCS</a>
 		var backLink = (
 			<a className="backLink" style={{ visibility: this.state.showRubric ? "visible" : "hidden" }}
 				onClick={ this.goBack }>BACK</a>

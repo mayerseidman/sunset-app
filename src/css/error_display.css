@@ -5,11 +5,11 @@
     @media #{$regular} {
         bottom: 5px;
     }
+     @media #{$mobile, $biggerMobile} {
+        bottom: 10px;
+     }
     .errorContent {
         color: #c9302c;
-        @media #{$mobile} {
-            margin-top: 1rem;
-        }
         .closeLink {
             cursor: pointer;
             color: #555 !important;

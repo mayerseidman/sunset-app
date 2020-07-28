@@ -19,6 +19,7 @@ const initialState = {
 export default (state = initialState, action) => {
 	switch (action.type) {
 		case CREATE_USER:
+			console.log("create user")
 			return { ...state, loading: true }
 		case CREATE_USER_SUCCESS:
 			return { 
