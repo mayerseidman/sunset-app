@@ -1,34 +1,32 @@
 @import "./../scss/variables";
 .informationSection {
     background: #fafafa;
-    /*.header {
-        width: 400px;
-    }*/
     &.hideInformationSection {
         @media (max-width: 760px) {
             display: none;
         }
     }
-    @media (max-width: 500px) {
-        height: 68vh;
+    @media #{$mobile} {
+        height: 57vh !important;
     }
-    @media (max-width: 760px) {
+    @media #{$mobile, $biggerMobile} {
         position: absolute;
         top: 100%;
         width: 100%;
     }
     .innerContent {
-        @media (max-width: 470px) {
+        @media #{$mobile} {
             width: 350px;
-            top: 10%;
+            top: 5%;
         }
-        @media (min-width: 470px) and (max-width: 760px) {
+        @media #{$biggerMobile} {
             top: 10%;
             width: 400px;
         }
         .signupLink {
             margin-left: 6%;
             cursor: pointer;
+            vertical-align: text-bottom;
             &:hover {
                 background-color: rgba(3, 29, 68, 0.75);
                 color: #fafafa;
@@ -43,6 +41,20 @@
                 padding: 6px 12px;
                 margin-left: 4%;
             }
+            @media #{$mobile} {
+                border-color: #aaa;
+                border-radius: 5px;
+                border-bottom: none;
+                text-decoration: none !important;
+                border: 1px solid #031D44;
+                height: 44px;
+                display: inline-block;
+                vertical-align: middle;
+                padding: 6px 12px;
+                margin-left: 0px;
+                width: 100%;
+                text-align: center;
+            }
         }
         .signupButton {
             opacity: 1;
@@ -51,6 +63,32 @@
             animation-timing-function: ease-in;
             animation-duration: 2.85s;
             width: 100%;
+        }
+
+        .successButton {
+            background: #094CB1;
+            height: 44px !important;
+            border: 1px solid #031D44;
+            padding: 6px 12px;
+            border-radius: 5px;
+            color: #fafafa;
+            cursor: pointer;
+            margin-bottom: 20px;
+
+            @media #{$mobile} {
+                width: 100%; 
+            }
+            @media #{$regular} {
+                width: 44%;
+            }
+            &:hover {
+                background-color: #031D44;
+                border-color: #031D44;
+            }
+            &:focus { outline: 0 }
+            &.signupButton {
+                width: 100%;
+            }
         }
         @keyframes fadeInOpacity {
             0% {
@@ -68,9 +106,9 @@
             margin-bottom: 50px;
             font-weight: 300;
             line-height: 1.35;
-             @media (max-width: 760px) {
+            @media #{$mobile, $biggerMobile} {
                 margin-bottom: 30px;
-             }
+            }
         }
         .actionsContainer {
             position: relative;
@@ -99,5 +137,35 @@
                 vertical-align: inherit;
             }
         }
+    }
+    .notificationText {
+        opacity: 1;
+        animation-name: fadeInOpacity;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in;
+        animation-duration: 0.5s;
+        @media #{$regular} {
+            padding-left: 0px;
+        }
+    }
+    @keyframes fadeInOpacity {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    .successNotification {
+        color: #2b9401;
+        animation: fadeinout 4s linear forwards;
+    }
+    @keyframes fadeinout {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    .successText {
+        color: #2b9401;
     }
 }

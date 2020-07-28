@@ -2,18 +2,14 @@
 
 .errorDisplay {
     position: relative;
-    @media #{$desktop} {
+    @media #{$regular} {
         bottom: 5px;
     }
     .errorContent {
         color: #c9302c;
-        /*font-size: 0.8em;*/
-        @media #{$phone} {
+        @media #{$mobile} {
             margin-top: 1rem;
         }
-        /*@media #{$desktop} {
-            margin-top: 1rem;
-        }*/
         .closeLink {
             cursor: pointer;
             color: #555 !important;
@@ -27,18 +23,18 @@
             color: #555;
         }
         .invalidError {
-            @media #{$phone} {
+            @media #{$mobile} {
                 width: 97%;
             }
-            @media #{$desktop} {
+            @media #{$regular} {
                 width: 88%;
             }
         }
         .duplicateError {
-            @media #{$phone} {
+            @media #{$mobile} {
                 width: 99%;
             }
-            @media #{$desktop} {
+            @media #{$regular} {
                 width: 97.2%;
             }
         }
