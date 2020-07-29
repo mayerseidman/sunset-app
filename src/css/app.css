@@ -40,6 +40,31 @@ body {
             }
         }
     }
+    .successButton {
+        background: #094CB1;
+        height: 44px !important;
+        border: 1px solid #031D44;
+        padding: 6px 12px;
+        border-radius: 5px;
+        color: #fafafa;
+        cursor: pointer;
+        margin-bottom: 20px;
+
+        @media #{$mobile} {
+            width: 100%; 
+        }
+        @media #{$regular} {
+            width: 44%;
+        }
+        &:hover {
+            background-color: #031D44;
+            border-color: #031D44;
+        }
+        &:focus { outline: 0 }
+        &.signupButton {
+            width: 100%;
+        }
+    }
     label {
         display: block !important;
         margin-bottom: 0.25em !important;

@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import sunFullImage from './../images/happy-sun-two.png';
-import './../css/results_section.css';
+import BarLoader from "react-spinners/BarLoader";
+import ErrorDisplay from './ErrorDisplay';
+import * as userActions from './redux/actions/user';
 const moment = require('moment');
+
+import { css } from "@emotion/core";
+import './../css/results_section.css';
+
 
 export class ResultsSection extends Component {
 	constructor(props) {
 		super();
-		this.state = { showRubric: false };
+		this.state = { showRubric: false, showSignUpForm: false, phone: '' };
 	}
 	fetchBackground = () => {
 		var quality = this.props.sunset.info.quality;
@@ -75,6 +81,9 @@ export class ResultsSection extends Component {
 	goBack = () => {
 		this.setState({ showRubric: false })
 	}
+	showSignUpForm = () => {
+		this.setState({ showSignUpForm: true })
+	}
 	renderSunsetSuccess = () => {
 		var sunset = this.props.sunset.info;
 	    if (this.state.showRandomSunset) {
@@ -101,9 +110,9 @@ export class ResultsSection extends Component {
 	    } else {
 	    	var temperature = sunset.temperature;
 	    }
-	    if (!this.props.submissionSuccess) {
+	    if (!this.props.submissionSuccess && !this.state.showSignUpForm) {
 	    	var signUpButton = (
-	    		<button className="findSunsetButton showMobile">
+	    		<button className="successButton showMobile" onClick={ this.showSignUpForm }>
 	    			Sign Up For Daily SMS
 	    		</button>
 	    	)
@@ -134,6 +143,79 @@ export class ResultsSection extends Component {
 			</div>
 		)
 	}
+	renderNav() {
+		var docksLink = <a className="docsLink">DOCS</a>
+		var backLink = (
+			<a className="backLink" style={{ visibility: this.state.showRubric ? "visible" : "hidden" }}
+				onClick={ this.goBack }>BACK</a>
+		)
+		return (
+			<div className="navbar">
+				{ backLink }
+				{ docksLink }
+			</div>
+		)
+	}
+	submitUser = () => {
+		const phoneNumber = this.refs.phone_number.value;
+		this.props.sendUser(phoneNumber);
+	}
+	renderLoadingBar = () => {
+		var override = css`
+		   height: 12px;
+		   display: inline-block;
+		   width: 47%;
+		   margin-left: 7%;
+		   vertical-align; middle;
+		`
+	    return (
+	        <BarLoader css={ override } color={ "#bbb" } loading={ true } />
+	    )
+	}
+
+	renderSubmitButton = () => {
+		if (!this.props.sunset.sunsetSuccess) {
+			var backLink = <a onClick={ this.showFindSunsetButton }>BACK</a>
+		} else {
+			var className = "linksContainerPlain";
+		}
+	    return (
+	    	<div className={ "linksContainer "  + className }>
+	    		{ backLink }
+	    		<button onClick={ this.submitUser } className="successButton sendSunsets"
+	    		    ref="submitBtn">Send Sunsets</button>
+	    	</div>
+	    )
+	}
+	handleChange = ({ target: { value } }) => {   
+	    this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
+	};
+	renderSignUpForm() {
+		if (this.state.showSignUpForm) {
+			var isLoading = this.props.user.loading || this.props.loadingUser;
+		    if (isLoading) {
+		        var loadingBar = this.renderLoadingBar();
+		    } else {
+		        var submitButton = this.renderSubmitButton();
+		    }
+			var signUpForm = (
+				<div className="actionsContainer">
+					<div className="inputContainer">
+						<label className="phoneNumberLabel">PHONE NUMBER</label>
+						<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
+						    onChange={ this.handleChange } value={ this.state.phone } />
+					</div>
+				    { loadingBar }
+				    { submitButton }
+				</div>
+			)
+			return (
+				<div>{ signUpForm }</div>
+			)
+		} else {
+			return "";
+		}
+	}
 	render() {
 		var sunset = this.props.sunset;
 		var sunsetInfo = sunset.info;
@@ -143,8 +225,8 @@ export class ResultsSection extends Component {
 		    var sunClassName = "spin";
 		}
 		if (sunset.sunsetSuccess) {
-			var className = this.fetchBackground()  + " fullView";
-			var resultsClassName = "resultsView";
+			var className = this.fetchBackground()  + " fullView ";
+			var resultsClassName = "resultsView ";
 			if (this.state.showRubric) {
 				var resultsContent = this.renderRubric();
 			} else {
@@ -152,6 +234,9 @@ export class ResultsSection extends Component {
 			}
 			if (this.state.showRubric) {
 				resultsClassName = resultsClassName + " rubricView"
+			}
+			if (this.state.showSignUpForm) {
+				var showSignupFormClassName = "shortened";
 			}
 		} else if (sunset.error) {
 			var resultsContent = this.renderSunsetError();
@@ -162,26 +247,31 @@ export class ResultsSection extends Component {
 					onClick={ this.props.fetchSunset } />
 			)
 		}
-		var docksLink = <a className="docsLink">DOCS</a>
-		var backLink = (
-			<a className="backLink" style={{ visibility: this.state.showRubric ? "visible" : "hidden" }}
-				onClick={ this.goBack }>BACK</a>
-		)
-
+		const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
+		if (invalidPhoneNumber) {
+			var type = "invalid";
+		} else if (duplicatePhoneNumber) {
+			var type = "duplicate";
+		}
+		if (invalidPhoneNumber  || duplicatePhoneNumber) {
+			var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
+		}
 		return (
-			<div className={ "section resultsSection " + className }>
-				<div className="navbar">
-					{ backLink }
-					{ docksLink }
+			<div>
+				<div className={ "section resultsSection " + className + showSignupFormClassName }>
+					{ this.renderNav() }
+					<div className={ "innerContent " + resultsClassName }>
+						{ sunset && resultsContent }
+						{ sunsetImage }
+					</div>
 				</div>
-				<div className={ "innerContent " + resultsClassName }>
-					{ sunset && resultsContent }
-					{ sunsetImage }
-				</div>
+				{ this.renderSignUpForm() }
+				{ this.state.showSignupForm && !submissionSuccess && errorDisplay }
 			</div>
 		)
 	}
 };
 export default connect((state) => ({
-    sunset: state.sunset
-}))(ResultsSection)
+    sunset: state.sunset,
+    user: state.user
+}), { ...userActions })(ResultsSection)

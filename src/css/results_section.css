@@ -43,6 +43,14 @@
             }
          }
     }
+    &.shortened {
+        height: 68vh !important;
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        -ms-transition: all 1s ease;
+        transition: all 1s ease;
+    }
     .navbar {
         margin: auto;
         position: relative;
@@ -123,6 +131,9 @@
                 @media #{$regular} {
                     width: 450px;
                 }
+            }
+            .successButton {
+                margin-top: 35px;
             }
         }
         @media #{$regular} {
@@ -272,6 +283,13 @@
         @media #{$regular} {
             display: none;
         }
+    }
+}
+
+.actionsContainer {
+    padding: 15px;
+    input {
+        margin-bottom: 20px;
     }
 }
 

@@ -67,9 +67,11 @@ export class SunsetTracker extends Component {
                     findMySunset={ this.findMySunset } 
                     sendUser={ this.submitUser }
                     loadingUser={ this.state.loadingUser } />
-                <ResultsSection 
+                <ResultsSection
+                    fetchSunset={ this.findMySunset }
                     loadingSunset={ this.state.loadingSunset }
-                    fetchSunset={ this.findMySunset } 
+                    sendUser={ this.submitUser }
+                    loadingUser={ this.state.loadingUser }
                     submissionSuccess={ this.props.user.submissionSuccess } />
                 <div className="bottomSection"></div>
             </div>
