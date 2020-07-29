@@ -11,5 +11,5 @@ This web app fetches sunset forecasts from the [SunsetWx API](https://sunburst.s
 ### Enjoy!
 Feel free to check out the site and if you wan't to reach me, [say hello](https://twitter.com/mayerseidman).<br/><br/>
 
-Live Site: [https://shemesh-app.herokuapp.com/](https://shemesh-app.herokuapp.com/)
+Live Site: [https://shemesh-app.herokuapp.com/](https://sunsets-are-awesome.herokuapp.com//)
 
