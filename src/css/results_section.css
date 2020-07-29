@@ -44,15 +44,20 @@
          }
     }
     .navbar {
-        @media #{$mobile} {
-            width: 305px;
-        }
-        width: 400px;
         margin: auto;
         position: relative;
         top: 5%;
         color: #031D44 !important;
         padding: 0;
+        @media #{$mobile} {
+            width: 325px;
+        }
+        @media (min-width: 480px) and (max-width: 950px) {
+            width: 400px;
+        }
+        @media #{$regular} {
+            width: 450px;
+        }
         .docsLink {
             position: relative;
             padding-bottom: 3px;
@@ -61,7 +66,17 @@
             overflow: visible;
             &:hover {
                 border-bottom: 2px solid #031D44;;
-            };
+            }
+        }
+        .backLink {
+            position: relative;
+            padding-bottom: 3px;
+            cursor: pointer;
+            height: 27px;
+            overflow: visible;
+            &:hover {
+                border-bottom: 2px solid #031D44;;
+            }
         }
     }
     .innerContent {
@@ -80,6 +95,9 @@
         }
         .resultsContainer, .rubricTable {
             opacity: 0.85;
+            a {
+                cursor: pointer;
+            }
         }
         &.resultsView {
             opacity: 1;
@@ -91,6 +109,20 @@
                 top: 20%;
                 width: 285px !important;
                 text-align: left;
+            }
+            &.rubricView {
+                @media #{$mobile} {
+                    top: 10%;
+                    width: 325px !important;
+                    text-align: left;    
+                }
+                @media (min-width: 480px) and (max-width: 950px) {
+                    width: 400px !important;
+                    text-align: left;
+                }
+                @media #{$regular} {
+                    width: 450px;
+                }
             }
         }
         @media #{$regular} {
@@ -136,9 +168,9 @@
             }
         }
         .spin {
-            -webkit-animation:spin 4s linear infinite;
-            -moz-animation:spin 4s linear infinite;
-            animation:spin 4s linear infinite;
+            -webkit-animation:spin 5s linear infinite;
+            -moz-animation:spin 5s linear infinite;
+            animation:spin 5s linear infinite;
         }
         @-moz-keyframes spin { 100% { -moz-transform: scale(1.13) rotate(360deg); } }
         @-webkit-keyframes spin { 100% { -webkit-transform: scale(1.13) rotate(360deg); } }
@@ -174,14 +206,8 @@
     $breakpoint-alpha: 480px; // adjust to your needs
 
     .rubricTable {
-        font-size: 0.92em;
-        min-width: 450px; // adjust to your needs
         @media (max-width: 760px) {
-            font-size: 1em;
-        }
-        @media (min-width: 760px) and (max-width: 1030px) {
-            min-width: 350px;
-            font-size: 14px;
+            font-size: 0.8em;
         }
         td {
             display: block; 
@@ -196,7 +222,7 @@
                 padding-bottom: .5em;
             }
 
-            &:before {
+            /*&:before {
                 content: attr(data-th)": "; 
                 font-weight: bold;
 
@@ -208,7 +234,7 @@
                 @media (min-width: $breakpoint-alpha) {
                     display: none;
                 }
-            }
+            }*/
         }
       
       th, td {

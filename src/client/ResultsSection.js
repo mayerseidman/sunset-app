@@ -150,6 +150,9 @@ export class ResultsSection extends Component {
 			} else {
 				var resultsContent = this.renderSunsetSuccess();
 			}
+			if (this.state.showRubric) {
+				resultsClassName = resultsClassName + " rubricView"
+			}
 		} else if (sunset.error) {
 			var resultsContent = this.renderSunsetError();
 			var className = "poorResult";
