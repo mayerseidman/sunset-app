@@ -23,7 +23,6 @@ export class ErrorDisplay extends Component {
 	render() {
 		var errorContent, errors;
 		var errorContent = this.props.invalid || this.props.duplicate;
-		console.log(errorContent)
 
 		if (this.props.errors) {
 			errorContent = this.props.errors[0];

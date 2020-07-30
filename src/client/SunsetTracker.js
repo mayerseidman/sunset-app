@@ -49,6 +49,7 @@ export class SunsetTracker extends Component {
                 const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
                 if (invalidPhoneNumber) {
                     this.props.invalidPhoneNumber();
+                    this.setState({ loadingUser: false })
                 } else {
                     this.getPosition().then((position) => {
                         const lat = position.coords.latitude;

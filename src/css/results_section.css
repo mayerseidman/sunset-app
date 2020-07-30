@@ -1,4 +1,9 @@
 @import "./../scss/variables";
+.outerContainer {
+    display: inline;
+    background: #fafafa;
+    display: inherit;
+}
 .resultsSection {
     @media #{$mobile} {
         height: 43vh !important;
@@ -26,13 +31,13 @@
 
     &.fullView {
         @media #{$mobile} {
-            transition: background 40ms ease-in-out 40ms;
+            transition: all 800ms ease-in-out 40ms;
         }
         -webkit-backface-visibility: hidden;
-        -webkit-transition: background 200ms ease-in-out 300ms;
-        -moz-transition: background 200ms ease-in-out 300ms;
-        -o-transition: background 200ms ease-in-out 300ms;
-        transition: background 200ms ease-in-out 300ms;
+        -webkit-transition: all 200ms ease-in-out 300ms;
+        -moz-transition: all 200ms ease-in-out 300ms;
+        -o-transition: all 200ms ease-in-out 300ms;
+        transition: all 200ms ease-in-out 300ms;
 
         @media #{$mobile, $biggerMobile} {
             height: 100vh !important;
@@ -45,11 +50,11 @@
     }
     &.shortened {
         height: 68vh !important;
-        -webkit-transition: all 1s ease;
-        -moz-transition: all 1s ease;
-        -o-transition: all 1s ease;
-        -ms-transition: all 1s ease;
-        transition: all 1s ease;
+        -webkit-transition: all 800ms ease;
+        -moz-transition: all 800ms ease;
+        -o-transition: all 800ms ease;
+        -ms-transition: all 800ms ease;
+        transition: all 800ms ease;
     }
     .navbar {
         margin: auto;
@@ -58,7 +63,7 @@
         color: #031D44 !important;
         padding: 0;
         @media #{$mobile} {
-            width: 325px;
+            width: 295px;
         }
         @media (min-width: 480px) and (max-width: 950px) {
             width: 400px;
@@ -115,13 +120,13 @@
             -webkit-backface-visibility: hidden;
             @media #{$mobile, $biggerMobile} {
                 top: 20%;
-                width: 285px !important;
+                width: 295px !important;
                 text-align: left;
             }
             &.rubricView {
                 @media #{$mobile} {
                     top: 10%;
-                    width: 325px !important;
+                    width: 295px !important;
                     text-align: left;    
                 }
                 @media (min-width: 480px) and (max-width: 950px) {
@@ -135,6 +140,10 @@
             .successButton {
                 margin-top: 35px;
             }
+            .downButton {
+                float: right;
+                margin-top: 25px;
+            }
         }
         @media #{$regular} {
             top: 21%;
@@ -144,6 +153,9 @@
             font-weight: 550;
             opacity: 0.85;
             @media #{$mobile, $biggerMobile} {
+                font-size: 27px;
+            }
+            @media #{$biggerMobile} {
                 font-size: 29px;
             }
         }
@@ -286,10 +298,19 @@
     }
 }
 
-.actionsContainer {
-    padding: 15px;
-    input {
-        margin-bottom: 20px;
+.formArea {
+    padding: 10px;
+    padding-top: 15px;
+     @media #{$regular} {
+        display: none;
+     }
+    .formContainer {
+        .successButton {
+            margin-bottom: 10px !important;
+        }
+        input {
+            margin-bottom: 20px;
+        }
     }
 }
 

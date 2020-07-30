@@ -13,7 +13,7 @@ import './../css/results_section.css';
 export class ResultsSection extends Component {
 	constructor(props) {
 		super();
-		this.state = { showRubric: false, showSignUpForm: false, phone: '' };
+		this.state = { showRubric: false, showSignupForm: false, phone: '' };
 	}
 	fetchBackground = () => {
 		var quality = this.props.sunset.info.quality;
@@ -34,7 +34,7 @@ export class ResultsSection extends Component {
 		return className;
 	}
 	showRubric = () => {
-		this.setState({ showRubric: true })
+		this.setState({ showRubric: true, showSignupForm: false })
 	}
 	renderRubric = () =>  {
 		var poorDescription = "Little to no color, with precipitation or a thick cloud layer often blocking a direct view of the sun.";
@@ -81,8 +81,8 @@ export class ResultsSection extends Component {
 	goBack = () => {
 		this.setState({ showRubric: false })
 	}
-	showSignUpForm = () => {
-		this.setState({ showSignUpForm: true })
+	showSignupForm = () => {
+		this.setState({ showSignupForm: true })
 	}
 	renderSunsetSuccess = () => {
 		var sunset = this.props.sunset.info;
@@ -110,9 +110,9 @@ export class ResultsSection extends Component {
 	    } else {
 	    	var temperature = sunset.temperature;
 	    }
-	    if (!this.props.submissionSuccess && !this.state.showSignUpForm) {
+	    if (!this.props.submissionSuccess && !this.state.showSignupForm) {
 	    	var signUpButton = (
-	    		<button className="successButton showMobile" onClick={ this.showSignUpForm }>
+	    		<button className="successButton showMobile" onClick={ this.showSignupForm }>
 	    			Sign Up For Daily SMS
 	    		</button>
 	    	)
@@ -162,11 +162,8 @@ export class ResultsSection extends Component {
 	}
 	renderLoadingBar = () => {
 		var override = css`
-		   height: 12px;
-		   display: inline-block;
-		   width: 47%;
-		   margin-left: 7%;
-		   vertical-align; middle;
+		   height: 15px;
+		   width: 100%;
 		`
 	    return (
 	        <BarLoader css={ override } color={ "#bbb" } loading={ true } />
@@ -190,16 +187,21 @@ export class ResultsSection extends Component {
 	handleChange = ({ target: { value } }) => {   
 	    this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
 	};
+	showFullView = () => {
+		this.setState({ showSignupForm: false })
+	}
 	renderSignUpForm() {
-		if (this.state.showSignUpForm) {
+		if (this.state.showSignupForm) {
+			console.log("show it!")
 			var isLoading = this.props.user.loading || this.props.loadingUser;
 		    if (isLoading) {
+		    	console.log("still loading")
 		        var loadingBar = this.renderLoadingBar();
 		    } else {
 		        var submitButton = this.renderSubmitButton();
 		    }
 			var signUpForm = (
-				<div className="actionsContainer">
+				<div className="formContainer">
 					<div className="inputContainer">
 						<label className="phoneNumberLabel">PHONE NUMBER</label>
 						<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
@@ -210,13 +212,16 @@ export class ResultsSection extends Component {
 				</div>
 			)
 			return (
-				<div>{ signUpForm }</div>
+				<div>
+					{ signUpForm }
+				</div>
 			)
 		} else {
 			return "";
 		}
 	}
 	render() {
+		console.log(this.props.user)
 		var sunset = this.props.sunset;
 		var sunsetInfo = sunset.info;
 		var isLoadingSunset = sunset.loading || this.props.loadingSunset;
@@ -235,7 +240,7 @@ export class ResultsSection extends Component {
 			if (this.state.showRubric) {
 				resultsClassName = resultsClassName + " rubricView"
 			}
-			if (this.state.showSignUpForm) {
+			if (this.state.showSignupForm) {
 				var showSignupFormClassName = "shortened";
 			}
 		} else if (sunset.error) {
@@ -256,20 +261,39 @@ export class ResultsSection extends Component {
 		if (invalidPhoneNumber  || duplicatePhoneNumber) {
 			var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
 		}
+		if (this.state.showSignupForm) {
+			var upButton = (
+				<button className="downButton" onClick={ this.showFullView }>Down</button>
+			)
+		}
 		return (
-			<div>
+			<div className="outerContainer">
 				<div className={ "section resultsSection " + className + showSignupFormClassName }>
 					{ this.renderNav() }
 					<div className={ "innerContent " + resultsClassName }>
 						{ sunset && resultsContent }
 						{ sunsetImage }
+						{ upButton }
 					</div>
 				</div>
-				{ this.renderSignUpForm() }
-				{ this.state.showSignupForm && !submissionSuccess && errorDisplay }
+				<div className="formArea">
+					{ this.renderSignUpForm() }
+					{ this.state.showSignupForm && !submissionSuccess && errorDisplay }
+				</div>
 			</div>
 		)
 	}
+};
+const normalizeInput = (value, previousValue) => {
+    if (!value) return value;
+    const currentValue = value.replace(/[^\d]/g, '');
+    const cvLength = currentValue.length;
+  
+    if (!previousValue || value.length > previousValue.length) {
+        if (cvLength < 4) return currentValue;
+        if (cvLength < 7) return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`;
+        return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`;
+    }
 };
 export default connect((state) => ({
     sunset: state.sunset,

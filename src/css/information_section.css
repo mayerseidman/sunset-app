@@ -17,7 +17,9 @@
     .innerContent {
         @media #{$mobile} {
             width: 350px;
-            top: 5%;
+            top: 0%;
+            padding: 10px;
+            padding-top: 0px;
         }
         @media #{$biggerMobile} {
             top: 10%;
@@ -87,6 +89,7 @@
         .actionsContainer {
             position: relative;
             bottom: 5px;
+            margin-bottom: 15px;
             input, button {
                 /*width: 45%;*/
                 display: inline-block;

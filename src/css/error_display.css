@@ -9,6 +9,9 @@
         bottom: 10px;
      }
     .errorContent {
+        @media #{$mobile} {
+            margin-top: 15px;
+        }
         color: #c9302c;
         .closeLink {
             cursor: pointer;
