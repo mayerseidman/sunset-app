@@ -2,7 +2,6 @@
 .outerContainer {
     display: inline;
     background: #fafafa;
-    display: inherit;
 }
 .resultsSection {
     @media #{$mobile} {
