@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import BarLoader from "react-spinners/BarLoader";
 import ErrorDisplay from './ErrorDisplay';
-import './../css/information_section.css';
+import './../assets/css/information_section.css';
 import { css } from "@emotion/core";
 import * as userActions from './redux/actions/user';
 

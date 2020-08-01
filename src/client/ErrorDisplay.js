@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as userActions from './redux/actions/user';
-import './../css/error_display.css';
+import './../assets/css/error_display.css';
 
 export class ErrorDisplay extends Component {
 	constructor(props) {

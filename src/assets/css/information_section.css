@@ -1,4 +1,4 @@
-@import "./../scss/variables";
+@import "./../assets/scss/variables";
 .informationSection {
     background: #fafafa;
     &.hideInformationSection {
@@ -7,7 +7,7 @@
         }
     }
     @media #{$mobile} {
-        height: 57vh !important;
+        height: 55vh !important;
     }
     @media #{$mobile, $biggerMobile} {
         position: absolute;
@@ -23,7 +23,7 @@
         }
         @media #{$biggerMobile} {
             top: 10%;
-            width: 400px;
+            width: 335px;
         }
         .successButton {
              @media #{$mobile} {
@@ -83,18 +83,25 @@
             width: 100%;
         }
         .valuePropText {
-            font-size: 24px;
             margin-bottom: 50px;
-            font-weight: 300;
             line-height: 1.35;
             @media #{$mobile, $biggerMobile} {
                 margin-bottom: 20px;
+            }
+             @media #{$mobile, $regular} {
+                font-size: 22px;
+             }
+            @media #{$mobile} {
+                font-size: 18px;
             }
         }
         .actionsContainer {
             position: relative;
             bottom: 5px;
             margin-bottom: 25px;
+            @media #{$mobile} {
+                margin-bottom: 0px;
+            }
             input, button {
                 /*width: 45%;*/
                 display: inline-block;
@@ -102,10 +109,17 @@
             }
             .inputContainer, .linksContainer {
                 display: inline-block;
-                width: 45%;
+            }
+            .inputContainer {
+                @media #{$mobile} {
+                    width: 45%;
+                }
             }
             .linksContainer {
                 margin-left: 5%;
+                @media #{$mobile} {
+                    width: 50%;
+                }
                 a {
                     margin-bottom: 0.25em;
                     display: block;
@@ -123,6 +137,9 @@
                 }
                 .successButton {
                     margin-bottom: 0px !important;
+                    @media #{$mobile} {
+                        width: 100% !important;
+                    }
                 }
             }
             .linksContainerPlain {

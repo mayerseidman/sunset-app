@@ -5,8 +5,8 @@ import BarLoader from "react-spinners/BarLoader";
 const moment = require('moment');
 
 // IMAGES
-import sunFullImage from './../images/sun.png';
-import downIcon from './../images/down-icon.png';
+import sunFullImage from './../assets/images/sun.png';
+import downIcon from './../assets/images/down-icon.png';
 
 // COMPONENTS
 import ErrorDisplay from './ErrorDisplay';
@@ -14,7 +14,7 @@ import * as userActions from './redux/actions/user';
 
 // CSS
 import { css } from "@emotion/core";
-import './../css/results_section.css';
+import './../assets/css/results_section.css';
 
 
 export class ResultsSection extends Component {
@@ -268,7 +268,7 @@ export class ResultsSection extends Component {
 			var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
 		}
 		if (this.state.showSignupForm) {
-			var upButton = (<img className="downButton" onClick={ this.showFullView }src={ downIcon } alt=""/>)
+			var revealButton = (<img className="downButton" onClick={ this.showFullView }src={ downIcon } alt=""/>)
 		} else {
 			var classNameForm = "hideForm ";
 		}
@@ -286,7 +286,7 @@ export class ResultsSection extends Component {
 					<div className={ "innerContent " + resultsClassName }>
 						{ sunset && resultsContent }
 						{ sunsetImage }
-						{ upButton }
+						{ revealButton }
 					</div>
 				</div>
 				<div className={ classNameForm + " formArea" }>

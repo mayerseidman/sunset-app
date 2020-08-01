@@ -1,11 +1,11 @@
-@import "./../scss/variables";
+@import "./../assets/scss/variables";
 .outerContainer {
     display: inline;
     background: #fafafa;
 }
 .resultsSection {
     @media #{$mobile} {
-        height: 43vh !important;
+        height: 45vh !important;
     }
     background-image: url('./../images/bg-home.png');
     background-repeat: no-repeat;
@@ -51,7 +51,7 @@
          }
     }
     &.shortened {
-        height: 68vh !important;
+        height: 65vh !important;
         -webkit-transition: all 800ms ease;
         -moz-transition: all 800ms ease;
         -o-transition: all 800ms ease;
@@ -98,7 +98,7 @@
         @media #{$mobile} {
             width: auto;
             text-align: center;
-            top: 7.5%;
+            top: 4.5%;
         }
         @media #{$biggerMobile} {
             width: auto;
@@ -122,14 +122,20 @@
             -moz-animation: fadeInOpacity 1.5s ease-in;
             -o-animation: fadeInOpacity 1.5s ease-in;
 
-            @media #{$mobile, $biggerMobile} {
+            @media #{$mobile} {
+                top: 7%;
+                width: 275px !important;
+                text-align: left;
+            }
+            @media #{$biggerMobile} {
                 top: 20%;
                 width: 295px !important;
                 text-align: left;
             }
+            
             &.rubricView {
                 @media #{$mobile} {
-                    top: 10%;
+                    top: 5%;
                     width: 295px !important;
                     text-align: left;    
                 }
@@ -143,10 +149,11 @@
             }
             .successButton {
                 margin-top: 35px;
+                width: 100%;
             }
             .downButton {
                 float: right;
-                margin-top: 11%;
+                margin-top: 3%;
             }
         }
         @media #{$regular} {
@@ -184,10 +191,10 @@
             -o-transition: .3s ease-out;
             transition: .3s ease-out;
             @media #{$mobile} {
-                width: 270px;
+                width: 240px;
             }
-            @media (min-width: 480px) {
-                width: 295px;
+            @media #{$biggerMobile} {
+                width: 375px;
             }
             @media (min-width: 760px) {
                 width: 375px;
@@ -320,14 +327,24 @@
 }
 
 .formArea {
-    padding: 10px;
     padding-top: 15px;
-     @media #{$regular} {
+    @media #{$mobile} {
+        width: 275px;
+        margin: auto;
+    }
+    @media #{$biggerMobile} {
+        width: 295px;
+        margin: auto;
+    }
+    @media #{$regular} {
         display: none;
-     }
+    }
     .formContainer {
         .successButton {
             margin-bottom: 10px !important;
+            @media #{$biggerMobile} {
+                width: 100%;
+            }
         }
         input {
             margin-bottom: 20px;

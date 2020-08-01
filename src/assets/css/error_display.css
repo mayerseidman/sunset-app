@@ -5,6 +5,9 @@
     @media #{$regular} {
         bottom: 5px;
     }
+    @media #{$mobile} {
+        font-size: 17px;
+    }
      @media #{$mobile, $biggerMobile} {
         bottom: 10px;
      }

@@ -9,7 +9,7 @@ import ResultsSection from "./ResultsSection";
 
 // CSS 
 import { css } from "@emotion/core";
-import './../css/app.css';
+import './../assets/css/app.css';
 
 // REDUX ACTIONS 
 import * as sunsetActions from './redux/actions/sunset';
