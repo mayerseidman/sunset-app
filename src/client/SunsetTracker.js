@@ -36,7 +36,7 @@ export class SunsetTracker extends Component {
                     const long = position.coords.longitude;
                     this.props.fetchSunset(lat, long);
                 })
-            }, 2500)
+            }, 2000)
         }
     }
 

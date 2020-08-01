@@ -84,4 +84,37 @@ body {
             display: none;
         }
     }
+    .successNotification {
+        color: #2b9401;
+        -webkit-animation: fadeinout 6.25s linear forwards;
+        -moz-animation: fadeinout 6.25s linear forwards;
+        -o-animation: fadeinout 6.25s linear forwards;
+        animation: fadeinout 6.25s linear forwards;
+    }
+    @keyframes fadeinout {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    .successText {
+        color: #2b9401;
+    }
+    .notificationText {
+        opacity: 1;
+        -webkit-animation: fadeInOpacity 0.75s ease-in;
+        -moz-animation: fadeInOpacity 0.75s ease-in;
+        -o-animation: fadeInOpacity 0.75s ease-in;
+        animation: fadeInOpacity 0.75s ease-in;
+        @media #{$regular} {
+            padding-left: 0px;
+        }
+    }
+    @keyframes fadeInOpacity {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
 }

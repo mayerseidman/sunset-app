@@ -17,13 +17,18 @@
     .innerContent {
         @media #{$mobile} {
             width: 350px;
-            top: 0%;
+            top: 5%;
             padding: 10px;
             padding-top: 0px;
         }
         @media #{$biggerMobile} {
             top: 10%;
             width: 400px;
+        }
+        .successButton {
+             @media #{$mobile} {
+                margin-bottom: 15px !important;
+             }
         }
         .signupLink {
             margin-left: 6%;
@@ -60,10 +65,10 @@
         }
         .signupButton {
             opacity: 1;
-            animation-name: fadeInOpacity;
-            animation-iteration-count: 1;
-            animation-timing-function: ease-in;
-            animation-duration: 2.85s;
+            -webkit-animation: fadeInOpacity 1.5s ease-in;
+            -moz-animation: fadeInOpacity 1.5s ease-in;
+            -o-animation: fadeInOpacity 1.5s ease-in;
+            animation: fadeInOpacity 1.5s ease-in;
             width: 100%;
         }
         @keyframes fadeInOpacity {
@@ -89,7 +94,7 @@
         .actionsContainer {
             position: relative;
             bottom: 5px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
             input, button {
                 /*width: 45%;*/
                 display: inline-block;
@@ -100,6 +105,7 @@
                 width: 45%;
             }
             .linksContainer {
+                margin-left: 5%;
                 a {
                     margin-bottom: 0.25em;
                     display: block;
@@ -112,25 +118,16 @@
                         border-bottom: 2px solid #031D44;;
                     };
                 }
-                vertical-align: top;
-                margin-left: 5%;
                 .sendSunsets {
                     width: 175px !important;
+                }
+                .successButton {
+                    margin-bottom: 0px !important;
                 }
             }
             .linksContainerPlain {
                 vertical-align: inherit;
             }
-        }
-    }
-    .notificationText {
-        opacity: 1;
-        animation-name: fadeInOpacity;
-        animation-iteration-count: 1;
-        animation-timing-function: ease-in;
-        animation-duration: 0.75s;
-        @media #{$regular} {
-            padding-left: 0px;
         }
     }
     @keyframes fadeInOpacity {
@@ -140,17 +137,5 @@
         100% {
             opacity: 1;
         }
-    }
-    .successNotification {
-        color: #2b9401;
-        animation: fadeinout 6.25s linear forwards;
-    }
-    @keyframes fadeinout {
-        0% { opacity: 0; }
-        50% { opacity: 1; }
-        100% { opacity: 0; }
-    }
-    .successText {
-        color: #2b9401;
     }
 }

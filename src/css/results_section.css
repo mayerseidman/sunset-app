@@ -30,6 +30,9 @@
 
     &.fullView {
         @media #{$mobile} {
+            -webkit-transition: all 800ms ease-in-out 40ms;
+            -moz-transition: all 800ms ease-in-out 40ms;
+            -o-transition: all 800ms ease-in-out 40ms;
             transition: all 800ms ease-in-out 40ms;
         }
         -webkit-backface-visibility: hidden;
@@ -113,10 +116,12 @@
         }
         &.resultsView {
             opacity: 1;
-            animation-name: fadeInOpacity;
-            animation-timing-function: ease-in;
-            animation-duration: 2.85s;
             -webkit-backface-visibility: hidden;
+            animation: fadeInOpacity 1.5s ease-in;
+            -webkit-animation: fadeInOpacity 1.5s ease-in;
+            -moz-animation: fadeInOpacity 1.5s ease-in;
+            -o-animation: fadeInOpacity 1.5s ease-in;
+
             @media #{$mobile, $biggerMobile} {
                 top: 20%;
                 width: 295px !important;
@@ -141,7 +146,7 @@
             }
             .downButton {
                 float: right;
-                margin-top: 25px;
+                margin-top: 11%;
             }
         }
         @media #{$regular} {
@@ -149,13 +154,17 @@
         }
         .mediumText {
             font-size: 36px;
-            font-weight: 550;
             opacity: 0.85;
             @media #{$mobile, $biggerMobile} {
                 font-size: 27px;
             }
             @media #{$biggerMobile} {
                 font-size: 29px;
+            }
+            &.time, &.temperature, &.quality {
+                span {
+                    font-weight: 550;
+                }
             }
         }
         .changeTemperatureLink {
@@ -170,6 +179,10 @@
             }
         }
         .sunImage {
+            -webkit-transition: .3s ease-out;
+            -moz-transition: .3s ease-out;
+            -o-transition: .3s ease-out;
+            transition: .3s ease-out;
             @media #{$mobile} {
                 width: 270px;
             }
@@ -184,19 +197,28 @@
              }
             &:hover {
                 transform: scale(1.13);
+                -webkit-transform: scale(1.13);
+                -moz-transform: scale(1.13);
                 -webkit-transition: .3s ease-out;
+                -moz-transition: .3s ease-out;
+                -o-transition: .3s ease-out;
+                transition: .3s ease-out;
                 cursor: pointer;
                 opacity: 0.9;
             }
         }
         .spin {
-            -webkit-animation:spin 5s linear infinite;
-            -moz-animation:spin 5s linear infinite;
-            animation:spin 5s linear infinite;
+            -webkit-transition: .3s ease-out;
+            -moz-transition: .3s ease-out;
+            -o-transition: .3s ease-out;     
+            transition: .3s ease-out;
+            -webkit-animation: spin 5s linear infinite;
+            -moz-animation: spin 5s linear infinite;
+            animation: spin 5s linear infinite;
         }
-        @-moz-keyframes spin { 100% { -moz-transform: scale(1.13) rotate(360deg); } }
-        @-webkit-keyframes spin { 100% { -webkit-transform: scale(1.13) rotate(360deg); } }
-        @keyframes spin { 100% { -webkit-transform: scale(1.13) rotate(360deg); transform:scale(1.13) rotate(360deg); } }
+        @-moz-keyframes spin { 100% { -moz-transform: scale(1) rotate(360deg); } }
+        @-webkit-keyframes spin { 100% { -webkit-transform: scale(1) rotate(360deg); } }
+        @keyframes spin { 100% { -webkit-transform: scale(1) rotate(360deg); transform:scale(1) rotate(360deg); } }
         .fetchErrorText {
             color: #fafafa;
             opacity: 0.85;
@@ -311,6 +333,17 @@
             margin-bottom: 20px;
         }
     }
+    &.hideForm {
+        display: none;
+    }
+}
+
+.successText {
+    color: #2b9401;
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-timing-function: ease-in;
+    animation-duration: 2s;
 }
 
 @keyframes fadeInOpacity {

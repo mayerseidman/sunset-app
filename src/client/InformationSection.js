@@ -52,11 +52,14 @@ export class InformationSection extends Component {
 	renderSubmitButton = () => {
 		if (!this.props.sunset.sunsetSuccess) {
 			var backLink = <a onClick={ this.showFindSunsetButton }>BACK</a>
-		} else {
-			var className = "linksContainerPlain";
 		}
+		// if (!this.props.sunset.sunsetSuccess) {
+			
+		// } else {
+		// 	var className = "linksContainerPlain";
+		// }
 	    return (
-	    	<div className={ "linksContainer "  + className }>
+	    	<div className="linksContainer ">
 	    		{ backLink }
 	    		<button onClick={ this.submitUser } className="successButton sendSunsets"
 	    		    ref="submitBtn">Send Sunsets</button>
@@ -118,7 +121,7 @@ export class InformationSection extends Component {
 			var type = "invalid";
 		} else if (duplicatePhoneNumber) {
 			var type = "duplicate";
-		}
+		} 
 		if (sunset.sunsetSuccess) {
 			var className = "hideInformationSection";
 		}

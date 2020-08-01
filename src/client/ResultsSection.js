@@ -1,11 +1,18 @@
+// LIBRARIES
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import sunFullImage from './../images/happy-sun-two.png';
 import BarLoader from "react-spinners/BarLoader";
-import ErrorDisplay from './ErrorDisplay';
-import * as userActions from './redux/actions/user';
 const moment = require('moment');
 
+// IMAGES
+import sunFullImage from './../images/sun.png';
+import downIcon from './../images/down-icon.png';
+
+// COMPONENTS
+import ErrorDisplay from './ErrorDisplay';
+import * as userActions from './redux/actions/user';
+
+// CSS
 import { css } from "@emotion/core";
 import './../css/results_section.css';
 
@@ -121,9 +128,9 @@ export class ResultsSection extends Component {
 			<div>
 				<div className="resultsContainer">
 					<p className="header">YOUR SUNSET:</p>
-					<p className="mediumText time">TIME: { momentTime }</p>
-					<p className="mediumText temperature">TEMP: { Math.floor(temperature) }° { temperatureWidget }</p>
-					<p className="mediumText quality"><span>QUALITY:</span> 
+					<p className="mediumText time"><span>TIME</span>: { momentTime }</p>
+					<p className="mediumText temperature"><span>TEMP</span>: { Math.floor(temperature) }° { temperatureWidget }</p>
+					<p className="mediumText quality"><span>QUALITY</span>:
 						<a className="detailsLink link" onClick={ this.showRubric }> { sunset.quality } ({ Math.floor(sunset.quality_percent) }%)</a>
 					</p>
 				</div>
@@ -189,13 +196,12 @@ export class ResultsSection extends Component {
 	};
 	showFullView = () => {
 		this.setState({ showSignupForm: false })
+		this.props.clearErrors()
 	}
 	renderSignUpForm() {
-		if (this.state.showSignupForm) {
-			console.log("show it!")
+		if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
 			var isLoading = this.props.user.loading || this.props.loadingUser;
 		    if (isLoading) {
-		    	console.log("still loading")
 		        var loadingBar = this.renderLoadingBar();
 		    } else {
 		        var submitButton = this.renderSubmitButton();
@@ -262,8 +268,15 @@ export class ResultsSection extends Component {
 			var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
 		}
 		if (this.state.showSignupForm) {
-			var upButton = (
-				<button className="downButton" onClick={ this.showFullView }>Down</button>
+			var upButton = (<img className="downButton" onClick={ this.showFullView }src={ downIcon } alt=""/>)
+		} else {
+			var classNameForm = "hideForm ";
+		}
+		if (this.state.showSignupForm && submissionSuccess) {
+			var successNotification = (
+				<p className="successText">
+		    		Congrats 🎉! You signed up for a daily sunset SMS. Enjoy those sunset vibes!
+		    	</p>
 			)
 		}
 		return (
@@ -276,9 +289,10 @@ export class ResultsSection extends Component {
 						{ upButton }
 					</div>
 				</div>
-				<div className="formArea">
+				<div className={ classNameForm + " formArea" }>
 					{ this.renderSignUpForm() }
 					{ this.state.showSignupForm && !submissionSuccess && errorDisplay }
+					{ successNotification }
 				</div>
 			</div>
 		)
