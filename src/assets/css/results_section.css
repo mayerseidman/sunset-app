@@ -1,4 +1,4 @@
-@import "./../assets/scss/variables";
+@import "../scss/variables";
 .outerContainer {
     display: inline;
     background: #fafafa;

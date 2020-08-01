@@ -1,4 +1,4 @@
-@import "./../assets/scss/variables";
+@import "../scss/variables";
 .informationSection {
     background: #fafafa;
     &.hideInformationSection {
