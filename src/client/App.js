@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './../css/app.css';
+import '../assets/css/app.css';
 import SunsetTracker from './SunsetTracker';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
