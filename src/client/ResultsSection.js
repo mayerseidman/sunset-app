@@ -159,7 +159,6 @@ export class ResultsSection extends Component {
 		return (
 			<div className="navbar">
 				{ backLink }
-				{ docksLink }
 			</div>
 		)
 	}

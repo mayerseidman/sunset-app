@@ -29,12 +29,6 @@
     }
 
     &.fullView {
-        @media #{$mobile} {
-            -webkit-transition: all 800ms ease-in-out 40ms;
-            -moz-transition: all 800ms ease-in-out 40ms;
-            -o-transition: all 800ms ease-in-out 40ms;
-            transition: all 800ms ease-in-out 40ms;
-        }
         -webkit-backface-visibility: hidden;
         -webkit-transition: all 200ms ease-in-out 300ms;
         -moz-transition: all 200ms ease-in-out 300ms;
@@ -43,6 +37,10 @@
 
         @media #{$mobile, $biggerMobile} {
             height: 100vh !important;
+            -webkit-transition: all 800ms ease-in-out 40ms;
+            -moz-transition: all 800ms ease-in-out 40ms;
+            -o-transition: all 800ms ease-in-out 40ms;
+            transition: all 800ms ease-in-out 40ms;
         }
          .innerContent {
             @media #{$mobile} {
@@ -68,7 +66,7 @@
             width: 295px;
         }
         @media (min-width: 480px) and (max-width: 950px) {
-            width: 400px;
+            width: 375px;
         }
         @media #{$regular} {
             width: 450px;
@@ -95,15 +93,10 @@
         }
     }
     .innerContent {
-        @media #{$mobile} {
+        @media #{$mobile, $biggerMobile} {
             width: auto;
             text-align: center;
-            top: 4.5%;
-        }
-        @media #{$biggerMobile} {
-            width: auto;
-            text-align: center;
-            top: 3.5%;
+            top: 1%;
         }
         &.homePage {
             background-image: url('./../images/bg-home.png');
@@ -153,7 +146,12 @@
             }
             .downButton {
                 float: right;
-                margin-top: 3%;
+                @media #{$mobile} {
+                    margin-top: 3%;
+                }
+                @media #{$biggerMobile} {
+                    margin-top: 6%;
+                }
             }
         }
         @media #{$regular} {
@@ -194,7 +192,7 @@
                 width: 240px;
             }
             @media #{$biggerMobile} {
-                width: 375px;
+                width: 350px;
             }
             @media (min-width: 760px) {
                 width: 375px;
@@ -219,9 +217,9 @@
             -moz-transition: .3s ease-out;
             -o-transition: .3s ease-out;     
             transition: .3s ease-out;
-            -webkit-animation: spin 5s linear infinite;
-            -moz-animation: spin 5s linear infinite;
-            animation: spin 5s linear infinite;
+            -webkit-animation: spin 4.25s linear infinite;
+            -moz-animation: spin 4.25s linear infinite;
+            animation: spin 4.25s linear infinite;
         }
         @-moz-keyframes spin { 100% { -moz-transform: scale(1) rotate(360deg); } }
         @-webkit-keyframes spin { 100% { -webkit-transform: scale(1) rotate(360deg); } }
@@ -230,6 +228,9 @@
             color: #fafafa;
             opacity: 0.85;
             font-size: 24px;
+            @media #{$mobile} {
+                margin-top: 40px;
+            }
         }
     }
 
@@ -327,14 +328,15 @@
 }
 
 .formArea {
-    padding-top: 15px;
     @media #{$mobile} {
         width: 275px;
         margin: auto;
+        padding-top: 15px;
     }
     @media #{$biggerMobile} {
         width: 295px;
         margin: auto;
+        padding-top: 20px;
     }
     @media #{$regular} {
         display: none;

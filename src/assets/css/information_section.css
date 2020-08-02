@@ -23,7 +23,7 @@
         }
         @media #{$biggerMobile} {
             top: 10%;
-            width: 335px;
+            width: 375px;
         }
         .successButton {
              @media #{$mobile} {
