@@ -135,9 +135,11 @@
                 @media (min-width: 480px) and (max-width: 950px) {
                     width: 400px !important;
                     text-align: left;
+                    top: 13%;
                 }
                 @media #{$regular} {
                     width: 450px;
+                    top: 13%;
                 }
             }
             .successButton {

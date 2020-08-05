@@ -20,7 +20,7 @@ import './../assets/css/results_section.css';
 export class ResultsSection extends Component {
 	constructor(props) {
 		super();
-		this.state = { showRubric: false, showSignupForm: false, phone: '' };
+		this.state = { showRubric: false, showSignupForm: false, phone: '', showDocs: false };
 	}
 	fetchBackground = () => {
 		var quality = this.props.sunset.info.quality;
@@ -77,16 +77,14 @@ export class ResultsSection extends Component {
 			const celsius = Math.floor(sunset.temperature);
 			const fahrenheit = Math.floor(( (9 * celsius) + 160 ) / 5)
 			if (type == "F") {
-				console.log("F")
 			    this.setState({ showFahrenheit: true, temperature: fahrenheit })
 			} else {
-				console.log("C")
 			    this.setState({ showFahrenheit: false, temperature: celsius })
 			}
 		}
 	}
 	goBack = () => {
-		this.setState({ showRubric: false })
+		this.setState({ showRubric: false, showDocs: false })
 	}
 	showSignupForm = () => {
 		this.setState({ showSignupForm: true })
@@ -150,15 +148,26 @@ export class ResultsSection extends Component {
 			</div>
 		)
 	}
+	renderDocs() {
+		return (
+			<div>
+				Docs go here...
+			</div>
+		)
+	}
+	showDocs = () => {
+		this.setState({ showDocs: true })
+	}
 	renderNav() {
-		var docksLink = <a className="docsLink">DOCS</a>
+		var docsLink = <a className="docsLink" onClick={ this.showDocs }>DOCS</a>
 		var backLink = (
-			<a className="backLink" style={{ visibility: this.state.showRubric ? "visible" : "hidden" }}
+			<a className="backLink" style={{ visibility: this.state.showRubric || this.state.showDocs ? "visible" : "hidden" }}
 				onClick={ this.goBack }>BACK</a>
 		)
 		return (
 			<div className="navbar">
 				{ backLink }
+				{ docsLink }
 			</div>
 		)
 	}
@@ -226,7 +235,6 @@ export class ResultsSection extends Component {
 		}
 	}
 	render() {
-		console.log(this.props.user)
 		var sunset = this.props.sunset;
 		var sunsetInfo = sunset.info;
 		var isLoadingSunset = sunset.loading || this.props.loadingSunset;
@@ -238,9 +246,11 @@ export class ResultsSection extends Component {
 			var className = this.fetchBackground()  + " fullView ";
 			var resultsClassName = "resultsView ";
 			if (this.state.showRubric) {
-				var resultsContent = this.renderRubric();
+				var content = this.renderRubric();
+			} else if (this.state.showDocs) {
+				var content = this.renderDocs();
 			} else {
-				var resultsContent = this.renderSunsetSuccess();
+				var content = this.renderSunsetSuccess();
 			}
 			if (this.state.showRubric) {
 				resultsClassName = resultsClassName + " rubricView"
@@ -249,13 +259,17 @@ export class ResultsSection extends Component {
 				var showSignupFormClassName = "shortened";
 			}
 		} else if (sunset.error) {
-			var resultsContent = this.renderSunsetError();
+			var content = this.renderSunsetError();
 			var className = "poorResult";
 		} else {
-			var sunsetImage = (
-				<img className={ "sunImage " + sunClassName } src={ sunFullImage } alt=""
-					onClick={ this.props.fetchSunset } />
-			)
+			if (this.state.showDocs) {
+				var content = this.renderDocs();
+			} else {
+				var sunsetImage = (
+					<img className={ "sunImage " + sunClassName } src={ sunFullImage } alt=""
+						onClick={ this.props.fetchSunset } />
+				)
+			}
 		}
 		const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
 		if (invalidPhoneNumber) {
@@ -278,21 +292,31 @@ export class ResultsSection extends Component {
 		    	</p>
 			)
 		}
-		return (
+		var sunsetContent = (
+			<div className={ "innerContent " + resultsClassName }>
+				{ sunset && content }
+				{ sunsetImage }
+				{ revealButton }
+			</div>
+		)
+	
+		var content = (
 			<div className="outerContainer">
 				<div className={ "section resultsSection " + className + showSignupFormClassName }>
 					{ this.renderNav() }
-					<div className={ "innerContent " + resultsClassName }>
-						{ sunset && resultsContent }
-						{ sunsetImage }
-						{ revealButton }
-					</div>
+					{ sunsetContent }
 				</div>
 				<div className={ classNameForm + " formArea" }>
 					{ this.renderSignUpForm() }
 					{ this.state.showSignupForm && !submissionSuccess && errorDisplay }
 					{ successNotification }
 				</div>
+			</div>
+		)
+		
+		return (
+			<div className="outerContainer">
+				{ content }
 			</div>
 		)
 	}
