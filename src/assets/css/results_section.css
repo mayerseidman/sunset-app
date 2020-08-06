@@ -121,7 +121,7 @@
                 text-align: left;
             }
             @media #{$biggerMobile} {
-                top: 20%;
+                top: 8%;
                 width: 295px !important;
                 text-align: left;
             }
@@ -234,6 +234,15 @@
                 margin-top: 40px;
             }
         }
+    }
+
+    &.docsView {
+      .innerContent {
+         @media #{$biggerMobile} {
+            top: 12%;
+            width: 375px !important;
+         }
+      }  
     }
 
     .detailsLink {
@@ -357,6 +366,9 @@
             display: inline-block;
             width: 70%;
             margin-left: 5%;
+            @media #{$biggerMobile} {
+                width: 68%;
+            }
         }
         .links {
             display: inline-block;

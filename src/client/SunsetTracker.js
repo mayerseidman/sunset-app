@@ -61,19 +61,30 @@ export class SunsetTracker extends Component {
         }
     }
 
+    showDocs = () => {
+        this.setState({ showDocs: true })
+    }
+
+    goBack = () => {
+        this.setState({ showDocs: false })
+    }
+
     render() {
         return (
             <div className="sunsetContainer">
                 <InformationSection 
                     findMySunset={ this.findMySunset } 
                     sendUser={ this.submitUser }
-                    loadingUser={ this.state.loadingUser } />
+                    loadingUser={ this.state.loadingUser }
+                    showDocs={ this.state.showDocs } />
                 <ResultsSection
                     fetchSunset={ this.findMySunset }
                     loadingSunset={ this.state.loadingSunset }
                     sendUser={ this.submitUser }
                     loadingUser={ this.state.loadingUser }
-                    submissionSuccess={ this.props.user.submissionSuccess } />
+                    submissionSuccess={ this.props.user.submissionSuccess }
+                    showDocs={ this.showDocs }
+                    goBack={ this.goBack } />
                 <div className="bottomSection"></div>
             </div>
         );

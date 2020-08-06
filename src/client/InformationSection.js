@@ -122,7 +122,7 @@ export class InformationSection extends Component {
 		} else if (duplicatePhoneNumber) {
 			var type = "duplicate";
 		} 
-		if (sunset.sunsetSuccess) {
+		if (sunset.sunsetSuccess || this.props.showDocs) {
 			var className = "hideInformationSection";
 		}
 		var actionsSection = this.renderActionsSection();

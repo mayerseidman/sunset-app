@@ -86,6 +86,7 @@ export class ResultsSection extends Component {
 	}
 	goBack = () => {
 		this.setState({ showRubric: false, showDocs: false })
+		this.props.goBack()
 	}
 	showSignupForm = () => {
 		this.setState({ showSignupForm: true })
@@ -179,7 +180,8 @@ export class ResultsSection extends Component {
 		)
 	}
 	showDocs = () => {
-		this.setState({ showDocs: true })
+		this.setState({ showDocs: true, showRubric: false })
+		this.props.showDocs();
 	}
 	renderNav() {
 		var docsLink = <a className="docsLink" onClick={ this.showDocs }>DOCS</a>
@@ -272,6 +274,7 @@ export class ResultsSection extends Component {
 				var content = this.renderRubric();
 			} else if (this.state.showDocs) {
 				var content = this.renderDocs();
+				var docsClassName = " docsView"
 			} else {
 				var content = this.renderSunsetSuccess();
 			}
@@ -279,14 +282,14 @@ export class ResultsSection extends Component {
 				resultsClassName = resultsClassName + " rubricView"
 			}
 			if (this.state.showSignupForm) {
-				var showSignupFormClassName = "shortened";
+				var showSignupFormClassName = " shortened ";
 			}
 		} else if (sunset.error) {
 			var content = this.renderSunsetError();
 			var className = "poorResult";
 		} else {
 			if (this.state.showDocs) {
-				var className = " fullView ";
+				var className = " fullView docsView ";
 				var content = this.renderDocs();
 			} else {
 				var sunsetImage = (
@@ -326,7 +329,7 @@ export class ResultsSection extends Component {
 	
 		var content = (
 			<div className="outerContainer">
-				<div className={ "section resultsSection " + className + showSignupFormClassName }>
+				<div className={ "section resultsSection " + className + showSignupFormClassName + docsClassName }>
 					{ this.renderNav() }
 					{ sunsetContent }
 				</div>

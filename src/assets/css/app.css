@@ -40,7 +40,7 @@ body {
             font-size: 60px;
             font-weight: 650;
             line-height: 1.2;
-            width: 88%;
+            width: 89%;
             @media (min-width: 760px) and (max-width: 900px) {
                 font-size: 55px;
             }
