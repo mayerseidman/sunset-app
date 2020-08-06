@@ -32,7 +32,7 @@ body {
         position: relative;
         top: 25%;
         margin: auto;
-        width: 400px;
+        width: 450px;
         @media (min-width: 760px) and (max-width: 900px) {
             padding: 15px;
         }
@@ -40,6 +40,7 @@ body {
             font-size: 60px;
             font-weight: 650;
             line-height: 1.2;
+            width: 88%;
             @media (min-width: 760px) and (max-width: 900px) {
                 font-size: 55px;
             }

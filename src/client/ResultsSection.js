@@ -5,8 +5,9 @@ import BarLoader from "react-spinners/BarLoader";
 const moment = require('moment');
 
 // IMAGES
-import sunFullImage from './../assets/images/sun.png';
+import sunFullImg from './../assets/images/sun.png';
 import downIcon from './../assets/images/down-icon.png';
+import profileImg from './../assets/images/profile.png';
 
 // COMPONENTS
 import ErrorDisplay from './ErrorDisplay';
@@ -150,8 +151,30 @@ export class ResultsSection extends Component {
 	}
 	renderDocs() {
 		return (
-			<div>
-				Docs go here...
+			<div className="docsContainer">
+				<p className="headline">
+					I found myself constantly wondering what the day’s sunset would be like. <br/>
+					Should I head to the beach or stay at home?
+				</p>
+				<p className="text">
+					Using the <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a> API I created a simple way to find 
+					this valuable information via the website or a daily text message (<a href="https://www.twilio.com/" target="_blank">Twilio</a>). 
+					If you are curious, you can read about my design process while creating this. 
+					<br/> Lastly, if you enjoy Sunsets Are Awesome, feel free to 
+					<a className="donateLink" href="https://www.buymeacoffee.com/mayerseidman" target="_blank"> donate💰</a> to help keep it around.
+				</p>
+				<div className="bioSection">
+					<img src={ profileImg } alt="profile"/>
+					<p className="text bioText">
+						Hi, I’m Mayer! .........................talk about what im passionate 
+						about............................connect with me, Id love to connect.
+						<span className="links">
+							<a href="https://mayerseidman.com" target="_blank">Portfolio</a>
+							<a href="https://twitter.com/mayerseidman" target="_blank">Twitter</a>
+							<a href="https://www.linkedin.com/in/mayer-seidman/" target="_blank">LinkedIn</a>
+						</span>
+					</p>
+				</div>
 			</div>
 		)
 	}
@@ -263,10 +286,11 @@ export class ResultsSection extends Component {
 			var className = "poorResult";
 		} else {
 			if (this.state.showDocs) {
+				var className = " fullView ";
 				var content = this.renderDocs();
 			} else {
 				var sunsetImage = (
-					<img className={ "sunImage " + sunClassName } src={ sunFullImage } alt=""
+					<img className={ "sunImage " + sunClassName } src={ sunFullImg } alt=""
 						onClick={ this.props.fetchSunset } />
 				)
 			}
