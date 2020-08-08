@@ -1,6 +1,4 @@
-#! /app/bin/node
 function sayHello() {
 	console.log("Wake Up");
 }
 sayHello();
-process.exit();
