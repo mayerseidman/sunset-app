@@ -40,7 +40,7 @@ body {
             font-size: 60px;
             font-weight: 650;
             line-height: 1.2;
-            width: 89%;
+            /*width: 89%;*/
             @media (min-width: 760px) and (max-width: 900px) {
                 font-size: 55px;
             }
@@ -125,5 +125,21 @@ body {
         100% {
             opacity: 1;
         }
+    }
+    .showMobile {
+         @media #{$mobile} {
+            display: block;
+         }
+         @media #{$biggerMobile, $regular} {
+            display: none;
+         }
+    }
+    .hideMobile {
+        @media #{$mobile} {
+           display: none;
+        }
+         @media #{$biggerMobile, $regular} {
+            display: block;
+         }
     }
 }

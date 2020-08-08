@@ -5,7 +5,7 @@ import BarLoader from "react-spinners/BarLoader";
 const moment = require('moment');
 
 // IMAGES
-import sunFullImg from './../assets/images/sun.png';
+import sunFullImg from './../assets/images/sun-new.png';
 import downIcon from './../assets/images/down-icon.png';
 import profileImg from './../assets/images/profile-min.png';
 
@@ -165,22 +165,32 @@ export class ResultsSection extends Component {
 					<a className="donateLink" href="https://www.buymeacoffee.com/mayerseidman" target="_blank"> donate💰</a> to help keep it around.
 				</p>
 				<div className="bioSection">
-					<img src={ profileImg } alt="profile"/>
-					<p className="text bioText">
-						Hi, I’m Mayer! .........................talk about what im passionate 
-						about............................connect with me, Id love to connect.
+					<div className="showMobile">
+						<p>Howdy, I'm Mayer 👨‍🌾! I'm always down to connect-say hi.</p>
 						<span className="links">
 							<a href="https://mayerseidman.com" target="_blank">Portfolio</a>
 							<a href="https://twitter.com/mayerseidman" target="_blank">Twitter</a>
 							<a href="https://www.linkedin.com/in/mayer-seidman/" target="_blank">LinkedIn</a>
 						</span>
-					</p>
+					</div>
+					<div className="hideMobile">
+						<img src={ profileImg } alt="profile"/>
+						<p className="text bioText">
+							Hi, I’m Mayer! .........................talk about what im passionate 
+							about............................connect with me, Id love to connect.
+							<span className="links">
+								<a href="https://mayerseidman.com" target="_blank">Portfolio</a>
+								<a href="https://twitter.com/mayerseidman" target="_blank">Twitter</a>
+								<a href="https://www.linkedin.com/in/mayer-seidman/" target="_blank">LinkedIn</a>
+							</span>
+						</p>
+					</div>
 				</div>
 			</div>
 		)
 	}
 	showDocs = () => {
-		this.setState({ showDocs: true, showRubric: false })
+		this.setState({ showDocs: true, showRubric: false, showSignupForm: false })
 		this.props.showDocs();
 	}
 	renderNav() {

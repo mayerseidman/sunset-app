@@ -158,6 +158,7 @@
         }
         @media #{$regular} {
             top: 21%;
+            width: 400px;
         }
         .mediumText {
             font-size: 36px;
@@ -237,12 +238,20 @@
     }
 
     &.docsView {
-      .innerContent {
-         @media #{$biggerMobile} {
-            top: 12%;
-            width: 375px !important;
-         }
-      }  
+        .innerContent {
+            @media #{$regular} {
+                width: 450px;    
+            }
+            @media #{$biggerMobile} {
+                top: 12%;
+                width: 375px !important;
+            }
+            @media #{$mobile} {
+                width: 295px !important;
+                top: 7%;
+                text-align: left;
+            }
+        }  
     }
 
     .detailsLink {
@@ -373,6 +382,9 @@
         .links {
             display: inline-block;
             margin-top: 10px;
+            @media #{$mobile} {
+                margin-top: 0px;
+            }
             a {
                 margin-right: 15px;
                 padding-right: 15px;
