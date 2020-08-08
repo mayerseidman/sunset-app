@@ -127,18 +127,18 @@ body {
         }
     }
     .showMobile {
-         @media #{$mobile} {
+         @media #{$mobile, $biggerMobile} {
             display: block;
          }
-         @media #{$biggerMobile, $regular} {
+         @media #{$regular} {
             display: none;
          }
     }
     .hideMobile {
-        @media #{$mobile} {
+        @media #{$mobile, $biggerMobile} {
            display: none;
         }
-         @media #{$biggerMobile, $regular} {
+         @media #{$regular} {
             display: block;
          }
     }

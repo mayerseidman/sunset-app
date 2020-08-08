@@ -245,6 +245,7 @@
             @media #{$biggerMobile} {
                 top: 12%;
                 width: 375px !important;
+                text-align: left;
             }
             @media #{$mobile} {
                 width: 295px !important;
@@ -383,7 +384,14 @@
             display: inline-block;
             margin-top: 10px;
             @media #{$mobile} {
+                display: block;
                 margin-top: 0px;
+                margin: auto;
+                width: 85%;
+            }
+            @media #{$biggerMobile} {
+                text-align: center;
+                display: block;
             }
             a {
                 margin-right: 15px;
