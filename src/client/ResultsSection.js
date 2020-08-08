@@ -7,7 +7,7 @@ const moment = require('moment');
 // IMAGES
 import sunFullImg from './../assets/images/sun.png';
 import downIcon from './../assets/images/down-icon.png';
-import profileImg from './../assets/images/profile.png';
+import profileImg from './../assets/images/profile-min.png';
 
 // COMPONENTS
 import ErrorDisplay from './ErrorDisplay';
