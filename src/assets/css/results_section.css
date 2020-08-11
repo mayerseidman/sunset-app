@@ -55,6 +55,9 @@
         -o-transition: all 800ms ease;
         -ms-transition: all 800ms ease;
         transition: all 800ms ease;
+        @media (max-width: 400px) and (min-height: 800px) {
+            height: 60vh !important;
+        }
     }
     .navbar {
         margin: auto;
@@ -64,7 +67,7 @@
         padding: 0;
         @media #{$mobile} {
             width: 295px;
-            top: 6%;
+            top: 4%;
         }
         @media #{$biggerMobile} {
             top: 3.5%;
@@ -100,12 +103,15 @@
         @media #{$mobile} {
             width: auto;
             text-align: center;
-            top: 0%;
+            top: 2%;
         }
         @media #{$biggerMobile} {
             width: auto;
             text-align: center;
             top: 0%;
+        }
+        @media (max-width: 400px) and (min-height: 800px) {
+            top: 4%;
         }
         &.homePage {
             background-image: url('./../images/bg-home.png');
@@ -163,6 +169,9 @@
                 @media #{$biggerMobile} {
                     margin-top: 6%;
                 }
+                @media (max-width: 400px) and (min-height: 800px) {
+                    margin-top: 16%;
+                }
             }
         }
         @media #{$regular} {
@@ -209,9 +218,12 @@
             @media (min-width: 760px) {
                 width: 375px;
             }
-             @media (min-width: 900px) {
+            @media (min-width: 900px) {
                 width: 400px;
-             }
+            }
+            @media (max-width: 400px) and (min-height: 800px) {
+                width: 305px;
+            }
             &:hover {
                 transform: scale(1.13);
                 -webkit-transform: scale(1.13);

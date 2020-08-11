@@ -1,6 +1,6 @@
 import {
     CREATE_USER,
-	CREATE_USER_FAIL,
+    CREATE_USER_FAIL,
     INVALID_PHONE_NUMBER,
     DUPLICATE_PHONE_NUMBER,
     CREATE_USER_SUCCESS,
@@ -8,7 +8,7 @@ import {
 } from '../types'
 
 export function invalidPhoneNumber() {
-    return { type: INVALID_PHONE_NUMBER, payload: "This phone number does not look right. Phone numbers should have 10 digits." }
+  return { type: INVALID_PHONE_NUMBER, payload: "This phone number does not look right. Phone numbers should have 10 digits." }
 }
 
 export function submitUser (phoneNumber, lat, long) {

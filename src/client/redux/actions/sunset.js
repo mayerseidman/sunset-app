@@ -1,4 +1,5 @@
 import {
+    LOCATION_ERROR,
 	FETCH_SUNSET,
 	FETCH_SUNSET_FAIL,
 	FETCH_SUNSET_SUCCESS
@@ -24,4 +25,9 @@ export function fetchSunset(lat, long) {
             dispatch({ type: FETCH_SUNSET_FAIL, payload: error });
         })
     }
+}
+
+export function triggerLocationError() {
+    console.log("HOOR")
+    return { type: LOCATION_ERROR }
 }
