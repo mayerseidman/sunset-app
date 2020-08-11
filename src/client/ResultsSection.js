@@ -5,7 +5,7 @@ import BarLoader from "react-spinners/BarLoader";
 const moment = require('moment');
 
 // IMAGES
-import sunFullImg from './../assets/images/sun-new.png';
+import sunFullImg from './../assets/images/newest-sun-min.png';
 import downIcon from './../assets/images/down-icon.png';
 import profileImg from './../assets/images/profile-min.png';
 
@@ -154,36 +154,24 @@ export class ResultsSection extends Component {
 		return (
 			<div className="docsContainer">
 				<p className="headline">
-					I found myself constantly wondering what the day’s sunset would be like. <br/>
+					Howdy, I'm Mayer 👨‍🌾! <br/>
+					I found myself wondering what each day’s sunset would be like.
 					Should I head to the beach or stay at home?
 				</p>
 				<p className="text">
 					Using the <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a> API I created a simple way to find 
-					this valuable information via the website or a daily text message (<a href="https://www.twilio.com/" target="_blank">Twilio</a>). 
-					If you are curious, you can read about my design process while creating this. 
-					<br/> Lastly, if you enjoy Sunsets Are Awesome, feel free to 
+					this valuable information via this site or a daily text message (<a href="https://www.twilio.com/" target="_blank">Twilio</a>). 
+					If you enjoy Sunsets Are Awesome, feel free to 
 					<a className="donateLink" href="https://www.buymeacoffee.com/mayerseidman" target="_blank"> donate💰</a> to help keep it around.
 				</p>
 				<div className="bioSection">
-					<div className="showMobile">
-						<p>Howdy, I'm Mayer 👨‍🌾! I'm always down to connect-say hi.</p>
+					<div>
+						<p>I'm always down to connect-say hi 👋.</p>
 						<span className="links">
 							<a href="https://mayerseidman.com" target="_blank">Portfolio</a>
 							<a href="https://twitter.com/mayerseidman" target="_blank">Twitter</a>
 							<a href="https://www.linkedin.com/in/mayer-seidman/" target="_blank">LinkedIn</a>
 						</span>
-					</div>
-					<div className="hideMobile">
-						<img src={ profileImg } alt="profile"/>
-						<p className="text bioText">
-							Hi, I’m Mayer! .........................talk about what im passionate 
-							about............................connect with me, Id love to connect.
-							<span className="links">
-								<a href="https://mayerseidman.com" target="_blank">Portfolio</a>
-								<a href="https://twitter.com/mayerseidman" target="_blank">Twitter</a>
-								<a href="https://www.linkedin.com/in/mayer-seidman/" target="_blank">LinkedIn</a>
-							</span>
-						</p>
 					</div>
 				</div>
 			</div>
@@ -194,7 +182,7 @@ export class ResultsSection extends Component {
 		this.props.showDocs();
 	}
 	renderNav() {
-		var docsLink = <a className="docsLink" onClick={ this.showDocs }>DOCS</a>
+		var docsLink = <a className="docsLink" onClick={ this.showDocs }>ABOUT</a>
 		var backLink = (
 			<a className="backLink" style={{ visibility: this.state.showRubric || this.state.showDocs ? "visible" : "hidden" }}
 				onClick={ this.goBack }>BACK</a>

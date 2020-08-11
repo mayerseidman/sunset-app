@@ -64,6 +64,10 @@
         padding: 0;
         @media #{$mobile} {
             width: 295px;
+            top: 6%;
+        }
+        @media #{$biggerMobile} {
+            top: 3.5%;
         }
         @media (min-width: 480px) and (max-width: 950px) {
             width: 375px;
@@ -93,10 +97,15 @@
         }
     }
     .innerContent {
-        @media #{$mobile, $biggerMobile} {
+        @media #{$mobile} {
             width: auto;
             text-align: center;
-            top: 1%;
+            top: 0%;
+        }
+        @media #{$biggerMobile} {
+            width: auto;
+            text-align: center;
+            top: 0%;
         }
         &.homePage {
             background-image: url('./../images/bg-home.png');
@@ -195,7 +204,7 @@
                 width: 240px;
             }
             @media #{$biggerMobile} {
-                width: 350px;
+                width: 305px;
             }
             @media (min-width: 760px) {
                 width: 375px;
@@ -244,12 +253,12 @@
             }
             @media #{$biggerMobile} {
                 top: 12%;
-                width: 375px !important;
+                width: 425px !important;
                 text-align: left;
             }
             @media #{$mobile} {
                 width: 295px !important;
-                top: 7%;
+                top: 10%;
                 text-align: left;
             }
         }  
@@ -349,6 +358,10 @@
 }
 
 .docsContainer {
+    font-size: 20px;
+    @media #{$mobile} {
+        font-size: 18px;
+    }
     a {
         color: #031D44;
         &:hover {
@@ -356,7 +369,7 @@
         }
     }
     .headline {
-        font-size: 24px;
+        /*font-size: 24px;*/
         margin-bottom: 20px;
         @media #{$mobile} {
             font-size: 20px;
@@ -382,7 +395,6 @@
         }
         .links {
             display: inline-block;
-            margin-top: 10px;
             @media #{$mobile} {
                 display: block;
                 margin-top: 0px;
