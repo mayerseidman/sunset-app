@@ -1,5 +1,6 @@
 import {
     LOCATION_ERROR,
+    CLEAR_LOCATION_ERROR,
 	FETCH_SUNSET,
 	FETCH_SUNSET_FAIL,
 	FETCH_SUNSET_SUCCESS
@@ -28,6 +29,9 @@ export function fetchSunset(lat, long) {
 }
 
 export function triggerLocationError() {
-    console.log("HOOR")
     return { type: LOCATION_ERROR }
+}
+
+export function clearLocationError() {
+    return { type: CLEAR_LOCATION_ERROR }
 }

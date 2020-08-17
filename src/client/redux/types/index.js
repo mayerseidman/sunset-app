@@ -1,5 +1,6 @@
 export const FETCH_SUNSET = 'app/sunset/FETCH_SUNSET';
 export const LOCATION_ERROR = 'app/sunset/LOCATION_ERROR';
+export const CLEAR_LOCATION_ERROR = 'app/sunset/CLEAR_LOCATION_ERROR';
 export const FETCH_SUNSET_FAIL = 'app/sunset/FETCH_SUNSET_FAIL';
 export const FETCH_SUNSET_SUCCESS = 'app/sunset/FETCH_SUNSET_SUCCESS';
 

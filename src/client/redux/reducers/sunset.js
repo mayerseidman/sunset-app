@@ -1,5 +1,6 @@
 import {
 	LOCATION_ERROR,
+	CLEAR_LOCATION_ERROR,
 	FETCH_SUNSET,
 	FETCH_SUNSET_FAIL,
 	FETCH_SUNSET_SUCCESS
@@ -18,8 +19,9 @@ export default (state = initialState, action) => {
 		case FETCH_SUNSET:
 			return { ...state, loading: true }
 		case LOCATION_ERROR:
-		console.log("ERROR")
 			return { ...state, loading: false, locationError: true }
+		case CLEAR_LOCATION_ERROR:
+			return { ...state, loading: false, locationError: false }
 		case FETCH_SUNSET_FAIL:
 			return { ...state, loading: false, error: action.payload }
 		case FETCH_SUNSET_SUCCESS:

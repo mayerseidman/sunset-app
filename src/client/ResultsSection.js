@@ -11,6 +11,9 @@ import profileImg from './../assets/images/profile-min.png';
 
 // COMPONENTS
 import ErrorDisplay from './ErrorDisplay';
+
+// REDUX ACTIONS 
+import * as sunsetActions from './redux/actions/sunset';
 import * as userActions from './redux/actions/user';
 
 // CSS
@@ -150,6 +153,24 @@ export class ResultsSection extends Component {
 			</div>
 		)
 	}
+	renderLocationError() {
+		return (
+			<div className="fetchErrorText">
+				<p>
+					Sorry! To get your sunset forecast we first need your location. 
+					Please turn on location permissions for Sunsets Are Awesome. 
+				</p>
+				<p>
+					Need some help? Here's a link: 
+					<a 	className="locationLink"
+						href="https://www.wikihow.com/Enable-Location-Services-on-Google-Chrome#" 
+						target="_blank">
+						How to Enable Location Services
+					</a>
+				</p>
+			</div>
+		)
+	}
 	renderDocs() {
 		return (
 			<div className="docsContainer">
@@ -180,6 +201,7 @@ export class ResultsSection extends Component {
 	showDocs = () => {
 		this.setState({ showDocs: true, showRubric: false, showSignupForm: false })
 		this.props.showDocs();
+		this.props.clearLocationError();
 	}
 	renderNav() {
 		var docsLink = <a className="docsLink" onClick={ this.showDocs }>ABOUT</a>
@@ -285,6 +307,9 @@ export class ResultsSection extends Component {
 		} else if (sunset.error) {
 			var content = this.renderSunsetError();
 			var className = "poorResult";
+		} else if (sunset.locationError) {
+			var content = this.renderLocationError();
+			var className = "poorResult ";
 		} else {
 			if (this.state.showDocs) {
 				var className = " fullView docsView ";
@@ -360,4 +385,4 @@ const normalizeInput = (value, previousValue) => {
 export default connect((state) => ({
     sunset: state.sunset,
     user: state.user
-}), { ...userActions })(ResultsSection)
+}), { ...sunsetActions, ...userActions })(ResultsSection)
