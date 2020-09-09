@@ -32,12 +32,12 @@ body {
         position: relative;
         top: 25%;
         margin: auto;
-        width: 450px;
+        width: 400px;
         @media (min-width: 760px) and (max-width: 900px) {
             padding: 15px;
         }
         .header {
-            font-size: 60px;
+            font-size: 62px;
             font-weight: 650;
             line-height: 1.2;
             /*width: 89%;*/
