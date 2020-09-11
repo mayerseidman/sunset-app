@@ -21,6 +21,8 @@ export function fetchSunset(lat, long) {
             }
         }).then((data) => {
             const { sunset } = data;
+            sunset.lat = lat;
+            sunset.long = long;
             dispatch({ type: FETCH_SUNSET_SUCCESS, payload: sunset });
         }).catch((error) => {
             dispatch({ type: FETCH_SUNSET_FAIL, payload: error });

@@ -89,7 +89,7 @@ function sendSMS(users, timezone) {
 							const phoneNumber = user.phone_number;
 							console.log(lat, long, phoneNumber)
 							const locale = geoTz(lat, long)[0];
-							const momentDate = moment(sunset.valid_at).tz(locale).format("H:mm")
+							const momentDate = moment(sunset.valid_at).tz(locale).format('LT');
 							const message = `Your SUNS°ET Forecast:\n\nTime: ${momentDate}\nQuality: ${sunset.quality} (${sunset.quality_percent}%)\nTemperature: ${Math.floor(sunset.temperature)}°`;
 							twilioClient.messages
 				  			.create({

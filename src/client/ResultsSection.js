@@ -104,7 +104,7 @@ export class ResultsSection extends Component {
 	        const offset = this.state.offset;
 	        var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
 	    } else {
-	        var momentTime = moment(sunset.valid_at).format("H:mm");
+	        var momentTime = moment(sunset.valid_at).format('LT');
 	    }
 	    if (this.state.showFahrenheit) {
 	    	var temperatureWidget = (
@@ -118,6 +118,9 @@ export class ResultsSection extends Component {
 	    if (this.state.temperature) {
 	    	var temperature = this.state.temperature;
 	    } else {
+	    	if (sunset.lat < 49) {
+				this.changeTemperature("F")
+			}
 	    	var temperature = sunset.temperature;
 	    }
 	    if (!this.props.submissionSuccess && !this.state.showSignupForm) {
