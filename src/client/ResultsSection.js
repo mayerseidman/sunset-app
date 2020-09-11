@@ -182,8 +182,7 @@ export class ResultsSection extends Component {
 				<p className="text">
 					Using the <a href="https://sunsetwx.com/" target="_blank">SunsetWx</a> API I created a simple way to find 
 					this valuable information via this site or a daily text message (<a href="https://www.twilio.com/" target="_blank">Twilio</a>). 
-					If you enjoy Sunsets Are Awesome, feel free to 
-					<a className="donateLink" href="https://www.buymeacoffee.com/mayerseidman" target="_blank"> donate💰</a> to help keep it around.
+					If you are curious, you can read about <a href="https://mayerseidman.com/works/sunsets-are-awesome" target="_blank">my design process</a> for this project.
 				</p>
 				<div className="bioSection">
 					<div>
