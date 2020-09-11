@@ -148,7 +148,7 @@ export class ResultsSection extends Component {
 		return (
 			<div className="fetchErrorText">
 				<p>
-					Sorry! We were not able to get your sunset forecast. 
+					Sorry! We weren't able to get your sunset forecast. 
 				</p>
 				<p>	Please refresh this page and try again. 
 					Still no luck? Try again in 30 minutes.
