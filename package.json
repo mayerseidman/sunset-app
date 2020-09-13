@@ -27,6 +27,7 @@
     "jquery": "^3.5.1",
     "lodash": "^4.17.15",
     "moment": "^2.27.0",
+    "mongodb": "^3.6.2",
     "monk": "^7.3.0",
     "node-fetch": "^2.6.0",
     "node-geocoder": "^3.27.0",

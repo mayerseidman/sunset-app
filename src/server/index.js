@@ -110,10 +110,10 @@ function sendSMS(users, timezone) {
 		})
 	});
 }
+ 
+var url = (!process.env.NODE_ENV == 'production') ? 'mongodb://localhost:27017' :  process.env.MONGO_CLUSTER_URI
 
-// Cron SMS Jobs
-var url = process.env.MONGO_CLUSTER_URI || 'mongodb://localhost:27017';
-
+// Cron SMS Job
 // EST Cron Job - South Bend, IA to Bangore, ME
 var job = new CronJob('00 09 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
@@ -124,7 +124,7 @@ var job = new CronJob('00 09 * * *', function() {
 }, null, true, 'America/Los_Angeles')
 job.start()
 
-CT Cron Job - Chicago, IL to Lincoln, NE
+//CT Cron Job - Chicago, IL to Lincoln, NE
 var job = new CronJob('00 10 * * *', function() { 
 	mongodb.MongoClient.connect(url, (err, client)=>{
 		const  db = client.db('heroku_9v9cjldm') 
