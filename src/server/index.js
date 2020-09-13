@@ -124,15 +124,15 @@ var job = new CronJob('00 09 * * *', function() {
 }, null, true, 'America/Los_Angeles')
 job.start()
 
-// CT Cron Job - Chicago, IL to Lincoln, NE
-// var job = new CronJob('00 10 * * *', function() { 
-// 	mongodb.MongoClient.connect(url, (err, client)=>{
-// 		const  db = client.db('heroku_9v9cjldm') 
-// 		var users = db.collection('users')
-// 		sendSMS(users, CT)
-// 	});		
-// }, null, true, 'America/Los_Angeles')
-// job.start()
+CT Cron Job - Chicago, IL to Lincoln, NE
+var job = new CronJob('00 10 * * *', function() { 
+	mongodb.MongoClient.connect(url, (err, client)=>{
+		const  db = client.db('heroku_9v9cjldm') 
+		var users = db.collection('users')
+		sendSMS(users, CT)
+	});		
+}, null, true, 'America/Los_Angeles')
+job.start()
 
 // MT Cron Job - Eskdale, UT to Alliance, NE
 var job = new CronJob('00 11 * * *', function() { 
