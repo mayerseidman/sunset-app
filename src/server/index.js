@@ -42,8 +42,6 @@ const sunsetwx = new SunsetWx({
 	password: process.env.PASSWORD
 });
 
-console.log(sunsetwx)
-
 function findLong(long, timezone) {
 	var inRange = false;
 	switch(timezone) {
@@ -114,7 +112,7 @@ function sendSMS(users, timezone) {
 }
 
 // Cron SMS Jobs
-var url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+var url = process.env.MONGO_CLUSTER_URI || 'mongodb://localhost:27017';
 
 // EST Cron Job - South Bend, IA to Bangore, ME
 var job = new CronJob('00 09 * * *', function() { 
@@ -127,14 +125,14 @@ var job = new CronJob('00 09 * * *', function() {
 job.start()
 
 // CT Cron Job - Chicago, IL to Lincoln, NE
-var job = new CronJob('00 10 * * *', function() { 
-	mongodb.MongoClient.connect(url, (err, client)=>{
-		const  db = client.db('heroku_9v9cjldm') 
-		var users = db.collection('users')
-		sendSMS(users, CT)
-	});		
-}, null, true, 'America/Los_Angeles')
-job.start()
+// var job = new CronJob('00 10 * * *', function() { 
+// 	mongodb.MongoClient.connect(url, (err, client)=>{
+// 		const  db = client.db('heroku_9v9cjldm') 
+// 		var users = db.collection('users')
+// 		sendSMS(users, CT)
+// 	});		
+// }, null, true, 'America/Los_Angeles')
+// job.start()
 
 // MT Cron Job - Eskdale, UT to Alliance, NE
 var job = new CronJob('00 11 * * *', function() { 
@@ -188,7 +186,7 @@ job.start()
 
 function checkForExistingUsers(phoneNumber) {
 	return new Promise((resolve, reject) => {
-		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client)=>{
+		MongoClient.connect(process.env.MONGO_CLUSTER_URI || 'mongodb://localhost:27017', (err, client)=>{
 			let  db = client.db('heroku_9v9cjldm') 
 			let users = db.collection('users')
 
@@ -239,40 +237,40 @@ app.post('/api/create-user', function (req, res) {
 	const lat = req.body.user.lat;
 	const long = req.body.user.long;
 	console.log(lat, long, phoneNumber)
-	// checkForExistingUsers(phoneNumber).then(function(result) {
-	// 	console.log("result:", result)
-	// 	if (!result) {
-	// 		res.send({ error: true });
-	// 	} else {
-	// 		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
-	// 			let  db = client.db('heroku_9v9cjldm') 
-	// 			let users = db.collection('users')
+	checkForExistingUsers(phoneNumber).then(function(result) {
+		console.log("result:", result)
+		if (!result) {
+			res.send({ error: true });
+		} else {
+			MongoClient.connect(process.env.MONGO_CLUSTER_URI || 'mongodb://localhost:27017', (err, client) => {
+				let  db = client.db('heroku_9v9cjldm') 
+				let users = db.collection('users')
 				 
-	// 			users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
-	// 				if(err)  {
-	// 					console.log('error inserting', result)
-	// 			 	} else {
-	// 			 		console.log("data inserted", result)
-	// 			 		sendIntroText(phoneNumber)
-	// 			 	}
-	// 			})   
-	// 	   	});
-	// 		res.send(req.body)
-	// 	}
-	// });
-		MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', (err, client) => {
-			let  db = client.db('heroku_9v9cjldm') 
-			let users = db.collection('users')
+				users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+					if(err)  {
+						console.log('error inserting', result)
+				 	} else {
+				 		console.log("data inserted", result)
+				 		sendIntroText(phoneNumber)
+				 	}
+				})   
+		   	});
+			res.send(req.body)
+		}
+	});
+		// MongoClient.connect(process.env.MONGO_CLUSTER_URI || 'mongodb://localhost:27017', (err, client) => {
+		// 	let  db = client.db('heroku_9v9cjldm') 
+		// 	let users = db.collection('users')
 			 
-			users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
-				if(err)  {
-					console.log('error inserting', result)
-			 	} else {
-			 		console.log("data inserted", result)
-			 	}
-			})   
-	   	});
-		res.send(req.body)
+		// 	users.insertOne({ id: Math.random(), phone_number: phoneNumber, lat: lat, long: long }, (err, result)=>{
+		// 		if(err)  {
+		// 			console.log('error inserting', result)
+		// 	 	} else {
+		// 	 		console.log("data inserted", result)
+		// 	 	}
+		// 	})   
+	 //   	});
+		// res.send(req.body)
 })
 
 const EST = "EST";

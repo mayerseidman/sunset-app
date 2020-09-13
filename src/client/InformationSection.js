@@ -40,7 +40,7 @@ export class InformationSection extends Component {
 		var override = css`
 		   height: 12px;
 		   display: inline-block;
-		   width: 47%;
+		   width: 44%;
 		   margin-left: 7%;
 		   vertical-align; middle;
 		`
@@ -69,7 +69,7 @@ export class InformationSection extends Component {
 
 	renderActionsSection = () => {
 		var isLoading = this.props.user.loading || this.props.loadingUser;
-	    if (isLoading) {
+	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
 	        var loadingBar = this.renderLoadingBar();
 	    } else {
 	        var submitButton = this.renderSubmitButton();
