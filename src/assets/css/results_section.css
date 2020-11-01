@@ -1,8 +1,8 @@
 @import "../scss/variables";
-.outerContainer {
+/*.outerContainer {
     display: inline;
     background: #fafafa;
-}
+}*/
 .resultsSection {
     @media #{$mobile} {
         height: 45vh !important;
@@ -17,15 +17,19 @@
 
     &.poorResult {
         background-image: url('./../images/bg-poor.png');
+        background-repeat: no-repeat !important;
     }
     &.fairResult {
         background-image: url('./../images/bg-fair.png');
+        background-repeat: no-repeat !important;
     }
     &.goodResult {
         background-image: url('./../images/bg-good.png');
+        background-repeat: no-repeat !important;
     }
     &.greatResult {
         background-image: url('./../images/bg-great.png');
+        background-repeat: no-repeat !important;
     }
 
     &.fullView {
@@ -34,6 +38,7 @@
         -moz-transition: all 200ms ease-in-out 300ms;
         -o-transition: all 200ms ease-in-out 300ms;
         transition: all 200ms ease-in-out 300ms;
+        background-repeat: no-repeat;
 
         @media #{$mobile, $biggerMobile} {
             height: 100vh !important;
