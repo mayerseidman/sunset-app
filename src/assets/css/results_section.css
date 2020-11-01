@@ -19,16 +19,16 @@
     color: #fafafa;
 
     &.poorResult {
-        background-image: url('./../images/bg-poor.png');
+        background-image: url('./../images/bg-poor.png')!important;
     }
     &.fairResult {
-        background-image: url('./../images/bg-fair.png');
+        background-image: url('./../images/bg-fair.png') !important;
     }
     &.goodResult {
-        background-image: url('./../images/bg-good.png');
+        background-image: url('./../images/bg-good.png') !important;
     }
     &.greatResult {
-        background-image: url('./../images/bg-great.png');
+        background-image: url('./../images/bg-great.png') !important;
     }
 
     &.fullView {
