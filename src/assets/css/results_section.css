@@ -9,10 +9,10 @@
     }
     background-image: url('./../images/bg-home.png') !important;
     background-repeat: no-repeat;
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     -moz-appearace:none;
     -webkit-appearace:none;
     appearace:none;
