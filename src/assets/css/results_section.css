@@ -1,7 +1,7 @@
 @import "../scss/variables";
 .outerContainer {
     display: inline;
-    background: #fafafa;
+    /*background: #fafafa;*/
 }
 .resultsSection {
     @media #{$mobile} {
