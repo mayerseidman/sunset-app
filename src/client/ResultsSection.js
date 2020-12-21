@@ -6,8 +6,6 @@ const moment = require('moment');
 
 // IMAGES
 import sunFullImg from './../assets/images/newest-sun-min.png';
-import downIcon from './../assets/images/down-icon.png';
-import profileImg from './../assets/images/profile-min.png';
 
 // COMPONENTS
 import ErrorDisplay from './ErrorDisplay';
@@ -332,11 +330,12 @@ export class ResultsSection extends Component {
 		if (invalidPhoneNumber  || duplicatePhoneNumber) {
 			var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
 		}
-		if (this.state.showSignupForm) {
-			var revealButton = (<img className="downButton" onClick={ this.showFullView }src={ downIcon } alt=""/>)
-		} else {
-			var classNameForm = "hideForm ";
-		}
+		// if (this.state.showSignupForm) {
+		// 	var revealButton = (<img className="downButton" onClick={ this.showFullView }src={ downIcon } alt=""/>)
+		// } else {
+		// 	var classNameForm = "hideForm ";
+		// }
+		var classNameForm = "hideForm ";
 		if (this.state.showSignupForm && submissionSuccess) {
 			var successNotification = (
 				<p className="successText">
@@ -348,7 +347,6 @@ export class ResultsSection extends Component {
 			<div className={ "innerContent " + resultsClassName }>
 				{ sunset && content }
 				{ sunsetImage }
-				{ revealButton }
 			</div>
 		)
 	

@@ -18,7 +18,7 @@
     appearace:none;
     color: #fafafa;
 
-    &.poorResult {
+    /*&.poorResult {
         background-image: url('./../images/bg-poor.png')!important;
     }
     &.fairResult {
@@ -29,7 +29,7 @@
     }
     &.greatResult {
         background-image: url('./../images/bg-great.png') !important;
-    }
+    }*/
 
     &.fullView {
         -webkit-backface-visibility: hidden;
