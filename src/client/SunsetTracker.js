@@ -20,7 +20,7 @@ export class SunsetTracker extends Component {
         super(props);
         this.state = { loadingSunset: false, loadingUser: false };
     }
-    getPosition() {
+    getPosition = () => {
         // Simple Wrapper
         return new Promise((res, rej) => {
             navigator.geolocation.getCurrentPosition(res, rej);
@@ -88,7 +88,6 @@ export class SunsetTracker extends Component {
                     submissionSuccess={ this.props.user.submissionSuccess }
                     showDocs={ this.showDocs }
                     goBack={ this.goBack } />
-                <div className="bottomSection"></div>
             </div>
         );
     }

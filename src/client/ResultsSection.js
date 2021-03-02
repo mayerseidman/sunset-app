@@ -310,17 +310,19 @@ export class ResultsSection extends Component {
 		} else if (sunset.locationError) {
 			var content = this.renderLocationError();
 			var className = "poorResult ";
-		} else {
-			if (this.state.showDocs) {
-				var className = " fullView docsView ";
-				var content = this.renderDocs();
-			} else {
-				var sunsetImage = (
-					<img className={ "sunImage " + sunClassName } src={ sunFullImg } alt=""
-						onClick={ this.props.fetchSunset } />
-				)
-			}
 		}
+
+		// DOCS CONDITIONAL
+		if (this.state.showDocs) {
+			var className = " fullView docsView ";
+			var content = this.renderDocs();
+		} else {
+			var sunsetImage = (
+				<img className={ "sunImage " + sunClassName } src={ sunFullImg } alt=""
+					onClick={ this.props.fetchSunset } />
+			)
+		}
+
 		const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
 		if (invalidPhoneNumber) {
 			var type = "invalid";
@@ -366,7 +368,6 @@ export class ResultsSection extends Component {
 		
 		return (
 			<div className="outerContainer">
-				{ content }
 			</div>
 		)
 	}

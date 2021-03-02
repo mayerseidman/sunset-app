@@ -200,6 +200,7 @@ function checkForExistingUsers(phoneNumber) {
 }
 
 function fetchFromSunsetWX(lat, long) {
+	console.log("HOO")
 	return new Promise((resolve, reject) => {
 		const coordsString = '' + lat + ',' + long + '';
 	    sunsetwx.quality({
@@ -214,6 +215,7 @@ function fetchFromSunsetWX(lat, long) {
 }
 
 app.post('/api/fetch-sunset', (req, res) => {
+	console.log("FETCH")
 	var lat = req.body.lat;
 	var long = req.body.long;
 	fetchFromSunsetWX(lat, long).then((sunset) => {

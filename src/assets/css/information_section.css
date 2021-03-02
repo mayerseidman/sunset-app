@@ -1,4 +1,70 @@
 @import "../scss/variables";
+.wrapper {
+    background: radial-gradient(100% 100% at 50% 100%, #9CCEFA 0%, rgba(212, 232, 250, 0.8) 100%);
+    box-sizing: border-box;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all .3s;
+    .vertical {
+        border: 1px solid #555;
+        width: 75%;
+        height: 250px;
+        margin: auto;
+        position: relative;
+        top: 50px;
+    }
+    .horizontal {
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .informationSection {
     background: #fafafa;
     &.hideInformationSection {
