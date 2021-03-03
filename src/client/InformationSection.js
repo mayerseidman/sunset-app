@@ -145,68 +145,54 @@ export class InformationSection extends Component {
 			    <ReactTooltip />
 			</button>
 		)
+		var header = (
+			<header id="header">
+			    <div className="made-by">
+			    	<a href="http://mayerseidman.com" target="_blank">
+			    		<span>Made By</span>
+			    		<img src={ avatar } />
+			    		<img src={ colorAvatar } />
+			    	</a>
+			    </div>
+			    <div className="screen-orientation">
+			    	{ verticalButton }
+			        { horizontalButton }
+			    </div>
+			</header>
+		)
+		// ERROR HANDLING goes between landing and "actions"
+		var pageContent = (
+		    <div className="landing">
+		        <div className="intro">
+		            <h1>SUNSETS ARE AWESOME</h1>
+		            <span>Dont miss another great sunset! View the sunset forecast for your area.</span>
+		        </div>
+		        <div className="actions">
+		            <button>Find My Sunset</button>
+		            <button>Sign  Up For Daily SMS</button>
+		        </div>
+		    </div>
+		)
+		var sunsWave = (
+		    <footer id="footer">
+		        <div className="animation"></div>
+		    </footer>
+		)
 		return (
-		    <header id="header">
-		        <div className="made-by">
-		        	<a href="http://mayerseidman.com" target="_blank">
-		        		<span>Made By</span>
-		        		<img src={ avatar } />
-		        		<img src={ colorAvatar } />
-		        	</a>
-		        </div>
-		        <div className="screen-orientation">
-		        	{ verticalButton }
-		            { horizontalButton }
-		        </div>
-		    </header>
+			<div className="horizontalContainer">
+				{ header }
+				{ pageContent }
+				{ sunsWave }
+			</div>
 		)
 	}
 	renderVertical = () => {
-
+		return (
+			<div className="verticalContainer">
+			</div>
+		)
 	}
 	render() {
-		// var sunset = this.props.sunset;
-		// const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
-		// if (invalidPhoneNumber) {
-		// 	var type = "invalid";
-		// } else if (duplicatePhoneNumber) {
-		// 	var type = "duplicate";
-		// } 
-		// if (sunset.sunsetSuccess || this.props.showDocs) {
-		// 	var className = "hideInformationSection";
-		// }
-		// var actionsSection = this.renderActionsSection();
-
-		// if (this.state.showSignupForm && submissionSuccess) {
-		// 	var successNotification = (
-		// 		<p className="successNotification">
-		//     		Congrats 🎉! You signed up for a daily sunset SMS. Enjoy those sunset vibes!
-		//     	</p>
-		// 	)
-		// }
-		// if (sunset.sunsetSuccess && submissionSuccess) {
-		// 	var successNotification = (
-		// 		<p className="notificationText successText">
-		//     		Congrats 🎉! You signed up for a daily sunset SMS. Enjoy those sunset vibes!
-		//     	</p>
-		// 	)
-		// }
-		// if (invalidPhoneNumber  || duplicatePhoneNumber) {
-		// 	var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
-		// }
-		// return (
-		// 	<div className={ "section informationSection  " + className }>
-		// 		<div className="innerContent">
-		// 			<p className="header">SUNSETS ARE AWESOME</p>
-		// 			<p className="valuePropText">Dont miss another great sunset! <br/>
-		// 				View the sunset forecast for your area.
-		// 			</p>
-		// 			{ actionsSection }
-		// 			{ successNotification }
-		// 			{ this.state.showSignupForm && !submissionSuccess && errorDisplay }
-		// 		</div>
-		// 	</div>
-		// )
 		if (this.state.orientation == HORIZONTAL) {
 			var content = this.renderHorizontal()
 		} else {
@@ -218,42 +204,6 @@ export class InformationSection extends Component {
 				{ content }
 				<a href="#" onClick={ this.changeOrientation }>Turn me vertical</a>
 			</div>
-		)
-		return (
-		    <div className="landing">
-		        <div className="intro">
-		            <h1>SUNSETS ARE AWESOME</h1>
-		            <span>Dont miss another great sunset! View the sunset forecast for your area.</span>
-		        </div>
-		        {error == 0 ?
-		            <div className="error">
-		                <div className="error-icon">
-		                    <LocationIcon />
-		                </div>
-		                <div className="error-log">
-		                    <span>To get your sunset forecast we first need your location permissions to be turned on.</span>
-		                    <a href="#">How to Enable Location Services</a>
-		                </div>
-		            </div> : 
-		            <div className="error">
-		                <div className="error-icon">
-		                    <QuestionMarkIcon />
-		                </div>
-		                <div className="error-log">
-		                    <span>We could not get your sunset forecast. Please refresh this page and try again. 
-		                        <br />If it still does not work, try again in 30 minutes.</span>
-		                </div>
-		            </div>
-		        }
-		        <div className="actions">
-		            <button>
-		                <Link to="/sunset">Find My Sunset</Link>
-		            </button>
-		            <button>
-		                <Link to="/sms-signup">Sign  Up For Daily SMS</Link>
-		            </button>
-		        </div>
-		    </div>
 		)
 	}
 };

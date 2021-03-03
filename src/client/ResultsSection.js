@@ -367,7 +367,7 @@ export class ResultsSection extends Component {
 		)
 		
 		return (
-			<div className="outerContainer">
+			<div>
 			</div>
 		)
 	}

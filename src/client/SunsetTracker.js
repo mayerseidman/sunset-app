@@ -80,14 +80,6 @@ export class SunsetTracker extends Component {
                     sendUser={ this.submitUser }
                     loadingUser={ this.state.loadingUser }
                     showDocs={ this.state.showDocs } />
-                <ResultsSection
-                    fetchSunset={ this.findMySunset }
-                    loadingSunset={ this.state.loadingSunset }
-                    sendUser={ this.submitUser }
-                    loadingUser={ this.state.loadingUser }
-                    submissionSuccess={ this.props.user.submissionSuccess }
-                    showDocs={ this.showDocs }
-                    goBack={ this.goBack } />
             </div>
         );
     }
