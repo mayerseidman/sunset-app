@@ -5,6 +5,7 @@
     flex-direction: row;
     align-items: center;
     padding: 50px;
+    padding-bottom: 100px;
 }
 
 #header .made-by {

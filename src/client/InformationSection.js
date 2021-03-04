@@ -16,7 +16,7 @@ import ReactTooltip from 'react-tooltip';
 export class InformationSection extends Component {
 	constructor(props) {
 		super();
-		this.state = { showSignupForm: false, showFindSunsetButton: true, phone: '', orientation: "vertical" };
+		this.state = { showSignupForm: false, showFindSunsetButton: true, phone: '', orientation: "horizontal" };
 	}
 
 	componentDidUpdate(prevProps) {
@@ -130,7 +130,7 @@ export class InformationSection extends Component {
 	}
 	renderHorizontal = () => {
 		var horizontalButton = (
-			<button type="button" id="horizontal-screen">
+			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation }>
 			    <span data-tip="Horizontal Layout">
 			        <img src={ horizontalIcon } alt="horizontal" className="horizontal-icon" />
 			    </span>
@@ -138,7 +138,7 @@ export class InformationSection extends Component {
 			</button>
 		)
 		var verticalButton = (
-			<button type="button" id="vertical-screen">
+			<button type="button" id="vertical-screen" onClick={ this.changeOrientation }>
 			    <span data-tip="Vertical Layout">
 			        <img src={ verticalIcon } alt="vertical" className="vertical-icon" />
 			    </span>
@@ -160,7 +160,7 @@ export class InformationSection extends Component {
 			    </div>
 			</header>
 		)
-		// ERROR HANDLING goes between landing and "actions"
+		// ERROR HANDLING should go between landing and "actions"
 		var pageContent = (
 		    <div className="landing">
 		        <div className="intro">
@@ -179,16 +179,20 @@ export class InformationSection extends Component {
 		    </footer>
 		)
 		return (
-			<div className="horizontalContainer">
-				{ header }
-				{ pageContent }
-				{ sunsWave }
+			<div className="horizontalWrapper">
+				<div>
+					{ header }
+					{ pageContent }
+					{ sunsWave }
+				</div>
 			</div>
 		)
 	}
 	renderVertical = () => {
 		return (
-			<div className="verticalContainer">
+			<div className="verticalWrapper">
+				<div className="column">...</div>
+				<div className="column">...</div>
 			</div>
 		)
 	}
@@ -200,9 +204,8 @@ export class InformationSection extends Component {
 		}
 		var orientation = this.state.orientation;
 		return (
-			<div className="wrapper">
+			<div>
 				{ content }
-				<a href="#" onClick={ this.changeOrientation }>Turn me vertical</a>
 			</div>
 		)
 	}

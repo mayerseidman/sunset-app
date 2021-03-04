@@ -1,5 +1,5 @@
 @import "../scss/variables";
-.wrapper {
+.horizontalWrapper {
     background: radial-gradient(100% 100% at 50% 100%, #9CCEFA 0%, rgba(212, 232, 250, 0.8) 100%);
     box-sizing: border-box;
     height: 100vh;
@@ -17,6 +17,9 @@
         top: 50px;
     }
     .horizontal {
+    }
+    .landing {
+        margin-bottom: 6%;
     }
     .landing .intro h1 {
         font-family: Effra;
@@ -53,7 +56,7 @@
         outline: none;
         cursor: pointer;
         width: 334px;
-        height: 37px;
+        height: 45px;
         margin-right: 40px;
     }
 
@@ -75,9 +78,10 @@
     }
 
     #footer {
-        /*background: url(../../../assets/svg/bg-horizontal.svg);*/
+        background: url("./../images/suns.png");
         background-repeat: repeat-x;
         animation: bgscroll 55s infinite linear;
+        animation-fill-mode: forwards;
     }
 
     #footer .animation {
@@ -88,12 +92,21 @@
 
     @keyframes bgscroll {
         from { background-position: 0 0; }
-        to  {background-position:-1450px 0; } /*set the document width as the negative number and you should have a seamless scroll*/
+        to  { background-position: -1450px 0; } /*set the document width as the negative number and you should have a seamless scroll*/
     }
 }
 
 
-
+.verticalWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    .column {
+        background-color: lightgreen;
+        border: 1px solid red;
+        flex-basis: 50%;
+        height: 100vh;
+    }
+}
 
 
 
