@@ -44,15 +44,23 @@ export class InformationSection extends Component {
 	}
 
 	renderLoadingBar = () => {
-		var override = css`
-		   height: 12px;
-		   display: inline-block;
-		   width: 44%;
-		   margin-left: 7%;
-		   vertical-align; middle;
-		`
+		// var override = css`
+		//    height: 12px;
+		//    display: inline-block;
+		//    width: 44%;
+		//    margin-left: 7%;
+		//    vertical-align; middle;
+		// `
+	 //    return (
+	 //        <BarLoader css={ override } color={ "#bbb" } loading={ true } />
+	 //    )
 	    return (
-	        <BarLoader css={ override } color={ "#bbb" } loading={ true } />
+	    	<span className="loadingContainer">
+	    		<button class="loadingBar">
+	    			<span class="progressBar"></span>
+	    		</button>
+	    		<span className="text">🤙 Hang loose and hang tight...</span>
+	    	</span>
 	    )
 	}
 
@@ -60,11 +68,6 @@ export class InformationSection extends Component {
 		if (!this.props.sunset.sunsetSuccess) {
 			var backLink = <a onClick={ this.showFindSunsetButton }>BACK</a>
 		}
-		// if (!this.props.sunset.sunsetSuccess) {
-			
-		// } else {
-		// 	var className = "linksContainerPlain";
-		// }
 	    return (
 	    	<div className="linksContainer ">
 	    		{ backLink }
@@ -125,6 +128,7 @@ export class InformationSection extends Component {
 		this.setState({ orientation: orientation })
 	}
 	renderHorizontal = () => {
+		var isLoading = this.props.user.loading || this.props.loadingUser;
 		var horizontalButton = (
 			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation.bind(this, HORIZONTAL) }>
 			    <span data-tip="Horizontal Layout">
@@ -157,6 +161,19 @@ export class InformationSection extends Component {
 			</header>
 		)
 		// ERROR HANDLING should go between landing and "actions"
+		// if (isLoading  && !this.props.user.duplicatePhoneNumber) {
+		// 	var loadingBar = this.renderLoadingBar();
+		// 	} else {
+		// 	var submitButton = this.renderSubmitButton();
+		// }
+		if (this.props.isLoadingSunset) {
+			console.log("LOADING")
+			var loadingBar = this.renderLoadingBar();
+			} else {
+			var findSunsetButton = (
+				<button className="actionBtn" onClick={ this.props.findMySunset }>Find My Sunset</button>
+			)
+		}
 		var pageContent = (
 		    <div className="landing">
 		        <div className="intro">
@@ -164,8 +181,9 @@ export class InformationSection extends Component {
 		            <span>Dont miss another great sunset! View the sunset forecast for your area.</span>
 		        </div>
 		        <div className="actions">
-		            <button>Find My Sunset</button>
-		            <button>Sign  Up For Daily SMS</button>
+		        	{ findSunsetButton }
+		            { loadingBar }
+		            <button className="actionBtn">Sign  Up For Daily SMS</button>
 		        </div>
 		    </div>
 		)
