@@ -8,77 +8,24 @@
     justify-content: space-between;
     transition: all .3s;
     text-align: center;
-    .vertical {
+   /* .vertical {
         border: 1px solid #555;
         width: 75%;
         height: 250px;
         margin: auto;
         position: relative;
         top: 50px;
-    }
-    .horizontal {
-    }
+    }*/
+
     .landing {
         margin-bottom: 6%;
-    }
-    .landing .intro h1 {
-        font-family: Effra;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 62px;
-        line-height: 74px;
-        color: #293444;
-    }
-
-    .landing .intro span {
-        font-family: Effra;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 23px;
-        line-height: 28px;
-        color: #293444;
-    }
-
-    .landing .actions {
-        margin-top: 20px;
-    }
-
-    .landing .actions button {
-        background: #457AE6;
-        border-radius: 8px;
-        border: none;
-        font-family: Effra;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 22px;
-        line-height: 26px;
-        color: #FFFFFF;
-        outline: none;
-        cursor: pointer;
-        width: 334px;
-        height: 45px;
-        margin-right: 40px;
-    }
-
-    .landing .actions button a {
-        color: #ffffff;
-    }
-
-    .landing .actions button:last-child {
-        border: 1px solid rgba(41, 52, 68, 0.5);
-        box-sizing: border-box;
-        border-radius: 8px;
-        background: none;
-        color: rgba(41, 52, 68, 1);
-        margin: 0;
-    }
-
-    .landing .actions button:last-child a {
-        color: rgba(41, 52, 68, 1);
+        .actions button {
+            margin-right: 40px;
+        }
     }
 
     #footer {
-        background: url("./../images/suns.png");
+        background: url("./../images/suns-wave-horizontal.png");
         background-repeat: repeat-x;
         animation: bgscroll 55s infinite linear;
         animation-fill-mode: forwards;
@@ -86,7 +33,7 @@
 
     #footer .animation {
         width: 100%;
-        height: 212px;
+        height: 235px;
         position: relative; 
     }
 
@@ -97,19 +44,100 @@
 }
 
 
+.landing .intro h1 {
+    font-family: Effra;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 62px;
+    line-height: 74px;
+    color: #293444;
+}
+
+.landing .intro span {
+    font-family: Effra;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    line-height: 28px;
+    color: #293444;
+}
+
+.landing .actions {
+    margin-top: 20px;
+}
+
+.landing .actions button {
+    background: #457AE6;
+    border-radius: 8px;
+    border: none;
+    font-family: Effra;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 26px;
+    color: #FFFFFF;
+    outline: none;
+    cursor: pointer;
+    width: 334px;
+    height: 45px;
+}
+
+.landing .actions button a {
+    color: #ffffff;
+}
+
+.landing .actions button:last-child {
+    border: 1px solid rgba(41, 52, 68, 0.5);
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: none;
+    color: rgba(41, 52, 68, 1);
+    margin: 0;
+}
+
+.landing .actions button:last-child a {
+    color: rgba(41, 52, 68, 1);
+}
+
 .verticalWrapper {
+    background: radial-gradient(100% 100% at 50% 100%, #9CCEFA 0%, rgba(212, 232, 250, 0.8) 100%);
+    box-sizing: border-box;
+    height: 100vh;
     display: flex;
     flex-wrap: wrap;
     .column {
-        background-color: lightgreen;
-        border: 1px solid red;
         flex-basis: 50%;
         height: 100vh;
     }
+    .landing {
+        padding: 16%;
+        padding-top: 0;
+        padding-bottom: 0;
+        .actions button {
+            width: 48%;
+            &:nth-of-type(2) {
+                margin-left: 15px;
+            }
+        }
+    }
+    #footer {
+        background: url("./../images/suns-wave-vertical.png");
+        background-repeat: repeat-y;
+        animation: bgscrollVertical 55s infinite linear;
+        animation-fill-mode: forwards;
+    }
+
+    #footer .animation {
+       /* width: 100%;*/
+        height: calc(100vh - 3px);
+        position: relative; 
+    }
+
+    @keyframes bgscrollVertical {
+        from { background-position: 0 0; }
+        to  { background-position: 0 -1450px; } /*set the document width as the negative number and you should have a seamless scroll*/
+    }
 }
-
-
-
 
 
 

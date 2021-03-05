@@ -121,16 +121,12 @@ export class InformationSection extends Component {
 			)
 		}
 	}
-	changeOrientation = () => {
-		if (this.state.orientation === VERTICAL) {
-			this.setState({ orientation: "horizontal" })
-		} else {
-			this.setState({ orientation: VERTICAL })
-		}
+	changeOrientation = (orientation) => {
+		this.setState({ orientation: orientation })
 	}
 	renderHorizontal = () => {
 		var horizontalButton = (
-			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation }>
+			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation.bind(this, HORIZONTAL) }>
 			    <span data-tip="Horizontal Layout">
 			        <img src={ horizontalIcon } alt="horizontal" className="horizontal-icon" />
 			    </span>
@@ -138,7 +134,7 @@ export class InformationSection extends Component {
 			</button>
 		)
 		var verticalButton = (
-			<button type="button" id="vertical-screen" onClick={ this.changeOrientation }>
+			<button type="button" id="vertical-screen" onClick={ this.changeOrientation.bind(this, VERTICAL) }>
 			    <span data-tip="Vertical Layout">
 			        <img src={ verticalIcon } alt="vertical" className="vertical-icon" />
 			    </span>
@@ -189,10 +185,54 @@ export class InformationSection extends Component {
 		)
 	}
 	renderVertical = () => {
+		var horizontalButton = (
+			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation.bind(this, HORIZONTAL) }>
+			    <span data-tip="Horizontal Layout">
+			        <img src={ horizontalIcon } alt="horizontal" className="horizontal-icon" />
+			    </span>
+			    <ReactTooltip />
+			</button>
+		)
+		var verticalButton = (
+			<button type="button" id="vertical-screen" onClick={ this.changeOrientation.bind(this, VERTICAL) }>
+			    <span data-tip="Vertical Layout">
+			        <img src={ verticalIcon } alt="vertical" className="vertical-icon" />
+			    </span>
+			    <ReactTooltip />
+			</button>
+		)
+		var header = (
+			<header id="header">
+			    <div className="screen-orientation">
+			    	{ verticalButton }
+			        { horizontalButton }
+			    </div>
+			</header>
+		)
+		var pageContent = (
+		    <div className="landing">
+		        <div className="intro">
+		            <h1>SUNSETS ARE AWESOME</h1>
+		            <span>Dont miss another great sunset! View the sunset forecast for your area.</span>
+		        </div>
+		        <div className="actions">
+		            <button>Find My Sunset</button>
+		            <button>Sign  Up For Daily SMS</button>
+		        </div>
+		    </div>
+		)
+		var sunsWave = (
+		    <footer id="footer">
+		        <div className="animation"></div>
+		    </footer>
+		)
 		return (
 			<div className="verticalWrapper">
-				<div className="column">...</div>
-				<div className="column">...</div>
+				<div className="column">
+					{ header }
+					{ pageContent }
+				</div>
+				<div className="column">{ sunsWave }</div>
 			</div>
 		)
 	}
