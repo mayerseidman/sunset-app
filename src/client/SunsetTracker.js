@@ -78,6 +78,7 @@ export class SunsetTracker extends Component {
                 <InformationSection 
                     findMySunset={ this.findMySunset } 
                     sendUser={ this.submitUser }
+                    isLoadingUser={ this.state.loadingUser }
                     isLoadingSunset={ this.state.loadingSunset }
                     loadingUser={ this.state.loadingUser }
                     showDocs={ this.state.showDocs } />

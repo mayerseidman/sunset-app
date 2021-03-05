@@ -7,6 +7,8 @@ import './../assets/css/information_section.css';
 import { css } from "@emotion/core";
 import * as userActions from './redux/actions/user';
 
+import compassImg from "./../assets/images/compass.png";
+import backArrow from "./../assets/images/back.png";
 import avatar from "./../assets/images/profile.png";
 import colorAvatar from "./../assets/images/color-profile.png";
 import verticalIcon from "./../assets/images/vertical-control.png";
@@ -44,20 +46,10 @@ export class InformationSection extends Component {
 	}
 
 	renderLoadingBar = () => {
-		// var override = css`
-		//    height: 12px;
-		//    display: inline-block;
-		//    width: 44%;
-		//    margin-left: 7%;
-		//    vertical-align; middle;
-		// `
-	 //    return (
-	 //        <BarLoader css={ override } color={ "#bbb" } loading={ true } />
-	 //    )
 	    return (
 	    	<span className="loadingContainer">
-	    		<button class="loadingBar">
-	    			<span class="progressBar"></span>
+	    		<button className="loadingBar">
+	    			<span className="progressBar"></span>
 	    		</button>
 	    		<span className="text">🤙 Hang loose and hang tight...</span>
 	    	</span>
@@ -124,11 +116,17 @@ export class InformationSection extends Component {
 			)
 		}
 	}
+
+
+
+
+	goBack = () => {
+	    this.setState({ showSignupForm: false })
+	}
 	changeOrientation = (orientation) => {
 		this.setState({ orientation: orientation })
 	}
 	renderHorizontal = () => {
-		var isLoading = this.props.user.loading || this.props.loadingUser;
 		var horizontalButton = (
 			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation.bind(this, HORIZONTAL) }>
 			    <span data-tip="Horizontal Layout">
@@ -161,29 +159,72 @@ export class InformationSection extends Component {
 			</header>
 		)
 		// ERROR HANDLING should go between landing and "actions"
-		// if (isLoading  && !this.props.user.duplicatePhoneNumber) {
-		// 	var loadingBar = this.renderLoadingBar();
-		// 	} else {
-		// 	var submitButton = this.renderSubmitButton();
-		// }
+		
+		var isLoading = this.props.user.loading || this.props.isLoadingUser;
+	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
+	        var loadingBar = this.renderLoadingBar();
+	    } else {
+	        var submitButton = <button className="actionBtn" onClick={ this.submitUser }>Send Daily SMS</button>
+	    }
 		if (this.props.isLoadingSunset) {
-			console.log("LOADING")
 			var loadingBar = this.renderLoadingBar();
 			} else {
 			var findSunsetButton = (
 				<button className="actionBtn" onClick={ this.props.findMySunset }>Find My Sunset</button>
 			)
 		}
+		if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
+			var phoneNumber = <span className="phoneNumberLabel">PHONE NUMBER</span>
+			var backLink = (
+				<a className="backLink" onClick={ this.goBack }><img src={ backArrow } /></a>
+			)
+			var buttons = (
+				<div className="">
+					{ backLink }
+					<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
+					    onChange={ this.handleChange } value={ this.state.phone } />
+				    { loadingBar }
+				    { submitButton }
+				</div>
+			)
+		} else {
+			var buttons = (
+				<div>
+					{ findSunsetButton }
+					{ loadingBar }
+					<button className="actionBtn" onClick={ this.showSignupForm }>Sign  Up For Daily SMS</button>
+				</div>
+			)
+		}
+		const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
+		if (invalidPhoneNumber && this.state.showSignupForm) {
+			console.log("INVALID NUMBER")
+			var type = "invalid";
+			var subText = (
+				<div className="locationError">
+					<img src={ compassImg } />
+					<p className="text">
+						Please turn on your location permissions so we can get your sunset forecast.
+						<a>How to Enable Location Services</a>
+					</p>
+				</div>
+			)
+		} else if (duplicatePhoneNumber) {
+			var type = "duplicate";
+		} else {
+			var subText = <span className="subHeader">Dont miss another great sunset! View the sunset forecast for your area.</span>
+		}
+		// if (invalidPhoneNumber  || duplicatePhoneNumber) {
+		// 	var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
+		// }
 		var pageContent = (
 		    <div className="landing">
 		        <div className="intro">
 		            <h1>SUNSETS ARE AWESOME</h1>
-		            <span>Dont miss another great sunset! View the sunset forecast for your area.</span>
+		            { subText }
 		        </div>
 		        <div className="actions">
-		        	{ findSunsetButton }
-		            { loadingBar }
-		            <button className="actionBtn">Sign  Up For Daily SMS</button>
+		        	{ buttons }
 		        </div>
 		    </div>
 		)

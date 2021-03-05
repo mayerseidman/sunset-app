@@ -3,11 +3,11 @@
     background: radial-gradient(100% 100% at 50% 100%, #9CCEFA 0%, rgba(212, 232, 250, 0.8) 100%);
     box-sizing: border-box;
     height: 100vh;
-    display: flex;
+    /*display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transition: all .3s;
-    text-align: center;
+    justify-content: space-between;*/
+    transition: all .5s;
+    /*text-align: center;*/
    /* .vertical {
         border: 1px solid #555;
         width: 75%;
@@ -18,10 +18,46 @@
     }*/
 
     .landing {
-        margin-bottom: 6%;
+        /*margin-bottom: 6%;*/
+        margin: auto;
+        width: 50%;
+        display: block;
         .actions .actionBtn {
             margin-right: 40px;
             vertical-align: top;
+        }
+        .actions {
+            input {
+                width: 334px;
+                height: 45px;
+                display: inline-block;
+            }
+        }
+        .intro {
+            h1 {
+                margin-bottom: 0px;
+            }
+            .subHeader {
+                margin-bottom: 25px;
+                display: inline-block;
+            }
+            .locationError {
+                .text {
+                    display: inline-block;
+                    margin-left: 15px;
+                    margin-bottom: 0px;
+                }
+                a {
+                    display: block;
+                    text-align: left;
+                    color: #007bff !important;
+                }
+                img {
+                    vertical-align: top;
+                    position: relative;
+                    top: 7px;
+                }
+            }
         }
     }
 
@@ -35,7 +71,8 @@
     #footer .animation {
         width: 100%;
         height: 235px;
-        position: relative; 
+        position: relative;
+        margin-top: 7%;
     }
 
     @keyframes bgscroll {
