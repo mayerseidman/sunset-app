@@ -56,69 +56,66 @@ export class InformationSection extends Component {
 	    )
 	}
 
-	renderSubmitButton = () => {
-		if (!this.props.sunset.sunsetSuccess) {
-			var backLink = <a onClick={ this.showFindSunsetButton }>BACK</a>
-		}
-	    return (
-	    	<div className="linksContainer ">
-	    		{ backLink }
-	    		<button onClick={ this.submitUser } className="successButton sendSunsets"
-	    		    ref="submitBtn">Send Sunsets</button>
-	    	</div>
-	    )
-	}
+	// renderSubmitButton = () => {
+	// 	if (!this.props.sunset.sunsetSuccess) {
+	// 		var backLink = <a onClick={ this.showFindSunsetButton }>BACK</a>
+	// 	}
+	//     return (
+	//     	<div className="linksContainer ">
+	//     		{ backLink }
+	//     		<button onClick={ this.submitUser } className="successButton sendSunsets"
+	//     		    ref="submitBtn">Send Sunsets</button>
+	//     	</div>
+	//     )
+	// }
 
-	renderActionsSection = () => {
-		var isLoading = this.props.user.loading || this.props.loadingUser;
-	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
-	        var loadingBar = this.renderLoadingBar();
-	    } else {
-	        var submitButton = this.renderSubmitButton();
-	    }
-		if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
-			return (
-				<div className="actionsContainer">
-					<div className="inputContainer">
-						<label className="phoneNumberLabel">PHONE NUMBER</label>
-						<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
-						    onChange={ this.handleChange } value={ this.state.phone } />
-					</div>
-				    { loadingBar }
-				    { submitButton }
-				</div>
-			)	
-		} else {
-			if (this.props.sunset.sunsetSuccess && !this.props.user.submissionSuccess) {
-				var sunsetButton = (
-					<button onClick={ this.showSignupForm } className="signupButton successButton">Sign Up For Daily SMS</button>
-				)
-			} else {
-				if (this.props.user.submissionSuccess) {
-					var className = "extraWide"
-				}
-				if (!this.props.sunset.sunsetSuccess) {
-					var sunsetButton = (
-						<button onClick={ this.props.findMySunset } className={ "findSunsetButton successButton " + className }>Find My Sunset</button>
-					)
-				}
-				if (!this.props.user.submissionSuccess) {
-					var signupAction = (
-						<a className="signupLink link" onClick={ this.showSignupForm }>Sign Up For Daily SMS</a>
-					)
-				}
-			}
-			return (
-				<div>
-					{ sunsetButton }
-					{ signupAction }
-				</div>
-			)
-		}
-	}
-
-
-
+	// renderActionsSection = () => {
+	// 	var isLoading = this.props.user.loading || this.props.loadingUser;
+	//     if (isLoading  && !this.props.user.duplicatePhoneNumber) {
+	//         var loadingBar = this.renderLoadingBar();
+	//     } else {
+	//         var submitButton = this.renderSubmitButton();
+	//     }
+	// 	if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
+	// 		return (
+	// 			<div className="actionsContainer">
+	// 				<div className="inputContainer">
+	// 					<label className="phoneNumberLabel">PHONE NUMBER</label>
+	// 					<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
+	// 					    onChange={ this.handleChange } value={ this.state.phone } />
+	// 				</div>
+	// 			    { loadingBar }
+	// 			    { submitButton }
+	// 			</div>
+	// 		)	
+	// 	} else {
+	// 		if (this.props.sunset.sunsetSuccess && !this.props.user.submissionSuccess) {
+	// 			var sunsetButton = (
+	// 				<button onClick={ this.showSignupForm } className="signupButton successButton">Sign Up For Daily SMS</button>
+	// 			)
+	// 		} else {
+	// 			if (this.props.user.submissionSuccess) {
+	// 				var className = "extraWide"
+	// 			}
+	// 			if (!this.props.sunset.sunsetSuccess) {
+	// 				var sunsetButton = (
+	// 					<button onClick={ this.props.findMySunset } className={ "findSunsetButton successButton " + className }>Find My Sunset</button>
+	// 				)
+	// 			}
+	// 			if (!this.props.user.submissionSuccess) {
+	// 				var signupAction = (
+	// 					<a className="signupLink link" onClick={ this.showSignupForm }>Sign Up For Daily SMS</a>
+	// 				)
+	// 			}
+	// 		}
+	// 		return (
+	// 			<div>
+	// 				{ sunsetButton }
+	// 				{ signupAction }
+	// 			</div>
+	// 		)
+	// 	}
+	// }
 
 	goBack = () => {
 	    this.setState({ showSignupForm: false })
@@ -197,11 +194,26 @@ export class InformationSection extends Component {
 			)
 		}
 		const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
-		if (invalidPhoneNumber && this.state.showSignupForm) {
-			console.log("INVALID NUMBER")
-			var type = "invalid";
+		if (invalidPhoneNumber || duplicatePhoneNumber && this.state.showSignupForm) {
 			var subText = (
-				<div className="locationError">
+				<div className="error">
+					<img src={ compassImg } />
+					<p className="text">
+						{ this.props.user.errors[0] }
+					</p>
+				</div>
+			)
+		} else {
+			var subText = <span className="subHeader">Dont miss another great sunset! View the sunset forecast for your area.</span>
+		}
+
+		var sunset = this.props.sunset;
+		if (sunset.error) {
+			var content = this.renderSunsetFetchError();
+		} else if (sunset.locationError) {
+			// var content = this.renderLocationError();
+			var subText = (
+				<div className="error">
 					<img src={ compassImg } />
 					<p className="text">
 						Please turn on your location permissions so we can get your sunset forecast.
@@ -209,25 +221,45 @@ export class InformationSection extends Component {
 					</p>
 				</div>
 			)
-		} else if (duplicatePhoneNumber) {
-			var type = "duplicate";
+		} else if (sunset.sunsetSuccess) {
+			var className = "results";
+			var pageContent = (
+			    <div className="landing">
+			        <div className="intro">
+			            <h1>YOUR SUNSET FORECAST</h1>
+			        </div>
+			        <div className="card first">
+			        	
+			        </div>
+			        <div className="card">
+			        	
+			        </div>
+			        <div className="card">
+			        	
+			        </div>
+			    </div>
+			)
 		} else {
-			var subText = <span className="subHeader">Dont miss another great sunset! View the sunset forecast for your area.</span>
+			var pageContent = (
+			    <div className="landing">
+			        <div className="intro">
+			            <h1>SUNSETS ARE AWESOME</h1>
+			            { subText }
+			        </div>
+			        <div className="actions">
+			        	{ buttons }
+			        </div>
+			    </div>
+			)
 		}
+
+
+		// var type = "duplicate";
+		// var type = "invalid";
 		// if (invalidPhoneNumber  || duplicatePhoneNumber) {
 		// 	var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
 		// }
-		var pageContent = (
-		    <div className="landing">
-		        <div className="intro">
-		            <h1>SUNSETS ARE AWESOME</h1>
-		            { subText }
-		        </div>
-		        <div className="actions">
-		        	{ buttons }
-		        </div>
-		    </div>
-		)
+		
 		var sunsWave = (
 		    <footer id="footer">
 		        <div className="animation"></div>
@@ -235,7 +267,7 @@ export class InformationSection extends Component {
 		)
 		return (
 			<div className="horizontalWrapper">
-				<div>
+				<div className={ className }> 
 					{ header }
 					{ pageContent }
 					{ sunsWave }
@@ -296,6 +328,7 @@ export class InformationSection extends Component {
 		)
 	}
 	render() {
+		// Create separate horizontal and vertical layout components and pass them in below...
 		if (this.state.orientation == HORIZONTAL) {
 			var content = this.renderHorizontal()
 		} else {
