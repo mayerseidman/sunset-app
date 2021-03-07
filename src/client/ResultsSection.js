@@ -94,16 +94,16 @@ export class ResultsSection extends Component {
 	}
 	renderSunsetSuccess = () => {
 		var sunset = this.props.sunset.info;
-	    if (this.state.showRandomSunset) {
-	        var locationText = (
-	            <p>{ this.state.city } Suns°et Forecast: </p>
-	        )
-	        var randomLocation = "randomLocation";
-	        const offset = this.state.offset;
-	        var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
-	    } else {
-	        var momentTime = moment(sunset.valid_at).format('LT');
-	    }
+	    // if (this.state.showRandomSunset) {
+	    //     var locationText = (
+	    //         <p>{ this.state.city } Suns°et Forecast: </p>
+	    //     )
+	    //     var randomLocation = "randomLocation";
+	    //     const offset = this.state.offset;
+	    //     var momentTime = moment.utc(sunset.valid_at).utcOffset(offset).format("H:mm");
+	    // } else {
+	    //     var momentTime = moment(sunset.valid_at).format('LT');
+	    // }
 	    if (this.state.showFahrenheit) {
 	    	var temperatureWidget = (
 	    	    <a className="changeTemperatureLink link" onClick={ () => this.changeTemperature("C") }>F</a>

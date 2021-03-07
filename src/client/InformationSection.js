@@ -7,6 +7,13 @@ import './../assets/css/information_section.css';
 import { css } from "@emotion/core";
 import * as userActions from './redux/actions/user';
 
+import clockImg from "./../assets/images/clock.png";
+import thermometerImg from "./../assets/images/thermometer.png";
+import pencilImg from "./../assets/images/pencil.png";
+import changeTempImg from "./../assets/images/change-temp.png";
+
+import qualityQuestionImg from "./../assets/images/question-orange.png";
+import minimizeImg from "./../assets/images/minimize.png";
 import compassImg from "./../assets/images/compass.png";
 import backArrow from "./../assets/images/back.png";
 import avatar from "./../assets/images/profile.png";
@@ -14,6 +21,7 @@ import colorAvatar from "./../assets/images/color-profile.png";
 import verticalIcon from "./../assets/images/vertical-control.png";
 import horizontalIcon from "./../assets/images/horizontal-control.png";
 import ReactTooltip from 'react-tooltip';
+const moment = require('moment');
 
 export class InformationSection extends Component {
 	constructor(props) {
@@ -117,6 +125,39 @@ export class InformationSection extends Component {
 	// 	}
 	// }
 
+	changeTemperature = (type) => {
+		const sunset = this.props.sunset.info;
+		if (sunset) {
+			const celsius = Math.floor(sunset.temperature);
+			const fahrenheit = Math.floor(( (9 * celsius) + 160 ) / 5)
+			if (type == "F") {
+			    this.setState({ showFahrenheit: true, temperature: fahrenheit })
+			} else {
+			    this.setState({ showFahrenheit: false, temperature: celsius })
+			}
+		}
+	}
+	toggleQualityInfo = () => {
+		if (this.state.showQualityInfo) {
+			this.setState({ showQualityInfo: false })
+		} else {
+			this.setState({ showQualityInfo: true })
+		}
+	}
+	renderQualityInfo = () => {
+		var quality = this.props.sunset.info.quality;
+		console.log(quality)
+		if (quality == "Poor") {
+			var info = "Little to no color, with precipitation or a thick cloud layer often blocking a direct view of the sun.";
+		} else if (quality == "Fair") {
+			var info = "Some color for a short time, with conditions ranging from mostly cloudy, or hazy, to clear, with little to no clouds at all levels.";
+		} else if (quality == "Good") {
+			var info = "A fair amount of color, often multi-colored, lasting a considerable amount of time. Often caused by scattered clouds at multiple elvels.";
+		} else if (quality == "Great") {
+			var info = "Extremely vibrant color lasting 30 minutes or more. Often caused by multiple arrangements of clouds at multiple levels, transitioning through multiple stages of vivid color.";
+		}
+		return <p className="qualityInfo">{info}</p>
+	}
 	goBack = () => {
 	    this.setState({ showSignupForm: false })
 	}
@@ -223,19 +264,64 @@ export class InformationSection extends Component {
 			)
 		} else if (sunset.sunsetSuccess) {
 			var className = "results";
+			var momentTime = moment(sunset.valid_at).format('LT');
+			if (this.state.showFahrenheit) {
+				var temperatureWidget = (
+					<img src={ changeTempImg } onClick={ () => this.changeTemperature("C") } />
+				) 
+			} else {
+			    var temperatureWidget = (
+			        <img src={ changeTempImg } onClick={ () => this.changeTemperature("F") } />
+			    ) 
+			}
+		    if (this.state.temperature) {
+		    	var temperature = this.state.temperature;
+		    } else {
+		    	if (sunset.lat < 49) {
+					this.changeTemperature("F")
+				}
+		    	var temperature = sunset.info.temperature;
+		    }
+		    if (this.state.showQualityInfo) {
+		    	var qualityClass = " expanded";
+		    	var qualityImg = (
+		    		<img src={ minimizeImg } onClick={ this.toggleQualityInfo } />
+		    	)
+		    	var qualityInfo = this.renderQualityInfo();
+		    } else {
+		    	var qualityImg = (
+		    		<img src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } />
+		    	)
+		    }
+		    
 			var pageContent = (
 			    <div className="landing">
 			        <div className="intro">
 			            <h1>YOUR SUNSET FORECAST</h1>
 			        </div>
 			        <div className="card first">
-			        	
+			        	<div className="circle"><img src={ clockImg } /></div>
+			        	<div>
+			        		<p className="header">TIME</p>
+			        		<span className="value">{ momentTime }</span>
+			        	</div>
 			        </div>
 			        <div className="card">
-			        	
+			        	<div className="circle"><img src={ thermometerImg } /></div>
+			        	<div>
+			        		<p className="header">TEMP</p>
+			        		<span className="value temp">{ Math.floor(temperature) }°</span>
+			        		{ temperatureWidget }
+			        	</div>
 			        </div>
-			        <div className="card">
-			        	
+			        <div className={ "card " + qualityClass }>
+			        	<div className="circle"><img src={ pencilImg } /></div>
+			        	<div>
+			        		<p className="header">QUALITY</p>
+			        		<span className="value quality">{ sunset.info.quality } ({ Math.floor(sunset.info.quality_percent) }%)</span>
+			       			{ qualityImg }
+			       			{ qualityInfo }
+			        	</div>
 			        </div>
 			    </div>
 			)
