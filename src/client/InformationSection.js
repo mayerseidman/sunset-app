@@ -202,7 +202,7 @@ export class InformationSection extends Component {
 	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
 	        var loadingBar = this.renderLoadingBar();
 	    } else {
-	        var submitButton = <button className="actionBtn" onClick={ this.submitUser }>Send Daily SMS</button>
+	        var submitButton = <button className="actionBtn signUp" onClick={ this.submitUser }>Send Daily SMS</button>
 	    }
 		if (this.props.isLoadingSunset) {
 			var loadingBar = this.renderLoadingBar();
@@ -230,7 +230,7 @@ export class InformationSection extends Component {
 				<div>
 					{ findSunsetButton }
 					{ loadingBar }
-					<button className="actionBtn" onClick={ this.showSignupForm }>Sign  Up For Daily SMS</button>
+					<button className="actionBtn signUp" onClick={ this.showSignupForm }>Sign  Up For Daily SMS</button>
 				</div>
 			)
 		}

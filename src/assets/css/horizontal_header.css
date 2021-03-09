@@ -5,6 +5,7 @@
     flex-direction: row;
     align-items: center;
     padding: 50px;
+    padding-bottom: 100px;
 }
 
 #header .made-by {
@@ -27,15 +28,16 @@
   		left: 128px;
     }
     a img:last-child {
-    	display: none;
+    	opacity: 0;
     	z-index: 1;
     }
     a:hover img:last-child {
-    	display: block;  
+    	opacity: 1;
+    	transition: all .5s;
     }
     a:hover img:first-child {
     	z-index: 1000;
-    	display: none;  
+    	opacity: 0;
     }
 }
 

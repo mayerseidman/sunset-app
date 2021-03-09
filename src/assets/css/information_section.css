@@ -23,8 +23,10 @@
         width: 50%;
         display: block;
         .actions .actionBtn {
-            margin-right: 40px;
             vertical-align: top;
+            &.signUp {
+                margin-left: 40px;
+            }
         }
         .actions {
             input {
@@ -35,7 +37,7 @@
             }
         }
         .intro {
-            margin-bottom: 25px;
+            margin-bottom: 35px;
             h1 {
                 margin-bottom: 0px;
             }
@@ -71,7 +73,7 @@
         position: fixed;
         bottom: 0;
         width: 100%;
-        height: 235px;
+        height: 280px;
     }
 
     #footer .animation {
@@ -87,12 +89,16 @@
     .results {
         #header {
             padding: 50px;
+            padding-bottom: 25px;
         }
         .landing {
             width: auto;
             text-align: center;
             h1 {
                 font-size: 60px;
+            }
+            .intro {
+                margin-bottom: 35px;
             }
             .card {
                 display: inline-block;
@@ -177,7 +183,7 @@
         /*position: relative;
         top: 14px;*/
         vertical-align: top;
-        margin-right: 70px;
+        width: 334px;
         .loadingBar {
             height: 10px;
             width: 100%;
@@ -210,6 +216,7 @@
             display: block;
             position: relative;
             bottom: 5px;
+            left: 9%;
         }
     }
 }
