@@ -1,6 +1,7 @@
 import {
     LOCATION_ERROR,
     CLEAR_LOCATION_ERROR,
+    CLEAR_SUNSET_RESULTS,
 	FETCH_SUNSET,
 	FETCH_SUNSET_FAIL,
 	FETCH_SUNSET_SUCCESS
@@ -36,4 +37,8 @@ export function triggerLocationError() {
 
 export function clearLocationError() {
     return { type: CLEAR_LOCATION_ERROR }
+}
+
+export function clearSunsetResults() {
+    return { type: CLEAR_SUNSET_RESULTS }
 }

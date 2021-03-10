@@ -1,6 +1,7 @@
 import {
 	LOCATION_ERROR,
 	CLEAR_LOCATION_ERROR,
+	CLEAR_SUNSET_RESULTS,
 	FETCH_SUNSET,
 	FETCH_SUNSET_FAIL,
 	FETCH_SUNSET_SUCCESS
@@ -11,7 +12,8 @@ const initialState = {
 	loading: false,
 	error: null,
 	info: null,
-	sunsetSuccess: false
+	sunsetSuccess: false,
+	showSunsetResults: false
 }
 
 export default (state = initialState, action) => {
@@ -29,8 +31,11 @@ export default (state = initialState, action) => {
 				...state,
 				loading: false,
 				info: action.payload,
-				sunsetSuccess: true
+				sunsetSuccess: true,
+				showSunsetResults: true
 			}
+		case CLEAR_SUNSET_RESULTS:
+			return { ...state, showSunsetResults: false}
 		default:
 			return state;
 	}

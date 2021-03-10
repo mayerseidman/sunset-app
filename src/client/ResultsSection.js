@@ -387,3 +387,4 @@ export default connect((state) => ({
     sunset: state.sunset,
     user: state.user
 }), { ...sunsetActions, ...userActions })(ResultsSection)
+

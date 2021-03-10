@@ -53,7 +53,7 @@ body {
         .notificationText {
             position: relative;
             bottom: 7px;
-            width: 75%;
+            width: 80%;
             @media #{$mobile} {
                 font-size: 0.65em;
                 bottom: 6px;
@@ -65,6 +65,7 @@ body {
                 top: 15px;
                 font-weight: bold;
                 margin-top: 5px;
+                display: inline-block;
                 @media #{$mobile} {
                     top: 10px;
                 }
@@ -72,6 +73,17 @@ body {
             .text {
                 color: rgba(0,0,0, 0.85);
                 margin-bottom: 5px;
+            }
+            .escape {
+                position: absolute;
+                top: 13px;
+                right: 13px;
+                opacity: 0.5;
+                transition: all .3s;
+                &:hover {
+                    opacity: 1;
+                    cursor: pointer;
+                }
             }
         }
         .line {

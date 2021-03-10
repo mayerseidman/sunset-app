@@ -4,11 +4,12 @@ import {
     INVALID_PHONE_NUMBER,
     DUPLICATE_PHONE_NUMBER,
     CREATE_USER_SUCCESS,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    CLEAR_NOTIFICATION
 } from '../types'
 
 export function invalidPhoneNumber() {
-  return { type: INVALID_PHONE_NUMBER, payload: "Make sure your phone number is 10 digits :) ." }
+  return { type: INVALID_PHONE_NUMBER, payload: "Make sure your phone number is 10 digits :) ."}
 }
 
 export function submitUser (phoneNumber, lat, long) {
@@ -47,4 +48,8 @@ export function submitUser (phoneNumber, lat, long) {
 
 export function clearErrors() {
     return { type: CLEAR_ERRORS }
+}
+
+export function clearNotification() {
+    return { type: CLEAR_NOTIFICATION }
 }

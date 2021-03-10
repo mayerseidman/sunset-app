@@ -4,7 +4,8 @@ import {
     INVALID_PHONE_NUMBER,
     DUPLICATE_PHONE_NUMBER,
 	CREATE_USER_SUCCESS,
-	CLEAR_ERRORS
+	CLEAR_ERRORS,
+	CLEAR_NOTIFICATION
 } from '../types'
 
 const initialState = {
@@ -13,13 +14,13 @@ const initialState = {
 	error: null,
 	invalidPhoneNumber: false,
 	duplicatePhoneNumber: false,
-	submissionSuccess: false
+	submissionSuccess: false,
+	showNotification: false
 }
 
 export default (state = initialState, action) => {
 	switch (action.type) {
 		case CREATE_USER:
-			console.log("create user")
 			return { ...state, loading: true }
 		case CREATE_USER_SUCCESS:
 			return { 
@@ -28,7 +29,8 @@ export default (state = initialState, action) => {
 				loading: false,
 				invalidPhoneNumber: false,
 				duplicatePhoneNumber: false,
-				submissionSuccess: true
+				submissionSuccess: true,
+				showNotification: true
 			}
 		case CREATE_USER_FAIL:
 			return {
@@ -40,20 +42,27 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				invalidPhoneNumber: true,
-				errors: [action.payload]
+				errors: [action.payload],
+				showNotification: true
 			}
 		case DUPLICATE_PHONE_NUMBER:
 			return {
 				...state,
 				loading: false,
 				duplicatePhoneNumber: true,
-				errors: [action.payload]
+				errors: [action.payload],
+				showNotification: true
 			}
 		case CLEAR_ERRORS:
 			return {
 				...state,
 				invalidPhoneNumber: false,
 				duplicatePhoneNumber: false
+			}
+		case CLEAR_NOTIFICATION:
+			return {
+				...state,
+				showNotification: false
 			}
 		default:
 			return state;

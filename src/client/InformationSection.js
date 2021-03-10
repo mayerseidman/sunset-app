@@ -6,6 +6,7 @@ import './../assets/css/horizontal_header.css';
 import './../assets/css/information_section.css';
 import { css } from "@emotion/core";
 import * as userActions from './redux/actions/user';
+import * as sunsetActions from './redux/actions/sunset';
 
 import checkImage from "./../assets/images/icons/check.png";
 import errorImage from "./../assets/images/icons/error.png";
@@ -148,7 +149,6 @@ export class InformationSection extends Component {
 	}
 	renderQualityInfo = () => {
 		var quality = this.props.sunset.info.quality;
-		console.log(quality)
 		if (quality == "Poor") {
 			var info = "Little to no color, with precipitation or a thick cloud layer often blocking a direct view of the sun.";
 		} else if (quality == "Fair") {
@@ -162,6 +162,12 @@ export class InformationSection extends Component {
 	}
 	goBack = () => {
 	    this.setState({ showSignupForm: false })
+	}
+	closeNotification = () => {
+		this.props.clearNotification();
+	}
+	clearResults = () => {
+		this.props.clearSunsetResults();
 	}
 	changeOrientation = (orientation) => {
 		this.setState({ orientation: orientation })
@@ -194,7 +200,7 @@ export class InformationSection extends Component {
         		{ dividingLine }
                 { image }
                 <div className="notificationText">
-                    <p className="status">{ notificationStatus }</p>
+                    <p className="status">{ notificationStatus }</p><span className="escape" onClick={ this.closeNotification }>X</span>
                     <p className="text">{ notificationText }</p>
                 </div>
             </div>
@@ -218,6 +224,9 @@ export class InformationSection extends Component {
 			    <ReactTooltip />
 			</button>
 		)
+		if (this.props.sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
+			var goBackLink = <a onClick={ this.clearResults }>GO BACK</a>
+		}
 		var header = (
 			<header id="header">
 			    <div className="made-by">
@@ -226,6 +235,7 @@ export class InformationSection extends Component {
 			    		<img src={ avatar } />
 			    		<img src={ colorAvatar } />
 			    	</a>
+			    	{ goBackLink }
 			    </div>
 			    <div className="screen-orientation">
 			    	{ verticalButton }
@@ -272,7 +282,7 @@ export class InformationSection extends Component {
 			)
 		}
 		var sunset = this.props.sunset;
-		if (sunset.sunsetSuccess) {
+		if (sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
 			var className = "results";
 			var momentTime = moment(sunset.valid_at).format('LT');
 			if (this.state.showFahrenheit) {
@@ -434,8 +444,8 @@ export class InformationSection extends Component {
 		var sunsetError = this.props.sunset.error || this.props.sunset.locationError;
 		const { duplicatePhoneNumber, invalidPhoneNumber, submissionSuccess} = this.props.user;
 		const sunsetSuccess = this.props.sunset.sunsetSuccess;
-		const requiresNotification = duplicatePhoneNumber || invalidPhoneNumber || sunsetError || submissionSuccess || sunsetSuccess;
-		if (requiresNotification) {
+		const requiresNotification = duplicatePhoneNumber || invalidPhoneNumber || submissionSuccess || sunsetError;
+		if (requiresNotification && this.props.user.showNotification || this.props.sunset.showNotification) {
 			var notification = this.renderNotification();
 		}
 		return (
@@ -465,4 +475,4 @@ const normalizeInput = (value, previousValue) => {
 export default connect((state) => ({
     sunset: state.sunset,
     user: state.user
-}), { ...userActions })(InformationSection)
+}), { ...sunsetActions, ...userActions })(InformationSection)

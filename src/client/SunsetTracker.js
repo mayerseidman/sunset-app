@@ -35,6 +35,9 @@ export class SunsetTracker extends Component {
                     const lat = position.coords.latitude;
                     const long = position.coords.longitude;
                     this.props.fetchSunset(lat, long);
+                     setTimeout(() => {
+                        this.setState({ loadingSunset: false })
+                     }, 2000)
                 }).catch(function(rej) {
                     this.props.triggerLocationError();
                     this.setState({ loadingSunset: false })
