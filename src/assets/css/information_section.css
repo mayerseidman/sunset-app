@@ -27,13 +27,23 @@
             &.signUp {
                 margin-left: 40px;
             }
+            &.send {
+                margin-left: 70px;
+            }
         }
         .actions {
-            input {
-                width: 285px;
-                height: 45px;
-                display: inline-block;
-                margin-right: 70px;
+            .formContainer {
+                input {
+                    width: 275px;
+                    height: 45px;
+                    display: inline-block;
+                }
+                .backLink {
+                    margin-right: 10px;
+                }
+                .loadingContainer {
+                    margin-left: 70px;
+                }
             }
         }
         .intro {

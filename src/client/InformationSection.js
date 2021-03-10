@@ -7,6 +7,8 @@ import './../assets/css/information_section.css';
 import { css } from "@emotion/core";
 import * as userActions from './redux/actions/user';
 
+import checkImage from "./../assets/images/icons/check.png";
+import errorImage from "./../assets/images/icons/error.png";
 import clockImg from "./../assets/images/clock.png";
 import thermometerImg from "./../assets/images/thermometer.png";
 import pencilImg from "./../assets/images/pencil.png";
@@ -164,6 +166,41 @@ export class InformationSection extends Component {
 	changeOrientation = (orientation) => {
 		this.setState({ orientation: orientation })
 	}
+	renderNotification = () => {
+		var sunset = this.props.sunset;
+		var user = this.props.user;
+		if (sunset.error) {
+			var notificationStatus = "Forecast Error 👎";
+			var notificationText = "We weren't able to get your sunset forecast. Please refresh this page and try again. Still no luck? Try again in 30 minutes.";
+		} else if (sunset.locationError) {
+			var notificationStatus = "Location Error 🧭";
+			var notificationText = "Please turn on your location permissions so we can get your sunset forecast.";
+		} else if (user.duplicatePhoneNumber || user.invalidPhoneNumber) {
+			var notificationStatus = "Phone Number Error ☎️";
+			var notificationText = this.props.user.errors[0];
+		} else if (this.props.user.submissionSuccess) {
+			var notificationStatus = "Signed Up 🎉";
+			var notificationText = "You are now signed up for a daily sunset SMS. Enjoy those sunset vibes!";
+		}
+		if (this.props.user.submissionSuccess) {
+			var image = <img className="check" src={ checkImage } />;
+			var dividingLine = <span className="line"></span>;
+		} else {
+			var image = <img className="check" src={ errorImage } />;
+			var dividingLine = <span className="line error"></span>;
+		}
+        var notificationContainer = (
+            <div className="notificationContainer">
+        		{ dividingLine }
+                { image }
+                <div className="notificationText">
+                    <p className="status">{ notificationStatus }</p>
+                    <p className="text">{ notificationText }</p>
+                </div>
+            </div>
+        )
+	    return notificationContainer;
+	}
 	renderHorizontal = () => {
 		var horizontalButton = (
 			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation.bind(this, HORIZONTAL) }>
@@ -202,7 +239,7 @@ export class InformationSection extends Component {
 	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
 	        var loadingBar = this.renderLoadingBar();
 	    } else {
-	        var submitButton = <button className="actionBtn signUp" onClick={ this.submitUser }>Send Daily SMS</button>
+	        var submitButton = <button className="actionBtn send" onClick={ this.submitUser }>Send Daily SMS</button>
 	    }
 		if (this.props.isLoadingSunset) {
 			var loadingBar = this.renderLoadingBar();
@@ -217,7 +254,7 @@ export class InformationSection extends Component {
 				<a className="backLink" onClick={ this.goBack }><img src={ backArrow } /></a>
 			)
 			var buttons = (
-				<div className="">
+				<div className="formContainer">
 					{ backLink }
 					<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
 					    onChange={ this.handleChange } value={ this.state.phone } />
@@ -234,35 +271,8 @@ export class InformationSection extends Component {
 				</div>
 			)
 		}
-		const { duplicatePhoneNumber, errors, invalidPhoneNumber, submissionSuccess} = this.props.user;
-		if (invalidPhoneNumber || duplicatePhoneNumber && this.state.showSignupForm) {
-			var subText = (
-				<div className="error">
-					<img src={ compassImg } />
-					<p className="text">
-						{ this.props.user.errors[0] }
-					</p>
-				</div>
-			)
-		} else {
-			var subText = <span className="subHeader">Dont miss another great sunset! View the sunset forecast for your area.</span>
-		}
-
 		var sunset = this.props.sunset;
-		if (sunset.error) {
-			var content = this.renderSunsetFetchError();
-		} else if (sunset.locationError) {
-			// var content = this.renderLocationError();
-			var subText = (
-				<div className="error">
-					<img src={ compassImg } />
-					<p className="text">
-						Please turn on your location permissions so we can get your sunset forecast.
-						<a>How to Enable Location Services</a>
-					</p>
-				</div>
-			)
-		} else if (sunset.sunsetSuccess) {
+		if (sunset.sunsetSuccess) {
 			var className = "results";
 			var momentTime = moment(sunset.valid_at).format('LT');
 			if (this.state.showFahrenheit) {
@@ -330,7 +340,7 @@ export class InformationSection extends Component {
 			    <div className="landing">
 			        <div className="intro">
 			            <h1>SUNSETS ARE AWESOME</h1>
-			            { subText }
+			            <span className="subHeader">Dont miss another great sunset! View the sunset forecast for your area.</span>
 			        </div>
 			        <div className="actions">
 			        	{ buttons }
@@ -416,14 +426,22 @@ export class InformationSection extends Component {
 	render() {
 		// Create separate horizontal and vertical layout components and pass them in below...
 		if (this.state.orientation == HORIZONTAL) {
-			var content = this.renderHorizontal()
+			var content = this.renderHorizontal();
 		} else {
-			var content = this.renderVertical()
+			var content = this.renderVertical();
 		}
 		var orientation = this.state.orientation;
+		var sunsetError = this.props.sunset.error || this.props.sunset.locationError;
+		const { duplicatePhoneNumber, invalidPhoneNumber, submissionSuccess} = this.props.user;
+		const sunsetSuccess = this.props.sunset.sunsetSuccess;
+		const requiresNotification = duplicatePhoneNumber || invalidPhoneNumber || sunsetError || submissionSuccess || sunsetSuccess;
+		if (requiresNotification) {
+			var notification = this.renderNotification();
+		}
 		return (
 			<div>
 				{ content }
+				{ notification }
 			</div>
 		)
 	}

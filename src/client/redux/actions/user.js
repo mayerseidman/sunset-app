@@ -8,7 +8,7 @@ import {
 } from '../types'
 
 export function invalidPhoneNumber() {
-  return { type: INVALID_PHONE_NUMBER, payload: "This phone number does not look right. Phone numbers should have 10 digits." }
+  return { type: INVALID_PHONE_NUMBER, payload: "Make sure your phone number is 10 digits :) ." }
 }
 
 export function submitUser (phoneNumber, lat, long) {
@@ -35,7 +35,7 @@ export function submitUser (phoneNumber, lat, long) {
             }
         }).then((data) => {
             if (data.error) {
-                dispatch({ type: DUPLICATE_PHONE_NUMBER, payload: "This phone number is already in our system. Please use another phone number." });
+                dispatch({ type: DUPLICATE_PHONE_NUMBER, payload: "This phone number is already in our system :) ." });
             } else {
                 dispatch({ type: CREATE_USER_SUCCESS });   
             }
