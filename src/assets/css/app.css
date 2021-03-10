@@ -71,14 +71,13 @@ body {
                 }
             }
             .text {
-                color: rgba(0,0,0, 0.85);
                 margin-bottom: 5px;
             }
             .escape {
                 position: absolute;
                 top: 13px;
                 right: 13px;
-                opacity: 0.5;
+                opacity: 0.35;
                 transition: all .3s;
                 &:hover {
                     opacity: 1;

@@ -58,6 +58,11 @@
     outline: none;
     cursor: pointer;
     margin-right: 10px;
+    img {
+        &:hover {
+            opacity: 0.75;
+        }
+    }
 }
 
 #header .screen-orientation button:last-child {

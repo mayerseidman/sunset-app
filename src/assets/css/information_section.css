@@ -39,7 +39,11 @@
                     display: inline-block;
                 }
                 .backLink {
+                    cursor: pointer;
                     margin-right: 10px;
+                    &:hover {
+                        opacity: 0.75;
+                    } 
                 }
                 .loadingContainer {
                     margin-left: 70px;
@@ -100,6 +104,20 @@
         #header {
             padding: 50px;
             padding-bottom: 25px;
+            .homeLinkContainer {
+                position: relative;
+                right: 37.5%;
+                img {
+                    width: 18px;
+                    height: 18px;
+                }
+                .homeLink {
+                    &:hover {
+                        cursor: pointer;
+                        opacity: 0.75;
+                    }
+                }
+            }
         }
         .landing {
             width: auto;
@@ -146,6 +164,12 @@
                     }
                     &.quality {
                         margin-right: 10px;
+                    }
+                }
+                .control {
+                    &:hover {
+                        opacity: 0.75;
+                        cursor: pointer;
                     }
                 }
                 .qualityInfo {

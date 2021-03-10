@@ -15,6 +15,7 @@ import thermometerImg from "./../assets/images/thermometer.png";
 import pencilImg from "./../assets/images/pencil.png";
 import changeTempImg from "./../assets/images/change-temp.png";
 
+import chevronImage from "./../assets/images/icons/chevron.png";
 import qualityQuestionImg from "./../assets/images/question-orange.png";
 import minimizeImg from "./../assets/images/minimize.png";
 import compassImg from "./../assets/images/compass.png";
@@ -225,7 +226,14 @@ export class InformationSection extends Component {
 			</button>
 		)
 		if (this.props.sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
-			var goBackLink = <a onClick={ this.clearResults }>GO BACK</a>
+			var goBackLink = (
+				<span className="homeLinkContainer">
+					<a className="homeLink" onClick={ this.clearResults } data-tip="Go Back">
+						<img src={ chevronImage } />
+					</a>
+				<ReactTooltip />
+				</span>
+			)
 		}
 		var header = (
 			<header id="header">
@@ -235,8 +243,8 @@ export class InformationSection extends Component {
 			    		<img src={ avatar } />
 			    		<img src={ colorAvatar } />
 			    	</a>
-			    	{ goBackLink }
 			    </div>
+			    { goBackLink }
 			    <div className="screen-orientation">
 			    	{ verticalButton }
 			        { horizontalButton }
@@ -287,11 +295,11 @@ export class InformationSection extends Component {
 			var momentTime = moment(sunset.valid_at).format('LT');
 			if (this.state.showFahrenheit) {
 				var temperatureWidget = (
-					<img src={ changeTempImg } onClick={ () => this.changeTemperature("C") } />
+					<img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("C") } data-tip="Change to Celsius" />
 				) 
 			} else {
 			    var temperatureWidget = (
-			        <img src={ changeTempImg } onClick={ () => this.changeTemperature("F") } />
+			        <img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("F") } data-tip="Change to Fahrenheit" />
 			    ) 
 			}
 		    if (this.state.temperature) {
@@ -309,8 +317,9 @@ export class InformationSection extends Component {
 		    	)
 		    	var qualityInfo = this.renderQualityInfo();
 		    } else {
+		    	var quality = sunset.info.quality.toLocaleLowerCase()
 		    	var qualityImg = (
-		    		<img src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } />
+		    		<img className="control" src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } data-tip={ 'What does ' + quality + ' mean?' } />
 		    	)
 		    }
 		    
@@ -332,6 +341,7 @@ export class InformationSection extends Component {
 			        		<p className="header">TEMP</p>
 			        		<span className="value temp">{ Math.floor(temperature) }°</span>
 			        		{ temperatureWidget }
+			        		<ReactTooltip />
 			        	</div>
 			        </div>
 			        <div className={ "card " + qualityClass }>
@@ -341,6 +351,7 @@ export class InformationSection extends Component {
 			        		<span className="value quality">{ sunset.info.quality } ({ Math.floor(sunset.info.quality_percent) }%)</span>
 			       			{ qualityImg }
 			       			{ qualityInfo }
+			       			<ReactTooltip />
 			        	</div>
 			        </div>
 			    </div>
