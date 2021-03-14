@@ -55,8 +55,9 @@ body {
             bottom: 7px;
             width: 80%;
             @media #{$mobile} {
-                font-size: 0.65em;
+                font-size: 0.7em;
                 bottom: 6px;
+                width: 75%;
             }
             .status {
                 color: rgba(0,0,0, 0.85);
@@ -66,9 +67,6 @@ body {
                 font-weight: bold;
                 margin-top: 5px;
                 display: inline-block;
-                @media #{$mobile} {
-                    top: 10px;
-                }
             }
             .text {
                 margin-bottom: 5px;
@@ -82,6 +80,9 @@ body {
                 &:hover {
                     opacity: 1;
                     cursor: pointer;
+                }
+                @media #{$mobile} {
+                   right: 8px; 
                 }
             }
         }

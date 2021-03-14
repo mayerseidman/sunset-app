@@ -263,7 +263,7 @@ export class InformationSection extends Component {
 			var loadingBar = this.renderLoadingBar();
 			} else {
 			var findSunsetButton = (
-				<button className="actionBtn" onClick={ this.props.findMySunset }>Find My Sunset</button>
+				<button className="actionBtn findSunset" onClick={ this.props.findMySunset }>Find My Sunset</button>
 			)
 		}
 		if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
