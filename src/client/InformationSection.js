@@ -226,12 +226,10 @@ export class InformationSection extends Component {
 			</button>
 		)
 		if (this.props.sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
-			var goBackLink = (
-				<span className="homeLinkContainer">
-					<a className="homeLink" onClick={ this.clearResults } data-tip="Go Back">
-						<img src={ chevronImage } />
-					</a>
-				<ReactTooltip />
+			var backLink = (
+				<span>
+		    		<img className="backLink" src={ chevronImage } onClick={ this.clearResults } data-tip="Go Back"/>
+			    	<ReactTooltip />
 				</span>
 			)
 		}
@@ -243,8 +241,8 @@ export class InformationSection extends Component {
 			    		<img src={ avatar } />
 			    		<img src={ colorAvatar } />
 			    	</a>
+		    		{ backLink }
 			    </div>
-			    { goBackLink }
 			    <div className="screen-orientation">
 			    	{ verticalButton }
 			        { horizontalButton }
@@ -313,7 +311,7 @@ export class InformationSection extends Component {
 		    if (this.state.showQualityInfo) {
 		    	var qualityClass = " expanded";
 		    	var qualityImg = (
-		    		<img src={ minimizeImg } onClick={ this.toggleQualityInfo } />
+		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } />
 		    	)
 		    	var qualityInfo = this.renderQualityInfo();
 		    } else {
@@ -331,7 +329,7 @@ export class InformationSection extends Component {
 			        </div>
 			        <div className="card first">
 			        	<div className="circle"><img src={ clockImg } /></div>
-			        	<div>
+			        	<div className="inner">
 			        		<p className="header">TIME</p>
 			        		<span className="value">{ momentTime }</span>
 			        	</div>
@@ -341,8 +339,8 @@ export class InformationSection extends Component {
 			        	<div className="inner">
 			        		<p className="header">TEMP</p>
 			        		<span className="value temp">{ Math.floor(temperature) }°</span>
+			        		{ temperatureWidget }
 			        	</div>
-			        	{ temperatureWidget }
 			        	<ReactTooltip />
 			        </div>
 			        <div className={ "card " + qualityClass }>
@@ -350,9 +348,9 @@ export class InformationSection extends Component {
 			        	<div className="inner">
 			        		<p className="header">QUALITY</p>
 			        		<span className="value quality">{ sunset.info.quality } ({ Math.floor(sunset.info.quality_percent) }%)</span>
+			       			{ qualityImg }
 			       			{ qualityInfo }
 			        	</div>
-			        	{ qualityImg }
 			        	<ReactTooltip />
 			        </div>
 			    </div>

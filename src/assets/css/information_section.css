@@ -84,7 +84,6 @@
             }
         }
         .intro {
-            margin-bottom: 35px;
             @media (max-width: 725px) {
                 margin-bottom: 0px;
             }
@@ -197,7 +196,10 @@
                 }
             }
             .intro {
-                margin-bottom: 35px;
+                margin-bottom: 25px;
+                @media (min-width: 501px) {
+                    margin-bottom: 35px;
+                }
             }
             .card {
                 display: inline-block;
@@ -215,7 +217,8 @@
                     margin-bottom: 15px;
                 }
                 &.expanded {
-                    height: 270px;
+                    height: auto;
+                    padding-bottom: 5px;
                 }
                 .circle {
                     width: 50px;
@@ -251,6 +254,9 @@
                     font-size: 40px;
                     font-weight: bold;
                     margin-bottom: 0px;
+                    @media (min-width: 500px) and (max-width: 899px) {
+                        font-size: 32px;
+                    }
 
                     @media (max-width: 725px) {
                         display: inline-block;
@@ -280,6 +286,12 @@
                     }
                 }
                 .control {
+                    @media (max-width: 725px) {
+                        float: right;
+                        top: 20px;
+                        position: relative;
+                        left: 25px;
+                    }
                     &:hover {
                         opacity: 0.75;
                         cursor: pointer;
@@ -291,6 +303,9 @@
                     padding-left: 20px;
                     padding-right: 20px;
                     padding-top: 15px;
+                    @media (max-width: 725px) {
+                        padding: 0;
+                    }
                 }
             }
             .first {

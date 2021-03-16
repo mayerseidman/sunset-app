@@ -10,7 +10,7 @@
         padding-bottom: 25px;
         padding: 25px;
     }
-    @media (max-width: 550px) {
+    @media (max-width: 725px) {
         display: none;
     }
 }
@@ -45,6 +45,12 @@
     a:hover img:first-child {
     	z-index: 1000;
     	opacity: 0;
+    }
+    .backLink {
+        &:hover {
+            opacity: 0.75;
+            cursor: pointer;
+        }
     }
 }
 
