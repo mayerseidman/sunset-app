@@ -327,6 +327,7 @@ export class InformationSection extends Component {
 			    <div className="landing">
 			        <div className="intro">
 			            <h1>YOUR SUNSET FORECAST</h1>
+			            <h1 className="mobileHeader">YOUR SUNSET</h1>
 			        </div>
 			        <div className="card first">
 			        	<div className="circle"><img src={ clockImg } /></div>
@@ -337,22 +338,22 @@ export class InformationSection extends Component {
 			        </div>
 			        <div className="card">
 			        	<div className="circle"><img src={ thermometerImg } /></div>
-			        	<div>
+			        	<div className="inner">
 			        		<p className="header">TEMP</p>
 			        		<span className="value temp">{ Math.floor(temperature) }°</span>
-			        		{ temperatureWidget }
-			        		<ReactTooltip />
 			        	</div>
+			        	{ temperatureWidget }
+			        	<ReactTooltip />
 			        </div>
 			        <div className={ "card " + qualityClass }>
 			        	<div className="circle"><img src={ pencilImg } /></div>
-			        	<div>
+			        	<div className="inner">
 			        		<p className="header">QUALITY</p>
 			        		<span className="value quality">{ sunset.info.quality } ({ Math.floor(sunset.info.quality_percent) }%)</span>
-			       			{ qualityImg }
 			       			{ qualityInfo }
-			       			<ReactTooltip />
 			        	</div>
+			        	{ qualityImg }
+			        	<ReactTooltip />
 			        </div>
 			    </div>
 			)
