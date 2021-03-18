@@ -152,171 +152,185 @@
         from { background-position: 0 0; }
         to  { background-position: -1450px 0; } /*set the document width as the negative number and you should have a seamless scroll*/
     }
-    .results {
-        #header {
-            padding: 50px;
-            padding-bottom: 25px;
-            .homeLinkContainer {
-                position: relative;
-                right: 37.5%;
-                img {
-                    width: 18px;
-                    height: 18px;
-                }
-                .homeLink {
-                    &:hover {
-                        cursor: pointer;
-                        opacity: 0.75;
-                    }
-                }
-            }
-        }
-        .landing {
-            display: block;
-            /*flex-direction: column;
-            justify-content: center;
-            align-items: center;*/
-            @media (max-width: 725px) {
-                width: 90%;
-            }
-            h1 {
-                font-size: 60px;
-                @media (max-width: 725px) {
-                    display: none;
-                }
-                @media (min-width: 500px) {
-                    font-size: 57px;
-                }
-            }
-            .mobileHeader {
-                display: none;
-                @media (max-width: 725px) {
-                    display: block;
-                    text-align: center;
-                }
-            }
-            .intro {
-                margin-bottom: 25px;
-                @media (min-width: 501px) {
-                    margin-bottom: 35px;
-                }
-            }
-            .card {
-                display: inline-block;
-                height: 200px;
-                width: 20%;
-                margin-left: 5%;
-                vertical-align: top;
-                border-radius: 10px;
-                z-index: 1000;
-                @media (max-width: 725px) {
-                    width: 100%;
-                    margin: 0;
-                    height: 65px;
-                    padding-left: 45px;
-                    margin-bottom: 15px;
-                }
-                &.expanded {
-                    height: auto;
-                    padding-bottom: 5px;
-                }
-                .circle {
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 25px;
-                    display: block;
-                    position: relative;
-                    bottom: 25px;
-                    left: 15px;
-                    background-color: #031D44;
-                    opacity: 0.9;
-                    padding-top: 12px;
-                    @media (max-width: 725px) {
-                        width: 35px;
-                        height: 35px;
-                        border-radius: 17.5px;
-                        float: left;
-                        margin-left: 5%;
-                        margin-right: 5%;
-                        text-align: center;
-                        padding-top: 3px;
-                        bottom: 0;
-                        left: 0;
-                        margin-top: 3.5%;
-                    }
-                    img {
-                        @media (max-width: 725px) {
-                            width: 17px;
-                        }
-                    }
-                }
-                .header {
-                    font-size: 40px;
-                    font-weight: bold;
-                    margin-bottom: 0px;
-                    @media (min-width: 500px) and (max-width: 899px) {
-                        font-size: 32px;
-                    }
+}
 
-                    @media (max-width: 725px) {
-                        display: inline-block;
-                        margin-right: 3%;
-                        font-size: 24px;
-                        margin-top: 3.5%;
-                    }
-                }
-                .inner {
-                    @media (max-width: 725px) {
-                        width: 61%;
-                        display: inline-block;
-                        margin-top: 1%;
-                    }
-                    .value {
-                        font-size: 32px;
-                        &.temp {
-                            display: inline-block;
-                            width: 55px;
-                        }
-                        &.quality {
-                            margin-right: 10px;
-                        }
-                        @media (max-width: 725px) {
-                            font-size: 24px;
-                        }
-                    }
-                }
-                .control {
-                    @media (max-width: 725px) {
-                        float: right;
-                        top: 20px;
-                        position: relative;
-                        left: 25px;
-                    }
-                    &:hover {
-                        opacity: 0.75;
-                        cursor: pointer;
-                    }
-                }
-                .qualityInfo {
-                    font-size: 0.8em;
-                    text-align: left;
-                    padding-left: 20px;
-                    padding-right: 20px;
-                    padding-top: 15px;
-                    @media (max-width: 725px) {
-                        padding: 0;
-                    }
+
+
+
+.results {
+    #header {
+        padding: 50px;
+        padding-bottom: 25px;
+        .homeLinkContainer {
+            position: relative;
+            right: 37.5%;
+            img {
+                width: 18px;
+                height: 18px;
+            }
+            .homeLink {
+                &:hover {
+                    cursor: pointer;
+                    opacity: 0.75;
                 }
             }
-            .first {
-                margin-left: 0;
-            }
-        }
-        #footer {
-            /*margin-top: 3%;*/
         }
     }
+    .landing {
+        display: block;
+        /*flex-direction: column;
+        justify-content: center;
+        align-items: center;*/
+        @media (max-width: 725px) {
+            width: 90%;
+        }
+        h1 {
+            font-size: 60px;
+            @media (max-width: 725px) {
+                display: none;
+            }
+            @media (min-width: 500px) {
+                font-size: 57px;
+            }
+        }
+        .mobileHeader {
+            display: none;
+            @media (max-width: 725px) {
+                display: block;
+                text-align: center;
+            }
+        }
+        .intro {
+            margin-bottom: 25px;
+            @media (min-width: 501px) {
+                margin-bottom: 35px;
+            }
+        }
+        .card {
+            display: inline-block;
+            height: 200px;
+            width: 20%;
+            margin-left: 5%;
+            vertical-align: top;
+            border-radius: 10px;
+            z-index: 1000;
+            @media (max-width: 725px) {
+                width: 100%;
+                margin: 0;
+                height: 65px;
+                padding-left: 45px;
+                margin-bottom: 15px;
+            }
+            &.expanded {
+                height: auto;
+                padding-bottom: 5px;
+            }
+            .circle {
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+                display: block;
+                position: relative;
+                bottom: 25px;
+                left: 15px;
+                background-color: #031D44;
+                opacity: 0.9;
+                padding-top: 12px;
+                @media (max-width: 725px) {
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 17.5px;
+                    float: left;
+                    margin-left: 5%;
+                    margin-right: 5%;
+                    text-align: center;
+                    padding-top: 3px;
+                    bottom: 0;
+                    left: 0;
+                    margin-top: 3.5%;
+                }
+                img {
+                    @media (max-width: 725px) {
+                        width: 17px;
+                    }
+                }
+            }
+            .header {
+                font-size: 40px;
+                font-weight: bold;
+                margin-bottom: 0px;
+                @media (min-width: 500px) and (max-width: 899px) {
+                    font-size: 32px;
+                }
+
+                @media (max-width: 725px) {
+                    display: inline-block;
+                    margin-right: 3%;
+                    font-size: 24px;
+                    margin-top: 3.5%;
+                }
+            }
+            .inner {
+                @media (max-width: 725px) {
+                    width: 75%;
+                    display: inline-block;
+                    margin-top: 1%;
+                }
+                .value {
+                    font-size: 32px;
+                    &.temp {
+                        display: inline-block;
+                        width: 55px;
+                    }
+                    &.quality {
+                        margin-right: 10px;
+                    }
+                    @media (max-width: 725px) {
+                        font-size: 24px;
+                    }
+                }
+            }
+            .control {
+                @media (max-width: 725px) {
+                    float: right;
+                    top: 20px;
+                    position: relative;
+                    right: 25px;
+                }
+                &:hover {
+                    opacity: 0.75;
+                    cursor: pointer;
+                }
+            }
+            .qualityInfo {
+                font-size: 0.8em;
+                text-align: left;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 15px;
+                @media (max-width: 725px) {
+                    padding: 0;
+                }
+            }
+        }
+        .first {
+            margin-left: 0;
+        }
+    }
+    #footer {
+        /*margin-top: 3%;*/
+    }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 .landing .intro h1 {
@@ -459,6 +473,7 @@
         }
         .intro {
             h1 {
+                text-align: center;
                 @media (max-width: 1170px) {
                     font-size: 48px;
                     line-height: initial;
@@ -489,6 +504,41 @@
             }
             &.loadingSunset {
                 margin-left: 0;
+            }
+        }
+        .card {
+            width: 100%;
+            margin: 0;
+            height: 65px;
+            padding-left: 45px;
+            margin-bottom: 15px;
+            .circle {
+                width: 35px;
+                height: 35px;
+                border-radius: 17.5px;
+                float: left;
+                margin-left: 5%;
+                margin-right: 5%;
+                text-align: center;
+                padding-top: 3px;
+                bottom: 0;
+                left: 0;
+                margin-top: 3.5%;
+                img {
+                    width: 17px;
+                }
+            }
+            .header {
+                display: inline-block;
+                margin-right: 3%;
+                font-size: 24px;
+                margin-top: 3.5%;
+            }
+            .control {
+                float: right;
+                top: 25px;
+                position: relative;
+                right: 55px;
             }
         }
     }

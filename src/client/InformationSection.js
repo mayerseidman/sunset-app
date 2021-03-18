@@ -480,9 +480,89 @@ export class InformationSection extends Component {
 		        <div className="animation"></div>
 		    </footer>
 		)
+		var sunset = this.props.sunset;
+		if (sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
+			var className = "results";
+			var momentTime = moment(sunset.valid_at).format('LT');
+			if (this.state.showFahrenheit) {
+				var temperatureWidget = (
+					<img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("C") } data-tip="Change to Celsius" />
+				) 
+			} else {
+			    var temperatureWidget = (
+			        <img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("F") } data-tip="Change to Fahrenheit" />
+			    ) 
+			}
+		    if (this.state.temperature) {
+		    	var temperature = this.state.temperature;
+		    } else {
+		    	if (sunset.lat < 49) {
+					this.changeTemperature("F")
+				}
+		    	var temperature = sunset.info.temperature;
+		    }
+		    if (this.state.showQualityInfo) {
+		    	var qualityClass = " expanded";
+		    	var qualityImg = (
+		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } />
+		    	)
+		    	var qualityInfo = this.renderQualityInfo();
+		    } else {
+		    	var quality = sunset.info.quality.toLocaleLowerCase()
+		    	var qualityImg = (
+		    		<img className="control" src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } data-tip={ 'What does ' + quality + ' mean?' } />
+		    	)
+		    }
+		    
+			var pageContent = (
+			    <div className="landing">
+			        <div className="intro">
+			            <h1>YOUR SUNSET</h1>
+			        </div>
+			        <div className="card first">
+			        	<div className="circle"><img src={ clockImg } /></div>
+			        	<div className="inner">
+			        		<p className="header">TIME</p>
+			        		<span className="value">{ momentTime }</span>
+			        	</div>
+			        </div>
+			        <div className="card">
+			        	<div className="circle"><img src={ thermometerImg } /></div>
+			        	<div className="inner">
+			        		<p className="header">TEMP</p>
+			        		<span className="value temp">{ Math.floor(temperature) }°</span>
+			        		{ temperatureWidget }
+			        	</div>
+			        	<ReactTooltip />
+			        </div>
+			        <div className={ "card " + qualityClass }>
+			        	<div className="circle"><img src={ pencilImg } /></div>
+			        	<div className="inner">
+			        		<p className="header">QUALITY</p>
+			        		<span className="value quality">{ sunset.info.quality } ({ Math.floor(sunset.info.quality_percent) }%)</span>
+			       			{ qualityImg }
+			       			{ qualityInfo }
+			        	</div>
+			        	<ReactTooltip />
+			        </div>
+			    </div>
+			)
+		} else {
+			var pageContent = (
+			    <div className="landing">
+			        <div className="intro">
+			            <h1>SUNSETS ARE AWESOME</h1>
+			            <span className="subHeader">Dont miss another great sunset! View the sunset forecast for your area.</span>
+			        </div>
+			        <div className="actions">
+			        	{ buttons }
+			        </div>
+			    </div>
+			)
+		}
 		return (
 			<div className="verticalWrapper">
-				<div className="column">
+				<div className={ "column " + className }>
 					{ this.renderHeader() }
 					{ pageContent }
 				</div>
