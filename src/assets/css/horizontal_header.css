@@ -10,9 +10,18 @@
         padding-bottom: 25px;
         padding: 25px;
     }
-    @media (max-width: 725px) {
-        display: none;
+}
+.horizontalWrapper {
+    #header {
+        @media (max-width: 725px) {
+            display: none;
+        }
     }
+}
+.verticalWrapper {
+     #header {
+        padding-bottom: 100px;
+     }
 }
 
 #header .made-by {
@@ -56,6 +65,7 @@
 
 #header .made-by span {
     margin-right: 10px;
+    font-size: 0.8em;
 }
 
 #header .screen-orientation {

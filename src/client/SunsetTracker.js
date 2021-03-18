@@ -22,14 +22,12 @@ export class SunsetTracker extends Component {
     }
     getPosition = () => {
         // Simple Wrapper
-        console.log("run get position")
         return new Promise((res, rej) => {
             navigator.geolocation.getCurrentPosition(res, rej);
         });
     }
 
     findMySunset = () => {
-        console.log("FIND IT")
         if ("geolocation" in navigator) {
             this.setState({ loadingSunset: true })
             setTimeout(() => {

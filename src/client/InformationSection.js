@@ -208,7 +208,7 @@ export class InformationSection extends Component {
         )
 	    return notificationContainer;
 	}
-	renderHorizontal = () => {
+	renderHeader = () => {
 		var horizontalButton = (
 			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation.bind(this, HORIZONTAL) }>
 			    <span data-tip="Horizontal Layout">
@@ -233,7 +233,7 @@ export class InformationSection extends Component {
 				</span>
 			)
 		}
-		var header = (
+		return (
 			<header id="header">
 			    <div className="made-by">
 			    	<a href="http://mayerseidman.com" target="_blank">
@@ -249,6 +249,8 @@ export class InformationSection extends Component {
 			    </div>
 			</header>
 		)
+	}
+	renderHorizontal = () => {
 		// ERROR HANDLING should go between landing and "actions"
 		
 		var isLoading = this.props.user.loading || this.props.isLoadingUser;
@@ -384,7 +386,7 @@ export class InformationSection extends Component {
 		return (
 			<div className="horizontalWrapper">
 				<div className={ className }> 
-					{ header }
+					{ this.renderHeader() }
 					{ pageContent }
 					{ sunsWave }
 				</div>
@@ -436,16 +438,26 @@ export class InformationSection extends Component {
 		return (
 			<div className="verticalWrapper">
 				<div className="column">
-					{ header }
+					{ this.renderHeader() }
 					{ pageContent }
 				</div>
 				<div className="column">{ sunsWave }</div>
 			</div>
 		)
 	}
+	resizeScreen = () => {
+		if (window.innerWidth < 700) {
+		    this.setState({ showMobile: true });
+		} else {
+			this.setState({ showMobile: false });
+		}
+	}
+	componentDidMount = () => {
+		window.addEventListener("resize", this.resizeScreen.bind(this));
+	}
 	render() {
 		// Create separate horizontal and vertical layout components and pass them in below...
-		if (this.state.orientation == HORIZONTAL) {
+		if (this.state.orientation == HORIZONTAL || this.state.showMobile) {
 			var content = this.renderHorizontal();
 		} else {
 			var content = this.renderVertical();
