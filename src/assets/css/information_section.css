@@ -436,15 +436,16 @@
         height: 100vh;
     }
     .landing {
-        padding: 16%;
+        width: 75%;
+        margin: auto;
         padding-top: 0;
         padding-bottom: 0;
         .actions button {
             width: 48%;
             height: 45px;
-            &:nth-of-type(2) {
+            /*&:nth-of-type(2) {
                 margin-left: 15px;
-            }
+            }*/
             @media (max-width: 1170px) {
                 width: 100%;
                 margin-left: 0 !important;
@@ -453,12 +454,41 @@
                 }
             }
         }
+        .signUp {
+            margin-left: 12px;
+        }
         .intro {
             h1 {
                 @media (max-width: 1170px) {
                     font-size: 48px;
                     line-height: initial;
                 }
+            }
+        }
+        .formContainer {
+            input {
+                margin-left: 15px;
+                height: 45px;
+            }
+            @media (max-width: 1170px) {
+                input {
+                    width: 89%;
+                    margin-bottom: 10px;
+                }
+            }
+            .send {
+                margin-left: 15px;
+            }
+        }
+        .loadingContainer {
+            vertical-align: middle;
+            width: 49%;
+            margin-left: 10px;
+            .text {
+                text-align: center;
+            }
+            &.loadingSunset {
+                margin-left: 0;
             }
         }
     }

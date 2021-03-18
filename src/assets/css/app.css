@@ -54,6 +54,9 @@ body {
             position: relative;
             bottom: 7px;
             width: 80%;
+            padding: 15px;
+            padding-top: 0;
+            padding-bottom: 0;
             @media #{$mobile} {
                 font-size: 0.7em;
                 bottom: 6px;

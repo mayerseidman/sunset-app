@@ -67,6 +67,16 @@ export class InformationSection extends Component {
 	    	</span>
 	    )
 	}
+	renderLoadingBarVertical = () => {
+		if (this.props.isLoadingSunset) {
+			var className = "loadingSunset";
+		}
+		return (
+			<span className={ "loadingContainer " + className }>
+				<span className="text">🤙 Hang loose and hang tight...</span>
+			</span>
+		)
+	}
 
 	// renderSubmitButton = () => {
 	// 	if (!this.props.sunset.sunsetSuccess) {
@@ -252,7 +262,6 @@ export class InformationSection extends Component {
 	}
 	renderHorizontal = () => {
 		// ERROR HANDLING should go between landing and "actions"
-		
 		var isLoading = this.props.user.loading || this.props.isLoadingUser;
 	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
 	        var loadingBar = this.renderLoadingBar();
@@ -394,6 +403,43 @@ export class InformationSection extends Component {
 		)
 	}
 	renderVertical = () => {
+		var isLoading = this.props.user.loading || this.props.isLoadingUser;
+	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
+	        var loadingBar = this.renderLoadingBarVertical();
+	    } else {
+	        var submitButton = <button className="send" onClick={ this.submitUser }>Send Daily SMS</button>
+	    }
+		if (this.props.isLoadingSunset) {
+			var loadingBar = this.renderLoadingBarVertical();
+			} else {
+			var findSunsetButton = (
+				<button onClick={ this.props.findMySunset }>Find My Sunset</button>
+			)
+		}
+		if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
+			var phoneNumber = <span className="phoneNumberLabel">PHONE NUMBER</span>
+			var backLink = (
+				<a className="backLink" onClick={ this.goBack }><img src={ backArrow } /></a>
+			)
+			var buttons = (
+				<div className="formContainer">
+					{ backLink }
+					<input type="text" className="phone" ref="phone_number" placeholder="(123) 456-7890"
+					    onChange={ this.handleChange } value={ this.state.phone } />
+				    { loadingBar }
+				    { submitButton }
+				</div>
+			)
+		} else {
+			var buttons = (
+				<div>
+					{ findSunsetButton }
+					{ loadingBar }
+					<button className="signUp" onClick={ this.showSignupForm }>Sign  Up For Daily SMS</button>
+				</div>
+			)
+		}
+		var sunset = this.props.sunset;
 		var horizontalButton = (
 			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation.bind(this, HORIZONTAL) }>
 			    <span data-tip="Horizontal Layout">
@@ -425,8 +471,7 @@ export class InformationSection extends Component {
 		            <span>Dont miss another great sunset! View the sunset forecast for your area.</span>
 		        </div>
 		        <div className="actions">
-		            <button>Find My Sunset</button>
-		            <button>Sign  Up For Daily SMS</button>
+		            { buttons }
 		        </div>
 		    </div>
 		)
