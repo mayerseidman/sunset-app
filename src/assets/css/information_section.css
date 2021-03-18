@@ -471,9 +471,13 @@
         .signUp {
             margin-left: 12px;
         }
-        .intro {
+        .results {
             h1 {
                 text-align: center;
+            }
+        }
+        .intro {
+            h1 {
                 @media (max-width: 1170px) {
                     font-size: 48px;
                     line-height: initial;
