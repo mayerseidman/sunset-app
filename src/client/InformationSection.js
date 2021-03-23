@@ -248,7 +248,6 @@ export class InformationSection extends Component {
 			    <div className="made-by">
 			    	<a href="http://mayerseidman.com" target="_blank">
 			    		<span>Made By</span>
-			    		<img src={ avatar } />
 			    		<img src={ colorAvatar } />
 			    	</a>
 		    		{ backLink }

@@ -38,22 +38,14 @@
     	color: #031D44;
     	text-decoration: none;
     }
-    /*img {
-    	position: absolute;
-  		top: 40px;
-  		left: 128px;
-    }*/
-    a img:last-child {
-    	opacity: 0;
-    	z-index: 1;
-    }
-    a:hover img:last-child {
-    	opacity: 1;
-    	transition: all .5s;
-    }
-    a:hover img:first-child {
-    	z-index: 1000;
-    	opacity: 0;
+    img {
+        filter: gray; /* IE6-9 */
+        -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+        filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+        transition: all .5s;
+        &:hover {
+            filter: none;
+        }
     }
     .backLink {
         &:hover {

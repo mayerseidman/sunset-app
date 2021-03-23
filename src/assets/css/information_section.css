@@ -149,6 +149,7 @@
     }
 
     @keyframes bgscroll {
+        animation-fill-mode: forwards;
         from { background-position: 0 0; }
         to  { background-position: -1450px 0; } /*set the document width as the negative number and you should have a seamless scroll*/
     }
@@ -560,6 +561,7 @@
     }
 
     @keyframes bgscrollVertical {
+        animation-fill-mode: forwards;
         from { background-position: 0 0; }
         to  { background-position: 0 -1450px; } /*set the document width as the negative number and you should have a seamless scroll*/
     }
