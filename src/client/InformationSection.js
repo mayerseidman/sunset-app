@@ -63,7 +63,7 @@ export class InformationSection extends Component {
 	    		<button className="loadingBar">
 	    			<span className="progressBar"></span>
 	    		</button>
-	    		<span className="text">🤙 Hang loose and hang tight...</span>
+	    		<span className="horizontalText">🤙 Hang loose and hang tight...</span>
 	    	</span>
 	    )
 	}
@@ -73,9 +73,28 @@ export class InformationSection extends Component {
 		}
 		return (
 			<span className={ "loadingContainer " + className }>
-				<span className="text">🤙 Hang loose and hang tight...</span>
+				<span className="text">🤙 Hang loose and hang tight</span><span class="loading"></span>
 			</span>
 		)
+	}
+
+	fetchBackground = () => {
+		var quality = this.props.sunset.info.quality;
+		switch (quality) {
+			case "Poor":
+				var className = "poorResult";
+				break;
+			case "Fair":
+		    	var className = "fairResult";
+				break;
+			case "Good":
+				var className = "goodResult";
+				break;
+			case "Great":
+				var className = "greatResult";
+				break;
+		}
+		return className;
 	}
 
 	// renderSubmitButton = () => {
@@ -248,7 +267,7 @@ export class InformationSection extends Component {
 			    <div className="made-by">
 			    	<a href="http://mayerseidman.com" target="_blank">
 			    		<span>Made By</span>
-			    		<img src={ colorAvatar } />
+			    		<img className="avatar" src={ colorAvatar } />
 			    	</a>
 		    		{ backLink }
 			    </div>
@@ -299,6 +318,7 @@ export class InformationSection extends Component {
 		}
 		var sunset = this.props.sunset;
 		if (sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
+			var bgClassName = this.fetchBackground();
 			var className = "results";
 			var momentTime = moment(sunset.valid_at).format('LT');
 			if (this.state.showFahrenheit) {
@@ -392,7 +412,7 @@ export class InformationSection extends Component {
 		    </footer>
 		)
 		return (
-			<div className="horizontalWrapper">
+			<div className={ "horizontalWrapper " + bgClassName }>
 				<div className={ className }> 
 					{ this.renderHeader() }
 					{ pageContent }
@@ -412,7 +432,7 @@ export class InformationSection extends Component {
 			var loadingBar = this.renderLoadingBarVertical();
 			} else {
 			var findSunsetButton = (
-				<button onClick={ this.props.findMySunset }>Find My Sunset</button>
+				<button className="actionBtn" onClick={ this.props.findMySunset }>Find My Sunset</button>
 			)
 		}
 		if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
@@ -434,7 +454,7 @@ export class InformationSection extends Component {
 				<div>
 					{ findSunsetButton }
 					{ loadingBar }
-					<button className="signUp" onClick={ this.showSignupForm }>Sign  Up For Daily SMS</button>
+					<button className="signUp actionBtn" onClick={ this.showSignupForm }>Sign  Up For Daily SMS</button>
 				</div>
 			)
 		}
@@ -481,6 +501,7 @@ export class InformationSection extends Component {
 		)
 		var sunset = this.props.sunset;
 		if (sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
+			var bgClassName = this.fetchBackground();
 			var className = "results";
 			var momentTime = moment(sunset.valid_at).format('LT');
 			if (this.state.showFahrenheit) {
@@ -560,7 +581,7 @@ export class InformationSection extends Component {
 			)
 		}
 		return (
-			<div className="verticalWrapper">
+			<div className={ "verticalWrapper " + bgClassName }>
 				<div className={ "column " + className }>
 					{ this.renderHeader() }
 					{ pageContent }

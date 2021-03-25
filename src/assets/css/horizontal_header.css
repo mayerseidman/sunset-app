@@ -38,16 +38,17 @@
     	color: #031D44;
     	text-decoration: none;
     }
-    img {
+    .avatar {
         filter: gray; /* IE6-9 */
         -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
         filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
-        transition: all .5s;
+        transition: all .3s ease-in-out;;
         &:hover {
             filter: none;
         }
     }
     .backLink {
+        margin-left: 25px;
         &:hover {
             opacity: 0.75;
             cursor: pointer;
@@ -88,7 +89,7 @@
 }
 
 #header .avatar {
-    border: 0.5px solid rgba(0, 0, 0, 0.3);
+    /*border: 1px solid #eee;*/
     box-sizing: border-box;
     border-radius: 100px;
 }

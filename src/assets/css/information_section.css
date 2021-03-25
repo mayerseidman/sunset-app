@@ -1,4 +1,18 @@
 @import "../scss/variables";
+
+.loading::after {
+      display: inline-block;
+      animation: dotty steps(1,end) 2s infinite;
+      content: '';
+}
+    
+@keyframes dotty {
+    0%   { content: ''; }
+    25%  { content: '.'; }
+    50%  { content: '..'; }
+    75%  { content: '...'; }
+    100% { content: ''; }
+}
 .horizontalWrapper {
     background: radial-gradient(100% 100% at 50% 100%, #9CCEFA 0%, rgba(212, 232, 250, 0.8) 100%);
     box-sizing: border-box;
@@ -21,7 +35,7 @@
         /*margin-bottom: 6%;*/
         text-align: center;
         @media (max-width: 725px) {
-            width: 80%;
+            width: 90%;
             margin: auto;
             text-align: left;
             padding-top: 15px;
@@ -156,8 +170,6 @@
 }
 
 
-
-
 .results {
     #header {
         padding: 50px;
@@ -219,7 +231,7 @@
                 width: 100%;
                 margin: 0;
                 height: 65px;
-                padding-left: 45px;
+                padding-left: 0px;
                 margin-bottom: 15px;
             }
             &.expanded {
@@ -273,7 +285,7 @@
             }
             .inner {
                 @media (max-width: 725px) {
-                    width: 75%;
+                    width: 79%;
                     display: inline-block;
                     margin-top: 1%;
                 }
@@ -325,8 +337,12 @@
 
 
 
-
-
+.backLink {
+    cursor: pointer;
+    &:hover {
+        opacity: 0.75;
+    } 
+}
 
 
 
@@ -339,14 +355,14 @@
     font-style: normal;
     font-weight: bold;
     font-size: 62px;
-    line-height: 74px;
+    line-height: 70px;
     color: #293444;
     @media (max-width: 450px) {
-        font-size: 52px;
+        font-size: 50px;
         line-height: 55px;
     }
     @media (max-height: 699px) {
-        font-size: 48px;
+        font-size: 50px;
     }
 }
 
@@ -396,7 +412,7 @@
                 animation: progress-animation 5s ease-in-out;
             }
         }
-        .text {
+        .horizontalText {
             display: block;
             position: relative;
             bottom: 5px;
@@ -408,15 +424,15 @@
 }
 
 .landing .actions .actionBtn {
-    background: #457AE6;
+    /*background: #457AE6;
     border-radius: 8px;
-    border: none;
+    border: none;*/
     font-family: Effra;
     font-style: normal;
     font-weight: normal;
     font-size: 22px;
     line-height: 26px;
-    color: #FFFFFF;
+    /*color: #FFFFFF;*/
     outline: none;
     cursor: pointer;
     width: 334px;
@@ -428,16 +444,25 @@
 }
 
 .landing .actions .actionBtn:last-child {
-    border: 1px solid rgba(41, 52, 68, 0.5);
+    /*border: 1px solid rgba(41, 52, 68, 0.5);*/
     box-sizing: border-box;
-    border-radius: 8px;
+    /*border-radius: 8px;*/
     background: none;
     color: rgba(41, 52, 68, 1);
     margin: 0;
+    &:hover {
+        background: #e3e3e3;
+    }
 }
 
 .landing .actions .actionBtn:last-child a {
     color: rgba(41, 52, 68, 1);
+}
+
+button {
+    &:hover {
+        background: #e3e3e3;
+    }
 }
 
 .verticalWrapper {
@@ -449,6 +474,11 @@
     .column {
         flex-basis: 50%;
         height: 100vh;
+    }
+    .results {
+        h1 {
+            text-align: center;
+        }
     }
     .landing {
         width: 75%;
@@ -470,12 +500,7 @@
             }
         }
         .signUp {
-            margin-left: 12px;
-        }
-        .results {
-            h1 {
-                text-align: center;
-            }
+            margin-left: 15px !important;
         }
         .intro {
             h1 {
@@ -510,6 +535,10 @@
             &.loadingSunset {
                 margin-left: 0;
             }
+            @media (max-width: 1170px) {
+                 width: 100%;
+                 margin-bottom: 10px;
+            }
         }
         .card {
             width: 100%;
@@ -517,6 +546,10 @@
             height: 65px;
             padding-left: 45px;
             margin-bottom: 15px;
+            padding-top: 14px;
+            @media (max-width: 1100px) {
+                padding-left: 10px;
+            }
             .circle {
                 width: 35px;
                 height: 35px;
@@ -528,7 +561,6 @@
                 padding-top: 3px;
                 bottom: 0;
                 left: 0;
-                margin-top: 3.5%;
                 img {
                     width: 17px;
                 }
@@ -537,13 +569,31 @@
                 display: inline-block;
                 margin-right: 3%;
                 font-size: 24px;
-                margin-top: 3.5%;
+                @media (max-width: 1100px) {
+                   font-size: 20px;
+                }
             }
             .control {
                 float: right;
-                top: 25px;
+                top: 16px;
                 position: relative;
-                right: 55px;
+                right: 25px;
+                @media (max-width: 1100px) {
+                    right: 10px;
+                }
+            }
+            .inner {
+                vertical-align: middle;
+                position: relative;
+                bottom: 7px;
+                @media (max-width: 1100px) {
+                    bottom: 4px;
+                }
+                .value {
+                     @media (max-width: 1100px) {
+                        font-size: 27px;
+                    }
+                }
             }
         }
     }
@@ -565,6 +615,19 @@
         from { background-position: 0 0; }
         to  { background-position: 0 -1450px; } /*set the document width as the negative number and you should have a seamless scroll*/
     }
+}
+
+.poorResult {
+    background: radial-gradient(80.54% 80.54% at 50.13% 90.76%, #343535 0%, rgba(159, 161, 164, 0.75) 100%);
+}
+.fairResult {
+    background: linear-gradient(180deg, #ACCBE8 10.47%, rgba(239, 207, 102, 0.75) 84.22%);
+}
+.goodResult {
+    background: linear-gradient(180deg, #EEDD6D 9.73%, rgba(242, 196, 112, 0.75) 82.86%);
+}
+.greatResult {
+    background: linear-gradient(180deg, #FBE15E 0%, rgba(224, 129, 83, 0.75) 100%);
 }
 
 

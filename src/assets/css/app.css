@@ -22,7 +22,7 @@ body {
     .notificationContainer {
         z-index: 1000000;
         position: fixed;
-        width: 34%;
+        width: 485px;
         bottom: 35px;
         margin: auto;
         left: 0;
