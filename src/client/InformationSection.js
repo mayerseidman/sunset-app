@@ -173,8 +173,13 @@ export class InformationSection extends Component {
 	toggleQualityInfo = () => {
 		if (this.state.showQualityInfo) {
 			this.setState({ showQualityInfo: false })
+			// setTimeout(() => {
+				
+			// }, 250)
 		} else {
-			this.setState({ showQualityInfo: true })
+			// setTimeout(() => {
+				this.setState({ showQualityInfo: true })
+			// }, 250)
 		}
 	}
 	renderQualityInfo = () => {
@@ -341,7 +346,7 @@ export class InformationSection extends Component {
 		    if (this.state.showQualityInfo) {
 		    	var qualityClass = " expanded";
 		    	var qualityImg = (
-		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } />
+		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } data-tip="Close" />
 		    	)
 		    	var qualityInfo = this.renderQualityInfo();
 		    } else {
@@ -524,7 +529,7 @@ export class InformationSection extends Component {
 		    if (this.state.showQualityInfo) {
 		    	var qualityClass = " expanded";
 		    	var qualityImg = (
-		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } />
+		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } data-tip="Close" />
 		    	)
 		    	var qualityInfo = this.renderQualityInfo();
 		    } else {

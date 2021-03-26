@@ -227,6 +227,7 @@
             vertical-align: top;
             border-radius: 10px;
             z-index: 1000;
+            transition: height .5s;
             @media (max-width: 725px) {
                 width: 100%;
                 margin: 0;
@@ -235,8 +236,11 @@
                 margin-bottom: 15px;
             }
             &.expanded {
-                height: auto;
+                height: 265px;
                 padding-bottom: 5px;
+                @media (max-width: 725px) {
+                    height: 135px;
+                }
             }
             .circle {
                 width: 50px;
@@ -427,6 +431,7 @@
     /*background: #457AE6;
     border-radius: 8px;
     border: none;*/
+    border: 2px solid #293544;
     font-family: Effra;
     font-style: normal;
     font-weight: normal;
@@ -595,6 +600,10 @@ button {
                     }
                 }
             }
+        }
+        .expanded {
+            height: 155px !important;
+            padding-bottom: 5px;
         }
     }
     #footer {
