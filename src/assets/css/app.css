@@ -14,6 +14,126 @@ body {
     /*color: #6E86B0 !important;*/
 }
 .sunsetContainer {
+
+
+
+
+
+    .notificationContainer {
+        z-index: 1000000;
+        position: fixed;
+        width: 485px;
+        bottom: 35px;
+        margin: auto;
+        left: 0;
+        right: 0;
+        background: #eee;
+        border-radius: 5px;
+        box-shadow: 0 0.16rem 0.36rem 0 rgba(0, 0, 0, 0.13), 0 0.03rem 0.09rem 0 rgba(0, 0, 0, 0.11);
+        -webkit-animation: fadein 2s linear; /* Safari, Chrome and Opera > 12.1 */
+        -moz-animation: fadein 2s linear; /* Firefox < 16 */
+        -ms-animation: fadein 2s linear; /* Internet Explorer */
+        -o-animation: fadein 2s linear; /* Opera < 12.1 */
+        animation: fadein 2s linear;
+        @media #{$mobile} {
+            bottom: 225px;
+            -webkit-animation: fadeinMobile 2s linear; /* Safari, Chrome and Opera > 12.1 */
+            -moz-animation: fadeinMobile 2s linear; /* Firefox < 16 */
+            -ms-animation: fadeinMobile 2s linear; /* Internet Explorer */
+            -o-animation: fadeinMobile 2s linear; /* Opera < 12.1 */
+            animation: fadeinMobile 2s linear;
+        }
+        @media screen and (max-width: 500px) {
+            width: 97% !important;
+        }
+        .notificationText, .line {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .notificationText {
+            position: relative;
+            bottom: 7px;
+            width: 80%;
+            padding: 15px;
+            padding-top: 0;
+            padding-bottom: 0;
+            @media #{$mobile} {
+                font-size: 0.7em;
+                bottom: 6px;
+                width: 75%;
+            }
+            .status {
+                color: rgba(0,0,0, 0.85);
+                text-align: left;
+                position: relative;
+                top: 15px;
+                font-weight: bold;
+                margin-top: 5px;
+                display: inline-block;
+            }
+            .text {
+                margin-bottom: 5px;
+            }
+            .escape {
+                position: absolute;
+                top: 13px;
+                right: 13px;
+                opacity: 0.35;
+                transition: all .3s;
+                &:hover {
+                    opacity: 1;
+                    cursor: pointer;
+                }
+                @media #{$mobile} {
+                   right: 8px; 
+                }
+            }
+        }
+        .line {
+            height: 60px;
+            width: 5px;
+            background: #4FA47D;
+            border-radius: 5px;
+            margin-left: 1.5%;
+            @media #{$mobile} {
+                height: 40px;
+            }
+            &.error {
+                background: #BA3B46;
+            }
+        }
+        .check {
+            width: 35px;
+            vertical-align: text-top;
+            display: inline-block;
+            margin-left: 5%;
+            margin-right: 5%;
+            bottom: 4px;
+            position: relative;
+        }
+    }
+
+    @keyframes fadein {
+        from { bottom: 0px; }
+        to { bottom: 35px; }
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+    }
+
+    @keyframes fadeinMobile {
+        from { bottom: 200px; }
+        to { bottom: 225px; }
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+    }
+
+
+
+
+
+
+
+
     position: relative;
     .section {
         display: inline-block;

@@ -20,7 +20,7 @@ export class SunsetTracker extends Component {
         super(props);
         this.state = { loadingSunset: false, loadingUser: false };
     }
-    getPosition() {
+    getPosition = () => {
         // Simple Wrapper
         return new Promise((res, rej) => {
             navigator.geolocation.getCurrentPosition(res, rej);
@@ -34,7 +34,11 @@ export class SunsetTracker extends Component {
                 this.getPosition().then((position) => {
                     const lat = position.coords.latitude;
                     const long = position.coords.longitude;
+                    console.log(lat, long)
                     this.props.fetchSunset(lat, long);
+                     setTimeout(() => {
+                        this.setState({ loadingSunset: false })
+                     }, 2000)
                 }).catch(function(rej) {
                     this.props.triggerLocationError();
                     this.setState({ loadingSunset: false })
@@ -78,17 +82,10 @@ export class SunsetTracker extends Component {
                 <InformationSection 
                     findMySunset={ this.findMySunset } 
                     sendUser={ this.submitUser }
+                    isLoadingUser={ this.state.loadingUser }
+                    isLoadingSunset={ this.state.loadingSunset }
                     loadingUser={ this.state.loadingUser }
                     showDocs={ this.state.showDocs } />
-                <ResultsSection
-                    fetchSunset={ this.findMySunset }
-                    loadingSunset={ this.state.loadingSunset }
-                    sendUser={ this.submitUser }
-                    loadingUser={ this.state.loadingUser }
-                    submissionSuccess={ this.props.user.submissionSuccess }
-                    showDocs={ this.showDocs }
-                    goBack={ this.goBack } />
-                <div className="bottomSection"></div>
             </div>
         );
     }

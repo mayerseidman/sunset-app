@@ -1,0 +1,95 @@
+@import "../scss/variables";
+
+#header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 50px;
+    padding-bottom: 75px;
+    @media (max-width: 725px) {
+        padding-bottom: 25px;
+        padding: 25px;
+    }
+}
+.horizontalWrapper {
+    #header {
+        @media (max-width: 725px) {
+            display: none;
+        }
+    }
+}
+.verticalWrapper {
+     #header {
+        padding-bottom: 100px !important;
+     }
+}
+
+#header .made-by {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: auto;
+    /*.avatar {
+    	&:hover {
+    		background-image: ("./images/color-profile.png");
+    	}
+    }*/
+    a {
+    	color: #031D44;
+    	text-decoration: none;
+    }
+    .avatar {
+        filter: gray; /* IE6-9 */
+        -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+        filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+        transition: all .3s ease-in-out;;
+        &:hover {
+            filter: none;
+        }
+    }
+    .backLink {
+        margin-left: 25px;
+        &:hover {
+            opacity: 0.75;
+            cursor: pointer;
+        }
+    }
+}
+
+#header .made-by span {
+    margin-right: 10px;
+    font-size: 0.8em;
+}
+
+#header .screen-orientation {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    @media (max-width: 450px) {
+        display: none;
+    }
+}
+
+#header .screen-orientation button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+    img {
+        &:hover {
+            opacity: 0.75;
+        }
+    }
+}
+
+#header .screen-orientation button:last-child {
+    margin: 0;
+}
+
+#header .avatar {
+    /*border: 1px solid #eee;*/
+    box-sizing: border-box;
+    border-radius: 100px;
+}

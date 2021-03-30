@@ -1,4 +1,700 @@
 @import "../scss/variables";
+
+.loading::after {
+      display: inline-block;
+      animation: dotty steps(1,end) 2s infinite;
+      content: '';
+}
+    
+@keyframes dotty {
+    0%   { content: ''; }
+    25%  { content: '.'; }
+    50%  { content: '..'; }
+    75%  { content: '...'; }
+    100% { content: ''; }
+}
+.horizontalWrapper {
+    background: radial-gradient(100% 100% at 50% 100%, #9CCEFA 0%, rgba(212, 232, 250, 0.8) 100%);
+    box-sizing: border-box;
+    height: 100vh;
+    /*display: flex;
+    flex-direction: column;
+    justify-content: space-between;*/
+    transition: all .5s;
+    /*text-align: center;*/
+   /* .vertical {
+        border: 1px solid #555;
+        width: 75%;
+        height: 250px;
+        margin: auto;
+        position: relative;
+        top: 50px;
+    }*/
+
+    .landing {
+        /*margin-bottom: 6%;*/
+        text-align: center;
+        @media (max-width: 725px) {
+            width: 90%;
+            margin: auto;
+            text-align: left;
+            padding-top: 15px;
+            h1 {
+                line-height: 65px;
+            }
+        }
+        .actions .actionBtn {
+            vertical-align: top;
+            @media (max-width: 725px) {
+                width: 100%;
+            }
+            &.signUp {
+                margin-left: 40px;
+                @media (max-width: 725px) {
+                    margin-left: 0px;
+                    /*margin-top: 10px;*/
+                }
+            }
+            &.findSunset {
+                margin-bottom: 10px;
+            }
+            &.send {
+                margin-left: 70px;
+                @media (max-width: 550px) {
+                    margin-left: 0;
+                }
+            }
+        }
+        .actions {
+            @media (max-width: 725px) {
+                text-align: center;
+                margin-top: 10px;
+            }
+            .formContainer {
+                input {
+                    width: 275px;
+                    height: 45px;
+                    display: inline-block;
+                    @media (max-width: 550px) {
+                        width: 90%;
+                        margin-bottom: 10px;
+                    }
+                }
+                .backLink {
+                    cursor: pointer;
+                    margin-right: 10px;
+                    &:hover {
+                        opacity: 0.75;
+                    } 
+                }
+                .loadingContainer {
+                    margin-left: 70px;
+                    @media (max-width: 550px) {
+                        width: 100%;
+                        margin-left: 0px;
+                        margin-top: 5px;
+                    }
+                }
+            }
+        }
+        .intro {
+            @media (max-width: 725px) {
+                margin-bottom: 0px;
+            }
+
+            h1 {
+                margin-bottom: 0px;
+            }
+            .subHeader {
+                display: inline-block;
+                @media (max-width: 725px) {
+                    margin-top: 15px;
+                    margin-bottom: 15px;
+                }
+            }
+            .error {
+                .text {
+                    display: inline-block;
+                    margin-left: 15px;
+                    margin-bottom: 0px;
+                }
+                a {
+                    display: block;
+                    text-align: left;
+                    color: #007bff !important;
+                }
+                img {
+                    vertical-align: top;
+                    position: relative;
+                    top: 7px;
+                }
+            }
+        }
+    }
+
+    #footer {
+        background: url("./../images/suns-wave-horizontal.png");
+        background-repeat: repeat-x;
+        animation: bgscroll 55s infinite linear;
+        animation-fill-mode: forwards;
+        /*margin-top: 6%;*/
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 260px;
+        @media (max-width: 725px) {
+            height: 265px;
+        }
+        @media (min-height: 699px) and (max-height: 799px) and (max-width: 550px) {
+            background: url("./../images/suns-wave-horizontal-tall-one.png");
+            height: 340px;
+        }
+        @media (min-height: 800px) and (max-width: 550px) {
+            background: url("./../images/suns-wave-horizontal-tall-two.png");
+            height: 435px;
+            background-repeat: repeat-x;
+        }
+        @media (min-width: 768px) and (min-height: 1024px) {
+            background: url("./../images/suns-wave-horizontal-tall-three.png");
+            height: 635px;
+            background-repeat: repeat-x;
+        }
+    }
+
+    #footer .animation {
+        /*width: 100%;
+        height: 235px;
+        position: relative;*/
+    }
+
+    @keyframes bgscroll {
+        animation-fill-mode: forwards;
+        from { background-position: 0 0; }
+        to  { background-position: -1450px 0; } /*set the document width as the negative number and you should have a seamless scroll*/
+    }
+}
+
+
+.results {
+    #header {
+        padding: 50px;
+        padding-bottom: 25px;
+        .homeLinkContainer {
+            position: relative;
+            right: 37.5%;
+            img {
+                width: 18px;
+                height: 18px;
+            }
+            .homeLink {
+                &:hover {
+                    cursor: pointer;
+                    opacity: 0.75;
+                }
+            }
+        }
+        @media (min-width: 768px) and (min-height: 1024px) {
+            padding-bottom: 50px;
+        }
+    }
+    .landing {
+        display: block;
+        /*flex-direction: column;
+        justify-content: center;
+        align-items: center;*/
+        @media (max-width: 725px) {
+            width: 90%;
+        }
+        h1 {
+            font-size: 60px;
+            @media (max-width: 725px) {
+                display: none;
+            }
+            @media (min-width: 500px) {
+                font-size: 57px;
+            }
+        }
+        .mobileHeader {
+            display: none;
+            @media (max-width: 725px) {
+                display: block;
+                text-align: center;
+            }
+        }
+        .intro {
+            margin-bottom: 25px;
+            @media (min-width: 501px) {
+                margin-bottom: 35px;
+            }
+        }
+        .card {
+            display: inline-block;
+            height: 200px;
+            width: 20%;
+            margin-left: 5%;
+            vertical-align: top;
+            border-radius: 10px;
+            z-index: 1000;
+            transition: height .5s;
+            @media (max-width: 725px) {
+                width: 100%;
+                margin: 0;
+                height: 65px;
+                padding-left: 0px;
+                margin-bottom: 15px;
+            }
+            &.expanded {
+                height: 265px;
+                padding-bottom: 5px;
+                @media (max-width: 725px) {
+                    height: 135px;
+                }
+            }
+            .circle {
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+                display: block;
+                position: relative;
+                bottom: 25px;
+                left: 15px;
+                background-color: #031D44;
+                opacity: 0.9;
+                padding-top: 12px;
+                @media (max-width: 725px) {
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 17.5px;
+                    float: left;
+                    margin-left: 5%;
+                    margin-right: 5%;
+                    text-align: center;
+                    padding-top: 3px;
+                    bottom: 0;
+                    left: 0;
+                    margin-top: 3.5%;
+                }
+                img {
+                    @media (max-width: 725px) {
+                        width: 17px;
+                    }
+                }
+            }
+            .header {
+                font-size: 40px;
+                font-weight: bold;
+                margin-bottom: 0px;
+                @media (min-width: 500px) and (max-width: 899px) {
+                    font-size: 32px;
+                }
+
+                @media (max-width: 725px) {
+                    display: inline-block;
+                    margin-right: 3%;
+                    font-size: 24px;
+                    margin-top: 3.5%;
+                }
+            }
+            .inner {
+                @media (max-width: 725px) {
+                    width: 79%;
+                    display: inline-block;
+                    margin-top: 1%;
+                }
+                .value {
+                    font-size: 32px;
+                    &.temp {
+                        display: inline-block;
+                        width: 55px;
+                    }
+                    &.quality {
+                        margin-right: 10px;
+                    }
+                    @media (max-width: 725px) {
+                        font-size: 24px;
+                    }
+                }
+            }
+            .control {
+                @media (max-width: 725px) {
+                    float: right;
+                    top: 20px;
+                    position: relative;
+                    right: 25px;
+                }
+                &:hover {
+                    opacity: 0.75;
+                    cursor: pointer;
+                }
+            }
+            .qualityInfo {
+                font-size: 0.8em;
+                text-align: left;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 15px;
+                @media (max-width: 725px) {
+                    padding: 0;
+                }
+            }
+        }
+        .first {
+            margin-left: 0;
+        }
+    }
+    #footer {
+        /*margin-top: 3%;*/
+    }
+}
+
+
+
+.backLink {
+    cursor: pointer;
+    &:hover {
+        opacity: 0.75;
+    } 
+}
+
+
+
+
+
+
+
+.landing .intro h1 {
+    font-family: Effra;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 62px;
+    line-height: 70px;
+    color: #293444;
+    @media (max-width: 450px) {
+        font-size: 50px;
+        line-height: 55px;
+    }
+    @media (max-height: 699px) {
+        font-size: 50px;
+    }
+}
+
+.landing .intro span {
+    font-family: Effra;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    line-height: 28px;
+    color: #293444;
+}
+
+.landing .actions {
+    margin-top: 20px;
+    .loadingContainer {
+        display: inline-block;
+        /*vertical-align: bottom;*/
+        /*position: relative;
+        top: 14px;*/
+        vertical-align: top;
+        width: 334px;
+        .loadingBar {
+            height: 10px;
+            width: 100%;
+            max-width: 320px;
+            height: 22px;
+            width: 300px;
+            border-radius: 7px;
+            border: none;
+            /*box-shadow: inset 0px 0px 0px 1px;*/
+            padding: 0;
+            
+            @keyframes progress-animation {
+                0% {width: 0%;}
+                20% {width: 10%;}
+                40% {width: 30%;}
+                50% {width: 60%;}
+                100% {width: 90%;}
+            }
+
+            .progressBar {
+                display: flex;
+                height: 100%;
+                width: 100%;
+                background: #ccc;
+                border-radius: 7px;
+                animation: progress-animation 5s ease-in-out;
+            }
+        }
+        .horizontalText {
+            display: block;
+            position: relative;
+            bottom: 5px;
+            @media (max-width: 550px) {
+                left: 0%;
+            }
+        }
+    }
+}
+
+.landing .actions .actionBtn {
+    /*background: #457AE6;
+    border-radius: 8px;
+    border: none;*/
+    border: 2px solid #293544;
+    font-family: Effra;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 26px;
+    /*color: #FFFFFF;*/
+    outline: none;
+    cursor: pointer;
+    width: 334px;
+    height: 45px;
+}
+
+.landing .actions .actionBtn a {
+    color: #ffffff;
+}
+
+.landing .actions .actionBtn:last-child {
+    /*border: 1px solid rgba(41, 52, 68, 0.5);*/
+    box-sizing: border-box;
+    /*border-radius: 8px;*/
+    background: none;
+    color: rgba(41, 52, 68, 1);
+    margin: 0;
+    &:hover {
+        background: #e3e3e3;
+    }
+}
+
+.landing .actions .actionBtn:last-child a {
+    color: rgba(41, 52, 68, 1);
+}
+
+button {
+    &:hover {
+        background: #e3e3e3;
+    }
+}
+
+.verticalWrapper {
+    background: radial-gradient(100% 100% at 50% 100%, #9CCEFA 0%, rgba(212, 232, 250, 0.8) 100%);
+    box-sizing: border-box;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    .column {
+        flex-basis: 50%;
+        height: 100vh;
+    }
+    .results {
+        h1 {
+            text-align: center;
+        }
+        .landing {
+            @media (min-width: 768px) and (min-height: 1024px) {
+                width: 90%;
+            }
+        }
+    }
+    .landing {
+        width: 75%;
+        margin: auto;
+        padding-top: 0;
+        padding-bottom: 0;
+        .actions button {
+            width: 48%;
+            height: 45px;
+            /*&:nth-of-type(2) {
+                margin-left: 15px;
+            }*/
+            @media (max-width: 1170px) {
+                width: 100%;
+                margin-left: 0 !important;
+                &:nth-of-type(1) {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        .signUp {
+            margin-left: 15px !important;
+        }
+        .intro {
+            h1 {
+                @media (max-width: 1170px) {
+                    font-size: 48px;
+                    line-height: initial;
+                }
+                @media (min-width: 768px) and (min-height: 1024px) {
+                    font-size: 45px;
+                }
+            }
+        }
+        .formContainer {
+            input {
+                margin-left: 15px;
+                height: 45px;
+            }
+            @media (max-width: 1170px) {
+                input {
+                    width: 89%;
+                    margin-bottom: 10px;
+                }
+            }
+            .send {
+                margin-left: 15px;
+            }
+        }
+        .loadingContainer {
+            vertical-align: middle;
+            width: 49%;
+            margin-left: 10px;
+            .text {
+                text-align: center;
+            }
+            &.loadingSunset {
+                margin-left: 0;
+            }
+            @media (max-width: 1170px) {
+                 width: 100%;
+                 margin-bottom: 10px;
+            }
+        }
+        .card {
+            width: 100%;
+            margin: 0;
+            height: 65px;
+            padding-left: 45px;
+            margin-bottom: 15px;
+            padding-top: 14px;
+            @media (max-width: 1100px) {
+                padding-left: 10px;
+            }
+            .circle {
+                width: 35px;
+                height: 35px;
+                border-radius: 17.5px;
+                float: left;
+                margin-left: 5%;
+                margin-right: 5%;
+                text-align: center;
+                padding-top: 3px;
+                bottom: 0;
+                left: 0;
+                img {
+                    width: 17px;
+                }
+            }
+            .header {
+                display: inline-block;
+                margin-right: 3%;
+                font-size: 24px;
+                @media (max-width: 1100px) {
+                   font-size: 20px;
+                }
+            }
+            .control {
+                float: right;
+                top: 16px;
+                position: relative;
+                right: 25px;
+                @media (max-width: 1100px) {
+                    right: 10px;
+                }
+            }
+            .inner {
+                vertical-align: middle;
+                position: relative;
+                bottom: 7px;
+                @media (max-width: 1100px) {
+                    bottom: 4px;
+                }
+                .value {
+                     @media (max-width: 1100px) {
+                        font-size: 27px;
+                    }
+                }
+            }
+        }
+        .expanded {
+            height: 155px !important;
+            padding-bottom: 5px;
+        }
+    }
+    #footer {
+        background: url("./../images/suns-wave-vertical.png");
+        background-repeat: repeat-y;
+        animation: bgscrollVertical 55s infinite linear;
+        animation-fill-mode: forwards;
+    }
+
+    #footer .animation {
+       /* width: 100%;*/
+        height: calc(100vh - 3px);
+        position: relative; 
+    }
+
+    @keyframes bgscrollVertical {
+        animation-fill-mode: forwards;
+        from { background-position: 0 0; }
+        to  { background-position: 0 -1450px; } /*set the document width as the negative number and you should have a seamless scroll*/
+    }
+}
+
+.poorResult {
+    background: radial-gradient(80.54% 80.54% at 50.13% 90.76%, #343535 0%, rgba(159, 161, 164, 0.75) 100%);
+}
+.fairResult {
+    background: linear-gradient(180deg, #ACCBE8 10.47%, rgba(239, 207, 102, 0.75) 84.22%);
+}
+.goodResult {
+    background: linear-gradient(180deg, #EEDD6D 9.73%, rgba(242, 196, 112, 0.75) 82.86%);
+}
+.greatResult {
+    background: linear-gradient(180deg, #FBE15E 0%, rgba(224, 129, 83, 0.75) 100%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .informationSection {
     background: #fafafa;
     &.hideInformationSection {
