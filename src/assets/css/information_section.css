@@ -154,6 +154,11 @@
             height: 435px;
             background-repeat: repeat-x;
         }
+        @media (min-width: 768px) and (min-height: 1024px) {
+            background: url("./../images/suns-wave-horizontal-tall-three.png");
+            height: 635px;
+            background-repeat: repeat-x;
+        }
     }
 
     #footer .animation {
@@ -187,6 +192,9 @@
                     opacity: 0.75;
                 }
             }
+        }
+        @media (min-width: 768px) and (min-height: 1024px) {
+            padding-bottom: 50px;
         }
     }
     .landing {
@@ -484,6 +492,11 @@ button {
         h1 {
             text-align: center;
         }
+        .landing {
+            @media (min-width: 768px) and (min-height: 1024px) {
+                width: 90%;
+            }
+        }
     }
     .landing {
         width: 75%;
@@ -512,6 +525,9 @@ button {
                 @media (max-width: 1170px) {
                     font-size: 48px;
                     line-height: initial;
+                }
+                @media (min-width: 768px) and (min-height: 1024px) {
+                    font-size: 45px;
                 }
             }
         }
