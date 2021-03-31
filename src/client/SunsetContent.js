@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import BarLoader from "react-spinners/BarLoader";
-import ErrorDisplay from './ErrorDisplay';
 import './../assets/css/horizontal_header.css';
-import './../assets/css/information_section.css';
-import { css } from "@emotion/core";
+import './../assets/css/sunset_content.css';
 import * as userActions from './redux/actions/user';
 import * as sunsetActions from './redux/actions/sunset';
 
@@ -27,36 +24,30 @@ import horizontalIcon from "./../assets/images/horizontal-control.png";
 import ReactTooltip from 'react-tooltip';
 const moment = require('moment');
 
-export class InformationSection extends Component {
+export class SunsetContent extends Component {
 	constructor(props) {
 		super();
 		this.state = { showSignupForm: false, showFindSunsetButton: true, phone: '', orientation: "horizontal" };
 	}
-
 	componentDidUpdate(prevProps) {
 		if (prevProps.user.submissionSuccess !== this.props.user.submissionSuccess) {
 			this.setState({ phone: '' })
 		}
 	}
-
 	showSignupForm = () => {
 		this.setState({ showSignupForm: true })
 	}
-
 	showFindSunsetButton = () =>  {
 		this.setState({ showSignupForm: false, showFindSunsetButton: true })
 		this.props.clearErrors()
 	}
-
 	handleChange = ({ target: { value } }) => {   
 	    this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
-	};
-
+	}
 	submitUser = () => {
 		const phoneNumber = this.refs.phone_number.value;
 		this.props.sendUser(phoneNumber);
 	}
-
 	renderLoadingBar = () => {
 	    return (
 	    	<span className="loadingContainer">
@@ -77,7 +68,6 @@ export class InformationSection extends Component {
 			</span>
 		)
 	}
-
 	fetchBackground = () => {
 		var quality = this.props.sunset.info.quality;
 		switch (quality) {
@@ -96,68 +86,6 @@ export class InformationSection extends Component {
 		}
 		return className;
 	}
-
-	// renderSubmitButton = () => {
-	// 	if (!this.props.sunset.sunsetSuccess) {
-	// 		var backLink = <a onClick={ this.showFindSunsetButton }>BACK</a>
-	// 	}
-	//     return (
-	//     	<div className="linksContainer ">
-	//     		{ backLink }
-	//     		<button onClick={ this.submitUser } className="successButton sendSunsets"
-	//     		    ref="submitBtn">Send Sunsets</button>
-	//     	</div>
-	//     )
-	// }
-
-	// renderActionsSection = () => {
-	// 	var isLoading = this.props.user.loading || this.props.loadingUser;
-	//     if (isLoading  && !this.props.user.duplicatePhoneNumber) {
-	//         var loadingBar = this.renderLoadingBar();
-	//     } else {
-	//         var submitButton = this.renderSubmitButton();
-	//     }
-	// 	if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
-	// 		return (
-	// 			<div className="actionsContainer">
-	// 				<div className="inputContainer">
-	// 					<label className="phoneNumberLabel">PHONE NUMBER</label>
-	// 					<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
-	// 					    onChange={ this.handleChange } value={ this.state.phone } />
-	// 				</div>
-	// 			    { loadingBar }
-	// 			    { submitButton }
-	// 			</div>
-	// 		)	
-	// 	} else {
-	// 		if (this.props.sunset.sunsetSuccess && !this.props.user.submissionSuccess) {
-	// 			var sunsetButton = (
-	// 				<button onClick={ this.showSignupForm } className="signupButton successButton">Sign Up For Daily SMS</button>
-	// 			)
-	// 		} else {
-	// 			if (this.props.user.submissionSuccess) {
-	// 				var className = "extraWide"
-	// 			}
-	// 			if (!this.props.sunset.sunsetSuccess) {
-	// 				var sunsetButton = (
-	// 					<button onClick={ this.props.findMySunset } className={ "findSunsetButton successButton " + className }>Find My Sunset</button>
-	// 				)
-	// 			}
-	// 			if (!this.props.user.submissionSuccess) {
-	// 				var signupAction = (
-	// 					<a className="signupLink link" onClick={ this.showSignupForm }>Sign Up For Daily SMS</a>
-	// 				)
-	// 			}
-	// 		}
-	// 		return (
-	// 			<div>
-	// 				{ sunsetButton }
-	// 				{ signupAction }
-	// 			</div>
-	// 		)
-	// 	}
-	// }
-
 	changeTemperature = (type) => {
 		const sunset = this.props.sunset.info;
 		if (sunset) {
@@ -173,13 +101,8 @@ export class InformationSection extends Component {
 	toggleQualityInfo = () => {
 		if (this.state.showQualityInfo) {
 			this.setState({ showQualityInfo: false })
-			// setTimeout(() => {
-				
-			// }, 250)
 		} else {
-			// setTimeout(() => {
-				this.setState({ showQualityInfo: true })
-			// }, 250)
+			this.setState({ showQualityInfo: true })
 		}
 	}
 	renderQualityInfo = () => {
@@ -404,13 +327,6 @@ export class InformationSection extends Component {
 			    </div>
 			)
 		}
-
-
-		// var type = "duplicate";
-		// var type = "invalid";
-		// if (invalidPhoneNumber  || duplicatePhoneNumber) {
-		// 	var errorDisplay = (<ErrorDisplay ref="errors" type={ type } errors={ errors } />)
-		// }
 		
 		var sunsWave = (
 		    <footer id="footer">
@@ -607,7 +523,6 @@ export class InformationSection extends Component {
 		window.addEventListener("resize", this.resizeScreen.bind(this));
 	}
 	render() {
-		// Create separate horizontal and vertical layout components and pass them in below...
 		if (this.state.orientation == HORIZONTAL || this.state.showMobile) {
 			var content = this.renderHorizontal();
 		} else {
@@ -648,4 +563,4 @@ const normalizeInput = (value, previousValue) => {
 export default connect((state) => ({
     sunset: state.sunset,
     user: state.user
-}), { ...sunsetActions, ...userActions })(InformationSection)
+}), { ...sunsetActions, ...userActions })(SunsetContent)

@@ -4,11 +4,9 @@ const moment = require('moment');
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import InformationSection from "./InformationSection";
-import ResultsSection from "./ResultsSection";
+import SunsetContent from "./SunsetContent";
 
 // CSS 
-import { css } from "@emotion/core";
 import './../assets/css/app.css';
 
 // REDUX ACTIONS 
@@ -79,7 +77,7 @@ export class SunsetTracker extends Component {
     render() {
         return (
             <div className="sunsetContainer">
-                <InformationSection 
+                <SunsetContent 
                     findMySunset={ this.findMySunset } 
                     sendUser={ this.submitUser }
                     isLoadingUser={ this.state.loadingUser }

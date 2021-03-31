@@ -29,11 +29,6 @@
     flex-direction: row;
     align-items: center;
     margin-right: auto;
-    /*.avatar {
-    	&:hover {
-    		background-image: ("./images/color-profile.png");
-    	}
-    }*/
     a {
     	color: #031D44;
     	text-decoration: none;
