@@ -395,7 +395,8 @@ export class InformationSection extends Component {
 			    <div className="landing">
 			        <div className="intro">
 			            <h1>SUNSETS ARE AWESOME</h1>
-			            <span className="subHeader">Dont miss another great sunset! View the sunset forecast for your area.</span>
+			            <span className="subHeader regular">Dont miss another great sunset! View the sunset forecast for your area.</span>
+			             <span className="subHeader mobile">Dont miss another great sunset! View your sunset forecast.</span>
 			        </div>
 			        <div className="actions">
 			        	{ buttons }

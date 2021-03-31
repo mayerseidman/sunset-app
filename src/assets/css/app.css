@@ -110,6 +110,10 @@ body {
             margin-right: 5%;
             bottom: 4px;
             position: relative;
+            @media (max-width: 350px) {
+                bottom: 0;
+                width: 25px;
+            }
         }
     }
 

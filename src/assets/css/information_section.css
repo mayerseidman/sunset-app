@@ -43,6 +43,9 @@
                 line-height: 65px;
             }
         }
+        @media (max-width: 350px) {
+            width: 95% !important;
+        }
         .actions .actionBtn {
             vertical-align: top;
             @media (max-width: 725px) {
@@ -85,7 +88,10 @@
                     margin-right: 10px;
                     &:hover {
                         opacity: 0.75;
-                    } 
+                    }
+                     @media (max-width: 350px) {
+                        margin-right: 5px;
+                     }
                 }
                 .loadingContainer {
                     margin-left: 70px;
@@ -101,6 +107,9 @@
             @media (max-width: 725px) {
                 margin-bottom: 0px;
             }
+            @media (max-width: 350px) {
+                margin-bottom: 15px !important;
+            } 
 
             h1 {
                 margin-bottom: 0px;
@@ -110,6 +119,9 @@
                 @media (max-width: 725px) {
                     margin-top: 15px;
                     margin-bottom: 15px;
+                }
+                @media (max-width: 350px) {
+                    font-size: 20px;
                 }
             }
             .error {
@@ -128,6 +140,27 @@
                     position: relative;
                     top: 7px;
                 }
+            }
+        }
+        .circle {
+            @media (max-width: 350px) {
+                margin-top: 5% !important;
+            }
+        }
+        .inner {
+            @media (max-width: 350px) {
+                width: 78% !important;
+            }
+        }
+        .header, .value {
+            @media (max-width: 350px) {
+                font-size: 22px !important;
+                margin-top: 5% !important;
+            }
+        }
+        .control {
+            @media (max-width: 350px) {
+                right: 15px !important;
             }
         }
     }
@@ -158,6 +191,9 @@
             background: url("./../images/suns-wave-horizontal-tall-three.png");
             height: 635px;
             background-repeat: repeat-x;
+        }
+        @media (max-width: 350px) {
+            height: 240px;
         }
     }
 
@@ -373,8 +409,12 @@
         font-size: 50px;
         line-height: 55px;
     }
-    @media (max-height: 699px) {
+    @media (max-width: 350px) {
         font-size: 50px;
+        line-height: 55px;
+    }
+    @media (max-height: 699px) {
+        font-size: 45px;
     }
 }
 
@@ -396,6 +436,9 @@
         top: 14px;*/
         vertical-align: top;
         width: 334px;
+        @media (max-width: 450px) {
+            width: 100%;
+        }
         .loadingBar {
             height: 10px;
             width: 100%;
@@ -406,6 +449,10 @@
             border: none;
             /*box-shadow: inset 0px 0px 0px 1px;*/
             padding: 0;
+            @media (max-width: 450px) {
+                max-width: 100%;
+                width: 100%;
+            }
             
             @keyframes progress-animation {
                 0% {width: 0%;}
@@ -850,5 +897,18 @@ button {
         100% {
             opacity: 1;
         }
+    }
+}
+
+.subHeader.regular {
+    @media (max-width: 450px) {
+        display: none !important;
+    }
+}
+
+.subHeader.mobile {
+    display: none !important;
+    @media (max-width: 450px) {
+        display: block !important;
     }
 }
