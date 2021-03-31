@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './../assets/css/horizontal_header.css';
 import './../assets/css/sunset_content.css';
+
+import * as myConstClass from './Constants';
 import * as userActions from './redux/actions/user';
 import * as sunsetActions from './redux/actions/sunset';
+import Header from './Header';
 
 import checkImage from "./../assets/images/icons/check.png";
 import errorImage from "./../assets/images/icons/error.png";
@@ -12,15 +15,10 @@ import thermometerImg from "./../assets/images/thermometer.png";
 import pencilImg from "./../assets/images/pencil.png";
 import changeTempImg from "./../assets/images/change-temp.png";
 
-import chevronImage from "./../assets/images/icons/chevron.png";
 import qualityQuestionImg from "./../assets/images/question-orange.png";
 import minimizeImg from "./../assets/images/minimize.png";
 import compassImg from "./../assets/images/compass.png";
 import backArrow from "./../assets/images/back.png";
-import avatar from "./../assets/images/profile.png";
-import colorAvatar from "./../assets/images/color-profile.png";
-import verticalIcon from "./../assets/images/vertical-control.png";
-import horizontalIcon from "./../assets/images/horizontal-control.png";
 import ReactTooltip from 'react-tooltip';
 const moment = require('moment');
 
@@ -166,45 +164,7 @@ export class SunsetContent extends Component {
 	    return notificationContainer;
 	}
 	renderHeader = () => {
-		var horizontalButton = (
-			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation.bind(this, HORIZONTAL) }>
-			    <span data-tip="Horizontal Layout">
-			        <img src={ horizontalIcon } alt="horizontal" className="horizontal-icon" />
-			    </span>
-			    <ReactTooltip />
-			</button>
-		)
-		var verticalButton = (
-			<button type="button" id="vertical-screen" onClick={ this.changeOrientation.bind(this, VERTICAL) }>
-			    <span data-tip="Vertical Layout">
-			        <img src={ verticalIcon } alt="vertical" className="vertical-icon" />
-			    </span>
-			    <ReactTooltip />
-			</button>
-		)
-		if (this.props.sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
-			var backLink = (
-				<span>
-		    		<img className="backLink" src={ chevronImage } onClick={ this.clearResults } data-tip="Go Back"/>
-			    	<ReactTooltip />
-				</span>
-			)
-		}
-		return (
-			<header id="header">
-			    <div className="made-by">
-			    	<a href="http://mayerseidman.com" target="_blank">
-			    		<span>Made By</span>
-			    		<img className="avatar" src={ colorAvatar } />
-			    	</a>
-		    		{ backLink }
-			    </div>
-			    <div className="screen-orientation">
-			    	{ verticalButton }
-			        { horizontalButton }
-			    </div>
-			</header>
-		)
+		return (<Header changeOrientation={ this.changeOrientation } clearResults={ this.clearResults } />)
 	}
 	renderHorizontal = () => {
 		// ERROR HANDLING should go between landing and "actions"
@@ -381,30 +341,6 @@ export class SunsetContent extends Component {
 			)
 		}
 		var sunset = this.props.sunset;
-		var horizontalButton = (
-			<button type="button" id="horizontal-screen" onClick={ this.changeOrientation.bind(this, HORIZONTAL) }>
-			    <span data-tip="Horizontal Layout">
-			        <img src={ horizontalIcon } alt="horizontal" className="horizontal-icon" />
-			    </span>
-			    <ReactTooltip />
-			</button>
-		)
-		var verticalButton = (
-			<button type="button" id="vertical-screen" onClick={ this.changeOrientation.bind(this, VERTICAL) }>
-			    <span data-tip="Vertical Layout">
-			        <img src={ verticalIcon } alt="vertical" className="vertical-icon" />
-			    </span>
-			    <ReactTooltip />
-			</button>
-		)
-		var header = (
-			<header id="header">
-			    <div className="screen-orientation">
-			    	{ verticalButton }
-			        { horizontalButton }
-			    </div>
-			</header>
-		)
 		var pageContent = (
 		    <div className="landing">
 		        <div className="intro">
@@ -523,7 +459,7 @@ export class SunsetContent extends Component {
 		window.addEventListener("resize", this.resizeScreen.bind(this));
 	}
 	render() {
-		if (this.state.orientation == HORIZONTAL || this.state.showMobile) {
+		if (this.state.orientation == myConstClass.HORIZONTAL || this.state.showMobile) {
 			var content = this.renderHorizontal();
 		} else {
 			var content = this.renderVertical();
@@ -544,9 +480,6 @@ export class SunsetContent extends Component {
 		)
 	}
 };
-
-var HORIZONTAL = "horizontal";
-var VERTICAL = "vertical";
 
 const normalizeInput = (value, previousValue) => {
     if (!value) return value;
