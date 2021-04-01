@@ -1,15 +1,17 @@
+const _ = require('underscore');
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './../assets/css/horizontal_header.css';
-import './../assets/css/sunset_content.css';
 
 import * as myConstClass from './Constants';
 import * as userActions from './redux/actions/user';
 import * as sunsetActions from './redux/actions/sunset';
+
 import Header from './Header';
+import Notification from './Notification';
+import HorizontalLayout from './HorizontalLayout';
+import VerticalLayout from './VerticalLayout';
 
 import checkImage from "./../assets/images/icons/check.png";
-import errorImage from "./../assets/images/icons/error.png";
 import clockImg from "./../assets/images/clock.png";
 import thermometerImg from "./../assets/images/thermometer.png";
 import pencilImg from "./../assets/images/pencil.png";
@@ -18,71 +20,63 @@ import changeTempImg from "./../assets/images/change-temp.png";
 import qualityQuestionImg from "./../assets/images/question-orange.png";
 import minimizeImg from "./../assets/images/minimize.png";
 import compassImg from "./../assets/images/compass.png";
-import backArrow from "./../assets/images/back.png";
 import ReactTooltip from 'react-tooltip';
+
+import './../assets/css/app.css';
+import './../assets/css/horizontal_header.css';
+import './../assets/css/sunset_content.css';
+
 const moment = require('moment');
 
 export class SunsetContent extends Component {
 	constructor(props) {
 		super();
-		this.state = { showSignupForm: false, showFindSunsetButton: true, phone: '', orientation: "horizontal" };
+		this.state = { showFindSunsetButton: true, orientation: "horizontal", isLoadingSunset: false, isLoadingUser: false };
 	}
-	componentDidUpdate(prevProps) {
-		if (prevProps.user.submissionSuccess !== this.props.user.submissionSuccess) {
-			this.setState({ phone: '' })
-		}
+	getPosition = () => {
+	    // Simple Wrapper
+	    return new Promise((res, rej) => {
+	        navigator.geolocation.getCurrentPosition(res, rej);
+	    });
 	}
-	showSignupForm = () => {
-		this.setState({ showSignupForm: true })
+	findMySunset = () => {
+	    if ("geolocation" in navigator) {
+	        this.setState({ isLoadingSunset: true })
+	        setTimeout(() => {
+	            this.getPosition().then((position) => {
+	                const lat = position.coords.latitude;
+	                const long = position.coords.longitude;
+	                console.log(lat, long)
+	                this.props.fetchSunset(lat, long);
+	                 setTimeout(() => {
+	                    this.setState({ isLoadingSunset: false })
+	                 }, 2000)
+	            }).catch(function(rej) {
+	                this.props.triggerLocationError();
+	                this.setState({ isLoadingSunset: false })
+	            }.bind(this))
+	        }, 2000)
+	    }
 	}
-	showFindSunsetButton = () =>  {
-		this.setState({ showSignupForm: false, showFindSunsetButton: true })
-		this.props.clearErrors()
-	}
-	handleChange = ({ target: { value } }) => {   
-	    this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
-	}
-	submitUser = () => {
-		const phoneNumber = this.refs.phone_number.value;
-		this.props.sendUser(phoneNumber);
-	}
-	renderLoadingBar = () => {
-	    return (
-	    	<span className="loadingContainer">
-	    		<button className="loadingBar">
-	    			<span className="progressBar"></span>
-	    		</button>
-	    		<span className="horizontalText">🤙 Hang loose and hang tight...</span>
-	    	</span>
-	    )
-	}
-	renderLoadingBarVertical = () => {
-		if (this.props.isLoadingSunset) {
-			var className = "loadingSunset";
-		}
-		return (
-			<span className={ "loadingContainer " + className }>
-				<span className="text">🤙 Hang loose and hang tight</span><span class="loading"></span>
-			</span>
-		)
-	}
-	fetchBackground = () => {
-		var quality = this.props.sunset.info.quality;
-		switch (quality) {
-			case "Poor":
-				var className = "poorResult";
-				break;
-			case "Fair":
-		    	var className = "fairResult";
-				break;
-			case "Good":
-				var className = "goodResult";
-				break;
-			case "Great":
-				var className = "greatResult";
-				break;
-		}
-		return className;
+	submitUser = (phoneNumber) => {
+	    if ("geolocation" in navigator) {
+	        this.setState({ isLoadingUser: true })
+	        setTimeout(() => {
+	            phoneNumber = phoneNumber.replace(/[^\d]/g, '')
+	            const phoneRegEx = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
+	            const invalidPhoneNumber = !phoneNumber.match(phoneRegEx)
+	            if (invalidPhoneNumber) {
+	                this.props.invalidPhoneNumber();
+	                this.setState({ isLoadingUser: false })
+	            } else {
+	                this.getPosition().then((position) => {
+	                    const lat = position.coords.latitude;
+	                    const long = position.coords.longitude;
+	                    this.props.submitUser(phoneNumber, lat, long)
+	                })
+	            }
+	         }, 800)
+	    }
 	}
 	changeTemperature = (type) => {
 		const sunset = this.props.sunset.info;
@@ -116,9 +110,6 @@ export class SunsetContent extends Component {
 		}
 		return <p className="qualityInfo">{info}</p>
 	}
-	goBack = () => {
-	    this.setState({ showSignupForm: false })
-	}
 	closeNotification = () => {
 		this.props.clearNotification();
 	}
@@ -129,324 +120,16 @@ export class SunsetContent extends Component {
 		this.setState({ orientation: orientation })
 	}
 	renderNotification = () => {
-		var sunset = this.props.sunset;
-		var user = this.props.user;
-		if (sunset.error) {
-			var notificationStatus = "Forecast Error 👎";
-			var notificationText = "We weren't able to get your sunset forecast. Please refresh this page and try again. Still no luck? Try again in 30 minutes.";
-		} else if (sunset.locationError) {
-			var notificationStatus = "Location Error 🧭";
-			var notificationText = "Please turn on your location permissions so we can get your sunset forecast.";
-		} else if (user.duplicatePhoneNumber || user.invalidPhoneNumber) {
-			var notificationStatus = "Phone Number Error ☎️";
-			var notificationText = this.props.user.errors[0];
-		} else if (this.props.user.submissionSuccess) {
-			var notificationStatus = "Signed Up 🎉";
-			var notificationText = "You are now signed up for a daily sunset SMS. Enjoy those sunset vibes!";
-		}
-		if (this.props.user.submissionSuccess) {
-			var image = <img className="check" src={ checkImage } />;
-			var dividingLine = <span className="line"></span>;
-		} else {
-			var image = <img className="check" src={ errorImage } />;
-			var dividingLine = <span className="line error"></span>;
-		}
-        var notificationContainer = (
-            <div className="notificationContainer">
-        		{ dividingLine }
-                { image }
-                <div className="notificationText">
-                    <p className="status">{ notificationStatus }</p><span className="escape" onClick={ this.closeNotification }>X</span>
-                    <p className="text">{ notificationText }</p>
-                </div>
-            </div>
-        )
-	    return notificationContainer;
+	    return (<Notification closeNotification={ this.closeNotification }/>)
 	}
-	renderHeader = () => {
-		return (<Header changeOrientation={ this.changeOrientation } clearResults={ this.clearResults } />)
+	renderHorizontalLayout = () => {
+		return (<HorizontalLayout changeOrientation={ this.changeOrientation } clearResults={ this.clearResults }
+					showSignupForm={ this.showSignupForm } submitUser={ this.submitUser } isLoadingUser={ this.state.isLoadingUser }
+					isLoadingSunset={ this.state.isLoadingSunset } findMySunset={ this.findMySunset }
+		/>)
 	}
-	renderHorizontal = () => {
-		// ERROR HANDLING should go between landing and "actions"
-		var isLoading = this.props.user.loading || this.props.isLoadingUser;
-	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
-	        var loadingBar = this.renderLoadingBar();
-	    } else {
-	        var submitButton = <button className="actionBtn send" onClick={ this.submitUser }>Send Daily SMS</button>
-	    }
-		if (this.props.isLoadingSunset) {
-			var loadingBar = this.renderLoadingBar();
-			} else {
-			var findSunsetButton = (
-				<button className="actionBtn findSunset" onClick={ this.props.findMySunset }>Find My Sunset</button>
-			)
-		}
-		if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
-			var phoneNumber = <span className="phoneNumberLabel">PHONE NUMBER</span>
-			var backLink = (
-				<a className="backLink" onClick={ this.goBack }><img src={ backArrow } /></a>
-			)
-			var buttons = (
-				<div className="formContainer">
-					{ backLink }
-					<input type="text" className="form-control phoneNumberField" ref="phone_number" placeholder="(123) 456-7890"
-					    onChange={ this.handleChange } value={ this.state.phone } />
-				    { loadingBar }
-				    { submitButton }
-				</div>
-			)
-		} else {
-			var buttons = (
-				<div>
-					{ findSunsetButton }
-					{ loadingBar }
-					<button className="actionBtn signUp" onClick={ this.showSignupForm }>Sign  Up For Daily SMS</button>
-				</div>
-			)
-		}
-		var sunset = this.props.sunset;
-		if (sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
-			var bgClassName = this.fetchBackground();
-			var className = "results";
-			var momentTime = moment(sunset.valid_at).format('LT');
-			if (this.state.showFahrenheit) {
-				var temperatureWidget = (
-					<img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("C") } data-tip="Change to Celsius" />
-				) 
-			} else {
-			    var temperatureWidget = (
-			        <img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("F") } data-tip="Change to Fahrenheit" />
-			    ) 
-			}
-		    if (this.state.temperature) {
-		    	var temperature = this.state.temperature;
-		    } else {
-		    	if (sunset.lat < 49) {
-					this.changeTemperature("F")
-				}
-		    	var temperature = sunset.info.temperature;
-		    }
-		    if (this.state.showQualityInfo) {
-		    	var qualityClass = " expanded";
-		    	var qualityImg = (
-		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } data-tip="Close" />
-		    	)
-		    	var qualityInfo = this.renderQualityInfo();
-		    } else {
-		    	var quality = sunset.info.quality.toLocaleLowerCase()
-		    	var qualityImg = (
-		    		<img className="control" src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } data-tip={ 'What does ' + quality + ' mean?' } />
-		    	)
-		    }
-		    
-			var pageContent = (
-			    <div className="landing">
-			        <div className="intro">
-			            <h1>YOUR SUNSET FORECAST</h1>
-			            <h1 className="mobileHeader">YOUR SUNSET</h1>
-			        </div>
-			        <div className="card first">
-			        	<div className="circle"><img src={ clockImg } /></div>
-			        	<div className="inner">
-			        		<p className="header">TIME</p>
-			        		<span className="value">{ momentTime }</span>
-			        	</div>
-			        </div>
-			        <div className="card">
-			        	<div className="circle"><img src={ thermometerImg } /></div>
-			        	<div className="inner">
-			        		<p className="header">TEMP</p>
-			        		<span className="value temp">{ Math.floor(temperature) }°</span>
-			        		{ temperatureWidget }
-			        	</div>
-			        	<ReactTooltip />
-			        </div>
-			        <div className={ "card " + qualityClass }>
-			        	<div className="circle"><img src={ pencilImg } /></div>
-			        	<div className="inner">
-			        		<p className="header">QUALITY</p>
-			        		<span className="value quality">{ sunset.info.quality } ({ Math.floor(sunset.info.quality_percent) }%)</span>
-			       			{ qualityImg }
-			       			{ qualityInfo }
-			        	</div>
-			        	<ReactTooltip />
-			        </div>
-			    </div>
-			)
-		} else {
-			var pageContent = (
-			    <div className="landing">
-			        <div className="intro">
-			            <h1>SUNSETS ARE AWESOME</h1>
-			            <span className="subHeader regular">Dont miss another great sunset! View the sunset forecast for your area.</span>
-			             <span className="subHeader mobile">Dont miss another great sunset! View your sunset forecast.</span>
-			        </div>
-			        <div className="actions">
-			        	{ buttons }
-			        </div>
-			    </div>
-			)
-		}
-		
-		var sunsWave = (
-		    <footer id="footer">
-		        <div className="animation"></div>
-		    </footer>
-		)
-		return (
-			<div className={ "horizontalWrapper " + bgClassName }>
-				<div className={ className }> 
-					{ this.renderHeader() }
-					{ pageContent }
-					{ sunsWave }
-				</div>
-			</div>
-		)
-	}
-	renderVertical = () => {
-		var isLoading = this.props.user.loading || this.props.isLoadingUser;
-	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
-	        var loadingBar = this.renderLoadingBarVertical();
-	    } else {
-	        var submitButton = <button className="send" onClick={ this.submitUser }>Send Daily SMS</button>
-	    }
-		if (this.props.isLoadingSunset) {
-			var loadingBar = this.renderLoadingBarVertical();
-			} else {
-			var findSunsetButton = (
-				<button className="actionBtn" onClick={ this.props.findMySunset }>Find My Sunset</button>
-			)
-		}
-		if (this.state.showSignupForm && !this.props.user.submissionSuccess) {
-			var phoneNumber = <span className="phoneNumberLabel">PHONE NUMBER</span>
-			var backLink = (
-				<a className="backLink" onClick={ this.goBack }><img src={ backArrow } /></a>
-			)
-			var buttons = (
-				<div className="formContainer">
-					{ backLink }
-					<input type="text" className="phone" ref="phone_number" placeholder="(123) 456-7890"
-					    onChange={ this.handleChange } value={ this.state.phone } />
-				    { loadingBar }
-				    { submitButton }
-				</div>
-			)
-		} else {
-			var buttons = (
-				<div>
-					{ findSunsetButton }
-					{ loadingBar }
-					<button className="signUp actionBtn" onClick={ this.showSignupForm }>Sign  Up For Daily SMS</button>
-				</div>
-			)
-		}
-		var sunset = this.props.sunset;
-		var pageContent = (
-		    <div className="landing">
-		        <div className="intro">
-		            <h1>SUNSETS ARE AWESOME</h1>
-		            <span>Dont miss another great sunset! View the sunset forecast for your area.</span>
-		        </div>
-		        <div className="actions">
-		            { buttons }
-		        </div>
-		    </div>
-		)
-		var sunsWave = (
-		    <footer id="footer">
-		        <div className="animation"></div>
-		    </footer>
-		)
-		var sunset = this.props.sunset;
-		if (sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
-			var bgClassName = this.fetchBackground();
-			var className = "results";
-			var momentTime = moment(sunset.valid_at).format('LT');
-			if (this.state.showFahrenheit) {
-				var temperatureWidget = (
-					<img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("C") } data-tip="Change to Celsius" />
-				) 
-			} else {
-			    var temperatureWidget = (
-			        <img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("F") } data-tip="Change to Fahrenheit" />
-			    ) 
-			}
-		    if (this.state.temperature) {
-		    	var temperature = this.state.temperature;
-		    } else {
-		    	if (sunset.lat < 49) {
-					this.changeTemperature("F")
-				}
-		    	var temperature = sunset.info.temperature;
-		    }
-		    if (this.state.showQualityInfo) {
-		    	var qualityClass = " expanded";
-		    	var qualityImg = (
-		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } data-tip="Close" />
-		    	)
-		    	var qualityInfo = this.renderQualityInfo();
-		    } else {
-		    	var quality = sunset.info.quality.toLocaleLowerCase()
-		    	var qualityImg = (
-		    		<img className="control" src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } data-tip={ 'What does ' + quality + ' mean?' } />
-		    	)
-		    }
-		    
-			var pageContent = (
-			    <div className="landing">
-			        <div className="intro">
-			            <h1>YOUR SUNSET</h1>
-			        </div>
-			        <div className="card first">
-			        	<div className="circle"><img src={ clockImg } /></div>
-			        	<div className="inner">
-			        		<p className="header">TIME</p>
-			        		<span className="value">{ momentTime }</span>
-			        	</div>
-			        </div>
-			        <div className="card">
-			        	<div className="circle"><img src={ thermometerImg } /></div>
-			        	<div className="inner">
-			        		<p className="header">TEMP</p>
-			        		<span className="value temp">{ Math.floor(temperature) }°</span>
-			        		{ temperatureWidget }
-			        	</div>
-			        	<ReactTooltip />
-			        </div>
-			        <div className={ "card " + qualityClass }>
-			        	<div className="circle"><img src={ pencilImg } /></div>
-			        	<div className="inner">
-			        		<p className="header">QUALITY</p>
-			        		<span className="value quality">{ sunset.info.quality } ({ Math.floor(sunset.info.quality_percent) }%)</span>
-			       			{ qualityImg }
-			       			{ qualityInfo }
-			        	</div>
-			        	<ReactTooltip />
-			        </div>
-			    </div>
-			)
-		} else {
-			var pageContent = (
-			    <div className="landing">
-			        <div className="intro">
-			            <h1>SUNSETS ARE AWESOME</h1>
-			            <span className="subHeader">Dont miss another great sunset! View the sunset forecast for your area.</span>
-			        </div>
-			        <div className="actions">
-			        	{ buttons }
-			        </div>
-			    </div>
-			)
-		}
-		return (
-			<div className={ "verticalWrapper " + bgClassName }>
-				<div className={ "column " + className }>
-					{ this.renderHeader() }
-					{ pageContent }
-				</div>
-				<div className="column">{ sunsWave }</div>
-			</div>
-		)
+	renderVerticalLayout = () => {
+		return (<VerticalLayout changeOrientation={ this.changeOrientation } clearResults={ this.clearResults } />)
 	}
 	resizeScreen = () => {
 		if (window.innerWidth < 700) {
@@ -460,14 +143,13 @@ export class SunsetContent extends Component {
 	}
 	render() {
 		if (this.state.orientation == myConstClass.HORIZONTAL || this.state.showMobile) {
-			var content = this.renderHorizontal();
+			var content = this.renderHorizontalLayout();
 		} else {
-			var content = this.renderVertical();
+			var content = this.renderVerticalLayout();
 		}
-		var orientation = this.state.orientation;
 		var sunsetError = this.props.sunset.error || this.props.sunset.locationError;
 		const { duplicatePhoneNumber, invalidPhoneNumber, submissionSuccess} = this.props.user;
-		const sunsetSuccess = this.props.sunset.sunsetSuccess;
+		
 		const requiresNotification = duplicatePhoneNumber || invalidPhoneNumber || submissionSuccess || sunsetError;
 		if (requiresNotification && this.props.user.showNotification || this.props.sunset.showNotification) {
 			var notification = this.renderNotification();
@@ -479,18 +161,6 @@ export class SunsetContent extends Component {
 			</div>
 		)
 	}
-};
-
-const normalizeInput = (value, previousValue) => {
-    if (!value) return value;
-    const currentValue = value.replace(/[^\d]/g, '');
-    const cvLength = currentValue.length;
-  
-    if (!previousValue || value.length > previousValue.length) {
-        if (cvLength < 4) return currentValue;
-        if (cvLength < 7) return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`;
-        return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`;
-    }
 };
 
 export default connect((state) => ({
