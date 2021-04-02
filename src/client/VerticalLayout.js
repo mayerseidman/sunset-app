@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const moment = require('moment');
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -6,8 +7,16 @@ import Header from './Header';
 
 import * as sunsetActions from './redux/actions/sunset';
 import * as userActions from './redux/actions/user';
+import ReactTooltip from 'react-tooltip';
+
+import clockImg from "./../assets/images/icons/clock.png";
+import thermometerImg from "./../assets/images/icons/thermometer.png";
+import pencilImg from "./../assets/images/icons/pencil.png";
+import changeTempImg from "./../assets/images/icons/change-temperature.png";
+import qualityQuestionImg from "./../assets/images/icons/question.png";
 
 import './../assets/css/vertical_layout.css';
+import './../assets/css/shared_styles.css';
 
 export class VerticalLayout extends Component {
     constructor(props) {
@@ -23,6 +32,56 @@ export class VerticalLayout extends Component {
     			<span className="text">🤙 Hang loose and hang tight</span><span class="loading"></span>
     		</span>
     	)
+    }
+    changeTemperature = (type) => {
+    	const sunset = this.props.sunset.info;
+    	if (sunset) {
+    		const celsius = Math.floor(sunset.temperature);
+    		const fahrenheit = Math.floor(( (9 * celsius) + 160 ) / 5)
+    		if (type == "F") {
+    		    this.setState({ showFahrenheit: true, temperature: fahrenheit })
+    		} else {
+    		    this.setState({ showFahrenheit: false, temperature: celsius })
+    		}
+    	}
+    }
+    toggleQualityInfo = () => {
+    	if (this.state.showQualityInfo) {
+    		this.setState({ showQualityInfo: false })
+    	} else {
+    		this.setState({ showQualityInfo: true })
+    	}
+    }
+    fetchBackground = () => {
+    	var quality = this.props.sunset.info.quality;
+    	switch (quality) {
+    		case "Poor":
+    			var className = "poorResult";
+    			break;
+    		case "Fair":
+    	    	var className = "fairResult";
+    			break;
+    		case "Good":
+    			var className = "goodResult";
+    			break;
+    		case "Great":
+    			var className = "greatResult";
+    			break;
+    	}
+    	return className;
+    }
+    renderQualityInfo = () => {
+    	var quality = this.props.sunset.info.quality;
+    	if (quality == "Poor") {
+    		var info = "Little to no color, with precipitation or a thick cloud layer often blocking a direct view of the sun.";
+    	} else if (quality == "Fair") {
+    		var info = "Some color for a short time, with conditions ranging from mostly cloudy, or hazy, to clear, with little to no clouds at all levels.";
+    	} else if (quality == "Good") {
+    		var info = "A fair amount of color, often multi-colored, lasting a considerable amount of time. Often caused by scattered clouds at multiple elvels.";
+    	} else if (quality == "Great") {
+    		var info = "Extremely vibrant color lasting 30 minutes or more. Often caused by multiple arrangements of clouds at multiple levels, transitioning through multiple stages of vivid color.";
+    	}
+    	return <p className="qualityInfo">{info}</p>
     }
     render() {
 		var isLoading = this.props.user.loading || this.props.isLoadingUser;
@@ -160,7 +219,7 @@ export class VerticalLayout extends Component {
 			)
 		}
 		return (
-			<div className={ "verticalWrapper " + bgClassName }>
+			<div className={ "wrapper verticalWrapper " + bgClassName }>
 				<div className={ "column " + className }>
 					<Header changeOrientation={ this.props.changeOrientation } clearResults={ this.props.clearResults } />
 					{ pageContent }

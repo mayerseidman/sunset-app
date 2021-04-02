@@ -7,6 +7,7 @@ import './../assets/css/notifications.css';
 import * as sunsetActions from './redux/actions/sunset';
 import * as userActions from './redux/actions/user';
 
+import checkImage from "./../assets/images/icons/check.png";
 import errorImage from "./../assets/images/icons/error.png";
 
 export class Notification extends Component {

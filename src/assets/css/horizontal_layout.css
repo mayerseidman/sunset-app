@@ -1,0 +1,166 @@
+.horizontalWrapper {
+    background: radial-gradient(100% 100% at 50% 100%, #9CCEFA 0%, rgba(212, 232, 250, 0.8) 100%);
+    box-sizing: border-box;
+    height: 100vh;
+    transition: all .5s;
+    .landing {
+        text-align: center;
+        @media (max-width: 725px) {
+            width: 90%;
+            margin: auto;
+            text-align: left;
+            padding-top: 15px;
+            h1 {
+                line-height: 65px;
+            }
+        }
+        @media (max-width: 350px) {
+            width: 95% !important;
+        }
+        .actions .actionBtn {
+            vertical-align: top;
+            @media (max-width: 725px) {
+                width: 100%;
+            }
+            &.signUp {
+                margin-left: 40px;
+                @media (max-width: 725px) {
+                    margin-left: 0px;
+                    /*margin-top: 10px;*/
+                }
+            }
+            &.findSunset {
+                margin-bottom: 10px;
+            }
+            &.send {
+                margin-left: 70px;
+                @media (max-width: 550px) {
+                    margin-left: 0;
+                }
+            }
+        }
+        .actions {
+            @media (max-width: 725px) {
+                text-align: center;
+                margin-top: 10px;
+            }
+            .formContainer {
+                input {
+                    width: 275px;
+                    height: 45px;
+                    display: inline-block;
+                    @media (max-width: 550px) {
+                        width: 90%;
+                        margin-bottom: 10px;
+                    }
+                }
+                .backLink {
+                    cursor: pointer;
+                    margin-right: 10px;
+                    &:hover {
+                        opacity: 0.75;
+                    }
+                     @media (max-width: 350px) {
+                        margin-right: 5px;
+                     }
+                }
+                .loadingContainer {
+                    margin-left: 70px;
+                    @media (max-width: 550px) {
+                        width: 100%;
+                        margin-left: 0px;
+                        margin-top: 5px;
+                    }
+                }
+            }
+        }
+        .intro {
+            /*@media (max-width: 725px) {
+                margin-bottom: 0px;
+            }*/
+            @media (max-width: 350px) {
+                margin-bottom: 15px !important;
+            } 
+
+            h1 {
+                margin-bottom: 0px;
+            }
+            .subHeader {
+                display: inline-block;
+                @media (max-width: 725px) {
+                    margin-top: 15px;
+                    margin-bottom: 15px;
+                }
+                @media (max-width: 350px) {
+                    font-size: 20px;
+                }
+            }
+            .error {
+                .text {
+                    display: inline-block;
+                    margin-left: 15px;
+                    margin-bottom: 0px;
+                }
+                a {
+                    display: block;
+                    text-align: left;
+                    color: #007bff !important;
+                }
+                img {
+                    vertical-align: top;
+                    position: relative;
+                    top: 7px;
+                }
+            }
+        }
+        .card {
+            width: 20%;
+            margin-left: 5%;
+            vertical-align: top;
+            border-radius: 10px;
+            z-index: 1000;
+            transition: height .5s;
+        }
+        .circle {
+            @media (max-width: 350px) {
+                margin-top: 5% !important;
+            }
+        }
+        .inner {
+            @media (max-width: 350px) {
+                width: 78% !important;
+            }
+            @media (max-width: 725px) {
+                width: 79%;
+                display: inline-block;
+                margin-top: 1%;
+                font-size: 24px;
+            }
+        }
+        .header, .value {
+            @media (max-width: 350px) {
+                font-size: 22px !important;
+                margin-top: 5% !important;
+            }
+        }
+        .header {
+            @media (max-width: 725px) {
+                display: inline-block;
+                margin-right: 3%;
+                font-size: 24px !important;
+                margin-top: 3.5%;
+            }
+        }
+        .control {
+            @media (max-width: 350px) {
+                right: 15px !important;
+            }
+            @media (max-width: 725px) {
+                float: right;
+                top: 20px;
+                position: relative;
+                right: 25px;
+            }
+        }
+    }
+}

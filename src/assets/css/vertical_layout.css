@@ -26,9 +26,6 @@
         .actions button {
             width: 48%;
             height: 45px;
-            /*&:nth-of-type(2) {
-                margin-left: 15px;
-            }*/
             @media (max-width: 1170px) {
                 width: 100%;
                 margin-left: 0 !important;
@@ -79,6 +76,19 @@
             @media (max-width: 1170px) {
                  width: 100%;
                  margin-bottom: 10px;
+            }
+            .loading::after {
+                  display: inline-block;
+                  animation: dotty steps(1,end) 2s infinite;
+                  content: '';
+            }
+                
+            @keyframes dotty {
+                0%   { content: ''; }
+                25%  { content: '.'; }
+                50%  { content: '..'; }
+                75%  { content: '...'; }
+                100% { content: ''; }
             }
         }
         .card {
@@ -143,7 +153,7 @@
         }
     }
     #footer {
-        background: url("./../images/suns-wave-vertical.png");
+        background: url("./../images/suns/suns-wave-vertical.png");
         background-repeat: repeat-y;
         animation: bgscrollVertical 55s infinite linear;
         animation-fill-mode: forwards;

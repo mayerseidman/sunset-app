@@ -4,17 +4,17 @@ import { connect } from 'react-redux';
 
 import * as myConstClass from './Constants';
 import SunsetContent from './SunsetContent';
+import ReactTooltip from 'react-tooltip';
 
 import './../assets/css/app.css';
 
 import * as sunsetActions from './redux/actions/sunset';
 import * as userActions from './redux/actions/user';
 
-import horizontalIcon from "./../assets/images/horizontal-control.png";
-import verticalIcon from "./../assets/images/vertical-control.png";
+import horizontalIcon from "./../assets/images/icons/horizontal-control.png";
+import verticalIcon from "./../assets/images/icons/vertical-control.png";
 import chevronImage from "./../assets/images/icons/chevron.png";
 import colorAvatar from "./../assets/images/color-profile.png";
-import ReactTooltip from 'react-tooltip';
 
 export class Header extends Component {
     constructor(props) {

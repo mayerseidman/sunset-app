@@ -1,5 +1,5 @@
 #footer {
-    background: url("./../images/suns-wave-horizontal.png");
+    background: url("./../images/suns/suns-wave-horizontal.png");
     background-repeat: repeat-x;
     animation: bgscroll 55s infinite linear;
     animation-fill-mode: forwards;
@@ -11,16 +11,16 @@
         height: 265px;
     }
     @media (min-height: 699px) and (max-height: 799px) and (max-width: 550px) {
-        background: url("./../images/suns-wave-horizontal-tall-one.png");
+        background: url("./../images/suns/suns-wave-horizontal-tall-one.png");
         height: 340px;
     }
     @media (min-height: 800px) and (max-width: 550px) {
-        background: url("./../images/suns-wave-horizontal-tall-two.png");
+        background: url("./../images/suns/suns-wave-horizontal-tall-two.png");
         height: 435px;
         background-repeat: repeat-x;
     }
     @media (min-width: 768px) and (min-height: 1024px) {
-        background: url("./../images/suns-wave-horizontal-tall-three.png");
+        background: url("./../images/suns/suns-wave-horizontal-tall-three.png");
         height: 635px;
         background-repeat: repeat-x;
     }
