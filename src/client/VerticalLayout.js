@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import Header from './Header';
 
 import * as sunsetActions from './redux/actions/sunset';
-import * as userActions from './redux/actions/user';
 import ReactTooltip from 'react-tooltip';
 
+import minimizeImg from "./../assets/images/icons/minimize.png";
+import backArrow from "./../assets/images/icons/back.png";
 import clockImg from "./../assets/images/icons/clock.png";
 import thermometerImg from "./../assets/images/icons/thermometer.png";
 import pencilImg from "./../assets/images/icons/pencil.png";
@@ -23,6 +24,20 @@ export class VerticalLayout extends Component {
         super(props);
         this.state = {};
     }
+    componentDidUpdate(prevProps) {
+    	if (prevProps.user.submissionSuccess !== this.props.user.submissionSuccess) {
+    		this.setState({ phone: '' })
+    	}
+    }
+    handleChange = ({ target: { value } }) => {   
+        this.setState(prevState=> ({ phone: normalizeInput(value, prevState.phone) }));
+    }
+    showSignupForm = () => {
+    	this.setState({ showSignupForm: true })
+    }
+    goBack = () => {
+	    this.setState({ showSignupForm: false })
+	}
     renderLoadingBarVertical = () => {
     	if (this.props.isLoadingSunset) {
     		var className = "loadingSunset";
@@ -88,7 +103,7 @@ export class VerticalLayout extends Component {
 	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
 	        var loadingBar = this.renderLoadingBarVertical();
 	    } else {
-	        var submitButton = <button className="send" onClick={ this.submitUser }>Send Daily SMS</button>
+	        var submitButton = <button className="send" onClick={ this.props.submitUser.bind(this, this.refs.phone_number ? this.refs.phone_number.value : "") }>Send Daily SMS</button>
 	    }
 		if (this.props.isLoadingSunset) {
 			var loadingBar = this.renderLoadingBarVertical();
@@ -143,10 +158,12 @@ export class VerticalLayout extends Component {
 			var className = "results";
 			var momentTime = moment(sunset.valid_at).format('LT');
 			if (this.state.showFahrenheit) {
+				var type = <span>F</span>
 				var temperatureWidget = (
 					<img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("C") } data-tip="Change to Celsius" />
 				) 
 			} else {
+				var type = <span>C</span>
 			    var temperatureWidget = (
 			        <img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("F") } data-tip="Change to Fahrenheit" />
 			    ) 
@@ -188,7 +205,7 @@ export class VerticalLayout extends Component {
 			        	<div className="circle"><img src={ thermometerImg } /></div>
 			        	<div className="inner">
 			        		<p className="header">TEMP</p>
-			        		<span className="value temp">{ Math.floor(temperature) }°</span>
+			        		<span className="value temp">{ Math.floor(temperature) }°</span>{ type }
 			        		{ temperatureWidget }
 			        	</div>
 			        	<ReactTooltip />
@@ -233,4 +250,16 @@ export class VerticalLayout extends Component {
 export default connect((state) => ({
     sunset: state.sunset,
     user: state.user
-}), { ...sunsetActions, ...userActions })(VerticalLayout)
+}), { ...sunsetActions })(VerticalLayout)
+
+const normalizeInput = (value, previousValue) => {
+    if (!value) return value;
+    const currentValue = value.replace(/[^\d]/g, '');
+    const cvLength = currentValue.length;
+  
+    if (!previousValue || value.length > previousValue.length) {
+        if (cvLength < 4) return currentValue;
+        if (cvLength < 7) return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`;
+        return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`;
+    }
+}

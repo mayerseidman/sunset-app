@@ -60,9 +60,9 @@
                     &:hover {
                         opacity: 0.75;
                     }
-                     @media (max-width: 350px) {
+                    @media (max-width: 350px) {
                         margin-right: 5px;
-                     }
+                    }
                 }
                 .loadingContainer {
                     margin-left: 70px;
@@ -136,11 +136,21 @@
                 margin-top: 1%;
                 font-size: 24px;
             }
+            @media (min-width: 725px) {
+                .type {
+                    margin-right: 12px;
+                }
+            }
+            @media (min-width: 450px) {
+                .type {
+                    font-size: 0.7em;
+                }
+            }
         }
         .header, .value {
             @media (max-width: 350px) {
                 font-size: 22px !important;
-                margin-top: 5% !important;
+                margin-top: 5.5% !important;
             }
         }
         .header {
@@ -150,10 +160,27 @@
                 font-size: 24px !important;
                 margin-top: 3.5%;
             }
+            @media (max-width: 350px) {
+                font-size: 20px !important;
+            }
+            @media (min-width: 374px) and (max-width: 375px) {
+                 font-size: 22px !important;
+            }
+        }
+        .value {
+            @media (max-width: 350px) {
+                font-size: 24px !important;
+            }
+            @media (min-width: 374px) and (max-width: 375px) {
+                font-size: 26px !important;
+            }
         }
         .control {
-            @media (max-width: 350px) {
+            @media (max-width: 450px) {
                 right: 15px !important;
+            }
+            @media (max-width: 350px) {
+                right: 12px !important;
             }
             @media (max-width: 725px) {
                 float: right;

@@ -54,6 +54,9 @@
                 @media (max-width: 725px) {
                     height: 135px;
                 }
+                @media (max-width: 450px) {
+                    height: 215px;
+                }
             }
             .circle {
                 width: 50px;
@@ -98,7 +101,8 @@
                     font-size: 32px;
                     &.temp {
                         display: inline-block;
-                        width: 55px;
+                       /* width: 55px;*/
+                       margin-right: 5px;
                     }
                     &.quality {
                         margin-right: 10px;
@@ -119,6 +123,11 @@
                 padding-top: 15px;
                 @media (max-width: 725px) {
                     padding: 0;
+                }
+                @media (max-width: 450px) {
+                    font-size: 0.7em;
+                    padding-right: 20px;
+                    padding-top: 5px;
                 }
             }
         }

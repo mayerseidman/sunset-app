@@ -1,7 +1,7 @@
 #footer {
     background: url("./../images/suns/suns-wave-horizontal.png");
     background-repeat: repeat-x;
-    animation: bgscroll 55s infinite linear;
+    animation: bgscroll 15s infinite linear;
     animation-fill-mode: forwards;
     position: fixed;
     bottom: 0;
@@ -30,7 +30,6 @@
 }
 
 @keyframes bgscroll {
-    animation-fill-mode: forwards;
     from { background-position: 0 0; }
     to  { background-position: -1450px 0; } /*set the document width as the negative number and you should have a seamless scroll*/
 }

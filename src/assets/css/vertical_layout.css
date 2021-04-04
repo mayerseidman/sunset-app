@@ -98,6 +98,7 @@
             padding-left: 45px;
             margin-bottom: 15px;
             padding-top: 14px;
+            transition: height .5s;
             @media (max-width: 1100px) {
                 padding-left: 10px;
             }
@@ -136,7 +137,7 @@
             .inner {
                 vertical-align: middle;
                 position: relative;
-                bottom: 7px;
+                bottom: 8.5px;
                 @media (max-width: 1100px) {
                     bottom: 4px;
                 }

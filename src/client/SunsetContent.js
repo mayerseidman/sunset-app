@@ -76,13 +76,20 @@ export class SunsetContent extends Component {
 	    return (<Notification closeNotification={ this.closeNotification }/>)
 	}
 	renderHorizontalLayout = () => {
-		return (<HorizontalLayout changeOrientation={ this.changeOrientation } clearResults={ this.clearResults }
-					showSignupForm={ this.showSignupForm } submitUser={ this.submitUser } isLoadingUser={ this.state.isLoadingUser }
-					isLoadingSunset={ this.state.isLoadingSunset } findMySunset={ this.findMySunset }
-		/>)
+		return (
+			<HorizontalLayout changeOrientation={ this.changeOrientation } clearResults={ this.clearResults }
+				showSignupForm={ this.showSignupForm } submitUser={ this.submitUser } isLoadingUser={ this.state.isLoadingUser }
+				isLoadingSunset={ this.state.isLoadingSunset } findMySunset={ this.findMySunset } showMobile={ this.state.showMobile }
+			/>
+		)
 	}
 	renderVerticalLayout = () => {
-		return (<VerticalLayout changeOrientation={ this.changeOrientation } clearResults={ this.clearResults } />)
+		return (
+			<VerticalLayout changeOrientation={ this.changeOrientation } clearResults={ this.clearResults } 
+				showSignupForm={ this.showSignupForm } submitUser={ this.submitUser } isLoadingUser={ this.state.isLoadingUser }
+				isLoadingSunset={ this.state.isLoadingSunset } findMySunset={ this.findMySunset } showMobile={ this.state.showMobile } 
+			/>
+		)
 	}
 	resizeScreen = () => {
 		if (window.innerWidth < 700) {

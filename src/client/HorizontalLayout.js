@@ -142,12 +142,20 @@ export class HorizontalLayout extends Component {
 			var className = "results";
 			var momentTime = moment(sunset.valid_at).format('LT');
 			if (this.state.showFahrenheit) {
+				if (!this.props.showMobile) {
+					var tip = "Change to Celsius"
+				}
+				var type = <span className="type">F</span>
 				var temperatureWidget = (
-					<img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("C") } data-tip="Change to Celsius" />
+					<img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("C") } data-tip={ tip } />
 				) 
 			} else {
+				if (!this.props.showMobile) {
+					var tip = "Change to Fahrenheit"
+				}
+				var type = <span className="type">C</span>
 			    var temperatureWidget = (
-			        <img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("F") } data-tip="Change to Fahrenheit" />
+			        <img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("F") } data-tip={ tip } />
 			    ) 
 			}
 		    if (this.state.temperature) {
@@ -160,14 +168,20 @@ export class HorizontalLayout extends Component {
 		    }
 		    if (this.state.showQualityInfo) {
 		    	var qualityClass = " expanded";
+		    	if (!this.props.showMobile) {
+		    		var tip = "Close"
+		    	}
 		    	var qualityImg = (
-		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } data-tip="Close" />
+		    		<img className="control" src={ minimizeImg } onClick={ this.toggleQualityInfo } data-tip={ tip } />
 		    	)
 		    	var qualityInfo = this.renderQualityInfo();
 		    } else {
+		    	if (!this.props.showMobile) {
+		    		var tip = 'What does ' + quality + ' mean?';
+		    	}
 		    	var quality = sunset.info.quality.toLocaleLowerCase()
 		    	var qualityImg = (
-		    		<img className="control" src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } data-tip={ 'What does ' + quality + ' mean?' } />
+		    		<img className="control" src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } data-tip={ tip } />
 		    	)
 		    }
 		    
@@ -188,7 +202,7 @@ export class HorizontalLayout extends Component {
 			        	<div className="circle"><img src={ thermometerImg } /></div>
 			        	<div className="inner">
 			        		<p className="header">TEMP</p>
-			        		<span className="value temp">{ Math.floor(temperature) }°</span>
+			        		<span className="value temp">{ Math.floor(temperature) }°</span>{ type }
 			        		{ temperatureWidget }
 			        	</div>
 			        	<ReactTooltip />
