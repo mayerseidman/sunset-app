@@ -1,6 +1,6 @@
 @import "./../scss/variables";
 @font-face {
-    font-family: 'effra';
+    font-family: effra;
     src: url('../fonts/effra/Effra_Std_Bd.ttf') format('ttf'),
         url('../fonts/effra/Effra_Std_Lt.ttf') format('ttf'),
         url('../fonts/effra/Effra_Std_Rg.ttf') format('ttf');

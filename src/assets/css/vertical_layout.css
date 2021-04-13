@@ -153,16 +153,15 @@
             padding-bottom: 5px;
         }
     }
-    #footer {
-        background: url("./../images/suns/suns-wave-vertical.png");
+   /* #footer {
+        background: url("./../images/suns/new-vertical.png");
         background-repeat: repeat-y;
-        animation: bgscrollVertical 55s infinite linear;
+        animation: bgscrollVertical 15s infinite linear;
         animation-fill-mode: forwards;
         height: auto;
     }
 
     #footer .animation {
-       /* width: 100%;*/
         height: calc(100vh - 3px);
         position: relative; 
     }
@@ -170,6 +169,42 @@
     @keyframes bgscrollVertical {
         animation-fill-mode: forwards;
         from { background-position: 0 0; }
-        to  { background-position: 0 -1450px; } /*set the document width as the negative number and you should have a seamless scroll*/
+        to  { background-position: 0 -1450px; }
+    }*/
+
+    .animated-scene {
+        /*width: 55vw;*/
+        position: fixed;
+        min-height: 400px;
+    }
+
+    .animated-scene__frame {
+        width: 120%;
+        position: relative;
+        animation: infiniteScrollBg 15s infinite linear;
+    }
+
+    .animated-scene__frame:after {
+        content: "";
+        height: 500%;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-image: url("./../images/suns/suns-wave-vertical.png");
+        background-size: 100% 20%;
+    }
+
+    .animated-scene__frame__img {
+      width: 100%;
+    }
+
+    @keyframes infiniteScrollBg {
+      0% {
+        transform: translateY(-100%);
+      }
+      100% {
+        transform: translateY(-200%);
+      }
     }
 }

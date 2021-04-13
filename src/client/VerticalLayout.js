@@ -15,6 +15,7 @@ import thermometerImg from "./../assets/images/icons/thermometer.png";
 import pencilImg from "./../assets/images/icons/pencil.png";
 import changeTempImg from "./../assets/images/icons/change-temperature.png";
 import qualityQuestionImg from "./../assets/images/icons/question.png";
+import sunsVerticalImg from "./../assets/images/suns/suns-wave-vertical.png";
 
 import './../assets/css/vertical_layout.css';
 import './../assets/css/shared_styles.css';
@@ -147,11 +148,6 @@ export class VerticalLayout extends Component {
 		        </div>
 		    </div>
 		)
-		var sunsWave = (
-		    <footer id="footer">
-		        <div className="animation"></div>
-		    </footer>
-		)
 		var sunset = this.props.sunset;
 		if (sunset.sunsetSuccess && this.props.sunset.showSunsetResults) {
 			var bgClassName = this.fetchBackground();
@@ -235,6 +231,13 @@ export class VerticalLayout extends Component {
 			    </div>
 			)
 		}
+		var sunsWave = (
+			<div className="animated-scene">
+				<div className="animated-scene__frame">
+			    	<img className="animated-scene__frame__img" src={ sunsVerticalImg } />
+				</div>
+			</div>
+		)
 		return (
 			<div className={ "wrapper verticalWrapper " + bgClassName }>
 				<div className={ "column " + className }>

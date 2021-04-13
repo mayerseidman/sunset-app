@@ -6,9 +6,8 @@ import * as sunsetActions from './redux/actions/sunset';
 import * as userActions from './redux/actions/user';
 
 import './../assets/css/app.css';
-import './../assets/css/footer.css';
 
-export class Footer extends Component {
+export class VerticalSunsWave extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -25,4 +24,4 @@ export class Footer extends Component {
 export default connect((state) => ({
     sunset: state.sunset,
     user: state.user
-}), { ...sunsetActions, ...userActions })(Footer)
+}), { ...sunsetActions, ...userActions })(VerticalSunsWave)

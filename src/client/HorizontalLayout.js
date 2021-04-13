@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Header from './Header';
-import Footer from './Footer';
+import HorizontalSunsWave from './HorizontalSunsWave';
 
 import * as sunsetActions from './redux/actions/sunset';
 import ReactTooltip from 'react-tooltip';
@@ -238,7 +238,7 @@ export class HorizontalLayout extends Component {
 				<div className={ className }> 
 					<Header changeOrientation={ this.props.changeOrientation } clearResults={ this.props.clearResults } />
 					{ pageContent }
-					<Footer />
+					<HorizontalSunsWave />
 				</div>
 			</div>
 		)
