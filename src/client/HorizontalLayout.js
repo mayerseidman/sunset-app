@@ -99,6 +99,18 @@ export class HorizontalLayout extends Component {
     	}
     	return <p className="qualityInfo">{info}</p>
     }
+    componentDidMount = () => {
+		const bottom =  24.7433195 // south lat
+		const top = 49.3457868 // north lat
+		const left = -124.7844079 // west long
+		const right = -66.9513812 // east long
+		var sunset = this.props.sunset;
+		var lat = sunset.lat;
+		var long = sunset.long;
+		if (lat >= bottom && lat <= top && long >= left && long <= right) {
+			this.setState({ showFahrenheit: true })
+		}
+    }
     render() {
 		var isLoading = this.props.user.loading || this.props.isLoadingUser;
 	    if (isLoading  && !this.props.user.duplicatePhoneNumber) {
@@ -148,24 +160,28 @@ export class HorizontalLayout extends Component {
 				var type = <span className="type">F</span>
 				var temperatureWidget = (
 					<img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("C") } data-tip={ tip } />
-				) 
+				)
+				const sunset = this.props.sunset.info;
+				const celsius = Math.floor(sunset.temperature);
+				var temperature = Math.floor(( (9 * celsius) + 160 ) / 5)
 			} else {
 				if (!this.props.showMobile) {
 					var tip = "Change to Fahrenheit"
 				}
+				var temperature = sunset.info.temperature;
 				var type = <span className="type">C</span>
 			    var temperatureWidget = (
 			        <img className="control" src={ changeTempImg } onClick={ () => this.changeTemperature("F") } data-tip={ tip } />
 			    ) 
 			}
-		    if (this.state.temperature) {
-		    	var temperature = this.state.temperature;
-		    } else {
-		    	if (sunset.lat < 49) {
-					this.changeTemperature("F")
-				}
-		    	var temperature = sunset.info.temperature;
-		    }
+		  //   if (this.state.temperature) {
+		  //   	var temperature = this.state.temperature;
+		  //   } else {
+		  //   	if (sunset.lat < 49) {
+				// 	this.changeTemperature("F")
+				// }
+		  //   	var temperature = sunset.info.temperature;
+		  //   }
 		    if (this.state.showQualityInfo) {
 		    	var qualityClass = " expanded";
 		    	if (!this.props.showMobile) {
