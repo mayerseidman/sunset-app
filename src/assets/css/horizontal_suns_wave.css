@@ -19,7 +19,7 @@
         background-repeat: repeat-x;
     }
     @media (max-width: 325px) {
-        height: 235px !important;
+        height: 215px !important;
     }
     .animated-scene {
         /*width: 110vw;*/
