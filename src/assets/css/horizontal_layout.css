@@ -4,10 +4,12 @@
     height: 100vh;
     transition: all .5s;
     .landing {
+        margin-bottom: 20px;
         text-align: center;
         @media (max-width: 725px) {
             width: 90%;
             margin: auto;
+            margin-bottom: 20px;
             text-align: left;
             padding-top: 15px;
             h1 {
@@ -120,6 +122,9 @@
             border-radius: 10px;
             z-index: 1000;
             transition: height .5s;
+            &.last {
+                margin-bottom: 0;
+            }
         }
         .circle {
             @media (max-width: 350px) {
@@ -157,7 +162,7 @@
             @media (max-width: 725px) {
                 display: inline-block;
                 margin-right: 3%;
-                font-size: 24px !important;
+                font-size: 22px !important;
                 margin-top: 3.5%;
             }
             @media (max-width: 350px) {
@@ -168,12 +173,13 @@
             }
         }
         .value {
-            @media (max-width: 350px) {
-                font-size: 24px !important;
+            font-size: 32px;
+            @media (max-width: 360px) {
+                font-size: 22px !important;
             }
-            @media (min-width: 374px) and (max-width: 375px) {
+            /*@media (min-width: 374px) and (max-width: 375px) {
                 font-size: 26px !important;
-            }
+            }*/
         }
         .control {
             @media (max-width: 450px) {

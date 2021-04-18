@@ -223,7 +223,7 @@ export class HorizontalLayout extends Component {
 			        	</div>
 			        	<ReactTooltip />
 			        </div>
-			        <div className={ "card " + qualityClass }>
+			        <div className={ "card last " + qualityClass }>
 			        	<div className="circle"><img src={ pencilImg } /></div>
 			        	<div className="inner">
 			        		<p className="header">QUALITY</p>

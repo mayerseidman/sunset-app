@@ -98,7 +98,6 @@
             }
             .inner {
                 .value {
-                    font-size: 32px;
                     &.temp {
                         display: inline-block;
                        /* width: 55px;*/
