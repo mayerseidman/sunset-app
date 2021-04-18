@@ -138,6 +138,7 @@
                 vertical-align: middle;
                 position: relative;
                 bottom: 8.5px;
+                font-size: 32px;
                 @media (max-width: 1100px) {
                     bottom: 4px;
                 }
