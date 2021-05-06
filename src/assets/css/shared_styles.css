@@ -119,14 +119,17 @@
                 text-align: left;
                 padding-left: 20px;
                 padding-right: 20px;
-                padding-top: 15px;
+                padding-top: 7.5px;
                 @media (max-width: 725px) {
                     padding: 0;
                 }
-                @media (max-width: 450px) {
+                @media (max-width: 449px) {
                     font-size: 0.7em;
                     padding-right: 20px;
                     padding-top: 5px;
+                }
+                @media (min-width: 450px) {
+                    margin: auto;
                 }
             }
         }
