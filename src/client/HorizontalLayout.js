@@ -193,9 +193,8 @@ export class HorizontalLayout extends Component {
 		    	var qualityInfo = this.renderQualityInfo();
 		    } else {
 		    	if (sunset.info.quality) {
-		    		var quality = sunset.info.quality.toLocaleLowerCase()
 		    		if (!this.props.showMobile) {
-		    			var tip = 'What does ' + quality + ' mean?';
+		    			var tip = 'What does ' + sunset.info.quality.toLocaleLowerCase() + ' mean?';
 		    		}
 		    	}
 		    	var qualityImg = (
