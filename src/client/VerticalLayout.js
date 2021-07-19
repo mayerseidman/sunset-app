@@ -179,7 +179,9 @@ export class VerticalLayout extends Component {
 		    	)
 		    	var qualityInfo = this.renderQualityInfo();
 		    } else {
-		    	var quality = sunset.info.quality.toLocaleLowerCase()
+		    	if (sunset.info.quality) {
+		    		var quality = sunset.info.quality.toLocaleLowerCase()
+		    	}
 		    	var qualityImg = (
 		    		<img className="control" src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } data-tip={ 'What does ' + quality + ' mean?' } />
 		    	)
