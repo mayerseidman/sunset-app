@@ -194,9 +194,9 @@ export class HorizontalLayout extends Component {
 		    } else {
 		    	if (sunset.info.quality) {
 		    		var quality = sunset.info.quality.toLocaleLowerCase()
-		    	}
-		    	if (!this.props.showMobile) {
-		    		var tip = 'What does ' + quality + ' mean?';
+		    		if (!this.props.showMobile) {
+		    			var tip = 'What does ' + quality + ' mean?';
+		    		}
 		    	}
 		    	var qualityImg = (
 		    		<img className="control" src={ qualityQuestionImg } onClick={ this.toggleQualityInfo } data-tip={ tip } />
